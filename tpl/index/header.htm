@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no"/>
+
+        <link rel="stylesheet" href="[:vendor]/bootstrap/css/bootstrap.css" type="text/css">
+        <link rel="stylesheet" href="[:vendor]/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="[:app]/css/main.css">
+        <link rel="stylesheet" href="[:app]/css/modify-on-click.css">
+
+        <script src="[:vendor]/jquery/jquery-2.1.1.min.js"></script>
+        <script src="[:vendor]/bootstrap/js/bootstrap.min.js"></script>
+        <script src="[:vendor]/metisMenu/metisMenu.min.js"></script>
+
+        <script src="[:app]/js/config.js"></script>
+        <script src="[:app]/js/main.js"></script>
+        <script src="[:app]/js/modify-on-click.js"></script>
+
+        <title> 登录 </title>
+    </head>
+    <body>
+    <div class="header-wrapper clear">
+        <div class="header">
+            <img src="[:app]/images/favicon.ico" class="pull-left">
+            <a href="<?php echo get_session("login.titleurl"); ?>" class="item pull-left"><?php echo get_session("login.title"); ?></a>
+            <?php if (get_session("user.id") === null) { ?>
+            <a href="?login" class="item pull-right">登录</a>
+            <!--<a href="?login/register" class="item pull-right">注册</a>-->
+            <?php } ?>
+        </div>
+    </div>
+    <div class="main-wrapper">
+

@@ -1,0 +1,49 @@
+
+.bookwrapper {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    height: 224px;
+    width: 147px;
+}
+
+.bookfacet {
+    position: relative;
+}
+
+.bookfacet img {
+    width: 147px;
+    height: 204px;
+    /* width: 220px; */
+    /* height: 306px; */
+}
+
+.bookdesc {
+    width: 220px;
+}
+
+.booktitle {
+    font-size: 18px;
+}
+
+.bookface {
+    position: absolute;
+    z-index: 1000;
+    max-width: 600px;
+    max-height: 400px;
+}
+
+.star {
+    position: absolute;
+    color: yellow;
+    padding-left: 3px;
+    padding-right: 3px;
+    top: 5px;
+    left: 2px;
+}
+
+.book-status {
+    position: absolute;
+    top: 188px;
+    left: -5px;
+}
+

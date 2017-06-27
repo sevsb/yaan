@@ -1,0 +1,36 @@
+
+.modify-on-click {
+    /* width: 400px; */
+}
+
+.modify-on-click .moc-display {
+    border: 0px solid #ccc;
+    height: 34px;
+    width: 100%;
+    display: block;
+    line-height:34px;
+    /* padding-left: 12px; */
+    /* padding-top: -1px; */
+}
+
+.modify-on-click .moc-modify {
+}
+
+.modify-on-click .moc-modify .moc-modify-input {
+    height: 34px;
+    width: 100%;
+    display: table-cell;
+}
+
+.modify-on-click .moc-modify .moc-modify-confirm {
+    height: 34px;
+    /* width: 70px; */
+}
+
+.modify-on-click .moc-modify .moc-modify-cancel {
+    height: 34px;
+    /* width: 70px; */
+}
+
+
+

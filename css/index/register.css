@@ -1,0 +1,61 @@
+.login-header {
+    width: 364px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+
+.reg-wrapper {
+    width: 692px;
+    height: 432px;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    padding-top: 30px;
+    box-shadow: 0px 0px 0px 1px rgba(39,41,43,0.15),0px 1px 2px 0 rgba(0,0,0,0.05);
+}
+
+.reg-field {
+    font-size: 15px;
+    position: relative;
+    width:  434px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reg-field span {
+    width: 100px;
+    font-size: 18px;
+    line-height: 40px;
+}
+
+.reg-field input {
+    border: 1px solid #27292b;
+    background-color: #faffbd;
+    border-radius: 4px;
+    display: inline-block;
+    width: 334px;
+    height: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.reg-field button {
+    width: 100%;
+}
+
+#face {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+}
+
+
+

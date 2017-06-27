@@ -1,0 +1,59 @@
+<div id="page-wrapper">
+<?php
+//var_dump($event_vacations);
+//var_dump($event_ovetimes);
+//var_dump($event_settings);
+?>
+    <div>
+        <h3 class="page_title" style='margin-left:30px;margin-bottom: 30px;'>排班事件设置</h3>
+    </div>
+<table class='table'>
+    <tr>
+        <td>编号</td>
+        <td>颜色</td>
+        <td>名称</td>
+        <td>性质</td>
+    </tr>
+    <?php foreach ($event_settings as $evt_setting) { 
+        $work = '';
+        $nowork = '';
+        $evt_setting['type'] == 1 ? $nowork = 'btn-primary' : $work = 'btn-primary';
+    ?>
+    
+    <tr class='setting_elf'>
+        <td class='id'>{:$evt_setting['id']}</td>
+        <td><input class='color' type='color' value='{:$evt_setting["color"]}'></td>
+        <td><input class='title' type='text' value="{:$evt_setting['title']}"></td>
+        <td class='type'>
+            <button id='2' class='btn btn-default eve_type {:$work}'>工作</button>
+            <button id='1' class='eve_type btn btn-default {:$nowork}'>非工作</button>
+        </td>
+    </tr>
+    <?php } ?>
+</table>
+<button class='btn btn-success new_btn' data-toggle="modal" data-target="#new-modal">新增事件类型</button>
+<button class='btn btn-success save_btn'>保存修改</button>
+<a href='?admin/staff/index'><button type="button" class="btn btn-danger">去排班</button></a>
+<br>
+</div>
+
+<div class="modal fade" id="new-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增事件类型</h4>
+      </div>
+      <div class="modal-body">
+        <input type='text' class='new_title'>
+        <input type='color' class='new_color'>
+            <button id='2' class='btn btn-default new_eve_type '>工作</button>
+            <button id='1' class='new_eve_type btn btn-default' >非工作</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-danger do_new">新增</button>
+      </div>
+    </div>
+  </div>
+</div>

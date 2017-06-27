@@ -1,0 +1,87 @@
+
+body {
+    font-family: "Lato","Helvetica Neue","Microsoft YaHei",Arial,Helvetica,sans-serif;
+}
+
+.view-wrapper {
+    width: 1000px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.face-wrapper {
+    width: 300px;
+}
+
+.bookface {
+    width: 300px;
+    height: 417px;
+}
+
+.book-title {
+    max-width: 650px;
+    word-break: break-all;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: "Lato","Helvetica Neue","Microsoft YaHei",Arial,Helvetica,sans-serif;
+    font-size: 34px;
+    font-weight: bolder;
+}
+
+.book-author, .book-count, .book-owner, .book-keeper, .book-watcher {
+    margin-top: 15px;
+    line-height: 21px;
+}
+
+.book-oper {
+    margin-top: 30px;
+}
+
+.info-wrapper {
+    margin-left: 30px;
+}
+
+.book-desc, .book-history, .book-comments {
+    border-top: 1px solid #ddd;
+}
+
+.book-desc {
+    background-color: white;
+}
+
+.book-status {
+    margin-top: 30px;
+}
+
+.book-orderers img,
+.book-keeper img,
+.book-history img,
+.book-watcher img
+{
+    width: 21px;
+    height: 21px;
+    border-radius: 21px;
+    margin-top: -1px;
+}
+
+.book-keeper span,
+.book-watcher span
+{
+    margin-right: 10px;
+    height: 21px;
+    display: inline-block;
+}
+
+.info-header {
+    width: 364px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+

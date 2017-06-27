@@ -1,0 +1,64 @@
+<div id="page-wrapper">
+<?php
+
+//var_dump($_SESSION);
+?>
+
+<div>
+    <h3 class="page_title" style='margin-left:30px;'>工作时间设置</h3>
+</div>
+<div class="form-horizontal" style="margin-top: 24px ;border-bottom: 2px solid #eee;" >
+<hr>
+    <div class="form-group">
+        <label for="qtitle" class="col-sm-2 control-label">工作起始时间</label>
+        <div class="col-sm-10">
+            <input type='number' max='24' min='0' id="start" style="height: 32px; width: 80%; padding: 6px 12px;"
+            value='{:$start_hour}' >
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="qtitle" class="col-sm-2 control-label">工作结束时间</label>
+        <div class="col-sm-10">
+            <input type='number' max='24' min='0'  id="end" style="height: 32px; width: 80%; padding: 6px 12px;"
+            value='{:$end_hour}' >
+        </div>
+    </div>
+    <button class='btn btn-success save_btn center-block' style='width: 85%; margin-top:20px; margin-bottom:50px;'>保存修改</button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="modal fade" id="new-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增事件类型</h4>
+      </div>
+      <div class="modal-body">
+        <input type='text' class='new_title'>
+        <input type='color' class='new_color'>
+            <button id='2' class='btn btn-default new_eve_type '>工作</button>
+            <button id='1' class='new_eve_type btn btn-default' >非工作</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-danger do_new">新增</button>
+      </div>
+    </div>
+  </div>
+</div>

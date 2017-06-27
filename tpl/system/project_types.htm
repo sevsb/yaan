@@ -1,0 +1,53 @@
+<div id="page-wrapper">
+<?php
+
+//var_dump($project_types);
+?>
+    <div>
+        <h3 class="page_title" style='margin-left:30px;margin-bottom: 30px;'>项目分类设置</h3>
+    </div>
+<table class='table'>
+    <tr>
+        <td>编号</td>
+        <td>状态</td>
+        <td>操作</td>
+    </tr>
+    <?php 
+    if (!empty($project_types)) {
+        $project_types = explode(',', $project_types);
+        foreach ($project_types as $id => $project_type) { 
+            $showid = $id + 1;
+        ?>
+        <tr class='setting_elf'>
+            <td class='id'>{:$showid}</td>
+            <td><input class='title' type='text' value="{:$project_type}"></td>
+            <td><div class='btn btn-danger do_del'>删除</div></td>
+        </tr>
+        
+        <?php } 
+    }
+    ?>
+</table>
+<button class='btn btn-success new_btn' data-toggle="modal" data-target="#new-modal">新增项目类型</button>
+<button class='btn btn-success save_btn'>保存修改</button>
+<br>
+</div>
+
+
+<div class="modal fade" id="new-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增项目类型</h4>
+      </div>
+      <div class="modal-body">
+        <input type='text' class='new_title'>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-danger do_new">新增</button>
+      </div>
+    </div>
+  </div>
+</div>

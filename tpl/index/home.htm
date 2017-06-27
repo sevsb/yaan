@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="[:instance]/css/checkbox.css">
+
+<div class="view-wrapper">
+    <div class="home-head clear">
+        <div>
+            <a href="#" id="update-face" class="pull-left">
+                <img src="{:$user->faceurl()}" class="user-face">
+            </a>
+            <input type="file" id="face-file" class="hidden" action="index.update_user_face" />
+        </div>
+        <div class="pull-left user-info">
+            <table>
+                <tr>
+                    <td>昵称（点击修改）：</td>
+                    <td class="item-table-3 modify-on-click" moc-title='{:$user->nick()}' moc-action="index.update_nick" moc-extra=""></td>
+                </tr>
+                <tr>
+                    <td>邮箱：</td>
+                    <td>{:$user->email()}</td>
+                </tr>
+                <tr>
+                    <td>上次登录时间：</td>
+                    <td>{:$user->last_login_time()}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="clear">
+        <div class="info-field info-field-full">
+            <div class="">
+                <div class="info-header">修改密码</div>
+                <div>
+                    <table class="table table-hover table-bordered">
+                        <tr>
+                            <td class="item-table-2"><span>旧密码</span></td>
+                            <td class="!item-table-4"><input type="text" id="oldpassword" /></td>
+                        </tr>
+                        <tr>
+                            <td><span>新密码</span></td>
+                            <td class="!item-table-4"><input type="text" id="newpassword" /></td>
+                        </tr>
+                    </table>
+                    <button class="btn btn-primary" id="update-password" />修改密码</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
