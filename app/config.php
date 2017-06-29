@@ -7,26 +7,18 @@ if (file_exists(dirname(__FILE__) . "/../../PATH.php")) {
 include_once(dirname(__FILE__) . "/../../framework/config.php");
 include_once(dirname(__FILE__) . "/database/db_user.class.php");
 include_once(dirname(__FILE__) . "/database/db_settings.class.php");
-//include_once(dirname(__FILE__) . "/database/db_picservice.class.php");
-//include_once(dirname(__FILE__) . "/database/db_service.class.php");
-//include_once(dirname(__FILE__) . "/database/db_duty.class.php");
-//include_once(dirname(__FILE__) . "/database/db_staffs.class.php");
-//include_once(dirname(__FILE__) . "/database/db_staff_services.class.php");
 include_once(dirname(__FILE__) . "/database/db_customers.class.php");
-//include_once(dirname(__FILE__) . "/database/db_order.class.php");
+include_once(dirname(__FILE__) . "/database/db_muffininfos.class.php");
+include_once(dirname(__FILE__) . "/database/db_muffins.class.php");
+include_once(dirname(__FILE__) . "/database/db_wechatusers.class.php");
 include_once(dirname(__FILE__) . "/user.class.php");
 include_once(dirname(__FILE__) . "/upload.php");
 include_once(dirname(__FILE__) . "/thumbnail.php");
 include_once(dirname(__FILE__) . "/mailer.class.php");
 include_once(dirname(__FILE__) . "/settings.class.php");
-//include_once(dirname(__FILE__) . "/picservice.class.php");
-//include_once(dirname(__FILE__) . "/service.class.php");
-//include_once(dirname(__FILE__) . "/staff.class.php");
-//include_once(dirname(__FILE__) . "/duty.class.php");
+include_once(dirname(__FILE__) . "/projects.class.php");
 include_once(dirname(__FILE__) . "/customers.class.php");
 include_once(dirname(__FILE__) . "/login.class.php");
-//include_once(dirname(__FILE__) . "/order.class.php");
-//include_once(dirname(__FILE__) . "/booking.class.php");
 include_once(FRAMEWORK_PATH . "/helper.php");
 include_once(FRAMEWORK_PATH . "/logging.php");
 include_once(FRAMEWORK_PATH . "/tpl.php");
@@ -34,6 +26,10 @@ include_once(FRAMEWORK_PATH . "/tpl.php");
 
 defined('UPLOAD_DIR') or define('UPLOAD_DIR', ROOT_PATH . '/upload/images');
 defined('UPLOAD_URL') or define('UPLOAD_URL', rtrim(INSTANCE_URL, "/") . '/upload/images');
+
+defined('FILEUPLOAD_DIR') or define('FILEUPLOAD_DIR', ROOT_PATH . '/upload/files');
+defined('FILEUPLOAD_URL') or define('FILEUPLOAD_URL', rtrim(INSTANCE_URL, "/") . '/upload/files');
+
 defined('THUMBNAIL_DIR') or define('THUMBNAIL_DIR', ROOT_PATH . '/upload/thumbnails');
 defined('THUMBNAIL_URL') or define('THUMBNAIL_URL', rtrim(INSTANCE_URL, "/") . '/upload/thumbnails');
 defined('UPLOAD_LIMIT') or define('UPLOAD_LIMIT', 10 * 1024 * 1024);
@@ -52,6 +48,15 @@ defined('MYSQL_USERNAME') or define('MYSQL_USERNAME', 'yaan');
 defined('MYSQL_PASSWORD') or define('MYSQL_PASSWORD', 'yaan');
 defined('MYSQL_DATABASE') or define('MYSQL_DATABASE', 'yaan');
 defined('MYSQL_PREFIX') or define('MYSQL_PREFIX', 'yaan_');
+
+defined('MYSQL_COMMON') or define('MYSQL_COMMON', 'common_');
+
+// db_muffininfos 
+defined('TABLE_MUFFININFOS') or define('TABLE_MUFFININFOS', MYSQL_PREFIX . "muffininfos");
+// db_muffins
+defined('TABLE_MUFFINS') or define('TABLE_MUFFINS', MYSQL_COMMON . "muffins");
+// db_wechatusers
+defined('TABLE_WECHATUSERS') or define('TABLE_WECHATUSERS', MYSQL_COMMON . "wechatusers");
 
 
 // db_settings

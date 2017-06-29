@@ -1,0 +1,66 @@
+<div id="page-wrapper">
+    <div class="clear">
+      <?php
+        //var_dump($project_types);
+      ?>
+      <!--<ol class="breadcrumb">
+        <li><a href="?">首页</a></li>
+        <li><a href="?project/index">任务管理</a></li>
+        <li class="active">新建项目</li>
+      </ol>-->
+      <h3>新建项目</h3><hr>
+        <form>
+          <div class="form-group">
+            <label for="project_id">请输入项目编号</label>
+            <input type="text" class="form-control" id="project_id" placeholder="项目编号">
+          </div>
+          <div class="form-group">
+            <label for="title">请输入项目名称</label>
+            <input type="text" class="form-control" id="title" placeholder="项目名称">
+          </div>
+          <div class="form-group">
+            <label for="dropdownMenu1">请选择项目类型</label>
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                项目类型
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <?php
+                foreach ($project_types as $type) {
+              ?>
+                <li class='dropdownLi'><a>{:$type}</a></li>
+              <?php
+                }
+              ?>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">请输入摘要</label>
+            <textarea class="form-control"  id="description"  rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="text">请输入正文</label>
+            <textarea class="form-control" id="text" rows="6"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="cover">请上传封面</label><br>
+            <div class='btn btn-default upload_cover_btn'>点击上传</div>
+            <input type='file' class='hide' id='uploadcover'>
+            <img class='hide' id='cover_show'>
+          </div>
+          <div class="form-group">
+            <label for="limit_time">请选取完结时间</label>
+            <input type="text" class="form-control" id="datepicker" placeholder="完结时间">
+          </div>
+          <div class="form-group">
+            <label for="uploadpaperfile">请上传问卷文件</label>
+            <input type="file" id="uploadpaperfile">
+            <p class="help-block">请上传问卷文件</p>
+          </div>
+          <div type="submit" class="btn btn-primary do_new">新建</div>
+        </form>
+    </div>
+</div>
+  
