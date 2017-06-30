@@ -9,7 +9,7 @@ $("#distpicker").distpicker({
     placeholder: false
 });
   
-  $('.do_new').click(function (){
+$('.do_new').click(function (){
     var title = $('#title').val();
     var content = $('#content').val();
     var address = $('#address').val();
@@ -56,5 +56,7 @@ $("#distpicker").distpicker({
         }
         
     });
-  });
+});
+
+
 });

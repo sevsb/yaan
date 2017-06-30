@@ -62,41 +62,21 @@ class projects {
         return $this->summary("stars");
     }
 
-    
-    
-    
-    
-    
-    public function faceurl($full = false) {
-        if (!isset($this->summary["faceurl"])) {
-            $this->summary["faceurl"] = rtrim(UPLOAD_URL, "/") . "/" . $this->summary("face");
-        }
-        if ($full) {
-            return mk_domain_url($this->summary["faceurl"]);
-        }
-        return $this->summary["faceurl"];
-    }
 
-    public function face_thumbnail($full = false) {
-        if (!isset($this->summary["facethumbnail"])) {
-            $this->summary["facethumbnail"] = mkUploadThumbnail($this->summary("face"), 100, 100);
+    public static function del($id){
+        
+        $wanna_del_sheets = db_muffins::inst()->load_sheets_by_project($id);
+        if(!empty($wanna_del_sheets)){
+            foreach ($wanna_del_sheets as $k => $v) {
+                $ret3 = db_sheets::inst()->del($k);
+            }
+        }else{
+            $ret3 = true;
         }
-        if ($full) {
-            return mk_domain_url($this->summary["facethumbnail"]);
-        }
-        return $this->summary["facethumbnail"];
+        $ret1 = db_muffininfos::inst()->del($id);
+        $ret2 = db_muffins::inst()->del_by_project($id);
+        return $ret1 && $ret2 && $ret3;
     }
-
-    public function last_login_time() {
-        $time = get_session("user.last_login_time");
-        return date("Y-m-d H:i:s", $time);
-    }
-
-    
-    
-    
-    
-    
     
     
     

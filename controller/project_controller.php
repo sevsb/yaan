@@ -62,7 +62,13 @@ class project_controller {
         return $result ? 'success' : 'fail';
     }
     
-    
+    public function del_ajax(){
+        $del_id = get_request('del_id');
+        
+        $ret = projects::del($del_id);
+        //return $ret;
+        return $ret ? 'success' : 'fail';
+    }
 
 }
 

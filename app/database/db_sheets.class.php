@@ -30,6 +30,10 @@ class db_sheets extends database {
     public function get_all_sheets() {
         return $this->get_all_table(TABLE_SHEETS);
     }
+    
+    public function del($id) {
+        return $this->delete(TABLE_SHEETS, "muffinid = '$id'");
+    }
 };
 
 

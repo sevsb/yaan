@@ -26,11 +26,22 @@ class db_muffins extends database {
     public function get_all_muffins() {
         return $this->get_all_table(TABLE_MUFFINS);
     }
+    
+    public function load_sheets_by_project($muffinid) {
+        return $this->get_all_table(TABLE_MUFFINS, "pid = $muffinid");
+    }
 
     public function add($pid, $title, $face) {
         return $this->insert(TABLE_MUFFINS, array("pid" => $pid, "title" => $title, "face" => $face));
     }
     
+    public function del($id) {
+         return $this->delete(TABLE_MUFFINS, "id = '$id'");
+    }
+    
+    public function del_by_project($id) {
+         return $this->delete(TABLE_MUFFINS, "id = '$id' or pid = $id");
+    }
 };
 
 

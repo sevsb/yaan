@@ -43,6 +43,13 @@ class task_controller {
         return $result ? 'success' : 'fail';
     }
     
+    public function del_ajax() {
+        $del_id = get_request('del_id');
+        logging::d("TASKDEL", "del_id: $del_id");
+        $result = tasks::del($del_id);
+        return $result ? 'success' : 'fail';
+    }
+    
     
 
 }

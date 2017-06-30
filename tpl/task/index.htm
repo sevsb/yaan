@@ -21,10 +21,9 @@
             $status = $task->status();
             $status_show = $show_status[$status];
         ?>
-            <div class='task_elf'>
+            <div class='task_elf' muffinid='{:$muffinid}'>
                 <div class='task_info'>
-                    <div class='project_info_right'>
-                        <div class='muffinid'>编号：{:$project_id}</div>
+                    <div class='task_info_right'>
                         <div class='title'>名称：{:$title}</div>
                         <div class='location'>地址：{:$location_show}</div>
                         <div class='address'>详细地址：{:$status}</div>
@@ -32,7 +31,7 @@
                         <div class='content'>状态:{:$status_show}</div>
                         <div class='btn btn-default'>审核任务</div>
                         <div class='btn btn-default'>分派任务</div>
-                        <div class='btn btn-danger'>删除任务</div>
+                        <div class='btn btn-danger del_btn'  data-toggle="modal" data-target="#myModal">删除任务</div>
                     </div>
                 </div>
             </div>
@@ -48,3 +47,21 @@
     </div>
 </div>
 
+<!-- Modal     data-toggle="modal" data-target="#myModal"   -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">提示！</h4>
+      </div>
+      <div class="modal-body">
+        确认是要删除任务吗？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-danger do_del">确认删除</button>
+      </div>
+    </div>
+  </div>
+</div>

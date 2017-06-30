@@ -31,6 +31,10 @@ class db_muffininfos extends database {
         return $this->insert(TABLE_MUFFININFOS, array("project_id" => $project_id, "muffinid" => $muffin_id, "title" => $title, "type" => $type, "description" => $description, "text" => $maintext, "cover" => $cover, "limit_time" => $limit_time, "paperfile" => $paperfile, "status" => "未领取"));
     }
     
+    public function del($id){
+        return $this->delete(TABLE_MUFFININFOS, "muffinid = '$id'");
+    }
+    
 };
 
 

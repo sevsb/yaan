@@ -63,6 +63,12 @@ class tasks {
         return $task_ret;
     }
 
+    public function del($id) {
+        $ret1 = db_muffins::inst()->del($id);
+        $ret2 = db_sheets::inst()->del($id);
+        return $ret1 && $ret2;
+    }
+    
     public static function load_all() {
         $all_muffins = db_muffins::inst()->get_all_muffins();
         $all_mufininfos = db_muffininfos::inst()->get_all_muffininfos();
