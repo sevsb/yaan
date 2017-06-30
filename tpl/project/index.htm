@@ -1,6 +1,38 @@
 <div id="page-wrapper">
     <div class="clear">
-        <a href='?project/new'><button class='btn btn-default'>新建项目</button></a>
+    <h3>项目列表 <a href='?project/new'><button class='btn btn-success' style='display:inline-block; float: right;'>新建项目</button></a></h3>
+    <hr>
+    <?php
+    //var_dump($all_projects);
+    if (!empty($all_projects)) {
+        foreach ($all_projects as $project) {
+            $project_id = $project->project_id();
+            $muffinid = $project->muffinid();
+            $type = $project->type();
+            $title = $project->title();
+            $description = $project->description();
+            $cover_thumbnail_url = $project->cover_thumbnail_url();
+            $limit_time = $project->limit_time();
+            $status = $project->status();
+        ?>
+            <div class='project_elf'>
+                <div class='project_info'>
+                    <div class='cover_thumbnail'><img src='{:$cover_thumbnail_url}'></div>
+                    <div class='project_info_right'>
+                        <div class='project_id'>编号：{:$project_id}</div>
+                        <div class='title'>名称：{:$title}</div>
+                        <div class='type'>类别：{:$type}</div>
+                        <div class='type'>时限：{:$limit_time}</div>
+                        <div class='type'>状态：{:$status}</div>
+                        <a href='?task/index&muffinid={:$muffinid}'><div class='btn btn-default'>查看项目任务</div></a>
+                    </div>
+                </div>
+                <div class='description'>摘要：{:$description}</div>
+            </div>
+        <?php
+        }
+    }
+    ?>
     </div>
 </div>
 

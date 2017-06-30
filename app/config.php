@@ -11,12 +11,14 @@ include_once(dirname(__FILE__) . "/database/db_customers.class.php");
 include_once(dirname(__FILE__) . "/database/db_muffininfos.class.php");
 include_once(dirname(__FILE__) . "/database/db_muffins.class.php");
 include_once(dirname(__FILE__) . "/database/db_wechatusers.class.php");
+include_once(dirname(__FILE__) . "/database/db_sheets.class.php");
 include_once(dirname(__FILE__) . "/user.class.php");
 include_once(dirname(__FILE__) . "/upload.php");
 include_once(dirname(__FILE__) . "/thumbnail.php");
 include_once(dirname(__FILE__) . "/mailer.class.php");
 include_once(dirname(__FILE__) . "/settings.class.php");
 include_once(dirname(__FILE__) . "/projects.class.php");
+include_once(dirname(__FILE__) . "/tasks.class.php");
 include_once(dirname(__FILE__) . "/customers.class.php");
 include_once(dirname(__FILE__) . "/login.class.php");
 include_once(FRAMEWORK_PATH . "/helper.php");
@@ -58,6 +60,8 @@ defined('TABLE_MUFFINS') or define('TABLE_MUFFINS', MYSQL_COMMON . "muffins");
 // db_wechatusers
 defined('TABLE_WECHATUSERS') or define('TABLE_WECHATUSERS', MYSQL_COMMON . "wechatusers");
 
+// db_sheets 
+defined('TABLE_SHEETS') or define('TABLE_SHEETS', MYSQL_PREFIX . "sheets");
 
 // db_settings
 defined('TABLE_SETTINGS') or define('TABLE_SETTINGS', MYSQL_PREFIX . "settings");
@@ -70,17 +74,3 @@ defined('TABLE_USER_GROUPS') or define('TABLE_USER_GROUPS', MYSQL_PREFIX . "user
 // mailer
 defined('MAIL_SUBJECT_PREFIX') or define('MAIL_SUBJECT_PREFIX', '');
 
-// projects
-defined('TABLE_PROJECTS') or define('TABLE_PROJECTS', MYSQL_PREFIX . "projects");
-
-// staffs
-defined('TABLE_STAFFS') or define('TABLE_STAFFS', MYSQL_PREFIX . "staffs");
-defined('TABLE_STAFF_SERVICES') or define('TABLE_STAFF_SERVICES', MYSQL_PREFIX . "staff_services");
-
-// duty
-defined('TABLE_DUTY') or define('TABLE_DUTY', MYSQL_PREFIX . "duty");
-defined('TABLE_ORDERS') or define('TABLE_ORDERS', MYSQL_PREFIX . "orders");
-defined('TABLE_EVENT_SETTINGS') or define('TABLE_EVENT_SETTINGS', MYSQL_PREFIX . "event_settings");
-
-// customers
-defined('TABLE_CUSTOMERS') or define('TABLE_CUSTOMERS', MYSQL_PREFIX . "customers");

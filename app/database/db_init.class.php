@@ -44,20 +44,25 @@ class db_init extends database {
         $this->exec($query);
         $this->exec("use " . MYSQL_DATABASE);
 
+        // muffins
+        $this->create_table(TABLE_MUFFINS,  array("pid" => "INT", "title" => "TEXT", "face" => "TEXT", "count" => "INT"));
+        
+        // sheet (task)
+        $this->create_table(TABLE_SHEETS,  array("muffinid" => "INT", "wechat_userid" => "INT", "title" => "TEXT","location" => "TEXT", "address" => "TEXT", "content" => "TEXT", "answers" => "TEXT", "status" => "INT"));
+        
         // setting
         $this->create_table(TABLE_SETTINGS,  array("name" => "TEXT", "value" => "TEXT"));
-
         
-        // project
-        $this->create_table(TABLE_PROJECTS,  array("type" => "TEXT", "title" => "TEXT", "description" => "TEXT", "cover" => "TEXT", "text" => "TEXT", "limit_time" => "TEXT", "paperfile" => "TEXT", "status" => "TEXT", "reward" => "TEXT", "stars" => "TEXT"));
+        // muffininfos
+        $this->create_table(TABLE_MUFFININFOS,  array("muffinid" => "INT", "project_id" => "INT", "type" => "TEXT", "title" => "TEXT", "description" => "TEXT", "cover" => "TEXT", "text" => "TEXT", "limit_time" => "TEXT", "paperfile" => "TEXT", "status" => "TEXT", "reward" => "TEXT", "stars" => "TEXT"));
         
         // user
         $this->create_table(TABLE_USERS,  array("nick" => "TEXT", "email" => "TEXT", "password" => "TEXT", "face" => "TEXT", "register_time" => "TEXT", "groupid" => "INT", "token" => "TEXT", "tokentime" => "TEXT"));
         $this->create_table(TABLE_USERSETTINGS,  array("userid" => "INT", "name" => "TEXT", "value" => "TEXT"));
         $this->create_table(TABLE_USER_GROUPS,  array("name" => "TEXT", "access" => "TEXT"));
 
-        // customers
-        $this->create_table(TABLE_CUSTOMERS,  array("openid" => "TEXT", "nickname" => "TEXT", "face" => "TEXT", "location" => "TEXT", "task_list" => "TEXT", "orgin_id" => "TEXT"));
+        // wechatusers
+        $this->create_table(TABLE_WECHATUSERS,  array("openid" => "TEXT", "nickname" => "TEXT", "face" => "TEXT", "location" => "TEXT", "task_list" => "TEXT", "orgin_id" => "TEXT"));
 
     }
 

@@ -1,0 +1,33 @@
+
+<div id="page-wrapper">
+    <div class="clear">
+      <?php
+        //var_dump($project_types);
+      ?>
+      <h3>新建任务</h3><hr>
+        <form>
+          <div class="form-group">
+            <label for="title">请输入名称</label>
+            <input type="text" class="form-control" id="title" placeholder="任务名称">
+          </div>
+          <div class="form-group">
+            <label for="location">请选择市区</label>
+            <div data-toggle="distpicker" id='distpicker'  data-value-type="code">
+              <select id='province' data-province="---- 选择省 ----"></select>
+              <select id='city'  data-city="---- 选择市 ----"></select>
+              <select id='district'  data-district="---- 选择区 ----"></select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">请输入详细地址</label>
+            <input class="form-control" type='text' id="address">
+          </div>
+          <div class="form-group">
+            <label for="content">请输入联系人信息和备注</label>
+            <textarea class="form-control" id="content" rows="2"></textarea>
+          </div>
+          <div type="submit" class="btn btn-primary do_new">新建</div>
+        </form>
+    </div>
+</div>
+  

@@ -1,0 +1,23 @@
+.task_elf {
+    border: 1px solid black;
+    width: 40%;
+    display: inline-block;
+    min-height: 300px;
+    margin: 5px;
+}
+
+.project_info > div {
+    display: inline-block;
+}
+.cover_thumbnail {
+    width: 45%;
+}
+.cover_thumbnail img {
+    width: 88%;
+    padding:3px;
+}
+
+.project_info_right {
+    vertical-align: top;
+    margin-top: 10px;
+}
