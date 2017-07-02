@@ -8,19 +8,19 @@ class project_controller {
     }
 
     public function index_action() {
-        $tpl = new tpl("index/mainheader", "admin/footer");
+        $tpl = new tpl("wechat/index/mainheader", "admin/footer");
         $all_projects = projects::load_all();
         $tpl->set('all_projects', $all_projects);
-        $tpl->display("project/index");
+        $tpl->display("admin/project/index");
     }
     
     public function new_action() {
-        $tpl = new tpl("index/mainheader", "admin/footer");
+        $tpl = new tpl("wechat/index/mainheader", "admin/footer");
         $project_types = db_settings::inst()->load('project_types');
         $project_types = $project_types['value'];
         $project_types = explode(',', $project_types);
         $tpl->set('project_types', $project_types);
-        $tpl->display("project/new");
+        $tpl->display("admin/project/new");
     }
     
     public function add_ajax() {

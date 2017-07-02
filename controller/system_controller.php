@@ -8,10 +8,10 @@ class system_controller {
     }
 
     public function project_types_action() {
-        $tpl = new tpl("index/mainheader", "index/footer");
+        $tpl = new tpl("wechat/index/mainheader", "wechat/index/footer");
         $project_types = db_settings::inst()->load('project_types');
         $tpl->set('project_types', $project_types['value']);
-        $tpl->display("system/project_types");
+        $tpl->display("admin/system/project_types");
     }
     
     public function new_project_type_ajax() {

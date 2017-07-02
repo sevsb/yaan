@@ -8,9 +8,9 @@ class login_controller {
 
         $salt = login::mksalt();
 
-        $tpl = new tpl("index/header", "index/footer");
+        $tpl = new tpl("wechat/index/header", "wechat/index/footer");
         $tpl->set("salt", $salt);
-        $tpl->display("index/login");
+        $tpl->display("wechat/index/login");
     }
 
     public function get_salt_ajax() {
@@ -18,8 +18,8 @@ class login_controller {
     }
     
     public function register_action() {
-        $tpl = new tpl("index/header", "index/footer");
-        $tpl->display("index/register");
+        $tpl = new tpl("wechat/index/header", "wechat/index/footer");
+        $tpl->display("wechat/index/register");
     }
 
     public function logout_action() {
@@ -28,8 +28,8 @@ class login_controller {
     }
 
     public function forget_action() {
-        $tpl = new tpl("index/header", "index/footer");
-        $tpl->display("index/forget");
+        $tpl = new tpl("wechat/index/header", "wechat/index/footer");
+        $tpl->display("wechat/index/forget");
     }
 
 
@@ -52,8 +52,8 @@ class login_controller {
 
     public function forget3_action() {
         // dump_var($_SESSION);
-        $tpl = new tpl("index/header", "index/footer");
-        $tpl->display("index/forget2");
+        $tpl = new tpl("wechat/index/header", "wechat/index/footer");
+        $tpl->display("wechat/index/forget2");
     }
 
     public function update_forget_ajax() {

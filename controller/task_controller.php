@@ -8,21 +8,21 @@ class task_controller {
     }
 
     public function index_action() {
-        $tpl = new tpl("index/mainheader", "admin/footer");
+        $tpl = new tpl("wechat/index/mainheader", "admin/footer");
         $muffinid = get_request("muffinid");
         $tasks = tasks::load_tasks($muffinid);
         $tpl->set('muffinid', $muffinid);
         $tpl->set('tasks', $tasks);
-        $tpl->display("task/index");
+        $tpl->display("admin/task/index");
     }
     
     public function new_action() {
-        $tpl = new tpl("index/mainheader", "admin/footer");
+        $tpl = new tpl("wechat/index/mainheader", "admin/footer");
         //$project_types = db_settings::inst()->load('project_types');
         //$project_types = $project_types['value'];
         //$project_types = explode(',', $project_types);
         //$tpl->set('project_types', $project_types);
-        $tpl->display("task/new");
+        $tpl->display("admin/task/new");
     }
     
     public function add_ajax() {

@@ -7,11 +7,11 @@ class index_controller {
         login::assert();
     }
     public function index_action() {
-         $tpl = new tpl("index/mainheader", "index/footer");
+         $tpl = new tpl("wechat/index/mainheader", "wechat/index/footer");
          $salt = login::mksalt();
 
          $tpl->set("salt", $salt);
-         $tpl->display("index/index");
+         $tpl->display("wechat/index/index");
     }
 
 }
