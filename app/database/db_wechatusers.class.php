@@ -24,59 +24,45 @@ class db_wechatusers extends database {
     }
 
     public function get_all_users() {
-        return $this->get_all_table(TABLE_USERS);
+        return $this->get_all_table(TABLE_WECHATUSERS);
     }
 
-    public function get_one_user($userid) {
+    public function get_user_by_id($userid) {
         $userid = (int)$userid;
-        return $this->get_one_table(TABLE_USERS, "id = $userid");
+        return $this->get_one_table(TABLE_WECHATUSERS, "id = $userid");
     }
 
-    public function get_user($email) {
-        $email = $this->escape($email);
-        return $this->get_one_table(TABLE_USERS, "email = $email");
+    public function get_user_by_openid($openid) {
+        $openid = $this->escape($openid);
+        return $this->get_one_table(TABLE_WECHATUSERS, "openid = $openid");
     }
 
-    public function add($nick, $email, $password, $face) {
-        $now = time();
-        return $this->insert(TABLE_USERS, array("nick" => $nick, "email" => $email, "password" => $password, "face" => $face, "register_time" => $now, "groupid" => "2"));
+
+    public function add($openid, $nickname, $faceurl) {
+        $openid = $this->escape($openid);
+        $nickname = $this->escape($nickname);
+        $faceurl = $this->escape($faceurl);
+        return $this->insert(TABLE_WECHATUSERS, array("openid" => $openid, "nickname" => $nickname, "face" => $faceurl));
     }
 
-    public function update_login_time($userid) {
-        $now = time();
+    public function update_location_by_id($userid, $location) {
         $userid = (int)$userid;
-        return $this->update(TABLE_USERS, array("last_login_time" => $now), "id = $userid");
+        $location = $this->escape($location);
+        return $this->update(TABLE_WECHATUSERS, array("location" => $location), "id = $userid");
     }
 
-    public function update_face($userid, $face) {
-        $userid = (int)$userid;
-        return $this->update(TABLE_USERS, array("face" => $face), "id = $userid");
+    public function update_location_by_openid($openid, $location) {
+        $location = $this->escape($location);
+        $openid = $this->escape($openid);
+        return $this->update(TABLE_WECHATUSERS, array("location" => $location), "openid = $openid");
     }
 
-    public function update_password($userid, $password) {
+    public function update_profile($userid, $openid, $nickname, $faceurl) {
         $userid = (int)$userid;
-        return $this->update(TABLE_USERS, array("password" => $password), "id = $userid");
-    }
-    
-    public function update_detail($userid, $nick, $face) {
-        $userid = (int)$userid;
-        return $this->update(TABLE_USERS, array("nick" => $nick, "face" => $face), "id = $userid");
-    }
-
-    public function update_login_token($userid, $token) {
-        $userid = (int)$userid;
-        $now = time();
-        return $this->update(TABLE_USERS, array("token" => $token, "tokentime" => $now), "id = $userid");
-    }
-
-    public function update_nick($userid, $nick) {
-        $userid = (int)$userid;
-        return $this->update(TABLE_USERS, array("nick" => $nick), "id = $userid");
-    }
-
-    public function disable_login_token($userid) {
-        $userid = (int)$userid;
-        return $this->update(TABLE_USERS, array("token" => "", "tokentime" => $now), "id = $userid");
+        $openid = $this->escape($openid);
+        $nickname = $this->escape($nickname);
+        $faceurl = $this->escape($faceurl);
+        return $this->update(TABLE_WECHATUSERS, array("openid" => $openid, "nickname" => $nickname, "face" => $faceurl, "id = $userid"));
     }
 };
 

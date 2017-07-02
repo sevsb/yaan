@@ -60,6 +60,11 @@ defined('TABLE_MUFFINS') or define('TABLE_MUFFINS', MYSQL_COMMON . "muffins");
 // db_wechatusers
 defined('TABLE_WECHATUSERS') or define('TABLE_WECHATUSERS', MYSQL_COMMON . "wechatusers");
 
+defined('TABLE_PAPERS') or define('TABLE_PAPERS', MYSQL_COMMON . "papers");
+defined('TABLE_SHEETS') or define('TABLE_SHEETS', MYSQL_COMMON . "sheets");
+defined('TABLE_QUESTIONS') or define('TABLE_QUESTIONS', MYSQL_COMMON . "questions");
+defined('TABLE_ANSWERS') or define('TABLE_ANSWERS', MYSQL_COMMON . "answers");
+
 // db_sheets 
 defined('TABLE_SHEETS') or define('TABLE_SHEETS', MYSQL_PREFIX . "sheets");
 

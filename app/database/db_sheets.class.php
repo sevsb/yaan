@@ -19,21 +19,13 @@ class db_sheets extends database {
         } catch (PDOException $e) {
             logging::e("PDO.Exception", $e, false);
             die($e);
-            // $this->init();
         }
     }
-    
-    public function add($new_muffin_id, $title, $content, $address, $location) {
-        return $this->insert(TABLE_SHEETS, array("muffinid" => $new_muffin_id, "title" => $title, "location" => $location, "address" => $address, "content" => $content, "status" => "0"));
+
+    public function load_all() {
+        return $this->get_all_table(TABLE_SETTINGS);
     }
-    
-    public function get_all_sheets() {
-        return $this->get_all_table(TABLE_SHEETS);
-    }
-    
-    public function del($id) {
-        return $this->delete(TABLE_SHEETS, "muffinid = '$id'");
-    }
+
 };
 
 
