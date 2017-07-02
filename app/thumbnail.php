@@ -1,6 +1,6 @@
 <?php
 
-include_once(dirname(__FILE__) . "/config.php");
+include_once(dirname(__FILE__) . "/../config.php");
 
 /**
  * 生成缩略图函数（支持图片格式：gif、jpeg、png和bmp）

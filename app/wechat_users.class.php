@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . "/config.php");
+include_once(dirname(__FILE__) . "/../config.php");
 include_once(dirname(__FILE__) . "/database/db_wechatusers.class.php");
 include_once(FRAMEWORK_PATH . "cache.php");
 

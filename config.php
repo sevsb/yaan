@@ -1,26 +1,26 @@
 <?php
 
-if (file_exists(dirname(__FILE__) . "/../../PATH.php")) {
-    include_once(dirname(__FILE__) . "/../../PATH.php");
+if (file_exists(dirname(__FILE__) . "/../PATH.php")) {
+    include_once(dirname(__FILE__) . "/../PATH.php");
 }
 
-include_once(dirname(__FILE__) . "/../../framework/config.php");
-include_once(dirname(__FILE__) . "/database/db_user.class.php");
-include_once(dirname(__FILE__) . "/database/db_settings.class.php");
-include_once(dirname(__FILE__) . "/database/db_customers.class.php");
-include_once(dirname(__FILE__) . "/database/db_muffininfos.class.php");
-include_once(dirname(__FILE__) . "/database/db_muffins.class.php");
-include_once(dirname(__FILE__) . "/database/db_wechatusers.class.php");
-include_once(dirname(__FILE__) . "/database/db_sheets.class.php");
-include_once(dirname(__FILE__) . "/user.class.php");
-include_once(dirname(__FILE__) . "/upload.php");
-include_once(dirname(__FILE__) . "/thumbnail.php");
-include_once(dirname(__FILE__) . "/mailer.class.php");
-include_once(dirname(__FILE__) . "/settings.class.php");
-include_once(dirname(__FILE__) . "/projects.class.php");
-include_once(dirname(__FILE__) . "/tasks.class.php");
-include_once(dirname(__FILE__) . "/customers.class.php");
-include_once(dirname(__FILE__) . "/login.class.php");
+include_once(dirname(__FILE__) . "/../framework/config.php");
+include_once(dirname(__FILE__) . "/app/database/db_user.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_settings.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_customers.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_muffininfos.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_muffins.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_wechatusers.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_sheets.class.php");
+include_once(dirname(__FILE__) . "/app/user.class.php");
+include_once(dirname(__FILE__) . "/app/upload.php");
+include_once(dirname(__FILE__) . "/app/thumbnail.php");
+include_once(dirname(__FILE__) . "/app/mailer.class.php");
+include_once(dirname(__FILE__) . "/app/settings.class.php");
+include_once(dirname(__FILE__) . "/app/projects.class.php");
+include_once(dirname(__FILE__) . "/app/tasks.class.php");
+include_once(dirname(__FILE__) . "/app/customers.class.php");
+include_once(dirname(__FILE__) . "/app/login.class.php");
 include_once(FRAMEWORK_PATH . "/helper.php");
 include_once(FRAMEWORK_PATH . "/logging.php");
 include_once(FRAMEWORK_PATH . "/tpl.php");

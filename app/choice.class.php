@@ -1,6 +1,6 @@
 <?php
 
-include_once(dirname(__FILE__) . "/config.php");
+include_once(dirname(__FILE__) . "/../config.php");
 include_once(dirname(__FILE__) . "/question.class.php");
 
 class choice_base {

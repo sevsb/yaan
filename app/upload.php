@@ -1,6 +1,6 @@
 <?php
 
-include_once(dirname(__FILE__) . "/config.php");
+include_once(dirname(__FILE__) . "/../config.php");
 
 function uploadImageViaFileReader($imgsrc = null, $callback = null, $args = null) {
     $whitelist = array("image/jpeg", "image/pjpeg", "image/png", "image/x-png", "image/gif");
