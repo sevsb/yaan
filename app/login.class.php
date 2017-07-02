@@ -65,13 +65,12 @@ class login {
     }
 
     public static function assert() {
-        $refer = $_SERVER["REQUEST_URI"];
-        $_SESSION["login_refer"] = $refer;
-        logging::d("Login", "refer from $refer");
-
         $uid = get_session("user.id");
         if ($uid == null) {
-            go("login");
+            $refer = $_SERVER["REQUEST_URI"];
+            $_SESSION["login_refer"] = $refer;
+            logging::d("Login", "refer from $refer");
+            go("admin/login/index");
         }
     }
 };

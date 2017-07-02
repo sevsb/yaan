@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . "/../app/config.php");
+include_once(dirname(__FILE__) . "/../../config.php");
 
 class project_controller {
     
@@ -8,14 +8,14 @@ class project_controller {
     }
 
     public function index_action() {
-        $tpl = new tpl("wechat/index/mainheader", "admin/footer");
+        $tpl = new tpl("admin/header", "admin/footer");
         $all_projects = projects::load_all();
         $tpl->set('all_projects', $all_projects);
         $tpl->display("admin/project/index");
     }
     
     public function new_action() {
-        $tpl = new tpl("wechat/index/mainheader", "admin/footer");
+        $tpl = new tpl("admin/header", "admin/footer");
         $project_types = db_settings::inst()->load('project_types');
         $project_types = $project_types['value'];
         $project_types = explode(',', $project_types);

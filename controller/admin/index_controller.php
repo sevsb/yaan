@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . "/../..//config.php");
+include_once(dirname(__FILE__) . "/../../config.php");
 include_once(dirname(__FILE__) . "/../../app/login.class.php");
 
 class index_controller {
@@ -7,11 +7,8 @@ class index_controller {
         login::assert();
     }
     public function index_action() {
-         $tpl = new tpl("wechat/index/mainheader", "wechat/index/footer");
-         $salt = login::mksalt();
-
-         $tpl->set("salt", $salt);
-         $tpl->display("wechat/index/index");
+         $tpl = new tpl("admin/header", "admin/footer");
+         $tpl->display("admin/index/index");
     }
 
 }

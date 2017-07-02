@@ -1,6 +1,6 @@
 <?php
-include_once(dirname(__FILE__) . "/../app/config.php");
-include_once(dirname(__FILE__) . "/../app/login.class.php");
+include_once(dirname(__FILE__) . "/../../config.php");
+include_once(dirname(__FILE__) . "/../../app/login.class.php");
 
 class login_controller {
     public function index_action() {
@@ -8,23 +8,31 @@ class login_controller {
 
         $salt = login::mksalt();
 
-        $tpl = new tpl("wechat/index/header", "wechat/index/footer");
+        $tpl = new tpl("admin/login/header", "admin/login/footer");
         $tpl->set("salt", $salt);
-        $tpl->display("wechat/index/login");
+        $tpl->display("admin/login/login");
     }
 
     public function get_salt_ajax() {
         return get_session('login_salt');
     }
     
+    public function logout_action() {
+        login::bye();
+        go("admin");
+    }
+
+    public function login_ajax() {
+        $email = get_request_assert("email");
+        $cipher = get_request_assert("cipher");
+        return login::do_login($email, $cipher);
+    }
+
+
+    /*
     public function register_action() {
         $tpl = new tpl("wechat/index/header", "wechat/index/footer");
         $tpl->display("wechat/index/register");
-    }
-
-    public function logout_action() {
-        login::bye();
-        go("index");
     }
 
     public function forget_action() {
@@ -75,12 +83,6 @@ class login_controller {
             db_user::inst()->disable_login_token($userid);
         }
         return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
-    }
-
-    public function login_ajax() {
-        $email = get_request_assert("email");
-        $cipher = get_request_assert("cipher");
-        return login::do_login($email, $cipher);
     }
 
     public function register_ajax() {
@@ -155,6 +157,7 @@ class login_controller {
         $user["face"] = DOMAIN_URL . UPLOAD_URL . "/" . $user["face"]; 
         return $user;
     }
+    */
 }
 
 

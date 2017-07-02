@@ -3,7 +3,7 @@ $(document).ready(function() {
     $("#do-login").click(function() {
         
         $.ajax({
-            url: "ajax.php?action=" + "login.get_salt" ,
+            url: "ajax.php?action=" + "admin.login.get_salt" ,
             type: 'post',
             data: '',
             success: function (data) {
@@ -20,7 +20,7 @@ $(document).ready(function() {
                 console.debug("salt = " + salt);
                 console.debug("cipher = " + cipher);
 
-                __ajax("login.login", {email: email, cipher: cipher}, function(data) {
+                __ajax("admin.login.login", {email: email, cipher: cipher}, function(data) {
                     console.log(data.refer);
                     document.location.href = "?";
                     //document.location.href = data.refer;
