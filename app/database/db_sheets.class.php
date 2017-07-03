@@ -13,7 +13,7 @@ class db_sheets extends database {
         return self::$instance;
     }
 
-    public function __construct()
+    public function __construct() {
         try {
             $this->init(MYSQL_DATABASE);
         } catch (PDOException $e) {
