@@ -25,8 +25,8 @@ include_once(FRAMEWORK_PATH . "/helper.php");
 include_once(FRAMEWORK_PATH . "/logging.php");
 include_once(FRAMEWORK_PATH . "/tpl.php");
 
-include_once(dirname(__FILE__) . "/wecaht/wxApi.php");
-include_once(dirname(__FILE__) . "/wecaht/wxBizMsgCrypt.php");
+include_once(dirname(__FILE__) . "/wechat/wxApi.php");
+include_once(dirname(__FILE__) . "/wechat/wxBizMsgCrypt.php");
 
 defined('UPLOAD_DIR') or define('UPLOAD_DIR', ROOT_PATH . '/upload/images');
 defined('UPLOAD_URL') or define('UPLOAD_URL', rtrim(INSTANCE_URL, "/") . '/upload/images');
