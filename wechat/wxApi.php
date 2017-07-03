@@ -11,6 +11,13 @@ class WXApi {
 
     private $apilock = null;
 
+    private static $instance = null;
+    public static function inst() {
+        if (self::$instance == null)
+            self::$instance = new WXApi();
+        return self::$instance;
+    }
+
     public function __construct() {
         // $this->apilock = new lock("wx_api_lock_i708luo");
         $this->tokenfile = "/tmp/wx_token." . WEAUTH_APPID . ".txt";
@@ -21,7 +28,7 @@ class WXApi {
     public function __destruct() {
         $this->apilock->release();
     }
-    
+
     public function read($url, $data = null) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
