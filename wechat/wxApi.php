@@ -1,6 +1,7 @@
 <?php
 
-include_once("config.php");
+include_once(dirname(__FILE__) . "/../config.php");
+
 include_once("lock.php");
 
 class WXApi {
@@ -20,7 +21,7 @@ class WXApi {
     public function __destruct() {
         $this->apilock->release();
     }
-
+    
     public function read($url, $data = null) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
