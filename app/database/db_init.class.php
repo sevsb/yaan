@@ -16,7 +16,7 @@ class db_init extends database {
         return self::$mInstance;
     }
 
-    private function __construct() {
+    public function __construct() {
         try {
             $this->init(MYSQL_DATABASE);
         } catch (PDOException $e) {

@@ -13,7 +13,7 @@ class db_answers extends database {
         return self::$instance;
     }
 
-    private function __construct() {
+    public function __construct() {
         try {
             $this->init(MYSQL_DATABASE);
         } catch (PDOException $e) {
