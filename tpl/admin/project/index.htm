@@ -1,6 +1,6 @@
 <div id="page-wrapper">
     <div class="clear">
-    <h3>项目列表 <a href='?project/new'><button class='btn btn-success' style='display:inline-block; float: right;'>新建项目</button></a></h3>
+    <h3>项目列表 <a href='?admin/project/new'><button class='btn btn-success' style='display:inline-block; float: right;'>新建项目</button></a></h3>
     <hr>
     <?php
     //var_dump($all_projects);
@@ -24,7 +24,7 @@
                         <div class='type'>类别：{:$type}</div>
                         <div class='type'>时限：{:$limit_time}</div>
                         <div class='type'>状态：{:$status}</div>
-                        <a href='?task/index&muffinid={:$muffinid}'><div class='btn btn-default'>查看项目任务</div></a>
+                        <a href='?admin/task/index&muffinid={:$muffinid}'><div class='btn btn-default'>查看项目任务</div></a>
                         <div class='btn btn-danger del_btn' data-toggle="modal" data-target="#myModal" >删除项目</div>
                     </div>
                 </div>

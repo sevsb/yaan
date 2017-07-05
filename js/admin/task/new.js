@@ -41,7 +41,7 @@ $('.do_new').click(function (){
     console.log('address:' + address);
     console.log(loc);
 
-    __ajax('task.add',{
+    __ajax('admin.task.add',{
       muffinid: muffinid,
       title: title,
       content: content,
@@ -52,7 +52,7 @@ $('.do_new').click(function (){
         console.log(data);
         ret = data.ret;
         if (ret == 'success'){
-            document.location.href = '?task/index&muffinid=' +　muffinid;
+            document.location.href = '?admin/task/index&muffinid=' +　muffinid;
         }
         
     });

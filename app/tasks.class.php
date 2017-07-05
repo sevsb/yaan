@@ -51,11 +51,11 @@ class tasks {
         $face = null;
         
         $new_muffin_id = db_muffins::inst()->add($pid, $mtitle, $face);
-        logging::d("muffin_id"," muffin_id : $muffin_id");
+        logging::d("new_muffin_id"," new_muffin_id : $new_muffin_id");
         if (!$new_muffin_id) {
             return false;
         }
-        $task_ret = db_sheets::inst()->add($new_muffin_id, $title, $content, $address, $location);
+        $task_ret = db_muffininfos::inst()->add_task($new_muffin_id, $title, $content, $address, $location);
         if (!$task_ret) {
             return false;
         }
@@ -65,7 +65,7 @@ class tasks {
 
     public function del($id) {
         $ret1 = db_muffins::inst()->del($id);
-        $ret2 = db_sheets::inst()->del($id);
+        $ret2 = db_muffininfos::inst()->del($id);
         return $ret1 && $ret2;
     }
     
@@ -89,15 +89,15 @@ class tasks {
     
     public static function load_tasks($projectid) {
         $all_muffins = db_muffins::inst()->get_all_muffins();
-        $all_sheets = db_sheets::inst()->get_all_sheets();
+        $all_muffininfos = db_muffininfos::inst()->get_all_muffininfos();
         $result_array = [];
         
-        foreach ($all_sheets as $id => $sheet) {
-            $sheetid = $sheet['muffinid'];
+        foreach ($all_muffininfos as $id => $info) {
+            $infoid = $info['muffinid'];
             foreach ($all_muffins as $mufid => $muffin) {
                 $pid = $muffin['pid'];
-                if ($mufid == $sheetid && $pid == $projectid) {
-                    $result_array[$id] = new tasks($sheet);
+                if ($mufid == $infoid && $pid == $projectid) {
+                    $result_array[$id] = new tasks($info);
                 }
             }       
         }

@@ -65,31 +65,20 @@ class projects {
 
     public static function del($id){
         
-        $wanna_del_sheets = db_muffins::inst()->load_sheets_by_project($id);
-        if(!empty($wanna_del_sheets)){
-            foreach ($wanna_del_sheets as $k => $v) {
-                $ret3 = db_sheets::inst()->del($k);
+        $wanna_del_tasks = db_muffins::inst()->load_tasks_by_project($id);
+        $wanna_del_tasks = array_keys($wanna_del_tasks);
+        array_push($wanna_del_tasks, $id);
+        if(!empty($wanna_del_tasks)){
+            foreach ($wanna_del_tasks as $k) {
+                $ret4 = db_muffins::inst()->del($k);
+                $ret3 = db_muffininfos::inst()->del($k);
             }
         }else{
+            $ret4 = true;
             $ret3 = true;
         }
-        $ret1 = db_muffininfos::inst()->del($id);
-        $ret2 = db_muffins::inst()->del_by_project($id);
-        return $ret1 && $ret2 && $ret3;
+        return $ret3 && $ret4;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     public static function add($project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile){
         //begin_transaction();

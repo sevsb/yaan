@@ -96,7 +96,7 @@ $(document).ready(function (){
     //console.log("uploadpaperfile:" + uploadfilefileURL);
     //console.log(uploadfilefileURL);
     
-    __ajax('project.add',{
+    __ajax('admin.project.add',{
       project_id: project_id,
       title: title, 
       description: description, 
@@ -109,7 +109,7 @@ $(document).ready(function (){
         console.log(data);
         ret = data.ret;
         if (ret == 'success'){
-            document.location.href = '?project/index';
+            document.location.href = '?admin/project/index';
         }
         
     });

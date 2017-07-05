@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . "/../app/config.php");
+include_once(dirname(__FILE__) . "/../../config.php");
 
 class task_controller {
     
@@ -8,7 +8,7 @@ class task_controller {
     }
 
     public function index_action() {
-        $tpl = new tpl("wechat/index/mainheader", "admin/footer");
+        $tpl = new tpl("admin/header", "admin/footer");
         $muffinid = get_request("muffinid");
         $tasks = tasks::load_tasks($muffinid);
         $tpl->set('muffinid', $muffinid);
@@ -17,11 +17,7 @@ class task_controller {
     }
     
     public function new_action() {
-        $tpl = new tpl("wechat/index/mainheader", "admin/footer");
-        //$project_types = db_settings::inst()->load('project_types');
-        //$project_types = $project_types['value'];
-        //$project_types = explode(',', $project_types);
-        //$tpl->set('project_types', $project_types);
+        $tpl = new tpl("admin/header", "admin/footer");
         $tpl->display("admin/task/new");
     }
     

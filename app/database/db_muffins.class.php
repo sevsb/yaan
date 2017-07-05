@@ -27,7 +27,7 @@ class db_muffins extends database {
         return $this->get_all_table(TABLE_MUFFINS);
     }
     
-    public function load_sheets_by_project($muffinid) {
+    public function load_tasks_by_project($muffinid) {
         return $this->get_all_table(TABLE_MUFFINS, "pid = $muffinid");
     }
 

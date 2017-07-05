@@ -4,7 +4,7 @@ del_id = null;
 
 $('.do_del').click(function (){
     console.log(del_id);
-    __ajax("task.del", {del_id: del_id}, true);
+    __ajax("admin.task.del", {del_id: del_id}, true);
 });
 
 $('.del_btn').click(function (){

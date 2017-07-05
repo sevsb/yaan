@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . "/../app/config.php");
+include_once(dirname(__FILE__) . "/../../config.php");
 
 class system_controller {
     
@@ -8,7 +8,7 @@ class system_controller {
     }
 
     public function project_types_action() {
-        $tpl = new tpl("wechat/index/mainheader", "wechat/index/footer");
+        $tpl = new tpl("admin/header", "admin/footer");
         $project_types = db_settings::inst()->load('project_types');
         $tpl->set('project_types', $project_types['value']);
         $tpl->display("admin/system/project_types");
