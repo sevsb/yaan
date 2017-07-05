@@ -4,7 +4,7 @@
     <div class="home-head clear">
         <div>
             <a href="#" id="update-face" class="pull-left">
-                <img src="{:$user->faceurl()}" class="user-face">
+                <img src="" class="user-face">
             </a>
             <input type="file" id="face-file" class="hidden" action="index.update_user_face" />
         </div>
@@ -12,15 +12,15 @@
             <table>
                 <tr>
                     <td>昵称（点击修改）：</td>
-                    <td class="item-table-3 modify-on-click" moc-title='{:$user->nick()}' moc-action="index.update_nick" moc-extra=""></td>
+                    <td class="item-table-3 modify-on-click" moc-title='' moc-action="index.update_nick" moc-extra=""></td>
                 </tr>
                 <tr>
                     <td>邮箱：</td>
-                    <td>{:$user->email()}</td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>上次登录时间：</td>
-                    <td>{:$user->last_login_time()}</td>
+                    <td></td>
                 </tr>
             </table>
         </div>
@@ -46,4 +46,3 @@
         </div>
     </div>
 </div>
-
