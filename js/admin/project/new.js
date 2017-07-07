@@ -66,9 +66,23 @@ $(document).ready(function (){
             alert("您的浏览器不支持上传，请更换浏览器重试！");
             return false;
         }
+        var whitelist = ["application/msword", 
+        "application/vnd.ms-excel", 
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/vnd.ms-excel.sheet.macroEnabled.12", 
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
 
         uploadpaperfile = this.files[0];
-        
+        var typeflag = false;
+        for (var id in whitelist) {
+            if (whitelist[id] == uploadpaperfile.type) {
+                typeflag = true;
+            }
+        }
+        if (typeflag == false) {
+            alert("文件不是支持的类型！");
+            return false;
+        }
         var reader = new FileReader();
         reader.onload = function(e) {
             uploadfilefileURL = e.target.result;
@@ -96,6 +110,7 @@ $(document).ready(function (){
     //console.log("uploadpaperfile:" + uploadfilefileURL);
     //console.log(uploadfilefileURL);
     
+    //return;
     __ajax('admin.project.add',{
       project_id: project_id,
       title: title, 

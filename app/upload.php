@@ -55,7 +55,9 @@ function uploadFileViaFileReader($filesrc = null) {
     $whitelist = array(
     "application/msword" => "doc", 
     "application/vnd.ms-excel" => "xls", 
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "xlsx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "docx"
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "xlsx", 
+    "application/vnd.ms-excel.sheet.macroEnabled.12" => "xlsm", 
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "docx"
     );
 
     if ($filesrc == null) {

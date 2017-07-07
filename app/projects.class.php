@@ -46,11 +46,14 @@ class projects {
     }
     public function limit_time() {
         $lmt_time = $this->summary('limit_time');
-        $ret = date('Y-M-D', $lmt_time);
+        $ret = date('Y-m-d', $lmt_time);
         return $ret;
     }
     public function paperfile() {
         return $this->summary("paperfile");
+    }
+    public function paperfile_url() {
+        return rtrim(FILEUPLOAD_URL, "/") . "/" . $this->summary["paperfile"];
     }
     public function status() {
         return $this->summary("status");
