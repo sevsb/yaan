@@ -1,48 +1,21 @@
-<link rel="stylesheet" href="[:instance]/css/checkbox.css">
-
-<div class="view-wrapper">
-    <div class="home-head clear">
-        <div>
-            <a href="#" id="update-face" class="pull-left">
-                <img src="" class="user-face">
-            </a>
-            <input type="file" id="face-file" class="hidden" action="index.update_user_face" />
+<div class="wx_view">
+    <div class="wx_col_item">
+        <div class="wx_row_item">
+            <img src="[:app]//images/default_headimg.jpg" class="img-responsive img-circle wx_headimg">
         </div>
-        <div class="pull-left user-info">
-            <table>
-                <tr>
-                    <td>昵称（点击修改）：</td>
-                    <td class="item-table-3 modify-on-click" moc-title='' moc-action="index.update_nick" moc-extra=""></td>
-                </tr>
-                <tr>
-                    <td>邮箱：</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>上次登录时间：</td>
-                    <td></td>
-                </tr>
-            </table>
+        <div class="wx_row_item">
+            <p>昵称</p>
         </div>
-    </div>
-    <div class="clear">
-        <div class="info-field info-field-full">
-            <div class="">
-                <div class="info-header">修改密码</div>
-                <div>
-                    <table class="table table-hover table-bordered">
-                        <tr>
-                            <td class="item-table-2"><span>旧密码</span></td>
-                            <td class="!item-table-4"><input type="text" id="oldpassword" /></td>
-                        </tr>
-                        <tr>
-                            <td><span>新密码</span></td>
-                            <td class="!item-table-4"><input type="text" id="newpassword" /></td>
-                        </tr>
-                    </table>
-                    <button class="btn btn-primary" id="update-password" />修改密码</button>
+        <div class="wx_row_item">
+            <div data-toggle="distpicker">
+                <div class="wx_row_item" style="flex-wrap: wrap;">
+                    <select class="selectpicker" data-province=""></select>
+                    <select class="selectpicker" data-city=""></select>
+                    <select class="selectpicker" data-district=""></select>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="pull-left user-info">
     </div>
 </div>
