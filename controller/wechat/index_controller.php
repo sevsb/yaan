@@ -7,6 +7,12 @@ class index_controller {
         $tpl = new tpl("wechat/header", "wechat/footer");
         $tpl->display("wechat/index/home");
     }
+
+    public function sheet_action() {
+        // 姑且先放在index中
+        $tpl = new tpl("wechat/header", "wechat/footer");
+        $tpl->display("wechat/index/sheet");
+    }
 }
 
 ?>

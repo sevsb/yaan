@@ -1,0 +1,90 @@
+.wx_view {
+  padding-bottom: 16%;
+
+  /* 为了配合模拟顶部边栏 */
+  padding-top: 16%;
+}
+
+#card_book {
+  min-width: 100vw;
+}
+
+.card {
+  width: 46vw;
+  height: 46vw;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+
+  margin-bottom: 2vw;
+}
+
+.card_body {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 75%;
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+  overflow: hidden;
+}
+
+.card_img {
+  max-height: 100%;
+  /*max-width: 100%;*/
+}
+
+.card_footer {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 25%;
+  background-color: #eee;
+  border-top: 1px solid transparent;
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.card_title {
+  padding-left: 8px;
+}
+
+
+.card_dropdown_btn {
+  color: #666;
+  font-size: 16px;
+  background-color: #eee;
+  border: 0px solid transparent;
+  border-bottom-right-radius: 2px;
+
+  height: 100%;
+}
+
+.card_dropdown_btn:active {
+  color: #222;
+  background-color: #ddd;
+}
+
+.navbar_bottom {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  color: #666;
+  font-size: 28px;
+  background-color: #eee;
+}
+
+.navbar_bottom:active {
+  color: #222;
+  background-color: #ddd;
+}

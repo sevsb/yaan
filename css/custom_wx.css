@@ -1,3 +1,7 @@
+body {
+  background-color: #bbb;
+}
+
 .wx_view {
   display: flex;
   display: -webkit-flex;
