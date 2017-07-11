@@ -18,10 +18,6 @@ class admin_controller {
         }
     }
 
-    public function jssdk_ajax() {
-        WXApi::inst()->get_SignPackage();
-    }
-
     private function checkSignature() {
         if (!isset($_GET["signature"]))
             return false;

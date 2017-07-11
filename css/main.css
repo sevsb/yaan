@@ -191,3 +191,46 @@ img.user-face {
     display: inline-block;
     margin-right: 10px;
 }
+
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} 
+
+.flex-row { flex-direction:row; }
+
+.flex-col { flex-direction:column; }
+
+.flex-wrap {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+}
+
+.flex-item {
+  display: inline-flex;
+  display: -webkit-inline-flex;
+}
+
+.flex-start { justify-content: flex-start; }
+.flex-end { justify-content: flex-end; }
+.flex-center { justify-content: center; }
+.flex-space-between { justify-content: space-between; }
+.flex-space-around { justify-content: space-around; }
+
+.flex-vstart { align-items: flex-start; }
+.flex-vend { align-items: flex-end; }
+.flex-vcenter { align-items: center; }
+.flex-vbaseline { align-items: baseline; }
+.flex-vstretch { align-items: stretch; }
+
+.fullheight { height: 100%; }
+
+
+

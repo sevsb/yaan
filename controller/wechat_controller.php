@@ -32,6 +32,7 @@ class wechat_controller {
         $_SESSION["user"] = $user;
         $_SESSION["user.name"] = $user["nickname"];
 
+        logging::d("Debug", $user);
         go("wechat/index/home");
     }
 }
