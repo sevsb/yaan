@@ -1,32 +1,89 @@
 
 <div id="page-wrapper">
     <div class="clear">
+      <script>
+        var provice_code = null;
+        var city_code = null;
+        var district_code = null;
+      </script>
       <?php
-        //var_dump($project_types);
+        if ($task->is_valid()) {
+            $location = $task->location();
+            $location = json_decode($location);
+            $provice_code = $location->provice->code;
+            $city_code = $location->city->code;
+            $district_code = $location->district->code;
+            $from_projectid = $task->from_projectid();
+            $muffinid = $from_projectid['pid'];
+            ?>
+              <script>
+                var provice_code = '{:$provice_code}';
+                var city_code = '{:$city_code}';
+                var district_code = '{:$district_code}';
+              </script>
+            <?php
+        }
+        $belongproject = projects::create($muffinid);
       ?>
+      <script>
+        var muffinid = {:$muffinid};
+        //$("#distpicker").distpicker('');
+      </script>
       <h3>新建任务</h3><hr>
         <form>
+            <div class="form-group">
+                <label for="dropdownMenu1">请选择所属项目</label>
+                <div class="dropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  <?php
+                  echo $muffinid ? $belongproject->title() : "所属项目<span class='caret'></span>";
+                  ?>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                  <?php
+                    foreach ($all_projects as $project) {
+                        $muffinid = $project->muffinid();
+                        $title = $project->title();
+                  ?>
+                    <li class='dropdownLi' muffinid='{:$muffinid}'><a>{:$title}</a></li>
+                  <?php
+                    }
+                  ?>
+                  </ul>
+                </div>
+            </div>
+        
           <div class="form-group">
             <label for="title">请输入名称</label>
-            <input type="text" class="form-control" id="title" placeholder="任务名称">
+            <input type="text" class="form-control" id="title" placeholder="任务名称"
+            value='<?php echo $task->is_valid() ? $task->title() : null?>'>
           </div>
           <div class="form-group">
             <label for="location">请选择市区</label>
-            <div data-toggle="distpicker" id='distpicker'  data-value-type="code">
-              <select id='province' data-province="---- 选择省 ----"></select>
-              <select id='city'  data-city="---- 选择市 ----"></select>
-              <select id='district'  data-district="---- 选择区 ----"></select>
+            <div data-toggle="distpicker" id='distpicker' data-value-type="code">
+              <select id='province'></select>
+              <select id='city' ></select>
+              <select id='district' ></select>
             </div>
           </div>
           <div class="form-group">
             <label for="address">请输入详细地址</label>
-            <input class="form-control" type='text' id="address">
+            <input class="form-control" type='text' id="address"
+            value='<?php echo $task->is_valid() ? $task->address() : null?>'>
           </div>
           <div class="form-group">
             <label for="content">请输入联系人信息和备注</label>
-            <textarea class="form-control" id="content" rows="2"></textarea>
+            <textarea class="form-control" id="content" rows="2"><?php echo $task->is_valid() ? $task->content() : null ?></textarea>
           </div>
-          <div type="submit" class="btn btn-primary do_new">新建</div>
+          <?php
+          if ($task->is_valid()) {
+            ?><div type="submit" class="btn btn-primary do_modify">保存</div><?php
+          }else {
+            ?><div type="submit" class="btn btn-primary do_new">新建</div><?php
+          }
+          ?>
+          <br>
+          <br>
         </form>
     </div>
 </div>

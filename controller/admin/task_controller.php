@@ -10,7 +10,10 @@ class task_controller {
     public function index_action() {
         $tpl = new tpl("admin/header", "admin/footer");
         $muffinid = get_request("muffinid");
+        $project = projects::create($muffinid);
+        $project_title = $project->title();
         $tasks = tasks::load_tasks($muffinid);
+        $tpl->set('project_title', $project_title);
         $tpl->set('muffinid', $muffinid);
         $tpl->set('tasks', $tasks);
         $tpl->display("admin/task/index");
@@ -18,6 +21,14 @@ class task_controller {
     
     public function new_action() {
         $tpl = new tpl("admin/header", "admin/footer");
+        $muffinid = get_request("muffinid", 0);
+        $taskid = get_request("taskid");
+        
+        $task = tasks::create($taskid);
+        $all_projects = projects::load_all();
+        $tpl->set('all_projects', $all_projects);
+        $tpl->set('muffinid', $muffinid);
+        $tpl->set('task', $task);
         $tpl->display("admin/task/new");
     }
     
@@ -36,6 +47,25 @@ class task_controller {
 
 
         $result = tasks::add($muffinid, $title, $content, $address, $location);
+        return $result ? 'success' : 'fail';
+    }
+    
+    public function modify_ajax() {
+        $taskid = get_request('taskid');
+        $muffinid = get_request('muffinid');
+        $title = get_request('title');
+        $content = get_request('content');
+        $address = get_request('address');
+        $location = get_request('loc');
+        
+        logging::d("TASKADD", "muffinid: $muffinid");
+        logging::d("TASKADD", "title: $title");
+        logging::d("TASKADD", "content: $content");
+        logging::d("TASKADD", "address: $address");
+        logging::d("TASKADD", "location: $location");
+
+
+        $result = tasks::modify($taskid, $muffinid, $title, $content, $address, $location);
         return $result ? 'success' : 'fail';
     }
     

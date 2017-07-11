@@ -14,6 +14,16 @@ class tasks {
         }
         return $def;
     }
+    
+    public static function create($muffinid){
+        if (!empty($muffinid)) {
+            $muffininfos = db_muffininfos::inst()->get_one_muffininfos($muffinid);
+            //logging::d("createPJT", "muffininfos: $muffininfos");
+            return new tasks($muffininfos);
+        }
+        return new tasks(null);
+
+    }
 
     public function id() {
         return $this->summary("id", 0);
@@ -43,6 +53,14 @@ class tasks {
         return $this->summary("status");
     }
     
+    public function from_projectid() {
+        $muffinid = $this->summary('muffinid');
+        $ret = db_muffins::inst()->get_project_id($muffinid);
+        return $ret;
+    }
+    public function is_valid() {
+        return !empty($this->summary);
+    }
     
     public static function add($muffinid, $title, $content, $address, $location){
 
@@ -61,6 +79,25 @@ class tasks {
         }
         //commit();
         return $task_ret;
+    }
+    
+    public static function modify($taskid, $muffinid, $title, $content, $address, $location){
+
+        $pid = $muffinid;
+        $mtitle = null;
+        $face = null;
+        
+        $ret1 = db_muffins::inst()->modify($taskid, $pid, $mtitle, $face);
+        logging::d("new_muffin_id"," new_muffin_id : $new_muffin_id");
+        if (!$ret1) {
+            return false;
+        }
+        $ret2 = db_muffininfos::inst()->modify_task($taskid, $title, $content, $address, $location);
+        if (!$ret2) {
+            return false;
+        }
+        //commit();
+        return $ret2;
     }
 
     public function del($id) {

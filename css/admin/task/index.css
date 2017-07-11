@@ -1,5 +1,7 @@
 .task_elf {
-    border: 1px solid black;
+    border: 1px solid #eee;
+    padding: 6px;
+    border-radius: 5px;
     width: 40%;
     display: inline-block;
     min-height: 300px;

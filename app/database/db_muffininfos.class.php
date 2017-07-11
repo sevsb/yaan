@@ -43,6 +43,10 @@ class db_muffininfos extends database {
         return $this->insert(TABLE_MUFFININFOS, array("muffinid" => $new_muffin_id, "title" => $title, "type" => $type, "content" => $content, "address" => $address, "location" => $location, "status" => "0"));
     }
     
+    public function modify_task($taskid, $title, $content, $address, $location) {
+        return $this->update(TABLE_MUFFININFOS, array("title" => $title, "type" => $type, "content" => $content, "address" => $address, "location" => $location), "muffinid = $taskid");
+    }
+    
     public function del($id){
         return $this->delete(TABLE_MUFFININFOS, "muffinid = '$id'");
     }

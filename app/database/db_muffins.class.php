@@ -30,9 +30,17 @@ class db_muffins extends database {
     public function load_tasks_by_project($muffinid) {
         return $this->get_all_table(TABLE_MUFFINS, "pid = $muffinid");
     }
+    
+    public function get_project_id($muffinid) {
+        return $this->get_one_table(TABLE_MUFFINS, "id = $muffinid");
+    }
 
     public function add($pid, $title, $face) {
         return $this->insert(TABLE_MUFFINS, array("pid" => $pid, "title" => $title, "face" => $face));
+    }
+
+    public function modify($id, $pid, $mtitle, $face) {
+        return $this->update(TABLE_MUFFINS, array("pid" => $pid, "title" => $title, "face" => $face), "id = $id");
     }
     
     public function del($id) {

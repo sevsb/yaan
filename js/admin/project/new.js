@@ -131,8 +131,6 @@ $(document).ready(function (){
         }else {
             alert(data.info);
         }
-        
-        
     });
   });
   
