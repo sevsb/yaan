@@ -1,44 +1,28 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
-    function jssdk() {
-        __ajax('wechat.admin.jssdk', {
-            'url': location.href.split('#')[0]
-        }, function(data) {
-            wx.config({
-                debug : true,
-                appId : data.data.appId,
-                timestamp : data.data.timestamp,
-                nonceStr : data.data.nonceStr,
-                signature : data.data.signature,
-                jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
-                        'onMenuShareAppMessage', 'onMenuShareQQ',
-                        'onMenuShareWeibo', 'hideMenuItems',
-                        'showMenuItems', 'hideAllNonBaseMenuItem',
-                        'showAllNonBaseMenuItem', 'translateVoice',
-                        'startRecord', 'stopRecord', 'onRecordEnd',
-                        'playVoice', 'pauseVoice', 'stopVoice',
-                        'uploadVoice', 'downloadVoice', 'chooseImage',
-                        'previewImage', 'uploadImage', 'downloadImage',
-                        'getNetworkType', 'openLocation', 'getLocation',
-                        'hideOptionMenu', 'showOptionMenu', 'closeWindow',
-                        'scanQRCode', 'chooseWXPay',
-                        'openProductSpecificView', 'addCard', 'chooseCard',
-                        'openCard' ]
-            });
-        });
-    }
-
-    function isWeiXin5() {
-        var ua = window.navigator.userAgent.toLowerCase();
-        var reg = /MicroMessenger\/[5-9]/i;
-        return reg.test(ua);
-    }
-
+    wx.config({
+        debug: true,
+        appId: '{:$signPackage["appId"]}',
+        timestamp: {:php echo $signPackage["timestamp"]},
+        nonceStr: '{:php echo $signPackage["nonceStr"]}',
+        signature: '{:php echo $signPackage["signature"]}',
+        jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
+                'onMenuShareAppMessage', 'onMenuShareQQ',
+                'onMenuShareWeibo', 'hideMenuItems',
+                'showMenuItems', 'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem', 'translateVoice',
+                'startRecord', 'stopRecord', 'onRecordEnd',
+                'playVoice', 'pauseVoice', 'stopVoice',
+                'uploadVoice', 'downloadVoice', 'chooseImage',
+                'previewImage', 'uploadImage', 'downloadImage',
+                'getNetworkType', 'openLocation', 'getLocation',
+                'hideOptionMenu', 'showOptionMenu', 'closeWindow',
+                'scanQRCode', 'chooseWXPay',
+                'openProductSpecificView', 'addCard', 'chooseCard',
+                'openCard' ]
+    });
     window.onload = function() {
-        // if (isWeiXin5() == false) {
-        //       alert("您的微信版本低于 5.0，无法使用微信支付功能，请先升级！");
-        //     }
-        //jssdk();
+        getSignPackage();
     }
 </script>
 

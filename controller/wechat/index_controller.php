@@ -14,6 +14,8 @@ class index_controller {
     public function sheet_action() {
         // 姑且先放在index中
         $tpl = new tpl("wechat/header", "wechat/footer");
+        $signPackage = WXApi::inst()->get_SignPackage();
+        $tpl->set('signPackage', $signPackage);
         $tpl->display("wechat/index/sheet");
     }
 }
