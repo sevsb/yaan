@@ -3,7 +3,7 @@
     function jssdk() {
         __ajax('wechat.admin.jssdk', {
             'url': location.href.split('#')[0]
-        }, function(data) {\
+        }, function(data) {
             wx.config({
                 debug : true,
                 appId : data.data.appId,
@@ -38,7 +38,7 @@
         // if (isWeiXin5() == false) {
         //       alert("您的微信版本低于 5.0，无法使用微信支付功能，请先升级！");
         //     }
-        jssdk();
+        //jssdk();
     }
 </script>
 

@@ -1,8 +1,6 @@
 .wx_view {
+  padding-top: 4%;
   padding-bottom: 16%;
-
-  /* 为了配合模拟顶部边栏 */
-  padding-top: 16%;
 }
 
 #card_book {
