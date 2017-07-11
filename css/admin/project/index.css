@@ -1,9 +1,11 @@
 .project_elf {
-    border: 1px solid black;
+    border: 1px solid #eee;
     width: 40%;
     display: inline-block;
     min-height: 300px;
     margin: 5px;
+    border-radius: 2px;
+    padding: 2px;
 }
 
 .project_info > div {
@@ -14,10 +16,17 @@
 }
 .cover_thumbnail img {
     width: 88%;
-    padding:3px;
+    padding:4px;
 }
 
 .project_info_right {
+    width: 45%;
     vertical-align: top;
     margin-top: 10px;
+}
+
+.description {
+    border-top: 1px solid #eee;
+    margin-top: 8px;
+    padding: 5px;
 }

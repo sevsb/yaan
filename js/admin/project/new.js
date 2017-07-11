@@ -1,9 +1,12 @@
 $(document).ready(function (){
   var type = null;
-  
+  var uploadfilefileURL = $('#paperfile_url').val();
   $( "#datepicker" ).datepicker();
   $( "#datepicker" ).datepicker( "option", "dateFormat", 'yy-mm-dd' );
-  
+  if (limit_time){
+      $("#datepicker" ).datepicker( "setDate", limit_time );
+  }
+  //console.log("--datepicker init.--");
   $('.upload_cover_btn').click(function (){
     $('#uploadcover').click();
     return false;
@@ -112,6 +115,49 @@ $(document).ready(function (){
     
     //return;
     __ajax('admin.project.add',{
+      project_id: project_id,
+      title: title, 
+      description: description, 
+      maintext: maintext, 
+      cover: cover, 
+      limit_time: limit_time, 
+      paperfile: uploadfilefileURL, 
+      type: type
+    },function (data){
+        console.log(data);
+        ret = data.ret;
+        if (ret == 'success'){
+            document.location.href = '?admin/project/index';
+        }
+        
+    });
+  });
+  
+  $('.do_modify').click(function (){
+    var muffinid = $(this).attr('muffinid');
+    var project_id = $('#project_id').val();
+    var title = $('#title').val();
+    var description = $('#description').val();
+    var maintext = $('#text').val();
+    var cover = $("#cover_show").attr("src");
+    var limit_time = $('#datepicker').val();
+    var type = $("#dropdownMenu1").html();
+    limit_time = Date.parse(limit_time) / 1000 - 28800;
+    
+    console.log("muffinid:" + muffinid);
+    console.log("project_id:" + project_id);
+    console.log("title:" + title);
+    console.log("description:" + description);
+    console.log("maintext:" + maintext);
+    console.log("limit_time:" + limit_time);
+    console.log("type:" + type);
+    console.log("cover:" + cover);
+    //console.log("uploadpaperfile:" + uploadfilefileURL);
+    console.log(uploadfilefileURL);
+    
+    //return;
+    __ajax('admin.project.modify',{
+      muffinid: muffinid,
       project_id: project_id,
       title: title, 
       description: description, 

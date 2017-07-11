@@ -64,7 +64,19 @@ class projects {
     public function stars() {
         return $this->summary("stars");
     }
+    public function is_valid() {
+        return !empty($this->summary);
+    }
 
+    public static function create($muffinid){
+        if (!empty($muffinid)) {
+            $muffininfos = db_muffininfos::inst()->get_one_muffininfos($muffinid);
+            //logging::d("createPJT", "muffininfos: $muffininfos");
+            return new projects($muffininfos);
+        }
+        return new projects(null);
+
+    }
 
     public static function del($id){
         
@@ -95,11 +107,20 @@ class projects {
         if (!$muffin_id) {
             return false;
         }
-        $muffininfo_ret = db_muffininfos::inst()->add($project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile);
+        $muffininfo_ret = db_muffininfos::inst()->add_project($project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile);
         if (!$muffininfo_ret) {
             return false;
         }
         //commit();
+        return $muffininfo_ret;
+    }
+    
+    public static function modify($muffinid, $project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile){
+        
+        $muffininfo_ret = db_muffininfos::inst()->modify_project($muffinid, $project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile);
+        if (!$muffininfo_ret) {
+            return false;
+        }
         return $muffininfo_ret;
     }
 

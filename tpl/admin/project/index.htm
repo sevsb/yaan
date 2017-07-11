@@ -25,9 +25,14 @@
                         <div class='type'>类别：{:$type}</div>
                         <div class='type'>时限：{:$limit_time}</div>
                         <!--<div class='type'>状态：{:$status}</div>-->
-                        <div class='type'><a href='{:$paperfile_url}'>下载文件</a></div>
-                        <a href='?admin/task/index&muffinid={:$muffinid}'><div class='btn btn-default'>查看项目任务</div></a>
-                        <div class='btn btn-danger del_btn' data-toggle="modal" data-target="#myModal" >删除项目</div>
+                        <div style='margin-bottom: 3px;'>
+                            <a href='{:$paperfile_url}'><div class='btn btn-success'>下载文件</div></a>
+                            <a href='?admin/task/index&muffinid={:$muffinid}'><div class='btn btn-default'>查看任务</div></a>
+                        </div>
+                        <div>
+                            <div class='btn btn-danger del_btn' data-toggle="modal" data-target="#myModal" >删除项目</div>
+                            <a href='?admin/project/new&muffinid={:$muffinid}'><div class='btn btn-primary modify_btn'>编辑项目</div></a>
+                        </div>
                     </div>
                 </div>
                 <div class='description'>摘要：{:$description}</div>
