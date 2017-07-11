@@ -9,14 +9,16 @@
         <div class="wx_row_item">
             <div data-toggle="distpicker">
                 <div class="wx_row_item" style="flex-wrap: wrap;">
-                    <select class="selectpicker" data-province=""></select>
-                    <select class="selectpicker" data-city=""></select>
-                    <select class="selectpicker" data-district=""></select>
+                    <div data-toggle="distpicker" id='distpicker'  data-value-type="code">
+                        <select id='province' class="selectpicker" data-province=""></select>
+                        <select id='city' class="selectpicker" data-city=""></select>
+                        <select id='district' class="selectpicker" data-district=""></select>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="wx_row_item">
-            <button class="weui_btn"></button>
+            <button id="viewtask" class="weui_btn weui_btn_primary">查看任务</button>
         </div>
     </div>
     <div class="pull-left user-info">
