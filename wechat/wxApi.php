@@ -10,6 +10,8 @@ class WXApi {
     private $ticketfile = null;
 
     private $apilock = null;
+    private $appid = null;
+    private $secret = null;
 
     private static $instance = null;
     public static function inst() {
@@ -19,10 +21,12 @@ class WXApi {
     }
 
     public function __construct() {
+        $this->appid = settings::instance()->load("WX_APP_ID");
+        $this->secret = settings::instance()->load("WX_APP_SECRET");
         // $this->apilock = new lock("wx_api_lock_i708luo");
-        $this->tokenfile = "/tmp/wx_token." . WEAUTH_APPID . ".txt";
-        $this->ticketfile = "/tmp/wx_ticket." . WEAUTH_APPID . ".txt";
-        $this->apilock = new lock("wx_api_lock_" . WEAUTH_APPID);
+        $this->tokenfile = "/tmp/wx_token." . $this->appid. ".txt";
+        $this->ticketfile = "/tmp/wx_ticket." . $this->appid . ".txt";
+        $this->apilock = new lock("wx_api_lock_" . $this->appid);
     }
 
     public function __destruct() {
@@ -50,7 +54,7 @@ class WXApi {
      * @return type
      */
     public function grant_new_access_token() {
-        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . WEAUTH_APPID . "&secret=" . WEAUTH_SECRET;
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $this->appid . "&secret=" . $this->secret;
         // $url = "http://localhost/qianba/test/gen.php?action=grant_token";
         $out = $this->read($url);
         // var_dump($out);
@@ -91,7 +95,7 @@ class WXApi {
      * @return type
      */
     public function renew_token_locked() {
-        $lock = new lock("token_lock_" . WEAUTH_APPID);
+        $lock = new lock("token_lock_" . $this->appid);
         $token = null;
 
         // $this->release_access_token();
@@ -260,7 +264,7 @@ class WXApi {
         $signature = sha1($string);
 
         $signPackage = array(
-            "appid" => WEAUTH_APPID,
+            "appid" => $this->appid,
             "noncestr" => $nonceStr,
             "timestamp" => $timestamp,
             "url" => $url,
@@ -322,17 +326,12 @@ class WXApi {
     }
 
 
-    public function doOAuth() {
-        // $needOAuth = isset($_REQUEST["wechat"]) ? $_REQUEST["wechat"] : null;
+    public function doOAuth($userinfo = false) {
         $code = isset($_REQUEST["code"]) ? $_REQUEST["code"] : null;
 
-        // return if not redirected from wechat.
-        // if ($needOAuth == null) {
-        //     return null;
-        // }
-
         if ($code == null) {
-            $currentUri = ROOT_URL . substr($_SERVER['SCRIPT_NAME'], 1); //  . '?' . $_SERVER['QUERY_STRING'];
+            // $currentUri = ROOT_URL . substr($_SERVER['SCRIPT_NAME'], 1); //  . '?' . $_SERVER['QUERY_STRING'];
+            $currentUri = get_current_url();
 
             // logging::d('WXApi', 'SCRIPT_NAME = ' . $_SERVER['SCRIPT_NAME']);
             // logging::d('WXApi', 'substr(SCRIPT_NAME, 1) = ' . substr($_SERVER['SCRIPT_NAME'], 1));
@@ -340,14 +339,16 @@ class WXApi {
             // logging::d('WXApi', 'currentUri = ' . $currentUri);
             // $currentUri = str_replace("?", "", $currentUri);
 
+            logging::d("WeChat", "redirect_uri = $currentUri");
+
             $currentUri = urlencode($currentUri);
-            // logging::d("WXApi", "redirect_uri = $currentUri");
-            $checkUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . WEAUTH_APPID . "&redirect_uri={$currentUri}&response_type=code&scope=snsapi_base&state=1#wx_redirect";
+            $snsapi = $userinfo ? "snsapi_userinfo" : "snsapi_base";
+            $checkUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . $this->appid . "&redirect_uri={$currentUri}&response_type=code&scope={$snsapi}&state=1#wechat_redirect";
             logging::d('WXApi', "doOAuth, checkurl is: $checkUrl");
             header('location:' . $checkUrl);
             exit;
         }
-        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . WEAUTH_APPID . "&secret=" . WEAUTH_SECRET . "&code=$code&grant_type=authorization_code";
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $this->appid. "&secret=" . $this->secret . "&code=$code&grant_type=authorization_code";
         $result = $this->read($url);
         $json = json_decode($result, true);
 
@@ -357,25 +358,23 @@ class WXApi {
         }
 
         $openid = $json["openid"];
+        $result = array("openid" => $openid);
 
         if (isset($json['scope']) && $json['scope'] == "snsapi_userinfo") {
             $access_token = $json["access_token"];
             $url = "https://api.weixin.qq.com/sns/userinfo?access_token=$access_token&openid=$openid";
-            $result = $wc->read($url);
-            $json = json_decode($result, true);
+            $plain = $this->read($url);
+            $json = json_decode($plain, true);
             $openid = $json["openid"];
-            $nickname = $json["nickname"];
-            $sex = $json["sex"];
-            $language = $json["language"];
-            $city = $json["city"];
-            $province = $json["province"];
-            $country = $json["country"];
-            $headimgurl = $json["headimgurl"];
+            $result["nickname"] = $json["nickname"];
+            $result["sex"] = $json["sex"];
+            $result["language"] = $json["language"];
+            $result["city"] = $json["city"];
+            $result["province"] = $json["province"];
+            $result["country"] = $json["country"];
+            $result["headimgurl"] = $json["headimgurl"];
         }
-        // logging::d("mmserver", "openid = $openid");
-
-        $_SESION["wxopenid"] = $openid;
-        return $openid;
+        return $result;
     }
 }
 
