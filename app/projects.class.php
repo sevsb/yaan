@@ -112,7 +112,7 @@ class projects {
             return false;
         }
         //commit();
-        return $muffininfo_ret;
+        return $muffin_id;
     }
     
     public static function modify($muffinid, $project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile){

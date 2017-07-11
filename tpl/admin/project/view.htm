@@ -1,0 +1,70 @@
+<div id="page-wrapper">
+    <div class="clear">
+      <?php
+        //var_dump($project);
+        //var_dump($muffinid);
+        if ($project->is_valid()) {
+            $limit_time = json_encode($project->limit_time());
+            ?><script type="text/javascript"> var limit_time = {:$limit_time};</script><?php
+        } else {
+            ?><script type="text/javascript"> var limit_time = null;</script><?php
+        }
+      ?>
+      <!--<ol class="breadcrumb">
+        <li><a href="?">首页</a></li>
+        <li><a href="?project/index">任务管理</a></li>
+        <li class="active">新建项目</li>
+      </ol>-->
+      <h3>
+        查看项目
+      </h3><hr>
+        <form>
+          <div class="form-group">
+            <label for="project_id">项目编号</label>
+            <input type="number" class="form-control" id="project_id" placeholder="项目编号"
+            value ='<?php echo $project->is_valid() ? $project->project_id() : null; ?>' readonly>
+          </div>
+          <div class="form-group">
+            <label for="title">项目名称</label>
+            <input type="text" class="form-control" id="title" placeholder="项目名称"
+            value ='<?php echo $project->is_valid() ? $project->title() : null; ?>' readonly>
+          </div>
+          <div class="form-group">
+            <label for="dropdownMenu1">项目类型</label>
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?php echo $project->is_valid() ? $project->type() : "项目类型<span class='caret'></span>"; ?></button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">摘要</label>
+            <textarea class="form-control"  id="description"  rows="3" readonly><?php echo $project->is_valid() ? $project->description() : null; ?></textarea>
+          </div>
+          <div class="form-group">
+            <label for="text">正文</label>
+            <textarea class="form-control" id="text" rows="6" readonly><?php echo $project->is_valid() ? $project->text() : null; ?></textarea>
+          </div>
+          <div class="form-group">
+            <label for="cover">封面</label><br>
+            <?php
+            if ($project->is_valid()) {
+                ?><img class='' id='cover_show' src='{:$project->cover_url()}'><?php
+            }
+            ?>
+          </div>
+          <div class="form-group">
+            <label for="limit_time">完结时间</label>
+            <input type="text" class="form-control" id="datepicker" value='{:$project->limit_time()}'placeholder="完结时间" readonly>
+          </div>
+          
+          <div class="form-group">
+            <label for="limit_time">试卷</label><br>
+            <a href='{:$project->paperfile_url()}'><div class='btn btn-success'>点击下载试卷</div></a>
+          </div>
+
+          
+          <hr>
+        </form>
+    </div>
+</div>
+
+<input class='hide' id='paperfile_url' value='<?php echo $project->is_valid() ? $project->paperfile_url() : null; ?>'>

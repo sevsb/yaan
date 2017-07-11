@@ -17,14 +17,31 @@ class project_controller {
     public function new_action() {
         $tpl = new tpl("admin/header", "admin/footer");
         $muffinid = get_request('muffinid');
+        $readonly = get_request('readonly');
         $project = projects::create($muffinid);
         $tpl->set('muffinid', $muffinid);
+        $tpl->set('readonly', $readonly);
         $tpl->set('project', $project);
         $project_types = db_settings::inst()->load('project_types');
         $project_types = $project_types['value'];
         $project_types = explode(',', $project_types);
         $tpl->set('project_types', $project_types);
         $tpl->display("admin/project/new");
+    }
+    
+    
+    public function view_action() {
+        $tpl = new tpl("admin/header", "admin/footer");
+        $muffinid = get_request('muffinid');
+        $project = projects::create($muffinid);
+        $tpl->set('muffinid', $muffinid);
+        $tpl->set('readonly', $readonly);
+        $tpl->set('project', $project);
+        $project_types = db_settings::inst()->load('project_types');
+        $project_types = $project_types['value'];
+        $project_types = explode(',', $project_types);
+        $tpl->set('project_types', $project_types);
+        $tpl->display("admin/project/view");
     }
     
     public function add_ajax() {
@@ -63,7 +80,7 @@ class project_controller {
         $paperfilename = $ret2[1];
 
         $result = projects::add($project_id, $title, $type, $description, $maintext, $covername, $limit_time, $paperfilename);
-        return $result ? 'success' : 'fail';
+        return $result ? array('ret' => "success",'info' => $result ) : array("ret"=>"fail", "info" => 'failed!') ;
     }
     
     public function modify_ajax() {

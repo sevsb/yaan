@@ -125,10 +125,13 @@ $(document).ready(function (){
       type: type
     },function (data){
         console.log(data);
-        ret = data.ret;
-        if (ret == 'success'){
-            document.location.href = '?admin/project/index';
+        if(data.ret == 'success'){
+            var id = data.info;
+            document.location.href = '?admin/project/view&muffinid=' + id;
+        }else {
+            alert(data.info);
         }
+        
         
     });
   });
