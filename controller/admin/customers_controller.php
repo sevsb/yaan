@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . "/../app/config.php");
+include_once(dirname(__FILE__) . "/../../config.php");
 
 class customers_controller {
     public function preaction($action) {
