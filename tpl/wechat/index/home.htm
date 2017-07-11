@@ -1,10 +1,10 @@
 <div class="wx_view">
     <div class="wx_col_item">
         <div class="wx_row_item">
-            <img src="{=$user["face"]}" class="img-responsive img-circle wx_headimg">
+            <img src="{:$user['face']}" class="img-responsive img-circle wx_headimg">
         </div>
         <div class="wx_row_item">
-            <p>昵称</p>
+            <p>{:$user["nickname"]}</p>
         </div>
         <div class="wx_row_item">
             <div data-toggle="distpicker">
@@ -14,6 +14,9 @@
                     <select class="selectpicker" data-district=""></select>
                 </div>
             </div>
+        </div>
+        <div class="wx_row_item">
+            <button class="weui_btn"></button>
         </div>
     </div>
     <div class="pull-left user-info">
