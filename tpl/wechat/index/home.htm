@@ -3,7 +3,7 @@
 <script type="text/javascript">
 if (typeof(wx) != 'undefined') {
     wx.config({
-        debug: true, // 如果不需要获取 ticket 成功的 alert 就改成 false
+        debug: false, // 如果不需要获取 ticket 成功的 alert 就改成 false
         appId: '{:$signPackage["appid"]}',
         timestamp: {:$signPackage["timestamp"]},
         nonceStr: '{:$signPackage["noncestr"]}',
