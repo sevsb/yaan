@@ -1,3 +1,10 @@
+var __log = function(msg) {
+    msg = JSON.stringify(msg); 
+    var m = $("#log").html();
+    m += "\n" + msg;
+    $("#log").html(m);
+}
+
 var cityname = function(latitude, longitude, callback) {
     $.ajax({
         url: 'http://api.map.baidu.com/geocoder/v2/?ak=FC59832a054d293f6e744b35b40c3ef8&callback=renderReverse&location=' + latitude + ',' + longitude + '&output=json&pois=1',
@@ -5,8 +12,6 @@ var cityname = function(latitude, longitude, callback) {
         dataType: "jsonp",
         jsonp: "callback",
         success: function (data) {
-            alert(data);
-            console.log(data);
             var province = data.result.addressComponent.province;
             var cityname = data.result.addressComponent.city;
             var district = data.result.addressComponent.district;
@@ -28,40 +33,57 @@ var cityname = function(latitude, longitude, callback) {
 $(document).ready(function() {
     var refresh_cityname = function(data) {
         console.debug(data);
-        alert(data);
+        __log(data);
+        __log(data.province);
+        __log(data.city);
+        __log(data.district);
+
+        $("#province").val(data.province);
+        $("#province").trigger("change");
+        $("#city").val(data.city);
+        $("#city").trigger("change");
+        $("#district").val(data.district);
+        $("#district").trigger("change");
+
+        $("#current-location").html(data.province + data.city + data.district);
+
+        $("#viewtask").trigger("click");
     }
 
     var refresh_location = function(lat, lon) {
         cityname(lat, lon, refresh_cityname);
     }
 
-    wx.ready(function () {
-        wx.getLocation({
-            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-            success: function (res) {
-                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                var speed = res.speed; // 速度，以米/每秒计
-                var accuracy = res.accuracy; // 位置精度
-                // alert(latitude+', '+longitude+', '+speed+', '+accuracy);
-                refresh_location(latitude, longitude);
-            }
-        });
-    });
+    var get_location = function() {
 
-    var latAndLon = function() {
-        var that = this;
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
+        if (typeof(wx) != 'undefined' && isWechatBrowser()) {
+            wx.ready(function () {
+                wx.getLocation({
+                    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                    success: function (res) {
+                        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                        var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                        var speed = res.speed; // 速度，以米/每秒计
+                        var accuracy = res.accuracy; // 位置精度
+                        alert(latitude+', '+longitude+', '+speed+', '+accuracy);
+                        refresh_location(latitude, longitude);
+                    }
+                });
+            });
+        } else if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                console.debug(position);
                 var latitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
-                // alert(latitude+', '+longitude); // 36.1958, 120.5155
+                alert(latitude+', '+longitude); // 36.1958, 120.5155
                 refresh_location(latitude, longitude);
-            }, function () {
+            }, function (error) {
+                console.debug(error);
+                show_my_tasks();
             });
         }
     };
-    latAndLon();
+    get_location();
 
     $("#distpicker").distpicker('destroy');
     $("#distpicker").distpicker({
@@ -69,87 +91,84 @@ $(document).ready(function() {
         city: '城市名',
         district: '区名',
         autoSelect: true,
-        placeholder: false
+        placeholder: false, 
     });
 
     var tasks = new Vue({
         el: '#taskinfos',
         data: {
-            showmytasks: false,
             showtasklist: false,
             showtaskinfo: false,
             viewtaskkey: 0,
             tasks: null,
-            mytasks: null,
         },
         methods: {
             viewTask: function(event) {
                 var target = event.currentTarget;
                 var taskkey = $(target).attr("taskkey");
-                console.debug(target);
 
-                tasks.taskinfo= tasks.tasks[taskkey];
+                tasks.taskinfo = tasks.tasks[taskkey];
                 tasks.viewtaskkey = taskkey;
-                tasks.showmytasks = false;
                 tasks.showtasklist = false;
                 tasks.showtaskinfo = true;
             },
             accept: function(event) {
                 var tid = tasks.tasks[tasks.viewtaskkey].id;
-                console.debug(tid);
+                // console.debug(tid);
                 __request("wechat.api.accept", { task: tid }, function(data) {
-                    console.debug(data);
+                    // console.debug(data);
                     tasks.tasks = data;
                 });
             },
             gosheet: function(event) {
                 var tid = tasks.tasks[tasks.viewtaskkey].id;
                 go("wechat/index/sheet", { task: tid });
+            },
+            goback: function(event) {
+                tasks.showtasklist = true;
+                tasks.showtaskinfo = false;
             }
         }
     });
 
 
     $("#viewtask").click(function() {
-        var province_code = $('#province').val();
-        var city_code = $('#city').val();
-        var district_code = $('#district').val();
-        var provinces = $("#distpicker").distpicker('getDistricts');
-        var citys = $("#distpicker").distpicker('getDistricts', province_code);
-        var districts = $("#distpicker").distpicker('getDistricts', city_code);
-        var loc = new Object();
-        var provice = new Object();
-        var city = new Object();
-        var district = new Object();
-
-        provice.code = province_code;
-        provice.title = provinces[province_code];
-        city.code = city_code;
-        city.title = citys[city_code];
-        district.code = district_code;
-        district.title = districts[district_code];
-        loc.provice = provice;
-        loc.city = city;
-        loc.district = district;
+        var province = $('#province').val();
+        var city = $('#city').val();
+        var district = $('#district').val();
+        var loc = {
+            province: province,
+            city: city,
+            district: district
+        };
         loc = JSON.stringify(loc); 
 
         __request("wechat.api.tasks", { loc: loc }, function(data) {
-            console.debug(data);
+            // console.debug(data);
             tasks.tasks = data;
-            tasks.showmytasks = true;
             tasks.showtasklist = true;
             tasks.showtaskinfo = false;
         });
     });
 
-    __request("wechat.api.mytasks", {}, function(data) {
-        console.debug(data);
-        tasks.mytasks = data;
-        tasks.showmytasks = true;
-        tasks.showtasklist = false;
-        tasks.showtaskinfo = false;
-    });
+    var show_my_tasks = function() {
+        var province = "";
+        var city = "";
+        var district = "";
+        var loc = {
+            province: province,
+            city: city,
+            district: district
+        };
+        loc = JSON.stringify(loc); 
 
+        __request("wechat.api.tasks", { loc: loc }, function(data) {
+            // console.debug(data);
+            tasks.tasks = data;
+            tasks.showtasklist = true;
+            tasks.showtaskinfo = false;
+        });
+    };
 
 });
 

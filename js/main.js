@@ -155,7 +155,10 @@ function __file_upload(obj, success, fail, extra) {
     reader.readAsDataURL(file);
 }
 
-
+function isWechatBrowser(){ 
+    var ua = window.navigator.userAgent.toLowerCase(); 
+    return (ua.match(/MicroMessenger/i) == 'micromessenger');
+} 
 
 
 
