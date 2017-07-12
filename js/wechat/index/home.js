@@ -7,7 +7,7 @@ var __log = function(msg) {
 
 var cityname = function(latitude, longitude, callback) {
     $.ajax({
-        url: 'http://api.map.baidu.com/geocoder/v2/?ak=FC59832a054d293f6e744b35b40c3ef8&callback=renderReverse&location=' + latitude + ',' + longitude + '&output=json&pois=1',
+        url: 'http://api.map.baidu.com/geocoder/v2/?ak=fqiHuU0wMsAxwzQfphk0PvLdrLB3flrZ&callback=renderReverse&location=' + latitude + ',' + longitude + '&output=json&pois=1',
         type: "get",
         dataType: "jsonp",
         jsonp: "callback",
@@ -65,7 +65,7 @@ $(document).ready(function() {
                         var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
                         var speed = res.speed; // 速度，以米/每秒计
                         var accuracy = res.accuracy; // 位置精度
-                        alert(latitude+', '+longitude+', '+speed+', '+accuracy);
+                        // alert(latitude+', '+longitude+', '+speed+', '+accuracy);
                         refresh_location(latitude, longitude);
                     }
                 });
@@ -75,7 +75,7 @@ $(document).ready(function() {
                 console.debug(position);
                 var latitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
-                alert(latitude+', '+longitude); // 36.1958, 120.5155
+                // alert(latitude+', '+longitude); // 36.1958, 120.5155
                 refresh_location(latitude, longitude);
             }, function (error) {
                 console.debug(error);
