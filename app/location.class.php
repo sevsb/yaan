@@ -44,7 +44,7 @@ class location {
 
     public function location($summary) {
         $arr = json_decode($summary, true);
-        $this->mProvince = new location_node($arr["province"]);
+        $this->mProvince = new location_node($arr["provice"]);
         $this->mCity = new location_node($arr["city"]);
         $this->mDistrict = new location_node($arr["district"]);
     }

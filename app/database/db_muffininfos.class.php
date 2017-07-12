@@ -51,6 +51,12 @@ class db_muffininfos extends database {
         return $this->delete(TABLE_MUFFININFOS, "muffinid = '$id'");
     }
     
+    public function update_wechat_userid($id, $weid) {
+        $id = (int)$id;
+        $weid = (int)$weid;
+        return $this->update(TABLE_MUFFININFOS, array("wechat_userid" => $weid), "id = $id");
+    }
+
 };
 
 

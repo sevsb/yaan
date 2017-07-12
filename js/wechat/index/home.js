@@ -8,6 +8,37 @@ $(document).ready(function() {
         placeholder: false
     });
 
+    var tasks = new Vue({
+        el: '#taskinfos',
+        data: {
+            showtasklist: false,
+            showtaskinfo: false,
+            viewtaskkey: 0,
+            tasks: null,
+        },
+        methods: {
+            viewTask: function(event) {
+                var target = event.currentTarget;
+                var taskkey = $(target).attr("taskkey");
+                console.debug(target);
+
+                tasks.taskinfo= tasks.tasks[taskkey];
+                tasks.viewtaskkey = taskkey;
+                tasks.showtasklist = false;
+                tasks.showtaskinfo = true;
+            },
+            accept: function(event) {
+                var tid = tasks.tasks[tasks.viewtaskkey].id;
+                console.debug(tid);
+                __request("wechat.api.accept", { task: tid }, function(data) {
+                    console.debug(data);
+                    tasks.tasks = data;
+                });
+            }
+        }
+    });
+
+
     $("#viewtask").click(function() {
         var province_code = $('#province').val();
         var city_code = $('#city').val();
@@ -31,10 +62,16 @@ $(document).ready(function() {
         loc.district = district;
         loc = JSON.stringify(loc); 
 
-        var url = "?wechat/api/tasks&loc=" + loc;
-        document.location.href = url;
-
+        __request("wechat.api.tasks", { loc: loc }, function(data) {
+            console.debug(data);
+            tasks.tasks = data;
+            tasks.showtasklist = true;
+            tasks.showtaskinfo = false;
+        });
     });
+
+
+
 });
 
 
