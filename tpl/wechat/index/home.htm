@@ -22,16 +22,35 @@
         </div>
     </div>
     <div id="taskinfos">
-        <div id="tasks" class="clear flex-wrap flex-row" v-if="showtasklist">
-            <div class="task flex-item flex-wrap flex-col" v-for="(task, taskkey) in tasks" v-bind:taskkey="taskkey" v-on:click="viewTask">
-                <div class="flex-item task-cover"><img v-bind:src="task.cover"></img></div>
-                <div class="flex-item flex-wrap flex-row flex-space-between">
-                    <div class="flex-item task-title">{{task.project_title}}</div>
-                    <div class="flex-item task-type">{{task.type}}</div>
+        <div class="tasks" class="clear flex-wrap flex-col" v-if="showmytasks">
+            <div class="flex-item">已接受任务</div>
+            <div class="flex-item flex-wrap flex-row">
+                <div class="task flex-item flex-wrap flex-col" v-for="(task, taskkey) in mytasks" v-bind:taskkey="taskkey" v-on:click="viewTask">
+                    <div class="flex-item task-cover"><img v-bind:src="task.cover"></img></div>
+                    <div class="flex-item flex-wrap flex-row flex-space-between">
+                        <div class="flex-item task-title">{{task.project_title}}</div>
+                        <div class="flex-item task-type">{{task.type}}</div>
+                    </div>
+                    <div class="flex-item task-projectid">编号：{{task.projectid}}</div>
+                    <div class="flex-item task-address">地址：{{task.address}}</div>
+                    <div class="flex-item task-deadline">期限：{{task.deadline}}</div>
                 </div>
-                <div class="flex-item task-projectid">编号：{{task.projectid}}</div>
-                <div class="flex-item task-address">地址：{{task.address}}</div>
-                <div class="flex-item task-deadline">期限：{{task.deadline}}</div>
+            </div>
+        </div>
+
+        <div class="tasks" class="clear flex-wrap flex-col" v-if="showtasklist">
+            <div class="flex-item">本区域任务</div>
+            <div class="flex-item flex-wrap flex-row">
+                <div class="task flex-item flex-wrap flex-col" v-for="(task, taskkey) in tasks" v-bind:taskkey="taskkey" v-on:click="viewTask">
+                    <div class="flex-item task-cover"><img v-bind:src="task.cover"></img></div>
+                    <div class="flex-item flex-wrap flex-row flex-space-between">
+                        <div class="flex-item task-title">{{task.project_title}}</div>
+                        <div class="flex-item task-type">{{task.type}}</div>
+                    </div>
+                    <div class="flex-item task-projectid">编号：{{task.projectid}}</div>
+                    <div class="flex-item task-address">地址：{{task.address}}</div>
+                    <div class="flex-item task-deadline">期限：{{task.deadline}}</div>
+                </div>
             </div>
         </div>
         <div id="task-info" class="clear" v-if="showtaskinfo">

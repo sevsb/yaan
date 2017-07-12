@@ -11,10 +11,12 @@ $(document).ready(function() {
     var tasks = new Vue({
         el: '#taskinfos',
         data: {
+            showmytasks: false,
             showtasklist: false,
             showtaskinfo: false,
             viewtaskkey: 0,
             tasks: null,
+            mytasks: null,
         },
         methods: {
             viewTask: function(event) {
@@ -24,6 +26,7 @@ $(document).ready(function() {
 
                 tasks.taskinfo= tasks.tasks[taskkey];
                 tasks.viewtaskkey = taskkey;
+                tasks.showmytasks = false;
                 tasks.showtasklist = false;
                 tasks.showtaskinfo = true;
             },
@@ -69,11 +72,19 @@ $(document).ready(function() {
         __request("wechat.api.tasks", { loc: loc }, function(data) {
             console.debug(data);
             tasks.tasks = data;
+            tasks.showmytasks = true;
             tasks.showtasklist = true;
             tasks.showtaskinfo = false;
         });
     });
 
+    __request("wechat.api.mytasks", {}, function(data) {
+        console.debug(data);
+        tasks.mytasks = data;
+        tasks.showmytasks = true;
+        tasks.showtasklist = false;
+        tasks.showtaskinfo = false;
+    });
 
 
 });
