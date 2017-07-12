@@ -31,12 +31,6 @@
   overflow: hidden;
 }
 
-.card_img {
-  /* 现在在生成card时候判断 */
-  /* 横版照片 max-height: 100%; */
-  /* 竖版照片 max-width: 100%; */
-}
-
 .card_footer {
   display: flex;
   display: -webkit-flex;
