@@ -8,6 +8,8 @@ class index_controller {
 
         $tpl = new tpl("wechat/header", "wechat/footer");
         $tpl->set("user", $user);
+        $signPackage = WXApi::inst()->get_SignPackage();
+        $tpl->set('signPackage', $signPackage);
         $tpl->display("wechat/index/home");
     }
 

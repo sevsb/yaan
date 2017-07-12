@@ -1,3 +1,29 @@
+<!-- FIXME: 这里先这样写，获取全部接口。以后考再虑是否要每次都获取全部的接口功能，把这段代码移动到header.htm中 -->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+    wx.config({
+        debug: true, // 如果不需要获取 ticket 成功的 alert 就改成 false
+        appId: '{:$signPackage["appid"]}',
+        timestamp: {:$signPackage["timestamp"]},
+        nonceStr: '{:$signPackage["noncestr"]}',
+        signature: '{:$signPackage["signature"]}',
+        jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
+                'onMenuShareAppMessage', 'onMenuShareQQ',
+                'onMenuShareWeibo', 'hideMenuItems',
+                'showMenuItems', 'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem', 'translateVoice',
+                'startRecord', 'stopRecord', 'onRecordEnd',
+                'playVoice', 'pauseVoice', 'stopVoice',
+                'uploadVoice', 'downloadVoice', 'chooseImage',
+                'previewImage', 'uploadImage', 'downloadImage',
+                'getNetworkType', 'openLocation', 'getLocation',
+                'hideOptionMenu', 'showOptionMenu', 'closeWindow',
+                'scanQRCode', 'chooseWXPay',
+                'openProductSpecificView', 'addCard', 'chooseCard',
+                'openCard' ]
+    });
+</script>
+
 <div class="wx_view">
     <div class="wx_col_item">
         <div class="wx_row_item">
