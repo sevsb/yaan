@@ -4,7 +4,7 @@ $(document).ready(function() {
         $('.navbar_bottom').on('click', function() {
             wx.chooseImage({
                 count: 1, // 默认9
-                sizeType: ['original', 'compressed'], // ['original', 'compressed'] 可以指定是原图还是压缩图，默认二者都有
+                sizeType: ['original'], // ['original', 'compressed'] 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // ['album', 'camera'] 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
@@ -22,10 +22,16 @@ $(document).ready(function() {
  */
 function addPhoto(data) {
     var cardNumber = new Date();
+    // 制作卡片元素
     var cardObject =  '<div class="card" id="card_'+cardNumber+'">';
         cardObject += '    <div class="card_body">';
-        // TODO: 为了更好的显示竖版照片，应该在这里比较图片的长宽值，然后选择应该是max-height或者max-width
-        cardObject += '        <img class="card_img" src="'+data+'">';
+        // 判断照片为横版或竖版，并选择合适的样式
+        if(isVerticalPhoto(data)) {
+            imgStyle = 'style="max-width: 100%;"';
+        } else {
+            imgStyle = 'style="max-height: 100%;"';
+        }
+        cardObject += '        <img class="card_img" src="'+data+'" '+imgStyle+'>';
         cardObject += '    </div>';
         cardObject += '    <div class="card_footer dropup" >';
         cardObject += '        <div class="card_title">这放八个字比较好...</div>';
@@ -40,10 +46,25 @@ function addPhoto(data) {
         cardObject += '</div>';
     $('#card_book').append(cardObject);
 
-    // 为新添的元素绑定删除事件
+    // 为新添的卡片元素绑定删除事件
     $('.delete_btn').on('click', function() {
         var number = $(this).attr('number')
         removePhoto(number);
+    });
+}
+
+/** 
+ * 判断是否是竖版照片
+ * @param src 被判断的照片地址
+ * @return Boolean 高大于宽时候返回 true
+ */
+function isVerticalPhoto(src) {
+    $('<img/>').attr('src', src).load(function() {
+        if(this.height > this.width) {
+            return true;
+        } else {
+            return false;
+        }
     });
 }
 
