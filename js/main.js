@@ -14,6 +14,16 @@ function get_url_path() {
     return url_arr[0];
 }
 
+function go(path, data) {
+    path = path.replace(new RegExp(/\//g), ".");
+    var url = "?action=" + path;
+    for (var k in data) {
+        url += "&" + k + "=" + data[k];
+    }
+    console.debug(url);
+    document.location.href = url;
+}
+
 function __ajax(action, data, success, fail, message_on_success) {
     $.ajax({
         url: "ajax.php?action=" + action,

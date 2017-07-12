@@ -34,10 +34,11 @@ class api_controller {
 
         $tasks = array();
         foreach ($res as $k => $info) {
+            $project = $info["project"];
             if ($project["limit_time"] < time()) {
                 // continue;
             }
-            $project = $info["project"];
+
             $acceptable = empty($info["wechat_userid"]) ? true : false;
             $accepted = ($user["id"] == $info["wechat_userid"]) ? true : false;
             $deadline = new DateTime("@" . $project["limit_time"]);
@@ -58,7 +59,7 @@ class api_controller {
                 "accepted" => $accepted,
             );
         }
-        logging::d("Debug", $tasks);
+        // logging::d("Debug", $tasks);
         echo json_encode($tasks);
     }
 

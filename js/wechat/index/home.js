@@ -34,6 +34,10 @@ $(document).ready(function() {
                     console.debug(data);
                     tasks.tasks = data;
                 });
+            },
+            gosheet: function(event) {
+                var tid = tasks.tasks[tasks.viewtaskkey].id;
+                go("wechat/index/sheet", { task: tid });
             }
         }
     });

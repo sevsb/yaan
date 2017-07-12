@@ -48,7 +48,7 @@
                 <div class="flex-item task-deadline">期限：{{tasks[viewtaskkey].deadline}}</div>
                 <div class="flex-item flex-wrap flex-row flex-space-around">
                     <div class="flex-item task-word" v-if="tasks[viewtaskkey].accepted"><a class="weui_btn weui_btn_inline weui_btn_primary" v-bind:href="tasks[viewtaskkey].word">问卷下载</a></div>
-                    <div class="flex-item task-word" v-if="tasks[viewtaskkey].accepted"><a class="weui_btn weui_btn_inline weui_btn_primary" href="?wechat/index/sheet">提交任务</a></div>
+                    <div class="flex-item task-word" v-if="tasks[viewtaskkey].accepted"><button class="weui_btn weui_btn_inline weui_btn_primary" v-on:click="gosheet">提交任务</button></div>
                 </div>
                 <button class="flex-item weui_btn weui_btn_inline weui_btn_primary" v-on:click="accept" v-if="tasks[viewtaskkey].acceptable">接受任务</button>
             </div>
