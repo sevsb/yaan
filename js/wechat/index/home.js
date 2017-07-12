@@ -1,4 +1,40 @@
+var cityname = function(latitude, longitude, callback) {
+    $.ajax({
+        url: 'http://api.map.baidu.com/geocoder/v2/?ak=FC59832a054d293f6e744b35b40c3ef8&callback=renderReverse&location=' + latitude + ',' + longitude + '&output=json&pois=1',
+        type: "get",
+        dataType: "jsonp",
+        jsonp: "callback",
+        success: function (data) {
+            alert(data);
+            console.log(data);
+            var province = data.result.addressComponent.province;
+            var cityname = data.result.addressComponent.city;
+            var district = data.result.addressComponent.district;
+            var street = data.result.addressComponent.street;
+            var street_number = data.result.addressComponent.street_number;
+            var formatted_address = data.result.formatted_address;
+            var data = {
+                province: province,
+                city: cityname,
+                district: district,
+            };
+            if (typeof callback == "function") {
+                callback(data);
+            }
+        }
+    });
+}
+
 $(document).ready(function() {
+    var refresh_cityname = function(data) {
+        console.debug(data);
+        alert(data);
+    }
+
+    var refresh_location = function(lat, lon) {
+        cityname(lat, lon, refresh_cityname);
+    }
+
     wx.ready(function () {
         wx.getLocation({
             type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
@@ -7,10 +43,25 @@ $(document).ready(function() {
                 var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
                 var speed = res.speed; // 速度，以米/每秒计
                 var accuracy = res.accuracy; // 位置精度
-                alert(latitude+', '+longitude+', '+speed+', '+accuracy);
+                // alert(latitude+', '+longitude+', '+speed+', '+accuracy);
+                refresh_location(latitude, longitude);
             }
         });
     });
+
+    var latAndLon = function() {
+        var that = this;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                // alert(latitude+', '+longitude); // 36.1958, 120.5155
+                refresh_location(latitude, longitude);
+            }, function () {
+            });
+        }
+    };
+    latAndLon();
 
     $("#distpicker").distpicker('destroy');
     $("#distpicker").distpicker({
