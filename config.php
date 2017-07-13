@@ -25,6 +25,8 @@ include_once(dirname(__FILE__) . "/app/customers.class.php");
 include_once(dirname(__FILE__) . "/app/login.class.php");
 include_once(dirname(__FILE__) . "/app/sheet.class.php");
 include_once(dirname(__FILE__) . "/app/location.class.php");
+include_once(dirname(__FILE__) . "/app/question.class.php");
+include_once(dirname(__FILE__) . "/app/answer.class.php");
 include_once(FRAMEWORK_PATH . "/helper.php");
 include_once(FRAMEWORK_PATH . "/logging.php");
 include_once(FRAMEWORK_PATH . "/tpl.php");
