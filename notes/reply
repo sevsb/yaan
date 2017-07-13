@@ -3,10 +3,19 @@
 {
     "type": question::TYPE_WORD,
     "data": {
-        "files": {[
-            "xxxxxxx.png",
-            "xxxxxxx.jpg",
-        ]}
+        "imgList": [
+            {
+                "imgUrl": "xxxxxx.png",
+                "imgLocation": "latitude, longitude, accuracy", /* 纬、经、精度 */
+                "imgContent": "XXXXXX",
+            },
+            ...
+            {
+                "imgUrl": "xxxxxx.png",
+                "imgLocation": "latitude, longitude, accuracy",
+                "imgContent": "XXXXXX",
+            }
+        ],
     }
 }
 
