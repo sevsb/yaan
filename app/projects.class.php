@@ -49,6 +49,11 @@ class projects {
         $ret = date('Y-m-d', $lmt_time);
         return $ret;
     }
+    public function deadline() {
+        $deadline = new DateTime("@" . $this->limit_time());
+        $deadline = $deadline->format("Y-m-d");
+        return $deadline;
+    }
     public function paperfile() {
         return $this->summary("paperfile");
     }
@@ -142,6 +147,19 @@ class projects {
         return $result_array;
     }
 
+    public function pack_info() {
+        return array(
+            "id" => $this->id(),
+            "projectid" => $this->project_id(),
+            "type" => $this->type(),
+            "title" => $this->title(),
+            "text" => $this->text(),
+            "word" => $this->paperfile(),
+            "status" => $this->status(),
+            "deadline" => $this->deadline(),
+            "cover" => $this->cover_url(),
+        );
+    }
 }
 
 ?>

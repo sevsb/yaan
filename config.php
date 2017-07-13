@@ -23,6 +23,8 @@ include_once(dirname(__FILE__) . "/app/projects.class.php");
 include_once(dirname(__FILE__) . "/app/tasks.class.php");
 include_once(dirname(__FILE__) . "/app/customers.class.php");
 include_once(dirname(__FILE__) . "/app/login.class.php");
+include_once(dirname(__FILE__) . "/app/sheet.class.php");
+include_once(dirname(__FILE__) . "/app/location.class.php");
 include_once(FRAMEWORK_PATH . "/helper.php");
 include_once(FRAMEWORK_PATH . "/logging.php");
 include_once(FRAMEWORK_PATH . "/tpl.php");

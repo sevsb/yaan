@@ -51,5 +51,11 @@ class sheet {
         }
         return $arr;
     }
+
+    public function pack_info() {
+        return array("info" => array("status" => 0),
+            "project" => $this->project()->pack_info(),
+            "task" => $this->task()->pack_info());
+    }
 };
 
