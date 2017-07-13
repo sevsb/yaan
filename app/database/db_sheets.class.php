@@ -23,7 +23,7 @@ class db_sheets extends database {
     }
 
     public function load_all() {
-        return $this->get_all_table(TABLE_SETTINGS);
+        return $this->get_all_table(TABLE_SHEETS);
     }
 
 };

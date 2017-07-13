@@ -1,3 +1,31 @@
+<!-- FIXME: 这里先这样写，获取全部接口。以后考再虑是否要每次都获取全部的接口功能，把这段代码移动到header.htm中 -->
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+if (typeof(wx) != 'undefined') {
+    wx.config({
+        debug: false, // 如果不需要获取 ticket 成功的 alert 就改成 false
+        appId: '{:$signPackage["appid"]}',
+        timestamp: {:$signPackage["timestamp"]},
+        nonceStr: '{:$signPackage["noncestr"]}',
+        signature: '{:$signPackage["signature"]}',
+        jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
+                'onMenuShareAppMessage', 'onMenuShareQQ',
+                'onMenuShareWeibo', 'hideMenuItems',
+                'showMenuItems', 'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem', 'translateVoice',
+                'startRecord', 'stopRecord', 'onRecordEnd',
+                'playVoice', 'pauseVoice', 'stopVoice',
+                'uploadVoice', 'downloadVoice', 'chooseImage',
+                'previewImage', 'uploadImage', 'downloadImage',
+                'getNetworkType', 'openLocation', 'getLocation',
+                'hideOptionMenu', 'showOptionMenu', 'closeWindow',
+                'scanQRCode', 'chooseWXPay',
+                'openProductSpecificView', 'addCard', 'chooseCard',
+                'openCard' ]
+    });
+}
+</script>
+
 <div class="wx_view">
     <div class="wx_col_item">
         <div class="wx_row_item">
@@ -7,9 +35,67 @@
             <p>{:$user["nickname"]}</p>
         </div>
         <div class="wx_row_item">
-            <div data-toggle="distpicker">
+            <div>当前位置：<span id="current-location"></span></div>
+        </div>
+    </div>
+    <div id="taskinfos">
+        <div class="tasks" class="clear flex-wrap flex-col" v-if="showtasklist">
+            <div class="flex-item">已接受任务：</div>
+            <div class="flex-item flex-wrap flex-row">
+                <div class="task flex-item flex-wrap flex-col" v-for="(task, taskkey) in tasks" v-bind:taskkey="taskkey" v-on:click="viewTask" v-if="task.accepted">
+                    <div class="flex-item task-cover"><img v-bind:src="task.cover" /></div>
+                    <div class="flex-item flex-wrap flex-row flex-space-between">
+                        <div class="flex-item task-title">{{task.project_title}}</div>
+                        <div class="flex-item task-type">{{task.type}}</div>
+                    </div>
+                    <div class="flex-item task-projectid">编号：{{task.projectid}}</div>
+                    <div class="flex-item task-address">地址：{{task.address}}</div>
+                    <div class="flex-item task-deadline">期限：{{task.deadline}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tasks" class="clear flex-wrap flex-col" v-if="showtasklist">
+            <div class="flex-item">本区域任务：</div>
+            <div class="flex-item flex-wrap flex-row">
+                <div class="task flex-item flex-wrap flex-col" v-for="(task, taskkey) in tasks" v-bind:taskkey="taskkey" v-on:click="viewTask" v-if="!task.accepted">
+                    <div class="flex-item task-cover"><img v-bind:src="task.cover"/ ></div>
+                    <div class="flex-item flex-wrap flex-row flex-space-between">
+                        <div class="flex-item task-title">{{task.project_title}}</div>
+                        <div class="flex-item task-type">{{task.type}}</div>
+                    </div>
+                    <div class="flex-item task-projectid">编号：{{task.projectid}}</div>
+                    <div class="flex-item task-address">地址：{{task.address}}</div>
+                    <div class="flex-item task-deadline">期限：{{task.deadline}}</div>
+                </div>
+            </div>
+        </div>
+        <div id="task-info" class="clear" v-if="showtaskinfo">
+            <div class="task flex-item flex-wrap flex-col">
+                <div class="flex-item task-cover"><img v-bind:src="tasks[viewtaskkey].cover" /></div>
+                <div class="flex-item flex-wrap flex-row flex-space-between">
+                    <div class="flex-item task-title">{{tasks[viewtaskkey].project_title}}</div>
+                    <div class="flex-item task-type">{{tasks[viewtaskkey].type}}</div>
+                </div>
+                <div class="flex-item task-projectid">编号：{{tasks[viewtaskkey].projectid}}</div>
+                <div class="flex-item task-address">地址：{{tasks[viewtaskkey].address}}</div>
+                <div class="flex-item task-content">描述：{{tasks[viewtaskkey].content}}</div>
+                <div class="flex-item task-text">详情：{{tasks[viewtaskkey].text}}</div>
+                <div class="flex-item task-deadline">期限：{{tasks[viewtaskkey].deadline}}</div>
+                <div class="flex-item flex-wrap flex-row flex-space-around">
+                    <div class="flex-item task-word" v-if="tasks[viewtaskkey].accepted"><a class="weui_btn weui_btn_inline weui_btn_primary" v-bind:href="tasks[viewtaskkey].word">问卷下载</a></div>
+                    <div class="flex-item task-word" v-if="tasks[viewtaskkey].accepted"><button class="weui_btn weui_btn_inline weui_btn_primary" v-on:click="gosheet">提交任务</button></div>
+                </div>
+                <button class="flex-item weui_btn weui_btn_inline weui_btn_primary" v-on:click="accept" v-if="tasks[viewtaskkey].acceptable">接受任务</button>
+            </div>
+            <button id="goback" class="flex-item weui_btn weui_btn_primary" v-on:click="goback">返回</button>
+        </div>
+    </div>
+    <div id="relocation" class="hidden">
+        <div class="wx_row_item">
+            <div data-toggle="!distpicker">
                 <div class="wx_row_item" style="flex-wrap: wrap;">
-                    <div data-toggle="distpicker" id='distpicker'  data-value-type="code">
+                    <div data-toggle="distpicker" id='distpicker' >
                         <select id='province' class="selectpicker" data-province=""></select>
                         <select id='city' class="selectpicker" data-city=""></select>
                         <select id='district' class="selectpicker" data-district=""></select>
@@ -21,6 +107,10 @@
             <button id="viewtask" class="weui_btn weui_btn_primary">查看任务</button>
         </div>
     </div>
-    <div class="pull-left user-info">
+
+    <div>
+        <pre id="log">
+        </pre>
     </div>
 </div>
+

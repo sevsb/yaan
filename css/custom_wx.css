@@ -1,5 +1,5 @@
 body {
-  background-color: #bbb;
+  background-color: #eee;
 }
 
 .wx_view {
@@ -26,6 +26,4 @@ body {
   align-items: center;
 }
 
-.wx_headimg {
-  max-width: 30%;
-}
+

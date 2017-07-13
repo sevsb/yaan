@@ -12,6 +12,8 @@ include_once(dirname(__FILE__) . "/app/database/db_muffininfos.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_muffins.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_wechatusers.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_sheets.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_papers.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_questions.class.php");
 include_once(dirname(__FILE__) . "/app/user.class.php");
 include_once(dirname(__FILE__) . "/app/upload.php");
 include_once(dirname(__FILE__) . "/app/thumbnail.php");

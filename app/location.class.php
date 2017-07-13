@@ -8,8 +8,13 @@ class location_node {
     // private $lcs = null;
 
     public function location_node($summary) {
-        $this->mCode = $summary["code"];
-        $this->mTitle = $summary["title"];
+        if (is_array($summary)) {
+            $this->mCode = $summary["code"];
+            $this->mTitle = $summary["title"];
+        } else {
+            $this->mCode = 0;
+            $this->mTitle = $summary;
+        }
         // $this->lcs = new LCS();
     }
 
@@ -22,7 +27,8 @@ class location_node {
     }
 
     public function equals($o) {
-        return ($this->code() == $o->code());
+        return ($this->title() == $o->title());
+        // return ($this->code() == $o->code());
         /*
         if ($this->code() == $o->code()) {
             return true;
@@ -44,7 +50,11 @@ class location {
 
     public function location($summary) {
         $arr = json_decode($summary, true);
-        $this->mProvince = new location_node($arr["province"]);
+        if (isset($arr["province"])) {
+            $this->mProvince = new location_node($arr["province"]);
+        } else {
+            $this->mProvince = new location_node($arr["provice"]);
+        }
         $this->mCity = new location_node($arr["city"]);
         $this->mDistrict = new location_node($arr["district"]);
     }

@@ -73,7 +73,11 @@ class tasks {
         if (!$new_muffin_id) {
             return false;
         }
-        $task_ret = db_muffininfos::inst()->add_task($new_muffin_id, $title, $content, $address, $location);
+        $paperid = db_papers::inst()->add_word_paper($title);
+        if ($paperid === false) {
+            $paperid = 0;
+        }
+        $task_ret = db_muffininfos::inst()->add_task($new_muffin_id, $title, $content, $address, $location, $paperid);
         if (!$task_ret) {
             return false;
         }

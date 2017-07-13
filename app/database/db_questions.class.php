@@ -6,6 +6,8 @@ include_once(FRAMEWORK_PATH . "cache.php");
 include_once(FRAMEWORK_PATH . "database.php");
 
 class db_questions extends database {
+    const TYPE_WORD = 0;
+
     private static $instance = null;
     public static function inst() {
         if (self::$instance == null)
@@ -23,7 +25,7 @@ class db_questions extends database {
     }
 
     public function load_all() {
-        return $this->get_all_table(TABLE_SETTINGS);
+        return $this->get_all_table(TABLE_QUESTIONS);
     }
 
 };
