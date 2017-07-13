@@ -1,7 +1,7 @@
 $(document).ready(function() {
     wx.ready(function () {
         // 点击底边栏的拍照功能，添加照片
-        $('.navbar_bottom').on('click', function() {
+        $('.#add_img').on('click', function() {
             wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['original'], // ['original', 'compressed'] 可以指定是原图还是压缩图，默认二者都有
@@ -14,6 +14,7 @@ $(document).ready(function() {
                     addPhoto(data);
                 }
             });
+            $('#add_photo_modal').modal('show');
         });
     });
 });

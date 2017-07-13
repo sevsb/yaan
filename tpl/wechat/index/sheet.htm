@@ -1,27 +1,27 @@
 <!-- FIXME: 这里先这样写，获取全部接口。以后考再虑是否要每次都获取全部的接口功能，把这段代码移动到header.htm中 -->
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
-    wx.config({
-        debug: true,
-        appId: '{:$signPackage["appid"]}',
-        timestamp: {:$signPackage["timestamp"]},
-        nonceStr: '{:$signPackage["noncestr"]}',
-        signature: '{:$signPackage["signature"]}',
-        jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
-                'onMenuShareAppMessage', 'onMenuShareQQ',
-                'onMenuShareWeibo', 'hideMenuItems',
-                'showMenuItems', 'hideAllNonBaseMenuItem',
-                'showAllNonBaseMenuItem', 'translateVoice',
-                'startRecord', 'stopRecord', 'onRecordEnd',
-                'playVoice', 'pauseVoice', 'stopVoice',
-                'uploadVoice', 'downloadVoice', 'chooseImage',
-                'previewImage', 'uploadImage', 'downloadImage',
-                'getNetworkType', 'openLocation', 'getLocation',
-                'hideOptionMenu', 'showOptionMenu', 'closeWindow',
-                'scanQRCode', 'chooseWXPay',
-                'openProductSpecificView', 'addCard', 'chooseCard',
-                'openCard' ]
-    });
+    // wx.config({
+    //     debug: true,
+    //     appId: '{:$signPackage["appid"]}',
+    //     timestamp: {:$signPackage["timestamp"]},
+    //     nonceStr: '{:$signPackage["noncestr"]}',
+    //     signature: '{:$signPackage["signature"]}',
+    //     jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
+    //             'onMenuShareAppMessage', 'onMenuShareQQ',
+    //             'onMenuShareWeibo', 'hideMenuItems',
+    //             'showMenuItems', 'hideAllNonBaseMenuItem',
+    //             'showAllNonBaseMenuItem', 'translateVoice',
+    //             'startRecord', 'stopRecord', 'onRecordEnd',
+    //             'playVoice', 'pauseVoice', 'stopVoice',
+    //             'uploadVoice', 'downloadVoice', 'chooseImage',
+    //             'previewImage', 'uploadImage', 'downloadImage',
+    //             'getNetworkType', 'openLocation', 'getLocation',
+    //             'hideOptionMenu', 'showOptionMenu', 'closeWindow',
+    //             'scanQRCode', 'chooseWXPay',
+    //             'openProductSpecificView', 'addCard', 'chooseCard',
+    //             'openCard' ]
+    // });
 </script>
 
 <!-- 主体页面 -->
@@ -37,3 +37,23 @@
 <nav class="navbar navbar-default navbar-fixed-bottom navbar_bottom" id="add_img">
     <i class="fa fa-camera" aria-hidden="true"></i>
 </nav>
+
+<!-- 添加卡片提示框 -->
+<!-- FIXME: 现在是混搭布局，需要以后换成flex... -->
+<div class="modal" id="add_photo_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 100%;">
+            <div class="modal-header" style="width: 90%; margin-left: auto; margin-right: auto; padding: 2%;">
+                <strong style="font-size: 20px;">提交图片</strong>
+            </div>
+            <div class="modal-body" style="width: 90%; margin-left: auto; margin-right: auto; padding: 2%; text-align: center;">
+                <img id="add_photo_modal_img" src="[:app]/images/default_images/00.jpg" style="max-width: 40vw; max-height: 30vw; padding-bottom: 2%; margin: 2%;">
+                <input type="text" class="form-control" placeholder="请添加备注">
+            </div>
+            <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
+                <div class="modal-footer-left_btn" id="add_photo_cancel" data-dismiss="modal" style="height: 100%; width: 100%; border-right: 0.5px solid #e5e5e5; padding: 3%">取消</div>
+                <div class="modal-footer-right_btn" id="add_photo_submit" style="height: 100%; width: 100%; border-left: 0.5px solid #e5e5e5; padding: 3%;">提交</div>
+            </div>
+        </div>
+    </div>
+</div>
