@@ -29,7 +29,13 @@ $('.do_new').click(function (){
     var provice = new Object();
     var city = new Object();
     var district = new Object();
-    
+    console.log('province_code:' + province_code);
+    console.log('city_code:' + city_code);
+    console.log('district_code:' + district_code);
+    if (province_code == '' || city_code == '' || district_code == '' ) {
+        alert('请选择区域');
+        return false;
+    }
     provice.code = province_code
     provice.title = provinces[province_code];
     city.code = city_code;
@@ -86,7 +92,13 @@ $('.do_modify').click(function (){
     var provice = new Object();
     var city = new Object();
     var district = new Object();
-    
+    console.log('province_code:' + province_code);
+    console.log('city_code:' + city_code);
+    console.log('district_code:' + district_code);
+    if (province_code == '' || city_code == '' || district_code == '' ) {
+        alert('请选择区域');
+        return false;
+    }
     provice.code = province_code
     provice.title = provinces[province_code];
     city.code = city_code;
