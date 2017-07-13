@@ -25,6 +25,28 @@ class index_controller {
         $tpl->set('signPackage', $signPackage);
         $tpl->display("wechat/index/sheet");
     }
+
+    public function add_photo_ajax() {
+        $photo = get_request('photo');
+
+        $photoName = null;
+
+        if (substr($photo, 0, 5) == "data:") {
+            $ret = uploadImageViaFileReader($photo, function($photoName) {
+                return $photoName;
+            });
+            logging::e("uploadImage-ret", $ret);
+            if (strncmp($ret, "fail|", 5) == 0) {
+                return $ret;
+            }
+            $photoName = $ret;
+        }else {
+            $photoName = explode('/', $photo);
+            $photoName = end($photoName);
+        }
+
+        return $photoName;
+    }
 }
 
 ?>
