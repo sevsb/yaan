@@ -40,6 +40,12 @@ class tasks {
     public function location() {
         return $this->summary("location");
     }
+
+    public function location_obj() {
+        $loc = new location($this->location());
+        return $loc;
+    }
+
     public function address() {
         return $this->summary("address");
     }
@@ -143,6 +149,17 @@ class tasks {
             }       
         }
         return $result_array;
+    }
+
+    public function pack_info() {
+        return array(
+            "id" => $this->id(),
+            "title" => $this->title(),
+            "address" => $this->address(),
+            "content" => $this->content(),
+            "status" => $this->status(),
+            "location" => $this->location_obj()->pack_info(),
+        );
     }
 
 }
