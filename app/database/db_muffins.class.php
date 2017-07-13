@@ -23,6 +23,10 @@ class db_muffins extends database {
         }
     }
 
+    public function get_all_cached() {
+        return $this->get_cached("db:muffins", TABLE_MUFFINS);
+    }
+
     public function get_all_muffins() {
         return $this->get_all_table(TABLE_MUFFINS);
     }
