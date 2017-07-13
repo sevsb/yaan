@@ -1,0 +1,12 @@
+
+
+{
+    "type": question::TYPE_WORD,
+    "data": {
+        "files": {[
+            "xxxxxxx.png",
+            "xxxxxxx.jpg",
+        ]}
+    }
+}
+
