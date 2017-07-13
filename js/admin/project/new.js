@@ -103,16 +103,32 @@ $(document).ready(function (){
     var maintext = $('#text').val();
     var cover = $("#cover_show").attr("src");
     var limit_time = $('#datepicker').val();
-    limit_time = Date.parse(limit_time) / 1000 - 28800;
     
+    console.log("limit_time:" + limit_time);
     console.log("project_id:" + project_id);
     console.log("title:" + title);
     console.log("description:" + description);
     console.log("text:" + maintext);
-    console.log("limit_time:" + limit_time);
+    //console.log("cover:" + cover);
     //console.log("uploadpaperfile:" + uploadfilefileURL);
     //console.log(uploadfilefileURL);
-    
+    if (project_id == '' || title == '' || description == '' || maintext == ''  || limit_time == '' || limit_time == 'NaN') {
+        alert('请完整填写项目信息');
+        return false;
+    }
+    if (type == '' || type == null) {
+        alert('请选择类型');
+        return false;
+    }
+    if (cover == '' || cover == undefined) {
+        alert('请上传封面');
+        return false;
+    }
+    if (uploadfilefileURL == '' ) {
+        alert('请上传试卷文件');
+        return false;
+    }
+    limit_time = Date.parse(limit_time) / 1000 - 28800;
     //return;
     __ajax('admin.project.add',{
       project_id: project_id,
@@ -143,7 +159,23 @@ $(document).ready(function (){
     var cover = $("#cover_show").attr("src");
     var limit_time = $('#datepicker').val();
     var type = $("#dropdownMenu1").html();
-    limit_time = Date.parse(limit_time) / 1000 - 28800;
+    
+    if (project_id == '' || title == '' || description == '' || maintext == ''  || limit_time == '' || limit_time == 'NaN') {
+        alert('请完整填写项目信息');
+        return false;
+    }
+    if (type == '' || type == null) {
+        alert('请选择类型');
+        return false;
+    }
+    if (cover == '' || cover == undefined) {
+        alert('请上传封面');
+        return false;
+    }
+    if (uploadfilefileURL == '' ) {
+        alert('请上传试卷文件');
+        return false;
+    }
     
     console.log("muffinid:" + muffinid);
     console.log("project_id:" + project_id);
@@ -154,8 +186,10 @@ $(document).ready(function (){
     console.log("type:" + type);
     console.log("cover:" + cover);
     //console.log("uploadpaperfile:" + uploadfilefileURL);
-    console.log(uploadfilefileURL);
+    //console.log(uploadfilefileURL);
+        
     
+    limit_time = Date.parse(limit_time) / 1000 - 28800;
     //return;
     __ajax('admin.project.modify',{
       muffinid: muffinid,
