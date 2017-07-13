@@ -23,9 +23,30 @@ class db_answers extends database {
     }
 
     public function load_all() {
-        return $this->get_all_table(TABLE_SETTINGS);
+        return $this->get_all_table(TABLE_ANSWERS);
     }
 
+    public function add_answer($userid, $type, $title, $choice, $reply) {
+        return $this->insert(TABLE_ANSWERS, array("userid" => $userid, "type" => $type, "title" => $title, "choice" => $choice, "reply" => $reply));
+    }
+
+    public function update_answer($id, $userid, $type, $title, $choice, $reply) {
+        $id = (int)$id;
+        return $this->update(TABLE_ANSWERS, array("userid" => $userid, "type" => $type, "title" => $title, "choice" => $choice, "reply" => $reply), "id = $id");
+    }
+
+    public function get_one_answer($id) {
+        $id = (int)$id;
+        return $this->get_one_table(TABLE_ANSWERS, "id = $id");
+    }
+
+    public function get_some_answers($idarr) {
+        foreach ($idarr as $k => $id) {
+            $idarr[$k] = (int)$id;
+        }
+        $where = "id = " . implode(" OR id = ", $idarr);
+        return $this->get_all_table(TABLE_ANSWERS, $where);
+    }
 };
 
 
