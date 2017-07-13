@@ -23,7 +23,11 @@ class db_papers extends database {
     }
 
     public function load_all() {
-        return $this->get_all_table(TABLE_SETTINGS);
+        return $this->get_all_table(TABLE_PAPERS);
+    }
+
+    public function add_word_paper($title) {
+        return $this->insert(TABLE_PAPERS, array("title" => $title));
     }
 
 };

@@ -28,10 +28,6 @@ class db_questions extends database {
         return $this->get_all_table(TABLE_QUESTIONS);
     }
 
-    public function add_word_question($title, $choice) {
-        $type = self::TYPE_WORD;
-        return $this->insert(array("type" => $type, "title" => $title, "choice" => $choice));
-    }
 };
 
 

@@ -73,7 +73,7 @@ class tasks {
         if (!$new_muffin_id) {
             return false;
         }
-        $paperid = db_questions::inst()->add_word_question($title, "");
+        $paperid = db_papers::inst()->add_word_paper($title);
         if ($paperid === false) {
             $paperid = 0;
         }
