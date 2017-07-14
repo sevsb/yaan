@@ -1,12 +1,4 @@
-var Photo = {
-    imgUrl: '',
-    imgContent: '',
-    imgLocation: {
-        latitude: '',
-        longitude: '',
-        accuracy: '',
-    },
-}
+var photosList = [];
 
 $(document).ready(function() {
     wx.ready(function () {
@@ -15,55 +7,53 @@ $(document).ready(function() {
             wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['compressed'], // ['original', 'compressed'] 可以指定是原图还是压缩图，默认二者都有
-                sourceType: [ 'album', 'camera'], // ['album', 'camera'] 可以指定来源是相册还是相机，默认二者都有
+                sourceType: ['camera'], // ['album', 'camera'] 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
-                    var photo = new Photo();
+                    var photo = [];
                     var imgData;
                     var localId = res.localIds[0]; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    // Android 获取的DATA是没有‘data:image/jpeg;base64,’前缀的，iOS 获取的 MIME type 为‘image/jpg’
-                    // 而且菊花的MATE7在 alert 后会死机，需要考虑是否加上  的判断？
-                    if(!window.__wxjs_is_wkwebview) {
-                        alert('只支持水果机的新内核WKWebview');
-                        return;
-                    } else {
-                        wx.getLocalImgData({
-                            localId: localId,
-                            success: function (res) {
-                                imgData = res.localData;
+                    wx.getLocalImgData({
+                        localId: localId,
+                        success: function (res) {
+                            imgData = res.localData;
+                            // 解决 iOS 下 MIME type 为 image/jgp 的问题
+                            imgData = imgData.replace('image/jgp', 'image/jpeg');
+                            // 解决 Android 下缺少 MIME type 的问题
+                            if(imgData.substr(0, 23).search('data:image/jpeg;base64,') < 0){
+                                imgData = 'data:image/jpeg;base64,' + imgData;
                             }
+                        }
+                    });
+                    wx.getLocation({
+                        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                        success: function (res) {
+                            photo['imgLocation'] = [];
+                            photo['imgLocation']['latitude'] = res.latitude;
+                            Photo['imgLocation']['longitude'] = res.longitude;
+                            Photo['imgLocation']['accuracy'] = res.accuracy;
+                        }
+                    });
+                    // 初始化模态框中元素
+                    $('#add_photo_modal_img').attr('src', localId); // img元素中iPhone目前是可以正常显示的
+                    $('#add_photo_modal_img_content').val('');
+                    $('#add_photo_modal').modal('show');
+                    $('#add_photo_submit').on('click', function() {
+                        photo['imgContent'] = $('#add_photo_modal_img_content').val();
+                        // 上传图片
+                        __ajax('wechat.index.updateImg', {
+                        imgData: imgData
+                        }, function (data) {
+                            ret = data.ret;
+                            photo['imgUrl'] = ret;
+                            alert(ret);
                         });
-                        wx.getLocation({
-                            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                            success: function (res) {
-                                photo.imgLocation.latitude = res.latitude;
-                                photo.imgLocation.longitude = res.longitude;
-                                photo.imgLocation.accuracy = res.accuracy;
-                            }
-                        });
-                        // 初始化模态框中元素
-                        $('#add_photo_modal_img').attr('src', data['localId']); // img元素中iPhone目前是可以正常显示的
-                        $('#add_photo_modal_img_content').val('');
-                        $('#add_photo_modal').modal('show');
-                        $('#add_photo_submit').on('click', function() {
-                            photo.imgContent = $('#add_photo_modal_img_content').val();
-                            // 上传图片
-                            __ajax('wechat.index.updateImg', {
-                            imgData: imgData
-                            }, function (data) {
-                                ret = data.ret;
-                                photo.imgUrl = ret;
-                                alert(ret);
-                            });
-                            $('#add_photo_modal').modal('hide');
-                        })
-                    }
+                        $('#add_photo_modal').modal('hide');
+                    })
                 }
             });
         });
     });
 });
-
-
 
 /** 
  * 添加照片
