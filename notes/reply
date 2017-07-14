@@ -6,14 +6,13 @@
         "imgList": [
             {
                 "imgUrl": "xxxxxx.png",
-                "imgLocation": "latitude, longitude, accuracy", /* 纬、经、精度 */
                 "imgContent": "XXXXXX",
+                "imgLocation": {
+                    "latitude": "xxxx",
+                    "longitude": "xxxx",
+                    "accuracy": "xxxx",
             },
-            ...
             {
-                "imgUrl": "xxxxxx.png",
-                "imgLocation": "latitude, longitude, accuracy",
-                "imgContent": "XXXXXX",
             }
         ],
     }
