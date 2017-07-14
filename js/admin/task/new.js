@@ -71,7 +71,7 @@ $('.do_new').click(function (){
         console.log(data);
         ret = data.ret;
         if (ret == 'success'){
-            document.location.href = '?admin/task/index&muffinid=' +　muffinid;
+            document.location.href = '?admin/task/index&projectmuffinid=' +　muffinid;
         }
         
     });
@@ -138,7 +138,7 @@ $('.do_modify').click(function (){
         console.log(data);
         ret = data.ret;
         if (ret == 'success'){
-            document.location.href = '?admin/task/index&muffinid=' + muffinid;
+            document.location.href = '?admin/task/index&projectmuffinid=' + muffinid;
         }
         
     });

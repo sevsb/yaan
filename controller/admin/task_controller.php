@@ -9,12 +9,12 @@ class task_controller {
 
     public function index_action() {
         $tpl = new tpl("admin/header", "admin/footer");
-        $muffinid = get_request("muffinid");
-        $project = projects::create($muffinid);
+        $projectmuffinid = get_request("projectmuffinid");
+        $project = projects::create($projectmuffinid);
         $project_title = $project->title();
-        $tasks = tasks::load_tasks($muffinid);
+        $tasks = tasks::load_tasks($projectmuffinid);
         $tpl->set('project_title', $project_title);
-        $tpl->set('muffinid', $muffinid);
+        $tpl->set('muffinid', $projectmuffinid);
         $tpl->set('tasks', $tasks);
         $tpl->display("admin/task/index");
     }

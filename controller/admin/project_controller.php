@@ -16,10 +16,10 @@ class project_controller {
     
     public function new_action() {
         $tpl = new tpl("admin/header", "admin/footer");
-        $muffinid = get_request('muffinid');
+        $projectmuffinid = get_request('projectmuffinid');
         $readonly = get_request('readonly');
-        $project = projects::create($muffinid);
-        $tpl->set('muffinid', $muffinid);
+        $project = projects::create($projectmuffinid);
+        $tpl->set('muffinid', $projectmuffinid);
         $tpl->set('readonly', $readonly);
         $tpl->set('project', $project);
         $project_types = db_settings::inst()->load('project_types');
@@ -32,9 +32,9 @@ class project_controller {
     
     public function view_action() {
         $tpl = new tpl("admin/header", "admin/footer");
-        $muffinid = get_request('muffinid');
-        $project = projects::create($muffinid);
-        $tpl->set('muffinid', $muffinid);
+        $projectmuffinid = get_request('projectmuffinid');
+        $project = projects::create($projectmuffinid);
+        $tpl->set('muffinid', $projectmuffinid);
         $tpl->set('readonly', $readonly);
         $tpl->set('project', $project);
         $project_types = db_settings::inst()->load('project_types');

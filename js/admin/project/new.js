@@ -143,7 +143,7 @@ $(document).ready(function (){
         console.log(data);
         if(data.ret == 'success'){
             var id = data.info;
-            document.location.href = '?admin/project/view&muffinid=' + id;
+            document.location.href = '?admin/project/view&projectmuffinid=' + id;
         }else {
             alert(data.info);
         }
