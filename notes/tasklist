@@ -6,66 +6,35 @@
             "info": {
                 "status": 0,
             },
-            "projects": {
-                "id": 0,
-                "projectid": "ZERG000011021",
-                "type": "TYPE",
-                "title": "TITLE",
-                "text": "text", 
-                "word": "file url",
-                "status": 0,
-                "deadline": "time",
-                "cover": "url",
-            },
-            "tasks": {
-                "id": 1,
-                "title": "title",
-                "address": "addr",
-                "content": "content",
-                "status": 0,
-            }
-            "answers": {[
+            "projects": {[
                 {
-                    "id": 0,
-                    "type": 2,
-                    "title": "xx",
-                    "info": "xx",
-                    "user": {
+                    "info": {
                         "id": 0,
-                        "nick": "xxxx",
-                        "face": "http://///////",
+                        "projectid": "ZERG000011021",
+                        "type": "TYPE",
+                        "title": "TITLE",
+                        "text": "text", 
+                        "word": "file url",
+                        "status": 0,
+                        "deadline": "time",
+                        "cover": "url",
                     },
-                    "reply": {
-                        "type": question::TYPE_WORD,
-                        "data": {
-                            "imgList": [
-                            {
-                                "image": "http://xxxxxx.png",
-                                "comment": "XXXXXX",
-                                "uploadloc": {
-                                    "latitude": "xxxxxxxxx",
-                                    "longitude": "xxxxxxxxx",
-                                },
-                                "exifloc": {
-                                    "latitude": "xxxxxxxxx",
-                                    "longitude": "xxxxxxxxx",
-                                }
-                            },
-                            {
-                            },
-                            ],
-                        }
-                    }
-
+                    "tasks": {[
+                        {
+                            "id": 1,
+                            "title": "title",
+                            "address": "addr",
+                            "content": "content",
+                            "status": 0,
+                        },
+                    ]}
                 },
                 {
-                },
+                }
             ]}
         },
         {
-            ...
         }
     ]}
 }
-
 
