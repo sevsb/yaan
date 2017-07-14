@@ -22,6 +22,8 @@ class index_controller {
         // 姑且先放在index中
         $tpl = new tpl("wechat/header", "wechat/footer");
         $signPackage = WXApi::inst()->get_SignPackage();
+        $imgRoot = rtrim(UPLOAD_URL, "/") . "/";
+        $tpl->set('imgRoot', $imgRoot);
         $tpl->set('signPackage', $signPackage);
         $tpl->display("wechat/index/sheet");
     }
@@ -31,7 +33,7 @@ class index_controller {
 
         $imgName = null;
 
-        if (substr($imgData, 0, 5) == "data:") {
+        if(substr($imgData, 0, 5) == "data:") {
             $ret = uploadImageViaFileReader($imgData, function($imgName) {
                 return $imgName;
             });
@@ -40,11 +42,11 @@ class index_controller {
                 return $ret;
             }
             $imgName = $ret;
-        }else {
+        } else {
             $imgName = explode('/', $imgData);
             $imgName = end($imgName);
         }
-
+        
         return $imgName;
     }
 }

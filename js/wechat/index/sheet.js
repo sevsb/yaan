@@ -45,10 +45,12 @@ $(document).ready(function() {
                         }, function (data) {
                             ret = data.ret;
                             photo['imgUrl'] = ret;
-                            alert(ret);
+                            photosList.push(photo);
+                            $('#add_photo_modal').modal('hide');
+                            addPhotoCard(photo);
                         });
-                        $('#add_photo_modal').modal('hide');
-                    })
+                    });
+
                 }
             });
         });
@@ -57,22 +59,23 @@ $(document).ready(function() {
 
 /** 
  * 添加照片
- * @param data 应为从JS-SDK中拿到的相片数据和填写的备注
- *             因为目前是Demo，所以现在只是card元素的总和，为了添加预览的删除功能。
+ * @param data 为 wx.chooseImage 中的 photo 数组
  */
-function addPhoto(data) {
+function addPhotoCard(data) {
+    var cardNumber = data['imgUrl'];
+    cardNumber = cardNumber.substr(0, cardNumber.length-5);
     // 制作卡片元素
-    var cardObject =  '<div class="card" id="card_'+data['cardNumber']+'">';
-        cardObject += '    <div class="card_body" style="background:url('+data['localId']+') no-repeat center; background-size: cover;">';
+    var cardObject =  '<div class="card" id="card_'+cardNumber+'">';
+        cardObject += '    <div class="card_body" style="background:url('+imgRoot+data['imgUrl']+') no-repeat center; background-size: cover;">';
         cardObject += '    </div>';
         cardObject += '    <div class="card_footer dropup" >';
-        cardObject += '        <div class="card_title">这放八个字比较好...</div>';
+        cardObject += '        <div class="card_title">'+data['imgContent']+'</div>';
         cardObject += '        <button class="card_dropdown_btn" id="dLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
         cardObject += '            <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>';
         cardObject += '        </button>';
         cardObject += '        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel" style="min-width: 0;">';
         cardObject += '            <li><a href="#">修改</a></li>';
-        cardObject += '            <li class="delete_btn" id="delete_'+data['cardNumber']+'"><a href="###">删除</a></li>';
+        cardObject += '            <li class="delete_btn" id="delete_'+cardNumber+'"><a href="###">删除</a></li>';
         cardObject += '        </ul>';
         cardObject += '    </div>';
         cardObject += '</div>';
