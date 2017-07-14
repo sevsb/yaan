@@ -25,7 +25,7 @@
 
     <div id="answer-viewer" class="" v-if="sheetlist != null && showviewsheet">
     </div>
-    <div id="answer-content" v-if="sheetlist != null && showviewsheet" class="flex-wrap flex-col">
+    <div id="answer-content" v-if="sheetlist != null && showviewsheet" class="">
         <div class="flex-item flex-wrap flex-col answer-images"  v-for="answer in sheetlist[viewsheetkey].answers[0].reply.data">
             <div class="flex-item flex-row flex-space-between">
                 <div class="flex-item"><img class="sheet" v-bind:src="answer.image" /></div>

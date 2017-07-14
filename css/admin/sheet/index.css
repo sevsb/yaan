@@ -18,13 +18,22 @@
     background-color: white;
     z-index: 10001;
     top: 0px;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
     width: 850px;
-    overflow:auto;
+    height: 100%;
+    overflow-x:auto;
+    overflow-y:scroll;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .answer-images {
     width: 800px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10px;
 }
 
