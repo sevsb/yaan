@@ -110,7 +110,7 @@ class tasks {
         return $ret2;
     }
 
-    public function del($id) {
+    public static function del($id) {
         $ret1 = db_muffins::inst()->del($id);
         $ret2 = db_muffininfos::inst()->del($id);
         return $ret1 && $ret2;
