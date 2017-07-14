@@ -43,21 +43,22 @@ $(document).ready(function() {
                         __ajax('wechat.index.updateImg', {
                         imgData: imgData
                         }, function (data) {
-                            ret = data.ret;
-                            photo['imgUrl'] = ret;
-                            photosList.push(photo);
-                            $('#add_photo_modal').modal('hide');
-                            addPhotoCard(photo);
+                            if(data.ret == 'success'){
+                                photo['imgUrl'] = data.imgUrl;
+                                $('#add_photo_modal').modal('hide');
+                                addPhotoCard(photo);
+                            }else {
+                                alert(data.info);
+                            }
                         });
                     });
-
                 }
             });
         });
     });
 });
 
-/** 
+/**
  * 添加照片
  * @param data 为 wx.chooseImage 中的 photo 数组
  */
@@ -80,4 +81,5 @@ function addPhotoCard(data) {
         cardObject += '    </div>';
         cardObject += '</div>';
     $('#card_book').append(cardObject);
+    photosList.push(data);
 }

@@ -14,7 +14,7 @@ class index_controller {
         $tpl = new tpl("wechat/header", "wechat/footer");
         $tpl->set("user", $user);
         $signPackage = WXApi::inst()->get_SignPackage();
-        $tpl->set('signPackage', $signPackage);
+        $tpl->set("signPackage", $signPackage);
         $tpl->display("wechat/index/home");
     }
 
@@ -23,13 +23,13 @@ class index_controller {
         $tpl = new tpl("wechat/header", "wechat/footer");
         $signPackage = WXApi::inst()->get_SignPackage();
         $imgRoot = rtrim(UPLOAD_URL, "/") . "/";
-        $tpl->set('imgRoot', $imgRoot);
-        $tpl->set('signPackage', $signPackage);
+        $tpl->set("imgRoot", $imgRoot);
+        $tpl->set("signPackage", $signPackage);
         $tpl->display("wechat/index/sheet");
     }
 
     public function updateImg_ajax() {
-        $imgData = get_request('imgData');
+        $imgData = get_request("imgData");
 
         $imgName = null;
 
@@ -41,13 +41,12 @@ class index_controller {
             if (strncmp($ret, "fail|", 5) == 0) {
                 return $ret;
             }
-            $imgName = $ret;
+            $ret = array("ret" => "success", "imgUrl" => $ret);
         } else {
-            $imgName = explode('/', $imgData);
-            $imgName = end($imgName);
+            $ret = array("ret" => "fail");
         }
-        
-        return $imgName;
+
+        return $ret;
     }
 }
 
