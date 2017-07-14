@@ -1,6 +1,6 @@
 
-<div id="page-wrapper" class="rel">
-    <div id="sheetlist">
+<div id="sheetlist">
+    <div id="page-wrapper" class="rel">
         <table class="table">
             <tr>
                 <th>项目</th>
@@ -21,15 +21,18 @@
                 <td><button class="" v-on:click="viewSheet" v-bind:sheet="skey">查看</button></td>
             </tr>
         </table>
-        <div id="answer-viewer" class="" v-if="sheetlist != null && showviewsheet">
-            <table>
-                <tr v-for="answer in sheetlist[viewsheetkey].answers[0].reply.data">
-                    <td><img v-bind:src="answer.image" /></td>
-                    <td>{{answer.comment}}</td>
-                    <td>{{answer.uploadloc.latitude}}/{{answer.uploadloc.longitude}}</td>
-                    <td>{{answer.exifloc.latitude}}/{{answer.exifloc.longitude}}</td>
-                </tr>
-            </table>
+    </div>
+
+    <div id="answer-viewer" class="" v-if="sheetlist != null && showviewsheet">
+    </div>
+    <div id="answer-content" v-if="sheetlist != null && showviewsheet" class="flex-wrap flex-col">
+        <div class="flex-item flex-wrap flex-col answer-images"  v-for="answer in sheetlist[viewsheetkey].answers[0].reply.data">
+            <div class="flex-item flex-row flex-space-between">
+                <div class="flex-item"><img class="sheet" v-bind:src="answer.image" /></div>
+                <div class="flex-item"><img class="map" v-bind:src="answer.uploadloc.mapurl" /></div>
+                <div class="flex-item"><img class="map" v-bind:src="answer.exifloc.mapurl" /></div>
+            </div>
+            <div class="flex-item">{{answer.comment}}</div>
         </div>
     </div>
 </div>

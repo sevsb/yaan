@@ -1,13 +1,43 @@
 
 
 #answer-viewer {
-    position: absolute;
-    left: 300px;
-    top: 100px;
-    width: 90%;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    filter: alpha(Opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    z-index: 10000;
 }
 
-#answer-viewer img {
-    max-height: 50px;
+#answer-content {
+    position: fixed;
+    background-color: white;
+    z-index: 10001;
+    top: 0px;
+    width: 850px;
+    overflow:auto;
 }
+
+.answer-images {
+    width: 800px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+#answer-content img.sheet {
+    width: 100px;
+    height: 200px;
+    border: solid 1px #ccc;
+}
+
+#answer-content img.map {
+    width: 300px;
+    height: 200px;
+    border: solid 1px #ccc;
+}
+
 
