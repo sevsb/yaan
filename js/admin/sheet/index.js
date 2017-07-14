@@ -4,12 +4,14 @@ $(document).ready(function() {
         data: {
             sheetlist: null,
             viewsheetkey: 0,
+            showviewsheet: false,
         },
         methods: {
             viewSheet: function(event) {
                 var target = event.currentTarget;
                 var sheetkey = $(target).attr("sheet");
                 sheetlist.viewsheetkey = sheetkey;
+                sheetlist.showviewsheet = true;
             }
         }
     });

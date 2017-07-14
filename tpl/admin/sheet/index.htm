@@ -1,5 +1,5 @@
 
-<div id="page-wrapper">
+<div id="page-wrapper" class="rel">
     <div id="sheetlist">
         <table class="table">
             <tr>
@@ -21,9 +21,9 @@
                 <td><button class="" v-on:click="viewSheet" v-bind:sheet="skey">查看</button></td>
             </tr>
         </table>
-        <div>
+        <div id="answer-viewer" class="" v-if="sheetlist != null && showviewsheet">
             <table>
-                <tr v-for="answer in sheetlist[viewsheetkey].answers.reply.data">
+                <tr v-for="answer in sheetlist[viewsheetkey].answers[0].reply.data">
                     <td><img v-bind:src="answer.image" /></td>
                     <td>{{answer.comment}}</td>
                     <td>{{answer.uploadloc.latitude}}/{{answer.uploadloc.longitude}}</td>

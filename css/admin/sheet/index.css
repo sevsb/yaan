@@ -1,0 +1,13 @@
+
+
+#answer-viewer {
+    position: absolute;
+    left: 300px;
+    top: 100px;
+    width: 90%;
+}
+
+#answer-viewer img {
+    max-height: 50px;
+}
+
