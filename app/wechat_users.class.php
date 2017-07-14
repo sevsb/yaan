@@ -14,6 +14,22 @@ class wechatuser {
         return $this->summary["id"];
     }
 
+    public function nick() {
+        return $this->summary["nickname"];
+    }
+
+    public function face() {
+        return $this->summary["face"];
+    }
+
+    public function pack_info() {
+        return array(
+            "id" => $this->id(),
+            "nick" => $this->nick(),
+            "face" => $this->face(),
+        );
+    }
+
     private static $cache = cache::instance();
     public static function load_all() {
         $cached = self::$cache->load("all_wechatuser");

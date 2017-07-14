@@ -3,14 +3,32 @@
 include_once(dirname(__FILE__) . "/../config.php");
 
 
-// {"files": ["word1.doc", "word2.doc"]}
 class answer_reply_word extends answer_reply {
+    private mImages = null;
     public function answer_reply_word($dataarr) {
         parent::answer_reply($dataarr);
+        $this->mImages = $dataarr["imgList"];
     }
+
     public function replies() {
-        return $this->dataarr["files"];
+        return $this->mImages;
     }
+
+
+    public function pack_info() {
+        $data = array();
+        foreach ($this->mImages as $image) {
+            $exif = new exif(UPLOAD_PATH . "/" . $image["imgUrl"]);
+            $data []= array(
+                "image" => UPLOAD_URL . "/" . $image["imgUrl"],
+                "comment" => $image["imgContent"],
+                "uploadloc" => $image["imgLocation"],
+                "exifloc" => $exif->location(),
+            );
+        }
+        return $data;
+    }
+ 
 };
 
 class answer_reply_radio extends answer_reply {
@@ -52,6 +70,10 @@ class answer_reply {
 
     public function toJson() {
         return json_encode($this->dataarr);
+    }
+
+    public function pack_info() {
+        return $this->dataarr;
     }
 
     public static function create($choice) {
@@ -111,18 +133,19 @@ class answer {
     public function id() {
         return $this->summary["id"];
     }
-    public function userid() {
-        return $this->summary["userid"];
-    }
+
     public function type() {
         return $this->summary["type"];
     }
+
     public function title() {
         return $this->summary["title"];
     }
+
     public function &choice() {
         return $this->mChoice;
     }
+
     public function &reply() {
         return $this->mReply;
     }
@@ -143,8 +166,29 @@ class answer {
     }
 
     public static function load($answerid) {
-        $ans = db_answers::inst()->get_one_answer($answerid);
-        return new answer($ans);
+        if (is_array($answerid)) {
+            $ans = db_answers::inst()->get_some_answers($answerid);
+            $arr = array();
+            foreach ($ans as $id => $an) {
+                $arr [$id]= new answer[$an];
+            }
+            return $arr;
+        } else if (is_int($answerid) {
+            $ans = db_answers::inst()->get_one_answer($answerid);
+            return new answer($ans);
+        } else {
+            return null;
+        }
+    }
+
+    public function pack_info() {
+        $data = array(
+            "id" => $this->id(),
+            "type" => $this->type(),
+            "title" => $this->title(),
+            "reply" => $this->reply()->pack_info(),
+        );
+        return $this->summary;
     }
 };
 

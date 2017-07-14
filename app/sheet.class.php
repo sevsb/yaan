@@ -8,6 +8,7 @@ class sheet {
     private $mTask = null;
     private $mProject = null;
     private $mQuestion = null;
+    private $mAnswers = null;
 
     public function sheet($summary) {
         $this->summary = $summary;
@@ -43,6 +44,30 @@ class sheet {
         return $this->mProject;
     }
 
+    public function id() {
+        return $this->summary["id"];
+    }
+
+    public function userid() {
+        return $this->summary["userid"];
+    }
+
+    public function title() {
+        return $this->summary["title"];
+    }
+
+    public function info() {
+        return $this->summary["info"];
+    }
+
+    public function answers() {
+        if ($this->mAnswers == null) {
+            $aids = explode(",", $this->summary["answers"]);
+            $this->mAnswers = answer::load($aids);
+        }
+        return $this->mAnswers;
+    }
+
     public static function load_all() {
         $sheets = db_sheets::inst()->load_all();
         $arr = array();
@@ -53,9 +78,25 @@ class sheet {
     }
 
     public function pack_info() {
-        return array("info" => array("status" => 0),
+        $users = wechat_users::load_all();
+        $uid = $this->userid();
+        $user = $users[$uid];
+
+        $ans = array();
+        foreach ($this->answers() as $id => $answer) {
+            $ans []= $answer->pack_info();
+        }
+        return array(
+            "info" => array(
+                "id" => $this->id(),
+                "title" => $this->title(),
+                "info" => $this->info(),
+                "user" => $user->pack_info(),
+            ),
             "project" => $this->project()->pack_info(),
-            "task" => $this->task()->pack_info());
+            "task" => $this->task()->pack_info(),
+            "answers" => $ans,
+        );
     }
 };
 
