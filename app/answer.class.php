@@ -4,7 +4,7 @@ include_once(dirname(__FILE__) . "/../config.php");
 
 
 class answer_reply_word extends answer_reply {
-    private mImages = null;
+    private $mImages = null;
     public function answer_reply_word($dataarr) {
         parent::answer_reply($dataarr);
         $this->mImages = $dataarr["imgList"];
@@ -18,7 +18,7 @@ class answer_reply_word extends answer_reply {
     public function pack_info() {
         $data = array();
         foreach ($this->mImages as $image) {
-            $exif = new exif(UPLOAD_PATH . "/" . $image["imgUrl"]);
+            $exif = new exif(UPLOAD_DIR. "/" . $image["imgUrl"]);
             $data []= array(
                 "image" => UPLOAD_URL . "/" . $image["imgUrl"],
                 "comment" => $image["imgContent"],
@@ -26,7 +26,7 @@ class answer_reply_word extends answer_reply {
                 "exifloc" => $exif->location(),
             );
         }
-        return $data;
+        return array("type" => question::TYPE_WORD, "data" => $data);
     }
  
 };
@@ -61,7 +61,7 @@ class answer_reply_completion extends answer_reply {
 class answer_reply {
     protected $dataarr = null;
     public function answer_reply($dataarr) {
-        $this->$dataarr = $dataarr;
+        $this->dataarr = $dataarr;
     }
 
     public function replies() {
@@ -80,16 +80,17 @@ class answer_reply {
         if (empty($choice)) {
             return null;
         }
+        // logging::d("Debug", $choice);
         $arr = json_decode($choice, true);
-        switch ($choice["type"]) {
+        switch ($arr["type"]) {
         case question::TYPE_WORD:
-            return new answer_reply_word($choice["data"]);
+            return new answer_reply_word($arr["data"]);
         case question::TYPE_RADIO:
-            return new answer_reply_radio($choice["data"]);
+            return new answer_reply_radio($arr["data"]);
         case question::TYPE_MULTI:
-            return new answer_reply_multi($choice["data"]);
+            return new answer_reply_multi($arr["data"]);
         case question::TYPE_COMPLETION:
-            return new answer_reply_completion($choice["data"]);
+            return new answer_reply_completion($arr["data"]);
         }
         return null;
     }
@@ -170,10 +171,10 @@ class answer {
             $ans = db_answers::inst()->get_some_answers($answerid);
             $arr = array();
             foreach ($ans as $id => $an) {
-                $arr [$id]= new answer[$an];
+                $arr[$id] = new answer($an);
             }
             return $arr;
-        } else if (is_int($answerid) {
+        } else if (is_int($answerid)) {
             $ans = db_answers::inst()->get_one_answer($answerid);
             return new answer($ans);
         } else {
@@ -188,7 +189,7 @@ class answer {
             "title" => $this->title(),
             "reply" => $this->reply()->pack_info(),
         );
-        return $this->summary;
+        return $data;
     }
 };
 

@@ -30,9 +30,8 @@ class wechatuser {
         );
     }
 
-    private static $cache = cache::instance();
     public static function load_all() {
-        $cached = self::$cache->load("all_wechatuser");
+        $cached = cache::instance()->load("all_wechatuser");
         if ($cached != null) {
             return $cached;
         }
@@ -41,7 +40,7 @@ class wechatuser {
         foreach ($wusers as $k => $summary) {
             $us [$k]= new wechatuser($summary);
         }
-        self::$cache->save("all_wechatuser", $us);
+        cache::instance()->save("all_wechatuser", $us);
         return $us;
     }
 

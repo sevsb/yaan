@@ -96,7 +96,7 @@ function __request(action, data, success, fail) {
         type: 'post',
         data: data,
         success: function (data) {
-            // console.debug(data);
+            console.debug(data);
             data = eval("(" + data + ")");
             if (typeof(success) == "string") {
                 document.location.href = success;

@@ -2,19 +2,21 @@ $(document).ready(function() {
     var sheetlist = new Vue({
         el: '#sheetlist',
         data: {
-            sheetlist: null
+            sheetlist: null,
+            viewsheetkey: 0,
         },
         methods: {
-            viewTask: function(event) {
+            viewSheet: function(event) {
                 var target = event.currentTarget;
-                var taskkey = $(target).attr("taskkey");
+                var sheetkey = $(target).attr("sheet");
+                sheetlist.viewsheetkey = sheetkey;
             }
         }
     });
 
     __request("admin.sheet.sheetlist", { }, function(data) {
         console.debug(data);
-        // sheetlist.sheetlist = data;
+        sheetlist.sheetlist = data.data;
     });
 
 });

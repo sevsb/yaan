@@ -4,7 +4,14 @@
     "data": {[
         {
             "info": {
-                "status": 0,
+                "id": 0,
+                "info": "INFO",
+                "title": "TITLE",
+                "user": {
+                    "id": 0,
+                    "nick": "XX",
+                    "face": "http://",
+                }
             },
             "project": {
                 "id": 0,
@@ -24,14 +31,45 @@
                 "content": "content",
                 "status": 0,
                 "location": {
-                    "province": "xxx",
-                    "city": "xxx",
-                    "district": "xxx
+                    "province": "XX",
+                    "city": "xx",
+                    "district": "xx",
                 }
             }
+            "answers": {[
+                {
+                    "id": 0,
+                    "type": 2,
+                    "title": "xx",
+                    "reply": {
+                        "type": question::TYPE_WORD,
+                        "data": {[
+                            {
+                                "image": "http://xxxxxx.png",
+                                "comment": "XXXXXX",
+                                "uploadloc": {
+                                    "latitude": "xxxxxxxxx",
+                                    "longitude": "xxxxxxxxx",
+                                },
+                                "exifloc": {
+                                    "latitude": "xxxxxxxxx",
+                                    "longitude": "xxxxxxxxx",
+                                }
+                            },
+                            {
+                            },
+                        ]}
+                    }
+
+                },
+                {
+                },
+            ]}
         },
         {
+            ...
         }
     ]}
 }
+
 

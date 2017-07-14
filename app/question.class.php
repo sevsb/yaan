@@ -40,15 +40,15 @@ class question_choice {
             return null;
         }
         $arr = json_decode($choice, true);
-        switch ($choice["type"]) {
+        switch ($arr["type"]) {
         case question::TYPE_WORD:
-            return new question_choice_word($choice["data"]);
+            return new question_choice_word($arr["data"]);
         case question::TYPE_RADIO:
-            return new question_choice_radio($choice["data"]);
+            return new question_choice_radio($arr["data"]);
         case question::TYPE_MULTI:
-            return new question_choice_multi($choice["data"]);
+            return new question_choice_multi($arr["data"]);
         case question::TYPE_COMPLETION:
-            return new question_choice_completion($choice["data"]);
+            return new question_choice_completion($arr["data"]);
         }
         return null;
     }

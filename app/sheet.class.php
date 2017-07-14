@@ -19,7 +19,8 @@ class sheet {
             $tasks = db_muffininfos::inst()->get_all_cached();
             foreach ($tasks as $id => $task) {
                 if ($task["paperid"] == $this->summary["paperid"]) {
-                    $this->mTask = new task($task);
+                    $this->mTask = new tasks($task);
+                    // logging::d("Debug", $this->mTask);
                     break;
                 }
             }
@@ -33,7 +34,7 @@ class sheet {
             $muffins = db_muffins::inst()->get_all_cached();
             $task = $this->task();
             $mid = $task->muffinid();
-            $projectid = $muffininfos[$mid]["pid"];
+            $projectid = $muffins[$mid]["pid"];
             foreach ($muffininfos as $info) {
                 if ($info["muffinid"] == $projectid) {
                     $this->mProject = new projects($info);
@@ -78,7 +79,7 @@ class sheet {
     }
 
     public function pack_info() {
-        $users = wechat_users::load_all();
+        $users = wechatuser::load_all();
         $uid = $this->userid();
         $user = $users[$uid];
 

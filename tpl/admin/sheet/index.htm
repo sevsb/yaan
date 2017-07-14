@@ -1,5 +1,5 @@
 
-<div>
+<div id="page-wrapper">
     <div id="sheetlist">
         <table class="table">
             <tr>
@@ -9,10 +9,28 @@
                 <th>地址</th>
                 <th>调查员</th>
                 <th>状态</th>
+                <th>查看</th>
             </tr>
-            <tr v-for="">
+            <tr v-for="(sheet, skey) in sheetlist">
+                <td>{{sheet.project.title}}</td>
+                <td>{{sheet.task.title}}</td>
+                <td>{{sheet.task.location.province.title}}{{sheet.task.location.city.title}}{{sheet.task.location.district.title}}</td>
+                <td>{{sheet.task.address}}</td>
+                <td>{{sheet.info.user.nick}}</td>
+                <td>{{sheet.task.status}}</td>
+                <td><button class="" v-on:click="viewSheet" v-bind:sheet="skey">查看</button></td>
             </tr>
         </table>
+        <div>
+            <table>
+                <tr v-for="answer in sheetlist[viewsheetkey].answers.reply.data">
+                    <td><img v-bind:src="answer.image" /></td>
+                    <td>{{answer.comment}}</td>
+                    <td>{{answer.uploadloc.latitude}}/{{answer.uploadloc.longitude}}</td>
+                    <td>{{answer.exifloc.latitude}}/{{answer.exifloc.longitude}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 

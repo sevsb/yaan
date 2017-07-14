@@ -50,9 +50,10 @@ class projects {
         return $ret;
     }
     public function deadline() {
-        $deadline = new DateTime("@" . $this->limit_time());
-        $deadline = $deadline->format("Y-m-d");
-        return $deadline;
+        return $this->limit_time();
+        // $deadline = new DateTime("@" . $this->summary('limit_time'));
+        // $deadline = $deadline->format("Y-m-d");
+        // return $deadline;
     }
     public function paperfile() {
         return $this->summary("paperfile");
