@@ -26,12 +26,17 @@ class wechatuser {
         return $this->summary["score"];
     }
 
+    public function location() {
+        return $this->summary["location"];
+    }
+
     public function pack_info() {
         return array(
             "id" => $this->id(),
             "nick" => $this->nick(),
             "face" => $this->face(),
             "score" => $this->score(),
+            "location" => $this->location(),
         );
     }
 

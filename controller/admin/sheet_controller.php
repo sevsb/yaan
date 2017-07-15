@@ -8,7 +8,9 @@ class sheet_controller {
     }
 
     public function index_action() {
+        $baiduak = settings::instance()->load("BAIDU_MAP_AK");
         $tpl = new tpl("admin/header", "admin/footer");
+        $tpl->set("baiduak", $baiduak);
         $tpl->display("admin/sheet/index");
     }
 

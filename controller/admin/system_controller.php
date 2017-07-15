@@ -7,6 +7,13 @@ class system_controller {
         login::assert();
     }
 
+    public function settings_action() {
+        $settings = settings::instance()->get_all();
+        $tpl = new tpl("admin/header", "admin/footer");
+        $tpl->set('settings', $settings);
+        $tpl->display("admin/system/settings");
+    }
+
     public function project_types_action() {
         $tpl = new tpl("admin/header", "admin/footer");
         $project_types = db_settings::inst()->load('project_types');
@@ -43,7 +50,12 @@ class system_controller {
     }
     
 
-
+    public function update_setting_ajax() {
+        $key = get_request_assert("extra");
+        $val = get_request_assert("value");
+        $ret = settings::instance()->save($key, $val);
+        return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
+    }
 
 }
 

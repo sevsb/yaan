@@ -1,0 +1,21 @@
+<div id="page-wrapper">
+    <table class="table table-stripped table-hover">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($settings as $key => $setting) { ?>
+            <tr>
+                <td class="item-table-q">{:$setting["id"]}</td>
+                <td class="item-table-2">{:$setting["title"]}</td>
+                <td class="modify-on-click" moc-title='{:$setting["value"]}' moc-action='admin.system.update_setting' moc-extra='{:$key}'></td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>
+

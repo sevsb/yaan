@@ -1,0 +1,11 @@
+
+<div id="page-wrapper" class="clear">
+    <div class="user pull-left" v-for="user in userlist">
+        <table class="table table-bordered">
+            <tr><td colspan="2"><center><b>{{user.nick}}</b></center></td></tr>
+            <tr><td rowspan="2" class="item-table-1"><img :src="user.face" class="userinfo-avatar" /></td><td>积分：{{user.score}}</td></tr>
+            <tr><td>位置：{{user.location}}</td></tr>
+        </table>
+    </div>
+</div>
+

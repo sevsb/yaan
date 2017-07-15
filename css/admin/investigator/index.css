@@ -1,0 +1,14 @@
+
+img.userinfo-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.user {
+    width: 300px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+

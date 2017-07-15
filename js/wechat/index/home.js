@@ -7,7 +7,7 @@ var __log = function(msg) {
 
 var cityname = function(latitude, longitude, callback) {
     $.ajax({
-        url: 'http://api.map.baidu.com/geocoder/v2/?ak=fqiHuU0wMsAxwzQfphk0PvLdrLB3flrZ&callback=renderReverse&location=' + latitude + ',' + longitude + '&output=json&pois=1',
+        url: 'http://api.map.baidu.com/geocoder/v2/?ak=' + baiduak + '&callback=renderReverse&location=' + latitude + ',' + longitude + '&output=json&pois=1',
         type: "get",
         dataType: "jsonp",
         jsonp: "callback",

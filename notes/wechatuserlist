@@ -1,0 +1,16 @@
+
+{
+    "op": "wechatlist",
+    "data": {[
+        {
+            "id": 0,
+            "nick": "XX",
+            "face": "http://",
+            "score": "xxx",
+            "location": "xxx",
+        },
+        {
+            ...
+        }
+    ]}
+}

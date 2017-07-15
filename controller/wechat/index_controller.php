@@ -11,8 +11,11 @@ class index_controller {
         $user["face"] = $faceurl;
         logging::d("Debug", $faceurl);
 
+        $baiduak = settings::instance()->load("BAIDU_MAP_AK");
+
         $tpl = new tpl("wechat/header", "wechat/footer");
         $tpl->set("user", $user);
+        $tpl->set("baiduak", $baiduak);
         $signPackage = WXApi::inst()->get_SignPackage();
         $tpl->set("signPackage", $signPackage);
         $tpl->display("wechat/index/home");

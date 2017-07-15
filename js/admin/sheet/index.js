@@ -1,7 +1,7 @@
 $(document).ready(function() {
     var refresh_sheet_data = function(data) {
         console.debug(data);
-        var mapurl = "http://api.map.baidu.com/staticimage/v2?ak=fqiHuU0wMsAxwzQfphk0PvLdrLB3flrZ&mcode=666666&center=LONGITUDE,LATITUDE&width=300&height=200&zoom=13&markers=LONGITUDE,LATITUDE";
+        var mapurl = "http://api.map.baidu.com/staticimage/v2?ak=" + baiduak + "&mcode=666666&center=LONGITUDE,LATITUDE&width=300&height=200&zoom=13&markers=LONGITUDE,LATITUDE";
         for (var k in data.data) {
             for (var k1 in data.data[k].answers[0].reply.data) {
                 var latitude1 = data.data[k].answers[0].reply.data[k1].uploadloc.latitude;
