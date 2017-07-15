@@ -170,6 +170,7 @@ $(document).ready(function() {
         });
     };
 
+    $("#task-wrapper").removeClass("hidden");
 });
 
 

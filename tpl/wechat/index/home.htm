@@ -38,6 +38,7 @@ if (typeof(wx) != 'undefined') {
             <div>当前位置：<span id="current-location"></span></div>
         </div>
     </div>
+    <div id="task-wrapper" class="hidden">
     <div id="taskinfos">
         <div class="tasks" class="clear flex-wrap flex-col" v-if="showtasklist">
             <div class="flex-item">已接受任务：</div>
@@ -115,6 +116,7 @@ if (typeof(wx) != 'undefined') {
     <div>
         <pre id="log">
         </pre>
+    </div>
     </div>
 </div>
 <script> var baiduak = "{=$baiduak}"; </script>
