@@ -47,9 +47,14 @@ class location {
     private $mProvince = null;
     private $mCity = null;
     private $mDistrict = null;
+    private $mTile = null;
 
     public function location($summary) {
-        $arr = json_decode($summary, true);
+        if (is_string($summary)) {
+            $arr = json_decode($summary, true);
+        } else if (is_array($summary)) {
+            $arr = $summary;
+        }
         if (isset($arr["province"])) {
             $this->mProvince = new location_node($arr["province"]);
         } else {
@@ -57,6 +62,7 @@ class location {
         }
         $this->mCity = new location_node($arr["city"]);
         $this->mDistrict = new location_node($arr["district"]);
+        $this->mTime = isset($summary["time"]) ? $summary["time"] : 0;
     }
 
     public function &province() {
@@ -71,6 +77,14 @@ class location {
         return $this->mDistrict;
     }
 
+    public function epoch_time() {
+        return $this->mTime;
+    }
+
+    public function set_time($time) {
+        $this->mTime = $time;
+    }
+
     public function equals($o) {
         return ($this->province()->equals($o->province()) && $this->city()->equals($o->city()) && $this->district()->equals($o->district()));
     }
@@ -78,7 +92,10 @@ class location {
     public function pack_info() {
         return array("province" => $this->province()->pack_info(), 
                      "city" => $this->city()->pack_info(),
-                     "district" => $this->district()->pack_info());
+                     "district" => $this->district()->pack_info(),
+                     "time" => $this->mTime,
+                     "timestr" => date("Y-m-d H:i:s", $this->mTime),
+                 );
     }
 };
 

@@ -72,6 +72,7 @@ class api_controller {
         $updated = get_session("locupdated", null);
         if ($updated == null) {
             $user = get_session_assert("user");
+            $loc = get_request_assert("loc");
             $location = new location($loc);
             $wu = wechatuser::create($user["id"]);
             if ($wu == null) {

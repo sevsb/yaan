@@ -22,7 +22,9 @@
                 <p>失败任务数：{{userlist[viewuserkey].reject}}</p>
                 <p>积分：{{userlist[viewuserkey].score}}</p>
                 <p>位置记录：</p>
-                <p v-for="location in userlist[viewuserkey].locations">{{location}}</p>
+                <ul>
+                    <li v-for="location in userlist[viewuserkey].locations">{{location.province.title}}{{location.city.title}}{{location.district.title}}&nbsp;&nbsp;{{location.timestr}}</li>
+                </ul>
             </td></tr>
         </table>
     </div>

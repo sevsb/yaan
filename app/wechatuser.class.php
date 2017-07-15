@@ -56,8 +56,10 @@ class wechatuser {
     }
 
     public function update_location($location) {
+        $location->set_time(time());
+
         $locations = $this->location_objects();
-        if (count($locations) >= settings::intance()->load("RECORD_LOCATIONS", 3)) {
+        if (count($locations) >= settings::instance()->load("RECORD_LOCATIONS", 3)) {
             array_shift($locations);
         }
         $locations[] = $location;
@@ -73,6 +75,7 @@ class wechatuser {
 
     public function save() {
         $id = $this->id();
+        logging::d("Debug", "save wechatuser infos: $id");
         if ($id == 0) {
             return false;
         }
