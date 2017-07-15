@@ -9,6 +9,7 @@
         </thead>
         <tbody>
             <?php foreach ($settings as $key => $setting) { ?>
+            <?php       if ($setting["hidden"] != 0) continue; ?>
             <tr>
                 <td class="item-table-q">{:$setting["id"]}</td>
                 <td class="item-table-2">{:$setting["title"]}</td>
