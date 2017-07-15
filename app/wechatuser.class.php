@@ -22,12 +22,24 @@ class wechatuser {
         return $this->summary["face"];
     }
 
-    public function score() {
-        return $this->summary["score"];
+    public function tasks() {
+        return $this->summary["tasks"];
     }
 
-    public function location() {
-        return $this->summary["location"];
+    public function pass() {
+        return $this->summary["pass"];
+    }
+
+    public function reject() {
+        return $this->summary["reject"];
+    }
+
+    public function score() {
+        return $this->pass() - $this->reject();
+    }
+
+    public function locations() {
+        return $this->summary["locations"];
     }
 
     public function pack_info() {
@@ -36,7 +48,10 @@ class wechatuser {
             "nick" => $this->nick(),
             "face" => $this->face(),
             "score" => $this->score(),
-            "location" => $this->location(),
+            "pass" => $this->pass(),
+            "reject" => $this->reject(),
+            "tasks" => $this->tasks(),
+            "locations" => $this->locations(),
         );
     }
 

@@ -5,11 +5,22 @@ $(document).ready(function() {
     };
 
     var userlist = new Vue({
-        el: '#page-wrapper',
+        el: '#user-infos',
         data: {
             userlist: null,
+            viewuserkey: 0,
+            showuserinfoview: false,
         },
         methods: {
+            viewUser: function(event) {
+                var target = event.currentTarget;
+                var userkey = $(target).attr("userkey");
+                userlist.viewuserkey = userkey;
+                userlist.showuserinfoview = true;
+            },
+            closeUserView: function(event) {
+                userlist.showuserinfoview = false;
+            }
         }
     });
 

@@ -23,7 +23,7 @@
         </table>
     </div>
 
-    <div id="answer-viewer" class="" v-if="sheetlist != null && (showviewsheet && !showviewimage)">
+    <div id="answer-viewer" class="" v-if="sheetlist != null && (showviewsheet && !showviewimage)" v-on:click="closeViewSheet">
     </div>
     <div id="answer-content" v-if="sheetlist != null && showviewsheet" class="" v-bind:class="{'bg-success': sheetlist[viewsheetkey].info.nstatus == 1, 'bg-warning': sheetlist[viewsheetkey].info.nstatus == 2, 'bg-white': (sheetlist[viewsheetkey].info.nstatus != 1 && sheetlist[viewsheetkey].info.nstatus != 2)}">
         <div class="clear">
