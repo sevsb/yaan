@@ -42,7 +42,49 @@ class wechatuser {
         return $this->summary["locations"];
     }
 
+    public function location_objects() {
+        $locs = $this->locations();
+        if (empty($locs)) {
+            return array();
+        }
+        $locs = json_decode($locs, true);
+        $arr = array();
+        foreach ($locs as $s) {
+            $arr[] = new location($s);
+        }
+        return $arr;
+    }
+
+    public function update_location($location) {
+        $locations = $this->location_objects();
+        if (count($locations) >= settings::intance()->load("RECORD_LOCATIONS", 3)) {
+            array_shift($locations);
+        }
+        $locations[] = $location;
+
+        $locs = array();
+        foreach ($locations as $l) {
+            $locs []= $l->pack_info();
+        }
+
+        $this->summary["locations"] = json_encode($locs);
+        $this->save();
+    }
+
+    public function save() {
+        $id = $this->id();
+        if ($id == 0) {
+            return false;
+        }
+        return db_wechatusers::inst()->update_user($id, $this->nick(), $this->face(), $this->tasks(), $this->pass(), $this->reject(), $this->locations());
+    }
+
     public function pack_info() {
+        $locations = $this->location_objects();
+        $locs = array();
+        foreach ($locations as $l) {
+            $locs []= $l->pack_info();
+        }
         return array(
             "id" => $this->id(),
             "nick" => $this->nick(),
@@ -51,8 +93,16 @@ class wechatuser {
             "pass" => $this->pass(),
             "reject" => $this->reject(),
             "tasks" => $this->tasks(),
-            "locations" => $this->locations(),
+            "locations" => $locs,
         );
+    }
+
+    public static function create($id) {
+        $user = db_wechatusers::inst()->get_user_by_id($id);
+        if (empty($user)) {
+            return null;
+        }
+        return new wechatuser($user);
     }
 
     public static function load_all() {

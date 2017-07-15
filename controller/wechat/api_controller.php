@@ -68,10 +68,25 @@ class api_controller {
     }
 
 
+    private function update_user_location() {
+        $updated = get_session("locupdated", null);
+        if ($updated == null) {
+            $user = get_session_assert("user");
+            $location = new location($loc);
+            $wu = wechatuser::create($user["id"]);
+            if ($wu == null) {
+                return;
+            }
+            $wu->update_location($location);
+            $_SESSION["locupdated"] = true;
+        }
+    }
+
     public function tasks_action() {
         $user = get_session_assert("user");
         $loc = get_request_assert("loc");
         $_SESSION["temp.wechatapi.location"] = $loc;
+        $this->update_user_location();
         return $this->pack_tasks_info($user, $loc);
     }
 
