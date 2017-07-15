@@ -22,12 +22,16 @@ class wechatuser {
         return $this->summary["face"];
     }
 
+    public function score() {
+        return $this->summary["score"];
+    }
+
     public function pack_info() {
         return array(
             "id" => $this->id(),
             "nick" => $this->nick(),
             "face" => $this->face(),
-            "score" => 0,
+            "score" => $this->score(),
         );
     }
 
