@@ -26,6 +26,20 @@ class db_sheets extends database {
         return $this->get_all_table(TABLE_SHEETS);
     }
 
+    public function get_sheet_by_id($id) {
+        $id = (int)$id;
+        return $this->get_one_table(TABLE_SHEETS, "id = $id");
+    }
+
+    public function add_sheet($userid, $paperid, $title, $info, $answers, $status) {
+        return $this->insert(TABLE_SHEETS, array("userid" => $userid, "paperid" => $paperid, "title" => $title, "info" => $info, "answers" => $answers, "status" => $status));
+    }
+
+    public function update_sheet($id, $userid, $paperid, $title, $info, $answers, $status) {
+        $id = (int)$id;
+        return $this->update(TABLE_SHEETS, array("userid" => $userid, "paperid" => $paperid, "title" => $title, "info" => $info, "answers" => $answers, "status" => $status), "id = $id");
+    }
+
 };
 
 

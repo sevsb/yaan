@@ -11,13 +11,13 @@
                 <th>状态</th>
                 <th>查看</th>
             </tr>
-            <tr v-for="(sheet, skey) in sheetlist">
+            <tr v-for="(sheet, skey) in sheetlist" v-bind:class="{success: sheet.info.nstatus == 1, warning: sheet.info.nstatus == 2}">
                 <td>{{sheet.project.title}}</td>
                 <td>{{sheet.task.title}}</td>
                 <td>{{sheet.task.location.province.title}}{{sheet.task.location.city.title}}{{sheet.task.location.district.title}}</td>
                 <td>{{sheet.task.address}}</td>
                 <td>{{sheet.info.user.nick}}</td>
-                <td>{{sheet.task.status}}</td>
+                <td>{{sheet.info.status}}</td>
                 <td><button class="" v-on:click="viewSheet" v-bind:sheet="skey">查看</button></td>
             </tr>
         </table>
@@ -29,8 +29,8 @@
         <div class="clear">
             <button class="pull-right btn btn-danger" v-on:click="closeViewSheet">X</button>
             <div class="pull-right" style="width: 50px;">&nbsp;</div>
-            <button class="pull-right btn btn-warning">不通过</button>
-            <button class="pull-right btn btn-success">通过</button>
+            <button class="pull-right btn btn-warning" v-on:click="reject">不通过</button>
+            <button class="pull-right btn btn-success" v-on:click="pass">通过</button>
         </div>
         <div class="answer-images clear">
             <div class="answer-thumbnail pull-left" v-for="(answer, datakey) in sheetlist[viewsheetkey].answers[0].reply.data">

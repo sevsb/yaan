@@ -152,7 +152,7 @@ class answer {
         return $this->mReply;
     }
 
-    public function saveStorage() {
+    public function save() {
         $choice = $this->mChoice != null ? $this->mChoice->toJson() : "";
         $reply = $this->mReply != null ? $this->mReply->toJson() : "";
         $id = $this->id();

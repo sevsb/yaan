@@ -3,6 +3,10 @@
 include_once(dirname(__FILE__) . "/../config.php");
 
 class sheet {
+    const STATUS_NOTREVIEW = 0;
+    const STATUS_PASS = 1;
+    const STATUS_REJECT = 2;
+
     private $summary = null;
     private $mPaper = null;
     private $mTask = null;
@@ -11,7 +15,19 @@ class sheet {
     private $mAnswers = null;
 
     public function sheet($summary) {
-        $this->summary = $summary;
+        if (!empty($summary)) {
+            $this->summary = $summary;
+        } else {
+            $this->summary = array(
+                "id" => 0,
+                "userid" => 0,
+                "paperid" => 0,
+                "title" => 0,
+                "info" => 0,
+                "answers" => "",
+                "status" => self::STATUS_NOTREVIEW,
+            );
+        }
     }
 
     public function task() {
@@ -53,6 +69,10 @@ class sheet {
         return $this->summary["userid"];
     }
 
+    public function paperid() {
+        return $this->summary["paperid"];
+    }
+
     public function title() {
         return $this->summary["title"];
     }
@@ -61,12 +81,90 @@ class sheet {
         return $this->summary["info"];
     }
 
+    public function status() {
+        return $this->summary["status"];
+    }
+
+    public function status_text() {
+        switch ($this->status()) {
+        case self::STATUS_PASS:
+            return "通过";
+        case self::STATUS_REJECT:
+            return "不通过";
+        default:
+            return "未审核";
+        }
+    }
+
     public function answers() {
         if ($this->mAnswers == null) {
             $aids = explode(",", $this->summary["answers"]);
             $this->mAnswers = answer::load($aids);
         }
         return $this->mAnswers;
+    }
+
+    public function answers_text() {
+        return $this->summary["answers"];
+    }
+
+
+    public function set_userid($userid) {
+        $this->summary["userid"] = (int)$userid;
+    }
+
+    public function set_paperid($paperid) {
+        $this->summary["paperid"] = (int)$paperid;
+    }
+
+    public function set_title($title) {
+        $this->summary["title"] = $title;
+    }
+
+    public function set_info($info) {
+        $this->summary["info"] = $info;
+    }
+
+    public function set_answers($ans) {
+        if (is_string($ans)) {
+            $this->summary["answers"] = $ans;
+        } else if (empty($ans)) {
+            $this->summary["answers"] = "";
+        }
+    }
+
+    public function reset_review() {
+        $this->summary["status"] = self::STATUS_NOTREVIEW;
+    }
+
+    public function pass() {
+        $this->summary["status"] = self::STATUS_PASS;
+    }
+
+    public function reject() {
+        $this->summary["status"] = self::STATUS_REJECT;
+    }
+
+
+    public function save() {
+        $id = $this->id();
+        if ($id == 0) {
+            $ret = db_sheets::inst()->add_sheet($this->userid(), $this->paperid(), $this->title(), $this->info(), $this->answers_text(), $this->status());
+            if ($ret !== false) {
+                $this->summary["id"] = $ret;
+            }
+        } else {
+            $ret = db_sheets::inst()->update_sheet($id, $this->userid(), $this->paperid(), $this->title(), $this->info(), $this->answers_text(), $this->status());
+        }
+        return $ret;
+    }
+
+    public static function create($id) {
+        $s = db_sheets::inst()->get_sheet_by_id($id);
+        if ($s === false) {
+            return null;
+        }
+        return new sheet($s);
     }
 
     public static function load_all() {
@@ -92,6 +190,8 @@ class sheet {
                 "id" => $this->id(),
                 "title" => $this->title(),
                 "info" => $this->info(),
+                "status" => $this->status_text(),
+                "nstatus" => $this->status(),
                 "user" => $user->pack_info(),
             ),
             "project" => $this->project()->pack_info(),

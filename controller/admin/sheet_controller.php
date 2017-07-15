@@ -13,7 +13,6 @@ class sheet_controller {
     }
 
 
-
     public function sheetlist_action() {
         $sheets = sheet::load_all();
         $data = array();
@@ -22,6 +21,24 @@ class sheet_controller {
         }
         $res = array("op" => "sheetlist", "data" => $data);
         echo json_encode($res);
+    }
+
+    public function review_action() {
+        $sid = get_request_assert("sheet");
+        $review = get_request_assert("review");
+        if ($review != "PASS" && $review != "REJECT") {
+            logging::fatal("Debug", "unknown operation: $review");
+        }
+
+        $sheet = sheet::create($sid);
+        if ($review == "PASS") {
+            $sheet->pass();
+        } else if ($review == "REJECT") {
+            $sheet->reject();
+        }
+        $sheet->save();
+
+        return $this->sheetlist_action();
     }
 }
 
