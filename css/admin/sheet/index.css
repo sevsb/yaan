@@ -15,7 +15,6 @@
 
 #answer-content {
     position: fixed;
-    background-color: white;
     z-index: 10001;
     top: 0px;
     left: 0px;
@@ -28,6 +27,10 @@
     overflow-y:scroll;
     margin-left: auto;
     margin-right: auto;
+}
+
+.bg-white {
+    background-color: white;
 }
 
 .answer-images {

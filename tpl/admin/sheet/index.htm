@@ -25,7 +25,7 @@
 
     <div id="answer-viewer" class="" v-if="sheetlist != null && (showviewsheet && !showviewimage)">
     </div>
-    <div id="answer-content" v-if="sheetlist != null && showviewsheet" class="">
+    <div id="answer-content" v-if="sheetlist != null && showviewsheet" class="" v-bind:class="{'bg-success': sheetlist[viewsheetkey].info.nstatus == 1, 'bg-warning': sheetlist[viewsheetkey].info.nstatus == 2, 'bg-white': (sheetlist[viewsheetkey].info.nstatus != 1 && sheetlist[viewsheetkey].info.nstatus != 2)}">
         <div class="clear">
             <button class="pull-right btn btn-danger" v-on:click="closeViewSheet">X</button>
             <div class="pull-right" style="width: 50px;">&nbsp;</div>
