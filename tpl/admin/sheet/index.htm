@@ -35,9 +35,7 @@
         <div class="answer-images clear">
             <div class="answer-thumbnail pull-left" v-for="(answer, datakey) in sheetlist[viewsheetkey].answers[0].reply.data">
                 <div class=""><img class="sheet" v-bind:src="answer.thumbnail" v-bind:origsrc="answer.image" v-on:click="viewImage" v-bind:sheetkey="viewsheetkey" v-bind:datakey="datakey" /></div>
-                <div class="comment">
-                    {{answer.comment}}{{answer.comment}}{{answer.comment}}{{answer.comment}}{{answer.comment}}
-                </div>
+                <div class="comment">{{answer.comment}}</div>
             </div>
         </div>
     </div>
