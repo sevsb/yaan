@@ -71,8 +71,11 @@
                 <table class="table table-bordered">
                     <tr><td colspan="2"><center>调查员</center></td></tr>
                     <tr>
-                        <td><img class="userinfo-avatar" v-bind:src="sheetlist[viewsheetkey].info.user.face"/></td>
+                        <td rowspan="2"><img class="userinfo-avatar" v-bind:src="sheetlist[viewsheetkey].info.user.face"/></td>
                         <td>{{sheetlist[viewsheetkey].info.user.nick}}</td>
+                    </tr>
+                    <tr>
+                        <td>积分：{{sheetlist[viewsheetkey].info.user.score}}</td>
                     </tr>
                 </table>
                 <table class="table table-bordered">

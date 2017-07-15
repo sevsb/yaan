@@ -27,6 +27,7 @@ class wechatuser {
             "id" => $this->id(),
             "nick" => $this->nick(),
             "face" => $this->face(),
+            "score" => 0,
         );
     }
 
