@@ -21,6 +21,7 @@ class answer_reply_word extends answer_reply {
             $exif = new exif(UPLOAD_DIR. "/" . $image["imgUrl"]);
             $data []= array(
                 "image" => UPLOAD_URL . "/" . $image["imgUrl"],
+                "thumbnail" => mkUploadThumbnail($image["imgUrl"], 100, 0),
                 "comment" => $image["imgContent"],
                 "uploadloc" => $image["imgLocation"],
                 "exifloc" => $exif->location(),

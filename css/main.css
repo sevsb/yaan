@@ -38,6 +38,7 @@ body {
 	height: 0;
 }
 
+.clear-me { clear: both; }
 
 .item-table { }
 .item-table-q { width: 25px; }
@@ -204,8 +205,10 @@ img.user-face {
 } 
 
 .flex-row { flex-direction:row; }
-
 .flex-col { flex-direction:column; }
+.flex-rrow { flex-direction: row-reverse; }
+.flex-rcol { flex-direction: col-reverse; }
+
 
 .flex-wrap {
   display: flex;

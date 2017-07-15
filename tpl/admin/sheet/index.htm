@@ -23,16 +23,70 @@
         </table>
     </div>
 
-    <div id="answer-viewer" class="" v-if="sheetlist != null && showviewsheet">
+    <div id="answer-viewer" class="" v-if="sheetlist != null && (showviewsheet && !showviewimage)">
     </div>
     <div id="answer-content" v-if="sheetlist != null && showviewsheet" class="">
-        <div class="flex-item flex-wrap flex-col answer-images"  v-for="answer in sheetlist[viewsheetkey].answers[0].reply.data">
-            <div class="flex-item flex-row flex-space-between">
-                <div class="flex-item"><img class="sheet" v-bind:src="answer.image" /></div>
-                <div class="flex-item"><img class="map" v-bind:src="answer.uploadloc.mapurl" /></div>
-                <div class="flex-item"><img class="map" v-bind:src="answer.exifloc.mapurl" /></div>
+        <div class="clear">
+            <button class="pull-right btn btn-danger" v-on:click="closeViewSheet">X</button>
+            <div class="pull-right" style="width: 50px;">&nbsp;</div>
+            <button class="pull-right btn btn-warning">不通过</button>
+            <button class="pull-right btn btn-success">通过</button>
+        </div>
+        <div class="answer-images clear">
+            <div class="answer-thumbnail pull-left" v-for="(answer, datakey) in sheetlist[viewsheetkey].answers[0].reply.data">
+                <div class=""><img class="sheet" v-bind:src="answer.thumbnail" v-bind:origsrc="answer.image" v-on:click="viewImage" v-bind:sheetkey="viewsheetkey" v-bind:datakey="datakey" /></div>
+                <div class="comment">
+                    {{answer.comment}}{{answer.comment}}{{answer.comment}}{{answer.comment}}{{answer.comment}}
+                </div>
             </div>
-            <div class="flex-item">{{answer.comment}}</div>
+        </div>
+    </div>
+    <div id="answer-imageview" v-if="showviewimage" class="">
+        <div class="clear">
+            <button class="pull-right btn btn-danger" v-on:click="closeViewImage">X</button>
+            <button class="pull-right btn btn-default" v-on:click="viewNextImage" v-if="viewreplykey < sheetlist[viewsheetkey].answers[0].reply.data.length - 1">下一页</button>
+            <button class="pull-right btn btn-default" v-on:click="viewPrevImage" v-if="viewreplykey > 0">上一页</button>
+        </div>
+        <div>
+            <div class="pull-left project-info">
+                <table class="table table-bordered">
+                    <tr><td colspan="2"><center>项目</center></td></tr>
+                    <tr><td colspan="2"><img v-bind:src="sheetlist[viewsheetkey].project.cover" /></td></tr>
+                    <tr><td>编号</td><td>{{sheetlist[viewsheetkey].project.projectid}}</td></tr>
+                    <tr><td>名称</td><td>{{sheetlist[viewsheetkey].project.title}}</td></tr>
+                    <tr><td>类型</td><td>{{sheetlist[viewsheetkey].project.type}}</td></tr>
+                    <tr><td>文本</td><td>{{sheetlist[viewsheetkey].project.text}}</td></tr>
+                    <tr><td>问卷</td><td><a v-bind:href="sheetlist[viewsheetkey].project.word">点击打开</a></td></tr>
+                    <tr><td>期限</td><td>{{sheetlist[viewsheetkey].project.deadline}}</td></tr>
+                </table>
+                <table class="table table-bordered">
+                    <tr><td colspan="2"><center>任务</center></td></tr>
+                    <tr><td>名称</td><td>{{sheetlist[viewsheetkey].task.title}}</td></tr>
+                    <tr><td>区域</td><td>
+                            {{sheetlist[viewsheetkey].task.location.province.title}}
+                            {{sheetlist[viewsheetkey].task.location.city.title}}
+                            {{sheetlist[viewsheetkey].task.location.district.title}}
+                    </td></tr>
+                    <tr><td>地址</td><td>{{sheetlist[viewsheetkey].task.address}}</td></tr>
+                    <tr><td>内容</td><td>{{sheetlist[viewsheetkey].task.content}}</td></tr>
+                </table>
+                <table class="table table-bordered">
+                    <tr><td colspan="2"><center>调查员</center></td></tr>
+                    <tr>
+                        <td><img class="userinfo-avatar" v-bind:src="sheetlist[viewsheetkey].info.user.face"/></td>
+                        <td>{{sheetlist[viewsheetkey].info.user.nick}}</td>
+                    </tr>
+                </table>
+                <table class="table table-bordered">
+                    <tr><td><center>上传地址</center></td></tr>
+                    <tr><td><div class=""><img class="map" v-bind:src="sheetlist[viewsheetkey].answers[0].reply.data[viewreplykey].uploadloc.mapurl" /></div></td></tr>
+                </table>
+                <table class="table table-bordered" v-if="sheetlist[viewsheetkey].answers[0].reply.data[viewreplykey].exifloc.mapurl != ''">
+                    <tr><td><center>照片地址</center></td></tr>
+                    <tr><td><div class=""><img class="map" v-bind:src="sheetlist[viewsheetkey].answers[0].reply.data[viewreplykey].exifloc.mapurl" /></div></td></tr>
+                </table>
+            </div>
+            <div class="pull-left large-image-wrapper"><a target="_blank" v-bind:href="sheetlist[viewsheetkey].answers[0].reply.data[viewreplykey].image"><img class="largeView" v-bind:src="sheetlist[viewsheetkey].answers[0].reply.data[viewreplykey].image" /></a></div>
         </div>
     </div>
 </div>

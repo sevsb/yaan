@@ -155,7 +155,7 @@ class projects {
             "type" => $this->type(),
             "title" => $this->title(),
             "text" => $this->text(),
-            "word" => $this->paperfile(),
+            "word" => $this->paperfile_url(),
             "status" => $this->status(),
             "deadline" => $this->deadline(),
             "cover" => $this->cover_url(),

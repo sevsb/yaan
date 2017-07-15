@@ -4,7 +4,12 @@ $(document).ready(function() {
         data: {
             sheetlist: null,
             viewsheetkey: 0,
+            viewreplykey: 0,
+            viewimageurl: null,
+            uploadmapurl: null,
+            exifmapurl: null,
             showviewsheet: false,
+            showviewimage: false,
         },
         methods: {
             viewSheet: function(event) {
@@ -12,6 +17,36 @@ $(document).ready(function() {
                 var sheetkey = $(target).attr("sheet");
                 sheetlist.viewsheetkey = sheetkey;
                 sheetlist.showviewsheet = true;
+            },
+            closeViewSheet: function(event) {
+                sheetlist.showviewsheet = false;
+                sheetlist.showviewimage = false;
+            },
+            closeViewImage: function(event) {
+                sheetlist.showviewimage = false;
+            },
+            viewNextImage: function(event) {
+                if (sheetlist.viewreplykey < sheetlist.sheetlist[sheetlist.viewsheetkey].answers[0].reply.data.length - 1) {
+                    sheetlist.viewreplykey++;
+                }
+            },
+            viewPrevImage: function(event) {
+                if (sheetlist.viewreplykey > 0) {
+                    sheetlist.viewreplykey--;
+                }
+            },
+            viewImage: function(event) {
+                var target = event.currentTarget;
+                // var src = $(target).attr("origsrc");
+                var sheetkey = $(target).attr("sheetkey");
+                var datakey = $(target).attr("datakey");
+
+                sheetlist.viewreplykey = datakey;
+
+                sheetlist.viewimageurl = sheetlist.sheetlist[sheetkey].answers[0].reply.data[datakey].image;
+                sheetlist.uploadmapurl = sheetlist.sheetlist[sheetkey].answers[0].reply.data[datakey].uploadloc.mapurl;
+                sheetlist.exifmapurl = sheetlist.sheetlist[sheetkey].answers[0].reply.data[datakey].exifloc.mapurl;
+                sheetlist.showviewimage = true;
             }
         }
     });
