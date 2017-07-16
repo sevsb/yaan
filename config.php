@@ -30,6 +30,7 @@ include_once(dirname(__FILE__) . "/app/question.class.php");
 include_once(dirname(__FILE__) . "/app/answer.class.php");
 include_once(dirname(__FILE__) . "/app/exif.class.php");
 include_once(dirname(__FILE__) . "/app/wechatuser.class.php");
+include_once(dirname(__FILE__) . "/app/mc.class.php");
 include_once(FRAMEWORK_PATH . "/helper.php");
 include_once(FRAMEWORK_PATH . "/logging.php");
 include_once(FRAMEWORK_PATH . "/tpl.php");
@@ -89,4 +90,10 @@ defined('TABLE_USER_GROUPS') or define('TABLE_USER_GROUPS', MYSQL_PREFIX . "user
 
 // mailer
 defined('MAIL_SUBJECT_PREFIX') or define('MAIL_SUBJECT_PREFIX', '');
+
+
+defined('MEMCACHE_SERVER') or define('MEMCACHE_SERVER', '180.76.188.68');
+defined('MEMCACHE_PORT') or define('MEMCACHE_PORT', '11211');
+
+
 
