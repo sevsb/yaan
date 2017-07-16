@@ -3,7 +3,7 @@ var photosList = [];
 $(document).ready(function() {
     wx.ready(function () {
         // 点击底边栏的拍照功能，添加照片
-        $('#add_img').on('click', function() {
+        $('#add_card_btn').on('click', function() {
             wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['compressed'], // ['original', 'compressed'] 可以指定是原图还是压缩图，默认二者都有
@@ -80,6 +80,6 @@ function addPhotoCard(data) {
         cardObject += '        </ul>';
         cardObject += '    </div>';
         cardObject += '</div>';
-    $('#card_book').append(cardObject);
+    $('#add_card_btn').before(cardObject);
     photosList.push(data);
 }

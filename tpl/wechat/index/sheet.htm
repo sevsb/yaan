@@ -28,16 +28,18 @@
 <!-- 主体页面 -->
 <div class="wx_view">
     <div class="wx_col_item">
-        <div class="wx_row_item" id='card_book' style="flex-wrap: wrap; justify-content: space-around; 
-  align-items: left;">
+        <div class="wx_row_item card_book" id="card_book">
+            <div class="card add_card_btn" id="add_card_btn" >
+                <i class="fa fa-plus" style="font-size: 64px;"></i>
+                <div>点击添加图片</div>
+            </div>
+        </div>
+        <div class="wx_row_item bottom_area">
+            <button type="button" class="btn btn-default">返回</button>
+            <button type="button" class="btn btn-primary">提交</button>
         </div>
     </div>
 </div>
-
-<!-- 低部边栏 -->
-<nav class="navbar navbar-default navbar-fixed-bottom navbar_bottom" id="add_img">
-    <i class="fa fa-camera" aria-hidden="true"></i>
-</nav>
 
 <!-- 添加卡片提示框 -->
 <!-- FIXME: 现在是混搭布局，需要以后换成flex... -->
