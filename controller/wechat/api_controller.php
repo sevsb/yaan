@@ -91,6 +91,12 @@ class api_controller {
         return $this->pack_tasks_info($user, $loc);
     }
 
+    public function mytasks_action() {
+        $user = get_session_assert("user");
+        $weuser = wechatuser::create($user["id"]);
+        echo json_encode(array("op" => "userinfo", "data" => $weuser->pack_info()));
+    }
+
     public function accept_action() {
         $task = get_request_assert("task");
         $user = get_session_assert("user");
