@@ -1,4 +1,5 @@
 var __log = function(msg) {
+    return;
     msg = JSON.stringify(msg); 
     var m = $("#log").html();
     m += "\n" + msg;
@@ -31,6 +32,7 @@ var cityname = function(latitude, longitude, callback) {
 }
 
 $(document).ready(function() {
+    __log("1");
     var refresh_cityname = function(data) {
         console.debug(data);
         __log(data);
@@ -45,12 +47,18 @@ $(document).ready(function() {
     }
 
     var get_location = function() {
+        __log("4");
+        __log("wx_appId = " + wx_appId);
+        __log("wx_timestamp = " + wx_timestamp);
+        __log("wx_nonceStr = " + wx_nonceStr);
+        __log("wx_signature = " + wx_signature);
+
         if (typeof(wx) != 'undefined' && isWechatBrowser()) {
             wx.config({
                 debug: false, // 如果不需要获取 ticket 成功的 alert 就改成 false
                 appId: wx_appId,
                 timestamp: wx_timestamp,
-                nonceStr: wx_noceStr,
+                nonceStr: wx_nonceStr,
                 signature: wx_signature,
                 jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
                     'onMenuShareAppMessage', 'onMenuShareQQ',
@@ -75,8 +83,31 @@ $(document).ready(function() {
                         var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
                         var speed = res.speed; // 速度，以米/每秒计
                         var accuracy = res.accuracy; // 位置精度
-                        // alert(latitude+', '+longitude+', '+speed+', '+accuracy);
-                        refresh_location(latitude, longitude);
+                        // alert(latitude+', '+longitude+', '+speed+', '+accuracy);true
+
+                        var url = "http://api.map.baidu.com/geoconv/v1/?coords=" + longitude + "," + latitude + "&from=1&to=5&ak=" + baiduak;
+                        __log(url);
+                        $.ajax({
+                            url: url,
+                            type: "get",
+                            dataType: "jsonp",
+                            jsonp: "callback",
+                            success: function(data) {
+                                __log(data);
+                                if (data.status != 0) {
+                                    tasks.pagestatus = 1;
+                                    return;
+                                }
+
+                                var x = data.result[0].x;
+                                var y = data.result[0].y;
+                                refresh_location(y, x);
+
+                            },
+                            fail: function(data) {
+                                tasks.pagestatus = 1;
+                            }
+                        });
                     },
                     cancel: function(res) {
                         tasks.pagestatus = 1;
@@ -103,6 +134,7 @@ $(document).ready(function() {
             tasks.pagestatus = 1;
         }
     };
+    __log("3");
     get_location();
 
     var tasks = new Vue({

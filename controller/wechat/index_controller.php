@@ -27,6 +27,8 @@ class index_controller {
         $faceurl = str_replace("http://", "https://", $faceurl);
         $user["face"] = $faceurl;
 
+        $baiduak = settings::instance()->load("BAIDU_MAP_AK");
+
         $tpl = new tpl("wechat/header", "wechat/footer");
         $tpl->set("user", $user);
         $tpl->set("baiduak", $baiduak);

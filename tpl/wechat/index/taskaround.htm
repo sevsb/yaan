@@ -1,6 +1,7 @@
 <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <div class="">
-   <div id="task-wrapper">
+    <!-- pre id="log"></pre -->
+    <div id="task-wrapper">
         <div class="location-tip" v-if="pagestatus == 0">
             <p>正在定位，请稍候...</p>
         </div>
@@ -48,7 +49,7 @@ var baiduak = "{=$baiduak}";
 var wx_appId = '{:$signPackage["appid"]}';
 var wx_timestamp = {:$signPackage["timestamp"]};
 var wx_nonceStr = '{:$signPackage["noncestr"]}';
-var wx_signature = '{:$signPackage["signature"]}',
+var wx_signature = '{:$signPackage["signature"]}';
 </script>
 
 
