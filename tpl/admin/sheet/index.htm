@@ -12,7 +12,7 @@
                 <th>查看</th>
             </tr>
             <tr v-for="(sheet, skey) in sheetlist" v-bind:class="{success: sheet.info.nstatus == 1, warning: sheet.info.nstatus == 2}">
-                <td>{{sheet.project.title}}</td>
+                <td>{{sheet.task.project.title}}</td>
                 <td>{{sheet.task.title}}</td>
                 <td>{{sheet.task.location.province.title}}{{sheet.task.location.city.title}}{{sheet.task.location.district.title}}</td>
                 <td>{{sheet.task.address}}</td>
@@ -49,13 +49,13 @@
             <div class="pull-left project-info">
                 <table class="table table-bordered">
                     <tr><td colspan="2"><center>项目</center></td></tr>
-                    <tr><td colspan="2"><img v-bind:src="sheetlist[viewsheetkey].project.cover" /></td></tr>
-                    <tr><td>编号</td><td>{{sheetlist[viewsheetkey].project.projectid}}</td></tr>
-                    <tr><td>名称</td><td>{{sheetlist[viewsheetkey].project.title}}</td></tr>
-                    <tr><td>类型</td><td>{{sheetlist[viewsheetkey].project.type}}</td></tr>
-                    <tr><td>文本</td><td>{{sheetlist[viewsheetkey].project.text}}</td></tr>
-                    <tr><td>问卷</td><td><a v-bind:href="sheetlist[viewsheetkey].project.word">点击打开</a></td></tr>
-                    <tr><td>期限</td><td>{{sheetlist[viewsheetkey].project.deadline}}</td></tr>
+                    <tr><td colspan="2"><img v-bind:src="sheetlist[viewsheetkey].task.project.cover" /></td></tr>
+                    <tr><td>编号</td><td>{{sheetlist[viewsheetkey].task.project.projectid}}</td></tr>
+                    <tr><td>名称</td><td>{{sheetlist[viewsheetkey].task.project.title}}</td></tr>
+                    <tr><td>类型</td><td>{{sheetlist[viewsheetkey].task.project.type}}</td></tr>
+                    <tr><td>文本</td><td>{{sheetlist[viewsheetkey].task.project.text}}</td></tr>
+                    <tr><td>问卷</td><td><a v-bind:href="sheetlist[viewsheetkey].task.project.word">点击打开</a></td></tr>
+                    <tr><td>期限</td><td>{{sheetlist[viewsheetkey].task.project.deadline}}</td></tr>
                 </table>
                 <table class="table table-bordered">
                     <tr><td colspan="2"><center>任务</center></td></tr>

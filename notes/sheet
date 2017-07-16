@@ -13,17 +13,6 @@
                     "face": "http://",
                 }
             },
-            "project": {
-                "id": 0,
-                "projectid": "ZERG000011021",
-                "type": "TYPE",
-                "title": "TITLE",
-                "text": "text", 
-                "word": "file url",
-                "status": 0,
-                "deadline": "time",
-                "cover": "url",
-            },
             "task": {
                 "id": 1,
                 "title": "title",
@@ -34,7 +23,18 @@
                     "province": "XX",
                     "city": "xx",
                     "district": "xx",
-                }
+                },
+                "project": {
+                    "id": 0,
+                    "projectid": "ZERG000011021",
+                    "type": "TYPE",
+                    "title": "TITLE",
+                    "text": "text", 
+                    "word": "file url",
+                    "status": 0,
+                    "deadline": "time",
+                    "cover": "url",
+                },
             }
             "answers": {[
                 {

@@ -3,6 +3,7 @@ include_once(dirname(__FILE__) . "/../config.php");
 
 class tasks {
     private $summary = array();
+    private $mProject = null;
     
     public function __construct($data) {
         $this->summary = $data;
@@ -59,6 +60,22 @@ class tasks {
         return $this->summary("status");
     }
     
+    public function project() {
+        if ($this->mProject === null) {
+            $muffininfos = db_muffininfos::inst()->get_all_cached();
+            $muffins = db_muffins::inst()->get_all_cached();
+            $mid = $this->muffinid();
+            $projectid = $muffins[$mid]["pid"];
+            foreach ($muffininfos as $info) {
+                if ($info["muffinid"] == $projectid) {
+                    $this->mProject = new projects($info);
+                    break;
+                }
+            }
+        }
+        return $this->mProject;
+    }
+
     public function from_projectid() {
         $muffinid = $this->summary('muffinid');
         $ret = db_muffins::inst()->get_project_id($muffinid);
@@ -171,6 +188,7 @@ class tasks {
             "content" => $this->content(),
             "status" => $this->status(),
             "location" => $this->location_obj()->pack_info(),
+            "project" => $this->project()->pack_info(),
         );
     }
 

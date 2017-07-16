@@ -44,22 +44,22 @@ class sheet {
         return $this->mTask;
     }
 
-    public function project() {
-        if ($this->mProject == null) {
-            $muffininfos = db_muffininfos::inst()->get_all_cached();
-            $muffins = db_muffins::inst()->get_all_cached();
-            $task = $this->task();
-            $mid = $task->muffinid();
-            $projectid = $muffins[$mid]["pid"];
-            foreach ($muffininfos as $info) {
-                if ($info["muffinid"] == $projectid) {
-                    $this->mProject = new projects($info);
-                    break;
-                }
-            }
-        }
-        return $this->mProject;
-    }
+    // public function project() {
+    //     if ($this->mProject == null) {
+    //         $muffininfos = db_muffininfos::inst()->get_all_cached();
+    //         $muffins = db_muffins::inst()->get_all_cached();
+    //         $task = $this->task();
+    //         $mid = $task->muffinid();
+    //         $projectid = $muffins[$mid]["pid"];
+    //         foreach ($muffininfos as $info) {
+    //             if ($info["muffinid"] == $projectid) {
+    //                 $this->mProject = new projects($info);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return $this->mProject;
+    // }
 
     public function id() {
         return $this->summary["id"];
@@ -194,7 +194,6 @@ class sheet {
                 "nstatus" => $this->status(),
                 "user" => $user->pack_info(),
             ),
-            "project" => $this->project()->pack_info(),
             "task" => $this->task()->pack_info(),
             "answers" => $ans,
         );
