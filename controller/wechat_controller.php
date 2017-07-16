@@ -3,11 +3,7 @@ include_once(dirname(__FILE__) . "/../config.php");
 
 class wechat_controller {
 
-    public function index_action() {
-        $ret = WXApi::inst()->doOAuth(true);
-        if ($ret == null) {
-            die("认证失败。");
-        }
+    private function update_login($ret) {
         // $_SESSION["wechat"] = $ret;
         $openid = $ret["openid"];
         $user = db_wechatusers::inst()->get_user_by_openid($openid);
@@ -19,7 +15,29 @@ class wechat_controller {
         }
         $_SESSION["user"] = $user;
         $_SESSION["user.name"] = $user["nickname"];
+    }
+
+
+    public function index_action() {
+        $ret = WXApi::inst()->doOAuth(true);
+        if ($ret == null) {
+            die("认证失败。");
+        }
+        $this->update_login($ret);
+
+        $app = get_request("app");
         go("wechat/index/home");
+    }
+
+    public function task_action() {
+        $ret = WXApi::inst()->doOAuth(true);
+        if ($ret == null) {
+            die("认证失败。");
+        }
+        $this->update_login($ret);
+
+        $app = get_request("app");
+        go("wechat/index/taskaround");
     }
 
     public function test_action() {
