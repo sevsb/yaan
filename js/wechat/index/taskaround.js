@@ -37,17 +37,7 @@ $(document).ready(function() {
         __log(data.province);
         __log(data.city);
         __log(data.district);
-
-        $("#province").val(data.province);
-        $("#province").trigger("change");
-        $("#city").val(data.city);
-        $("#city").trigger("change");
-        $("#district").val(data.district);
-        $("#district").trigger("change");
-
-        $("#current-location").html(data.province + data.city + data.district);
-
-        $("#viewtask").trigger("click");
+        __refresh_tasks({province: data.province, city: data.city, district: data.district});
     }
 
     var refresh_location = function(lat, lon) {
@@ -55,8 +45,28 @@ $(document).ready(function() {
     }
 
     var get_location = function() {
-
         if (typeof(wx) != 'undefined' && isWechatBrowser()) {
+            wx.config({
+                debug: false, // 如果不需要获取 ticket 成功的 alert 就改成 false
+                appId: wx_appId,
+                timestamp: wx_timestamp,
+                nonceStr: wx_noceStr,
+                signature: wx_signature,
+                jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
+                    'onMenuShareAppMessage', 'onMenuShareQQ',
+                    'onMenuShareWeibo', 'hideMenuItems',
+                    'showMenuItems', 'hideAllNonBaseMenuItem',
+                    'showAllNonBaseMenuItem', 'translateVoice',
+                    'startRecord', 'stopRecord', 'onRecordEnd',
+                    'playVoice', 'pauseVoice', 'stopVoice',
+                    'uploadVoice', 'downloadVoice', 'chooseImage',
+                    'previewImage', 'uploadImage', 'downloadImage',
+                    'getNetworkType', 'openLocation', 'getLocation',
+                    'hideOptionMenu', 'showOptionMenu', 'closeWindow',
+                    'scanQRCode', 'chooseWXPay',
+                    'openProductSpecificView', 'addCard', 'chooseCard',
+                    'openCard' ]
+            });
             wx.ready(function () {
                 wx.getLocation({
                     type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
@@ -67,6 +77,12 @@ $(document).ready(function() {
                         var accuracy = res.accuracy; // 位置精度
                         // alert(latitude+', '+longitude+', '+speed+', '+accuracy);
                         refresh_location(latitude, longitude);
+                    },
+                    cancel: function(res) {
+                        tasks.pagestatus = 1;
+                    },
+                    fail: function(res) {
+                        tasks.pagestatus = 1;
                     }
                 });
             });
@@ -75,30 +91,24 @@ $(document).ready(function() {
                 console.debug(position);
                 var latitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
-                console.debug(latitude + ', ' + longitude);
+                // alert(latitude+', '+longitude); // 36.1958, 120.5155
                 refresh_location(latitude, longitude);
             }, function (error) {
                 console.debug(error);
-                show_my_tasks();
+                // tasks.pagestatus = 1;
+
+                __refresh_tasks({province: "山东省", city: "青岛市", district: "崂山区"});
             });
+        } else {
+            tasks.pagestatus = 1;
         }
     };
     get_location();
 
-    $("#distpicker").distpicker('destroy');
-    $("#distpicker").distpicker({
-        province: '省份名',
-        city: '城市名',
-        district: '区名',
-        autoSelect: true,
-        placeholder: false, 
-    });
-
     var tasks = new Vue({
-        el: '#taskinfos',
+        el: '#task-wrapper',
         data: {
-            showtasklist: false,
-            showtaskinfo: false,
+            pagestatus: 0,
             viewtaskkey: 0,
             tasks: null,
         },
@@ -109,8 +119,7 @@ $(document).ready(function() {
 
                 tasks.taskinfo = tasks.tasks[taskkey];
                 tasks.viewtaskkey = taskkey;
-                tasks.showtasklist = false;
-                tasks.showtaskinfo = true;
+                tasks.pagestatus = 4;
             },
             accept: function(event) {
                 var tid = tasks.tasks[tasks.viewtaskkey].id;
@@ -120,57 +129,31 @@ $(document).ready(function() {
                     tasks.tasks = data;
                 });
             },
-            gosheet: function(event) {
-                var tid = tasks.tasks[tasks.viewtaskkey].id;
-                go("wechat/index/sheet", { task: tid });
-            },
             goback: function(event) {
-                tasks.showtasklist = true;
-                tasks.showtaskinfo = false;
+                tasks.pagestatus = 3;
             }
         }
     });
 
 
-    $("#viewtask").click(function() {
-        var province = $('#province').val();
-        var city = $('#city').val();
-        var district = $('#district').val();
+    var __refresh_tasks = function(data) {
         var loc = {
-            province: province,
-            city: city,
-            district: district
+            province: data.province,
+            city: data.city,
+            district: data.district
         };
         loc = JSON.stringify(loc); 
 
-        __request("wechat.api.tasks", { loc: loc }, function(data) {
-            // console.debug(data);
-            tasks.tasks = data;
-            tasks.showtasklist = true;
-            tasks.showtaskinfo = false;
-        });
-    });
-
-    var show_my_tasks = function() {
-        var province = "";
-        var city = "";
-        var district = "";
-        var loc = {
-            province: province,
-            city: city,
-            district: district
-        };
-        loc = JSON.stringify(loc); 
-
-        __request("wechat.api.tasks", { loc: loc }, function(data) {
-            // console.debug(data);
-            tasks.tasks = data;
-            tasks.showtasklist = true;
-            tasks.showtaskinfo = false;
+        __request("wechat.api.taskaround", { loc: loc }, function(res) {
+            console.debug(res);
+            tasks.tasks = res.data;
+            if (res.data.length == 0) {
+                tasks.pagestatus = 2;
+            } else {
+                tasks.pagestatus = 3;
+            }
         });
     };
-
-    $("#task-wrapper").removeClass("hidden");
 });
 
 

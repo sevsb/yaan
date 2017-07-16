@@ -2,6 +2,10 @@
 include_once(dirname(__FILE__) . "/../config.php");
 
 class tasks {
+    const STATUS_PENDING = 0;
+    const STATUS_PASS = 1;
+    const STATUS_REJECT = 2;
+
     private $summary = array();
     private $mProject = null;
     
@@ -86,6 +90,18 @@ class tasks {
         return !empty($this->summary);
     }
     
+    public function pack_info() {
+        return array(
+            "id" => $this->id(),
+            "title" => $this->title(),
+            "address" => $this->address(),
+            "content" => $this->content(),
+            "status" => $this->status(),
+            "location" => $this->location_obj()->pack_info(),
+            "project" => $this->project()->pack_info(),
+        );
+    }
+
     public static function add($muffinid, $title, $content, $address, $location){
 
         $pid = $muffinid;
@@ -135,19 +151,17 @@ class tasks {
     }
     
     public static function load_all() {
-        $all_muffins = db_muffins::inst()->get_all_muffins();
-        $all_mufininfos = db_muffininfos::inst()->get_all_muffininfos();
+        $all_muffins = db_muffins::inst()->get_all_cached();
+        $all_mufininfos = db_muffininfos::inst()->get_all_cached();
         $result_array = [];
-        foreach ($all_muffins as $id => $muffin) {
-            $pid = $muffin['pid'];
-            if ($pid == 0 || $pid = '') {
-                foreach ($all_mufininfos as $infoid => $muffininfo) {
-                    $muffinid = $muffininfo['muffinid'];
-                    if ($muffinid == $id) {
-                        $result_array[$id] = new projects($muffininfo);
-                    }
-                }
+
+        foreach ($all_mufininfos as $id => $info) {
+            $muffinid = $info["muffinid"];
+            $pid = $all_muffins[$muffinid]["pid"];
+            if ($pid == 0 || empty($pid)) {
+                continue;
             }
+            $result_array[$id] = new tasks($info);
         }
         return $result_array;
     }
@@ -180,18 +194,25 @@ class tasks {
         return $arr;
     }
 
-    public function pack_info() {
-        return array(
-            "id" => $this->id(),
-            "title" => $this->title(),
-            "address" => $this->address(),
-            "content" => $this->content(),
-            "status" => $this->status(),
-            "location" => $this->location_obj()->pack_info(),
-            "project" => $this->project()->pack_info(),
-        );
+    public static function load_around($loc) {
+        $location = new location($loc);
+        $tasks = self::load_all();
+        $arr = array();
+        foreach ($tasks as $id => $task) {
+            if (!empty($task->wechat_userid())) {
+                continue;
+            }
+            if ($task->status() != self::STATUS_PENDING) {
+                continue;
+            }
+            // logging::d("Debug", "compareing " . json_encode($task->location_obj()->pack_info()) . " with " . json_encode($location->pack_info()));
+            if ($task->location_obj()->is_same_city_with($location)) {
+                // logging::d("Debug", "SAME!");
+                $arr[$id] = $task;
+            }
+        }
+        return $arr;
     }
-
 }
 
 ?>

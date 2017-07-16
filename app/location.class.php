@@ -4,7 +4,7 @@ include_once(dirname(__FILE__) . "/lcs.class.php");
 
 class location_node {
     private $mCode = 0;
-    private $mTitle = 0;
+    private $mTitle = null;
     // private $lcs = null;
 
     public function location_node($summary) {
@@ -87,6 +87,10 @@ class location {
 
     public function equals($o) {
         return ($this->province()->equals($o->province()) && $this->city()->equals($o->city()) && $this->district()->equals($o->district()));
+    }
+
+    public function is_same_city_with($o) {
+        return ($this->province()->equals($o->province()) && (empty($o->city()->title()) || empty($this->city()->title()) || $this->city()->equals($o->city())));
     }
 
     public function pack_info() {

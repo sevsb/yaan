@@ -1,0 +1,54 @@
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<div class="">
+   <div id="task-wrapper">
+        <div class="location-tip" v-if="pagestatus == 0">
+            <p>正在定位，请稍候...</p>
+        </div>
+        <div class="location-tip" v-if="pagestatus == 1">
+            <p>定位失败，无法查看附近任务。</p>
+        </div>
+        <div class="location-tip" v-if="pagestatus == 2">
+            <p>当前区域无任务。</p>
+        </div>
+
+        <div class="tasks" class="clear" v-if="pagestatus == 3">
+            <div class="task" v-for="(task, taskkey) in tasks" v-bind:taskkey="taskkey" v-on:click="viewTask">
+                <div class="task-title">{{task.title}}</div>
+                <div class="task-brief">摘要：{{task.project.description}}</div>
+                <div>地址：{{task.address}}</div>
+                <div>期限：{{task.project.deadline}}</div>
+            </div>
+        </div>
+        <div id="!task-info-background" v-if="pagestatus == 4"></div>
+        <div id="task-info" class="clear" v-if="pagestatus == 4">
+            <div class="task-title">{{tasks[viewtaskkey].title}}</div>
+            <div>
+                <span class="task-type">{{tasks[viewtaskkey].project.type}}</span>
+                <span class="project-title">{{tasks[viewtaskkey].project.title}}</span>
+            </div>
+            <div class="task-cover"><img v-bind:src="tasks[viewtaskkey].project.cover" /></div>
+            <div class="task-text">{{tasks[viewtaskkey].project.text}}</div>
+
+            <div class="task-infomations">
+                <div class="task-address">地址：{{tasks[viewtaskkey].address}}</div>
+                <div class="task-contacts">联系人：{{tasks[viewtaskkey].content}}</div>
+                <div class="task-deadline">期限：{{tasks[viewtaskkey].project.deadline}}</div>
+                <div class="task-projectid">项目编号：{{tasks[viewtaskkey].project.projectid}}</div>
+            </div>
+
+            <div class="task-operations">
+                <button class="weui_btn weui_btn_primary" v-on:click="accept">领取</button>
+                <button class="weui_btn weui_btn_primary" v-on:click="goback">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var baiduak = "{=$baiduak}"; 
+var wx_appId = '{:$signPackage["appid"]}';
+var wx_timestamp = {:$signPackage["timestamp"]};
+var wx_nonceStr = '{:$signPackage["noncestr"]}';
+var wx_signature = '{:$signPackage["signature"]}',
+</script>
+
+

@@ -102,5 +102,19 @@ class api_controller {
             return $this->pack_tasks_info($user, $loc);
         }
     }
+
+    public function taskaround_action() {
+        $user = get_session_assert("user");
+        $loc = get_request_assert("loc");
+        $_SESSION["temp.wechatapi.location"] = $loc;
+        $tasks = tasks::load_around($loc);
+        $data = array();
+        foreach ($tasks as $task) {
+            $data []= $task->pack_info();
+        }
+        echo json_encode(array("op" => "taskaround", "data" => $data));
+    }
 }
+
+
 
