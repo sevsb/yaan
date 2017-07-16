@@ -26,7 +26,11 @@ class wechat_controller {
         $this->update_login($ret);
 
         $app = get_request("app");
-        go("wechat/index/home");
+        if ($app != null) {
+            go("wechat/test&user=" . $_SESSION["user"]["id"]);
+        } else {
+            go("wechat/index/home");
+        }
     }
 
     public function task_action() {
@@ -37,7 +41,11 @@ class wechat_controller {
         $this->update_login($ret);
 
         $app = get_request("app");
-        go("wechat/index/taskaround");
+        if ($app != null) {
+            go("wechat/test&user=" . $_SESSION["user"]["id"]);
+        } else {
+            go("wechat/index/taskaround");
+        }
     }
 
     public function test_action() {
