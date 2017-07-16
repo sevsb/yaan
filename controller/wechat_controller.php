@@ -25,8 +25,8 @@ class wechat_controller {
         }
         $this->update_login($ret);
 
-        $app = get_request("app");
-        if ($app != null) {
+        $jsd = get_request("jumpsubdomain");
+        if ($jsd != null) {
             go("wechat/test&user=" . $_SESSION["user"]["id"]);
         } else {
             go("wechat/index/home");
@@ -40,8 +40,8 @@ class wechat_controller {
         }
         $this->update_login($ret);
 
-        $app = get_request("app");
-        if ($app != null) {
+        $jsd = get_request("jumpsubdomain");
+        if ($jsd != null) {
             go("wechat/test&user=" . $_SESSION["user"]["id"]);
         } else {
             go("wechat/index/taskaround");
