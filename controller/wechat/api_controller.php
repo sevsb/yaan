@@ -99,7 +99,12 @@ class api_controller {
         $ret = db_muffininfos::inst()->update_wechat_userid($task, $user["id"]);
         if ($ret) {
             $loc = get_session_assert("temp.wechatapi.location");
-            return $this->pack_tasks_info($user, $loc);
+            $tasks = tasks::load_around($loc);
+            $data = array();
+            foreach ($tasks as $task) {
+                $data []= $task->pack_info();
+            }
+            echo json_encode(array("op" => "taskaround", "data" => $data));
         }
     }
 

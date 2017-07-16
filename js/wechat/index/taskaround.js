@@ -156,9 +156,20 @@ $(document).ready(function() {
             accept: function(event) {
                 var tid = tasks.tasks[tasks.viewtaskkey].id;
                 // console.debug(tid);
-                __request("wechat.api.accept", { task: tid }, function(data) {
-                    // console.debug(data);
-                    tasks.tasks = data;
+                __request("wechat.api.accept", { task: tid }, function(res) {
+                    // console.debug(res);
+
+                    $("#toast").removeClass("hidden");
+                    setTimeout(function() {
+                        $("#toast").addClass("hidden");
+                    }, 2000);
+
+                    tasks.tasks = res.data;
+                    if (res.data.length == 0) {
+                        tasks.pagestatus = 2;
+                    } else {
+                        tasks.pagestatus = 3;
+                    }
                 });
             },
             goback: function(event) {
