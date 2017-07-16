@@ -64,6 +64,7 @@ class tasks {
         $ret = db_muffins::inst()->get_project_id($muffinid);
         return $ret;
     }
+
     public function is_valid() {
         return !empty($this->summary);
     }
@@ -149,6 +150,17 @@ class tasks {
             }       
         }
         return $result_array;
+    }
+
+    public static function load_user_tasks($uid) {
+        $all_muffininfos = db_muffininfos::inst()->get_all_muffininfos();
+        $arr = array();
+        foreach ($all_muffininfos as $id => $info) {
+            if ($info["wechat_userid"] == $uid) {
+                $arr [$id]= new tasks($info);
+            }
+        }
+        return $arr;
     }
 
     public function pack_info() {

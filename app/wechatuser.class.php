@@ -5,6 +5,7 @@ include_once(FRAMEWORK_PATH . "cache.php");
 
 class wechatuser {
     private $summary = array();
+    private $mRunningTasks = null;
     
     private function __construct($summary) {
         $this->summary = $summary;
@@ -22,8 +23,8 @@ class wechatuser {
         return $this->summary["face"];
     }
 
-    public function tasks() {
-        return $this->summary["tasks"];
+    public function taskcount() {
+        return $this->summary["taskcount"];
     }
 
     public function pass() {
@@ -36,6 +37,13 @@ class wechatuser {
 
     public function score() {
         return $this->pass() - $this->reject();
+    }
+
+    public function running_tasks() {
+        if ($this->mRunningTasks === null) {
+            $this->mRunningTasks = tasks::load_user_tasks($this->id());
+        }
+        return $this->mRunningTasks;
     }
 
     public function locations() {
@@ -79,7 +87,7 @@ class wechatuser {
         if ($id == 0) {
             return false;
         }
-        return db_wechatusers::inst()->update_user($id, $this->nick(), $this->face(), $this->tasks(), $this->pass(), $this->reject(), $this->locations());
+        return db_wechatusers::inst()->update_user($id, $this->nick(), $this->face(), $this->taskcount(), $this->pass(), $this->reject(), $this->locations());
     }
 
     public function pack_info() {
@@ -88,6 +96,13 @@ class wechatuser {
         foreach ($locations as $l) {
             $locs []= $l->pack_info();
         }
+
+        $tasks = $this->running_tasks();
+        $tarr = array();
+        foreach ($tasks as $tid => $task) {
+            $tarr []= $task->pack_info();
+        }
+
         return array(
             "id" => $this->id(),
             "nick" => $this->nick(),
@@ -95,8 +110,9 @@ class wechatuser {
             "score" => $this->score(),
             "pass" => $this->pass(),
             "reject" => $this->reject(),
-            "tasks" => $this->tasks(),
+            "taskcount" => $this->taskcount(),
             "locations" => $locs,
+            "tasks" => $tarr,
         );
     }
 

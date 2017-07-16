@@ -42,9 +42,9 @@ class db_wechatusers extends database {
         return $this->insert(TABLE_WECHATUSERS, array("openid" => $openid, "nickname" => $nickname, "face" => $faceurl));
     }
 
-    public function update_user($id, $nick, $face, $tasks, $pass, $reject, $locations) {
+    public function update_user($id, $nick, $face, $taskcount, $pass, $reject, $locations) {
         $id = (int)$id;
-        return $this->update(TABLE_WECHATUSERS, array("nickname" => $nick, "face" => $face, "tasks" => $tasks, "pass" => $pass, "reject" => $reject, "locations" => $locations), "id = $id");
+        return $this->update(TABLE_WECHATUSERS, array("nickname" => $nick, "face" => $face, "taskcount" => $taskcount, "pass" => $pass, "reject" => $reject, "locations" => $locations), "id = $id");
     }
 
     public function update_location_by_id($userid, $location) {

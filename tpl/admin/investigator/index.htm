@@ -17,13 +17,17 @@
         <table class="table table-bordered">
             <tr><td class="item-table-1"><img class="userinfo-avatar" :src="userlist[viewuserkey].face" /></td><td>{{userlist[viewuserkey].nick}}</td></tr>
             <tr><td></td><td>
-                <p>总任务：{{userlist[viewuserkey].tasks}}</p>
+                <p>总任务：{{userlist[viewuserkey].taskcount}}</p>
                 <p>通过任务数：{{userlist[viewuserkey].pass}}</p>
                 <p>失败任务数：{{userlist[viewuserkey].reject}}</p>
                 <p>积分：{{userlist[viewuserkey].score}}</p>
                 <p>位置记录：</p>
                 <ul>
                     <li v-for="location in userlist[viewuserkey].locations">{{location.province.title}}{{location.city.title}}{{location.district.title}}&nbsp;&nbsp;{{location.timestr}}</li>
+                </ul>
+                <p>正在进行任务：</p>
+                <ul>
+                    <li v-for="task in userlist[viewuserkey].tasks">{{task.title}}</li>
                 </ul>
             </td></tr>
         </table>
