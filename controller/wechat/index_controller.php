@@ -40,11 +40,94 @@ class index_controller {
     public function sheet_action() {
         // 姑且先放在index中
         $tpl = new tpl("wechat/header", "wechat/footer");
-        $signPackage = WXApi::inst()->get_SignPackage();
+        // $signPackage = WXApi::inst()->get_SignPackage();
         $imgRoot = rtrim(UPLOAD_URL, "/") . "/";
         $tpl->set("imgRoot", $imgRoot);
-        $tpl->set("signPackage", $signPackage);
+        // $tpl->set("signPackage", $signPackage);
         $tpl->display("wechat/index/sheet");
+    }
+
+    public function initData_ajax() {
+        $paperId = get_request("paperId");
+        $userId = get_request("userId");
+
+        if(empty($paperId) || empty($userId)) {
+            $ret = array("ret" => "fail", "info" => "error Id: PaperId or UserId is empty.");
+            return $ret;
+        }
+
+        $needCreateSheet = true;
+        $sheetsList = sheet::load_all();
+        $ret = '';
+        foreach($sheetsList as $sheet) {
+            if($sheet->paperid() == $paperId) {
+
+                if($sheet->userid() != $userId) {
+                    $ret = array("ret" => "fail", "info" => "error Sheet: Not match UserId for Sheet.");
+                    return $ret;
+                }
+
+                $needCreateSheet = false;
+                $answersList = $sheet->answers();
+                if(!empty($answersList)) {
+
+                    if(count($answersList) > 1) {
+                        $ret = array("ret" => "fail", "info" => "error Answers: More than one answer.");
+                        return $ret;
+                    }
+
+                    foreach($answersList as $answer) {
+                        if(!empty($answer->reply())) {
+                            $ret = $answer->reply()->replies();
+                        }
+                    }
+                } else {
+                    $answer = new answer(
+                        array(
+                            "id" => 0,
+                            "type" => answer::TYPE_WORD,
+                            "title" => "ANSWER_TITLE",
+                            "choice" => "",
+                            "reply" => ""
+                        )
+                    );
+                    $answer->save();
+                    $sheet->set_answers($answer->id());
+                    $sheet->save();
+                }
+            }
+        }
+
+        if($needCreateSheet) {
+            $sheet = new sheet(
+                array(
+                    "id" => 0,
+                    "userid" => $userId,
+                    "paperid" => $paperId,
+                    "title" => "SHEET_TITLE",
+                    "info" => "SHEET_INFO",
+                    "answers" => $answer->id(),
+                    "status" => sheet::STATUS_NOTREVIEW,
+                )
+            );
+            $sheet->save();
+            $answer = new answer(
+                array(
+                    "id" => 0,
+                    "type" => answer::TYPE_WORD,
+                    "title" => "ANSWER_TITLE",
+                    "choice" => "",
+                    "reply" => ""
+                )
+            );
+            $answer->save();
+            $sheet->set_answers($answer->id());
+            $sheet->save();
+        }
+
+        $ret = array("answerId" => $answer->id(), "photosList" => $ret);
+        $ret = array("ret" => "success", "info" => $ret);
+        return $ret;
     }
 
     public function updateImg_ajax() {
@@ -66,6 +149,21 @@ class index_controller {
         }
 
         return $ret;
+    }
+
+    public function updatePhotosList_ajax() {
+        $answerId = get_request("answerId");
+        $photosList = get_request("photosList");
+
+
+        $reply = array("type" => 0, "data"=>array("imgList" => $photosList));
+        $reply = new answer_reply_word($reply);
+        $answer = answer::load((int)$answerId);
+        $answer->setReply($reply);
+        $answer->save();
+        $ret = array("ret" => "fail");
+        return $ret;
+
     }
 }
 

@@ -50,6 +50,9 @@
   border-top-right-radius: 2px;
   border-top-left-radius: 2px;
   overflow: hidden;
+
+  background:url() no-repeat center;
+  background-size: cover;
 }
 
 .card_footer {
