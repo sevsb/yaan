@@ -172,7 +172,7 @@ class answer {
                 $arr[$id] = new answer($an);
             }
             return $arr;
-        } else if (is_int($answerid)) {
+        } else if (is_numeric($answerid)) {
             $ans = db_answers::inst()->get_one_answer($answerid);
             return new answer($ans);
         } else {
