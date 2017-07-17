@@ -48,6 +48,7 @@ class location {
     private $mCity = null;
     private $mDistrict = null;
     private $mTile = null;
+    private $mCode = 0;
 
     public function location($summary) {
         if (is_string($summary)) {
@@ -63,6 +64,9 @@ class location {
         $this->mCity = new location_node($arr["city"]);
         $this->mDistrict = new location_node($arr["district"]);
         $this->mTime = isset($summary["time"]) ? $summary["time"] : 0;
+        if (isset($arr["adcode"])) {
+            $this->mCode = $arr["adcode"];
+        }
     }
 
     public function &province() {
@@ -81,16 +85,47 @@ class location {
         return $this->mTime;
     }
 
+    public function code() {
+        return $this->mCode;
+    }
+
     public function set_time($time) {
         $this->mTime = $time;
     }
 
-    public function equals($o) {
+    private function title_equals($o) {
         return ($this->province()->equals($o->province()) && $this->city()->equals($o->city()) && $this->district()->equals($o->district()));
     }
 
+    public function equals($o) {
+        logging::d("Debug", "Comparing location: " . json_encode($this->pack_info()) . " vs " . json_encode($o->pack_info()));
+
+        if ($this->code() != 0 && $o->code() != 0) {
+            logging::d("Debug", "\tcompare code.");
+            return ($this->code() == $o->code());
+        }
+        if ($this->code() == 0 && $o->code() == 0) {
+            logging::d("Debug", "\tcompare title because neither has code.");
+            return $this->title_equals($o);
+        }
+
+        if ($this->code() != 0) {
+            if ($o->province()->code() != 0) {
+                logging::d("Debug", "\tcompare code with item.code.");
+                $ret = ($this->code() == $o->province()->code());
+                $ret |= ($this->code() == $o->city()->code());
+                $ret |= ($this->code() == $o->district()->code());
+                return $ret;
+            }
+            logging::d("Debug", "\tcompare title because the other one has no item code.");
+            return $this->title_equals($o);
+        }
+        logging::d("Debug", "\treverse compare.");
+        return $o->equals($this);
+    }
+
     public function is_same_city_with($o) {
-        return ($this->province()->equals($o->province()) && (empty($o->city()->title()) || empty($this->city()->title()) || $this->city()->equals($o->city())));
+        return $this->equals($o);
     }
 
     public function pack_info() {
@@ -99,6 +134,7 @@ class location {
                      "district" => $this->district()->pack_info(),
                      "time" => $this->mTime,
                      "timestr" => date("Y-m-d H:i:s", $this->mTime),
+                     "adcode" => $this->code(),
                  );
     }
 };

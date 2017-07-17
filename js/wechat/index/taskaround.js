@@ -19,10 +19,12 @@ var cityname = function(latitude, longitude, callback) {
             var street = data.result.addressComponent.street;
             var street_number = data.result.addressComponent.street_number;
             var formatted_address = data.result.formatted_address;
+            var adcode = data.result.addressComponent.adcode;
             var data = {
                 province: province,
                 city: cityname,
                 district: district,
+                adcode: adcode,
             };
             if (typeof callback == "function") {
                 callback(data);
@@ -39,7 +41,7 @@ $(document).ready(function() {
         __log(data.province);
         __log(data.city);
         __log(data.district);
-        __refresh_tasks({province: data.province, city: data.city, district: data.district});
+        __refresh_tasks({province: data.province, city: data.city, district: data.district, adcode: data.adcode});
     }
 
     var refresh_location = function(lat, lon) {
@@ -183,7 +185,8 @@ $(document).ready(function() {
         var loc = {
             province: data.province,
             city: data.city,
-            district: data.district
+            district: data.district,
+            adcode: data.adcode
         };
         loc = JSON.stringify(loc); 
 
