@@ -26,11 +26,11 @@ class db_answers extends database {
         return $this->get_all_table(TABLE_ANSWERS);
     }
 
-    public function add_answer($userid, $type, $title, $choice, $reply) {
+    public function add_answer($type, $title, $choice, $reply) {
         return $this->insert(TABLE_ANSWERS, array("type" => $type, "title" => $title, "choice" => $choice, "reply" => $reply));
     }
 
-    public function update_answer($id, $userid, $type, $title, $choice, $reply) {
+    public function update_answer($id, $type, $title, $choice, $reply) {
         $id = (int)$id;
         return $this->update(TABLE_ANSWERS, array("type" => $type, "title" => $title, "choice" => $choice, "reply" => $reply), "id = $id");
     }

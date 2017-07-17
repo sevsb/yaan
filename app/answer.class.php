@@ -106,7 +106,7 @@ class answer {
     private $mChoice = null;
     private $mReply = null;
     private $summary = null;
-    public function answer($summary) {
+    public function answer($summary = null) {
         if (!empty($summary)) {
             $this->summary = $summary;
             $this->mChoice = question_choice::create($summary["choice"]);
