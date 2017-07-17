@@ -157,12 +157,12 @@ class answer {
         $reply = $this->mReply != null ? $this->mReply->toJson() : "";
         $id = $this->id();
         if ($id == 0) {
-            $ret = db_answers::inst()->add_answer($this->userid(), $this->type(), $this->title(), $choice, $reply);
+            $ret = db_answers::inst()->add_answer($this->type(), $this->title(), $choice, $reply);
             if ($ret !== false) {
                 $this->summary["id"] = $ret;
             }
         } else {
-            $ret = db_answers::inst()->update_answer($id, $this->userid(), $this->type(), $this->title(), $choice, $reply);
+            $ret = db_answers::inst()->update_answer($id, $this->type(), $this->title(), $choice, $reply);
         }
         return $ret;
     }
