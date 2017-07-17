@@ -112,13 +112,10 @@ class answer {
             $this->mChoice = question_choice::create($summary["choice"]);
             $this->mReply = answer_reply::create($summary["reply"]);
         } else {
-            $this->summary =  array("id" => 0, "userid" => 0, "type" => 0, "title" => "", "choice" => "", "reply" => "");
+            $this->summary =  array("id" => 0, "type" => 0, "title" => "", "choice" => "", "reply" => "");
         }
     }
 
-    public function setUserId($uid) {
-        $this->summary["userid"] = $uid;
-    }
     public function setType($type) {
         $this->summary["type"] = $type;
     }
