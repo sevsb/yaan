@@ -58,7 +58,7 @@ class db_muffininfos extends database {
     }
 
     public function modify_task_status($taskid, $status) {
-        return $this->update(TABLE_MUFFININFOS, array("status" => $status), "muffinid = $taskid");
+        return $this->update(TABLE_MUFFININFOS, array("status" => $status), "id = $taskid");
     }
 
     public function del($id){
