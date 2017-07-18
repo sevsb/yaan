@@ -115,7 +115,7 @@ class index_controller {
                     "paperid" => $paperId,
                     "title" => "SHEET_TITLE",
                     "info" => "SHEET_INFO",
-                    "answers" => $answer->id(),
+                    "answers" => 0,
                     "status" => sheet::STATUS_NOTREVIEW,
                 )
             );

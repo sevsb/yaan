@@ -71,7 +71,6 @@ $(document).ready(function() {
                     type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                     success: function (res) {
                         photo.imgLocation = {};
-                        photo.imgLocation = {};
                         photo.imgLocation.latitude = res.latitude;
                         photo.imgLocation.longitude = res.longitude;
                         photo.imgLocation.accuracy =  res.accuracy;
@@ -81,25 +80,22 @@ $(document).ready(function() {
 
                 // 上传图片
                 __ajax('wechat.index.updateImg', {
-                imgData: imgData
+                    imgData: this.imgData
                 }, function (data) {
                     if(data.ret == 'success'){
                         photo.imgUrl = data.imgUrl;
-
                         photosList.push(photo);
-
-                        $('#add_photo_modal').modal('hide');
-                    }else {
-                        alert(data.info);
-                    }
-                });
-
-                __ajax('wechat.index.updatePhotosList', {
-                    answerId: __answerId,
-                    photosList: __photosList,
-                }, function (data) {
-                    if(data.ret == 'success'){
-                        vue_card_book.refreshPhotosList();
+                        __ajax('wechat.index.updatePhotosList', {
+                            answerId: __answerId,
+                            photosList: __photosList,
+                        }, function (data) {
+                            if(data.ret == 'success'){
+                                vue_card_book.refreshPhotosList();
+                                $('#add_photo_modal').modal('hide');
+                            }else {
+                                alert(data.info);
+                            }
+                        });
                     }else {
                         alert(data.info);
                     }
