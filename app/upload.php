@@ -51,6 +51,20 @@ function uploadImageViaFileReader($imgsrc = null, $callback = null, $args = null
     return "success";
 }
 
+function deleteUploadImageByFilename($filename) {
+    $filepath = UPLOAD_DIR . "/$filename";
+
+    if (!file_exists($filepath)) {
+        return "fail|目标上传图片不存在.";
+    }
+
+    if(!unlink($filepath)) {
+        return "fail|删除上传图片失败.";
+    } else {
+        return "success";
+    }
+}
+
 function uploadFileViaFileReader($filesrc = null) {
     $whitelist = array(
     "application/msword" => "doc", 
