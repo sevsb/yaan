@@ -3,6 +3,7 @@ include_once(dirname(__FILE__) . "/../config.php");
 
 class tasks {
     const STATUS_PENDING = 0;
+    const STATUS_NOTREVIEW = 3;
     const STATUS_PASS = 1;
     const STATUS_REJECT = 2;
 
