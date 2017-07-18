@@ -13,6 +13,8 @@ class task_controller {
         $project = projects::create($projectmuffinid);
         $project_title = $project->title();
         $tasks = tasks::load_tasks($projectmuffinid);
+        $wechatusers = wechatuser::load_all();
+        $tpl->set('wechatusers', $wechatusers);
         $tpl->set('project_title', $project_title);
         $tpl->set('muffinid', $projectmuffinid);
         $tpl->set('tasks', $tasks);
@@ -74,6 +76,16 @@ class task_controller {
         logging::d("TASKDEL", "del_id: $del_id");
         $result = tasks::del($del_id);
         return $result ? 'success' : 'fail';
+    }
+    
+    public function assign_ajax() {
+        $userid = get_request('userid');
+        $taskid = get_request('taskid');
+        logging::d("Debug", $userid);
+        logging::d("Debug", $taskid);
+        $userid == null ? $status = 0 : $status = 1;
+        $ret = db_muffininfos::inst()->update_wechat_userid($taskid, $userid, $status);
+        return $ret ? array('ret' => 'success') : array('status' => 'fail');
     }
     
     
