@@ -41,12 +41,11 @@ $(document).ready(function() {
                                 if(imgData.substr(0, 23).search('data:image/jpeg;base64,') < 0){
                                     imgData = 'data:image/jpeg;base64,' + imgData;
                                 }
+                                vue_add_photo_modal.showAddPhotoModal(localId, imgData);
                             }
                         });
-                        vue_add_photo_modal.showAddPhotoModal(localId, imgData);
                     }
                 });
-
             },
         }
     });
@@ -78,13 +77,12 @@ $(document).ready(function() {
                 });
                 photo.imgContent = $('#add_photo_modal_img_content').val();
 
-                // 上传图片
                 __ajax('wechat.index.updateImg', {
                     imgData: this.imgData
                 }, function (data) {
                     if(data.ret == 'success'){
                         photo.imgUrl = data.imgUrl;
-                        photosList.push(photo);
+                        __photosList.push(photo);
                         __ajax('wechat.index.updatePhotosList', {
                             answerId: __answerId,
                             photosList: __photosList,
