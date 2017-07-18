@@ -22,7 +22,7 @@ $(document).ready(function() {
             refreshPhotosList: function(){
                 this.photosList = __photosList;
             },
-            addPhoto: function(event) {
+            addPhoto: function() {
                 wx.chooseImage({
                     count: 1, // 默认9
                     sizeType: ['compressed'], // ['original', 'compressed'] 可以指定是原图还是压缩图，默认二者都有
@@ -46,6 +46,14 @@ $(document).ready(function() {
                         });
                     }
                 });
+            },
+            modifyPhoto: function(imgUrl) {
+                console.info('modifyPhoto');
+                console.info(imgUrl);
+            },
+            deletePhoto: function(imgUrl) {
+                console.info('deletePhoto');
+                console.info(imgUrl);
             },
         }
     });
@@ -102,3 +110,28 @@ $(document).ready(function() {
         }
     });
 });
+
+Array.prototype.getPhotoByImgUrl = function(imgUrl) {
+    if(imgUrl === undefined) {
+        return -1;
+    }
+
+    for(var i = 0; i < this.length; i++) {
+        if(this[i].imgUrl == imgUrl) {
+            return this[i];
+        }
+    }
+    return -1;
+};
+Array.prototype.deletePhotoByImgUrl = function(imgUrl) {
+    if(imgUrl === undefined) {
+        return -1;
+    }
+
+    for(var i = 0; i < this.length; i++) {
+        if(this[i].imgUrl == imgUrl) {
+            return this.splice(i, 1);
+        }
+    }
+    return -1;
+};
