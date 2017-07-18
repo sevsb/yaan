@@ -2,31 +2,31 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
     var __imgRoot = '{:$imgRoot}';
-    var __paperId = 2;
-    var __userId = 7;
+    var __paperId = {:$paperId};
+    var __userId = {:$userId};
     var __answerId = 0;
     var __photosList = [];
-    // wx.config({
-    //     debug: true,
-    //     appId: '{:$signPackage["appid"]}',
-    //     timestamp: {:$signPackage["timestamp"]},
-    //     nonceStr: '{:$signPackage["noncestr"]}',
-    //     signature: '{:$signPackage["signature"]}',
-    //     jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
-    //             'onMenuShareAppMessage', 'onMenuShareQQ',
-    //             'onMenuShareWeibo', 'hideMenuItems',
-    //             'showMenuItems', 'hideAllNonBaseMenuItem',
-    //             'showAllNonBaseMenuItem', 'translateVoice',
-    //             'startRecord', 'stopRecord', 'onRecordEnd',
-    //             'playVoice', 'pauseVoice', 'stopVoice',
-    //             'uploadVoice', 'downloadVoice', 'chooseImage',
-    //             'previewImage', 'uploadImage', 'downloadImage',
-    //             'getNetworkType', 'openLocation', 'getLocation',
-    //             'hideOptionMenu', 'showOptionMenu', 'closeWindow',
-    //             'scanQRCode', 'chooseWXPay',
-    //             'openProductSpecificView', 'addCard', 'chooseCard',
-    //             'openCard', 'getLocalImgData' ]
-    // });
+    wx.config({
+        debug: false,
+        appId: '{:$signPackage["appid"]}',
+        timestamp: {:$signPackage["timestamp"]},
+        nonceStr: '{:$signPackage["noncestr"]}',
+        signature: '{:$signPackage["signature"]}',
+        jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
+                'onMenuShareAppMessage', 'onMenuShareQQ',
+                'onMenuShareWeibo', 'hideMenuItems',
+                'showMenuItems', 'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem', 'translateVoice',
+                'startRecord', 'stopRecord', 'onRecordEnd',
+                'playVoice', 'pauseVoice', 'stopVoice',
+                'uploadVoice', 'downloadVoice', 'chooseImage',
+                'previewImage', 'uploadImage', 'downloadImage',
+                'getNetworkType', 'openLocation', 'getLocation',
+                'hideOptionMenu', 'showOptionMenu', 'closeWindow',
+                'scanQRCode', 'chooseWXPay',
+                'openProductSpecificView', 'addCard', 'chooseCard',
+                'openCard', 'getLocalImgData' ]
+    });
 </script>
 
 <!-- 主体页面 -->
