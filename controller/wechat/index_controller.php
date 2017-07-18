@@ -47,9 +47,9 @@ class index_controller {
         $tpl->set("userId", $userId);
         $imgRoot = rtrim(UPLOAD_URL, "/") . "/";
         $tpl->set("imgRoot", $imgRoot);
-        // $signPackage = WXApi::inst()->get_SignPackage();
-        // $tpl->set("signPackage", $signPackage);
-        // $tpl->display("wechat/index/sheet");
+        $signPackage = WXApi::inst()->get_SignPackage();
+        $tpl->set("signPackage", $signPackage);
+        $tpl->display("wechat/index/sheet");
     }
 
     public function initData_ajax() {
