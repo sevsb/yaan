@@ -2,6 +2,7 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
     var __imgRoot = '{:$imgRoot}';
+    var __taskId = {:$taskId};
     var __paperId = {:$paperId};
     var __userId = {:$userId};
     var __answerId = 0;
@@ -32,9 +33,10 @@
 
 <!-- 主体页面 -->
 <div class="wx_view">
-    <div class="wx_col_item">
-        <div class="wx_row_item card_book" id="card_book">
+    <div class="wx_col_item" id="card_book">
+        <div class="wx_row_item card_book">
             <div class="card" v-for="photo in photosList">
+                <!-- FIXME: 目前的所有图片都是通过微信压缩，然后获取的原图。这样早晚会流量爆炸的... -->
                 <div class="card_body" v-bind:style="{'background-image':'url('+__imgRoot+photo.imgUrl+')'}">
                 </div>
                 <div class="card_footer dropup" >
@@ -54,8 +56,8 @@
             </div>
         </div>
         <div class="wx_row_item bottom_area">
-            <button type="button" class="btn btn-default">返回</button>
-            <button type="button" class="btn btn-primary">提交</button>
+            <button type="button" class="btn btn-default" v-on:click="goBack()">返回</button>
+            <button type="button" class="btn btn-primary" v-on:click="sumbitSheet()">提交</button>
         </div>
     </div>
 </div>

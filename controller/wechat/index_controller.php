@@ -39,10 +39,11 @@ class index_controller {
 
     public function sheet_action() {
         $tpl = new tpl("wechat/header", "wechat/footer");
-        $taskId = get_request("task");
+        $taskId = get_request_assert("task");
         $task = tasks::create_by_id($taskId);
         $paperId = $task->paperid();
         $userId = $task->wechat_userid();
+        $tpl->set("taskId", $taskId);
         $tpl->set("paperId", $paperId);
         $tpl->set("userId", $userId);
         $imgRoot = rtrim(UPLOAD_URL, "/") . "/";
@@ -184,6 +185,12 @@ class index_controller {
         $answer = answer::load((int)$answerId);
         $answer->setReply($reply);
         $ret = $answer->save();
+        return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
+    }
+
+    public function sumbitSheet_ajax() {
+        $taskId = get_request("taskId");
+        $ret = tasks::modify_task_status($taskId, tasks::STATUS_NOTREVIEW);
         return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
     }
 }

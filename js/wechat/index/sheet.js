@@ -3,11 +3,11 @@ $(document).ready(function() {
         paperId: __paperId,
         userId: __userId,
     }, function (data) {
-        if(data.ret == 'success'){
+        if(data.ret == 'success') {
             __answerId = data.info.answerId;
             __photosList = data.info.photosList;
             vue_card_book.refreshPhotosList();
-        }else {
+        } else {
             alert(data.info);
         }
     });
@@ -70,6 +70,20 @@ $(document).ready(function() {
                         alert(data.info);
                     }
                 });
+            },
+            sumbitSheet: function() {
+                __ajax('wechat.index.sumbitSheet', {
+                    taskId: __taskId,
+                }, function (data) {
+                    if(data.ret == 'success'){
+                        vue_card_book.goBack();
+                    } else {
+                        alert(data.info);
+                    }
+                });
+            },
+            goBack: function() {
+                window.location.href = location.origin+'/?wechat/index/home';
             },
         }
     });
