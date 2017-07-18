@@ -38,13 +38,18 @@ class index_controller {
     }
 
     public function sheet_action() {
-        // 姑且先放在index中
         $tpl = new tpl("wechat/header", "wechat/footer");
-        // $signPackage = WXApi::inst()->get_SignPackage();
+        $taskId = get_request("task");
+        $task = tasks::create_by_id($taskId);
+        $paperId = $task->paperid();
+        $userId = $task->wechat_userid();
+        $tpl->set("paperId", $paperId);
+        $tpl->set("userId", $userId);
         $imgRoot = rtrim(UPLOAD_URL, "/") . "/";
         $tpl->set("imgRoot", $imgRoot);
+        // $signPackage = WXApi::inst()->get_SignPackage();
         // $tpl->set("signPackage", $signPackage);
-        $tpl->display("wechat/index/sheet");
+        // $tpl->display("wechat/index/sheet");
     }
 
     public function initData_ajax() {
@@ -91,9 +96,13 @@ class index_controller {
                             "reply" => ""
                         )
                     );
-                    $answer->save();
+                    $ret = $answer->save();
+                    if($ret === false)
+                        return "fail|数据库操作失败，请稍后重试。";
                     $sheet->set_answers($answer->id());
-                    $sheet->save();
+                    $ret =  $sheet->save();
+                    if($ret === false)
+                        return "fail|数据库操作失败，请稍后重试。";
                 }
             }
         }
@@ -110,7 +119,6 @@ class index_controller {
                     "status" => sheet::STATUS_NOTREVIEW,
                 )
             );
-            $sheet->save();
             $answer = new answer(
                 array(
                     "id" => 0,
@@ -120,9 +128,13 @@ class index_controller {
                     "reply" => ""
                 )
             );
-            $answer->save();
+            $ret = $answer->save();
+            if($ret === false)
+                return "fail|数据库操作失败，请稍后重试。";
             $sheet->set_answers($answer->id());
-            $sheet->save();
+            $ret =  $sheet->save();
+            if($ret === false)
+                return "fail|数据库操作失败，请稍后重试。";
         }
 
         $ret = array("answerId" => $answer->id(), "photosList" => $ret);
@@ -155,15 +167,12 @@ class index_controller {
         $answerId = get_request("answerId");
         $photosList = get_request("photosList");
 
-
         $reply = array("type" => 0, "data"=>array("imgList" => $photosList));
         $reply = new answer_reply_word($reply);
         $answer = answer::load((int)$answerId);
         $answer->setReply($reply);
-        $answer->save();
-        $ret = array("ret" => "fail");
-        return $ret;
-
+        $ret = $answer->save();
+        return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
     }
 }
 
