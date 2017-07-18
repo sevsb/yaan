@@ -83,7 +83,8 @@ class task_controller {
         $taskid = get_request('taskid');
         logging::d("Debug", $userid);
         logging::d("Debug", $taskid);
-        $ret = db_muffininfos::inst()->update_wechat_userid($taskid, $userid);
+        $userid == null ? $status = 0 : $status = 1;
+        $ret = db_muffininfos::inst()->update_wechat_userid($taskid, $userid, $status);
         return $ret ? array('ret' => 'success') : array('status' => 'fail');
     }
     

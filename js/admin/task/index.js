@@ -21,13 +21,18 @@ $('.investigator_div').click(function (){
 
 
 $('.do_accept').click(function (){
-
     userid = $('.choosed').attr('userid');
     console.log("taskid:" + taskid);
     console.log("userid:" + userid);
     if (userid == '' || userid == undefined) {
         return false;
     }
+    __ajax('admin.task.assign', {taskid : taskid , userid: userid} ,true )
+});
+$('.cancel_accept').click(function (){
+    userid = null;
+    console.log("taskid:" + taskid);
+    console.log("userid:" + userid);
     __ajax('admin.task.assign', {taskid : taskid , userid: userid} ,true )
 });
 });
