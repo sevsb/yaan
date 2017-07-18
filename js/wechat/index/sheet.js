@@ -48,12 +48,28 @@ $(document).ready(function() {
                 });
             },
             modifyPhoto: function(imgUrl) {
-                console.info('modifyPhoto');
-                console.info(imgUrl);
+                vue_modify_photo_modal.showModifyPhotoModal(__photosList.getPhotoByImgUrl(imgUrl));
             },
             deletePhoto: function(imgUrl) {
-                console.info('deletePhoto');
-                console.info(imgUrl);
+                __ajax('wechat.index.deleteImg', {
+                    imgName: imgUrl
+                }, function (data) {
+                    if(data.ret == 'success'){
+                        __photosList.deletePhotoByImgUrl(imgUrl);
+                        __ajax('wechat.index.updatePhotosList', {
+                            answerId: __answerId,
+                            photosList: __photosList,
+                        }, function (data) {
+                            if(data.ret == 'success'){
+                                vue_card_book.refreshPhotosList();
+                            }else {
+                                alert(data.info);
+                            }
+                        });
+                    }else {
+                        alert(data.info);
+                    }
+                });
             },
         }
     });
@@ -109,6 +125,35 @@ $(document).ready(function() {
             }
         }
     });
+
+    var vue_modify_photo_modal = new Vue({
+        el: '#modify_photo_modal',
+        data: {
+            photo: {},
+        },
+        methods: {
+            showModifyPhotoModal: function(photo){
+                this.photo = photo;
+                $('#modify_photo_modal').modal('show');
+            },
+            modifyPhotoContent: function(){
+                this.photo.imgContent = $('#modify_photo_modal_img_content').val();
+                __photosList.updatePhotoByImgUrl(this.photo);
+
+                __ajax('wechat.index.updatePhotosList', {
+                    answerId: __answerId,
+                    photosList: __photosList,
+                }, function (data) {
+                    if(data.ret == 'success'){
+                        vue_card_book.refreshPhotosList();
+                        $('#modify_photo_modal').modal('hide');
+                    }else {
+                        alert(data.info);
+                    }
+                });
+            }
+        }
+    });
 });
 
 Array.prototype.getPhotoByImgUrl = function(imgUrl) {
@@ -131,6 +176,18 @@ Array.prototype.deletePhotoByImgUrl = function(imgUrl) {
     for(var i = 0; i < this.length; i++) {
         if(this[i].imgUrl == imgUrl) {
             return this.splice(i, 1);
+        }
+    }
+    return -1;
+};
+Array.prototype.updatePhotoByImgUrl = function(photoObject) {
+    if(photoObject === undefined) {
+        return -1;
+    }
+
+    for(var i = 0; i < this.length; i++) {
+        if(this[i].imgUrl == photoObject.imgUrl) {
+            return this.splice(i, 1, photoObject);
         }
     }
     return -1;
