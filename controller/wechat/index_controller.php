@@ -167,7 +167,7 @@ class index_controller {
         $imgName = get_request("imgName");
 
         if(!empty($imgName)) {
-            $ret = uploadImageViaFileReader($imgName);
+            $ret = deleteUploadImageByFilename($imgName);
         } else {
             $ret = array("ret" => "fail");
         }
