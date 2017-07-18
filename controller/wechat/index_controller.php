@@ -163,6 +163,18 @@ class index_controller {
         return $ret;
     }
 
+    public function deleteImg_ajax() {
+        $imgName = get_request("imgName");
+
+        if(!empty($imgName)) {
+            $ret = uploadImageViaFileReader($imgName);
+        } else {
+            $ret = array("ret" => "fail");
+        }
+
+        return $ret;
+    }
+
     public function updatePhotosList_ajax() {
         $answerId = get_request("answerId");
         $photosList = get_request("photosList");
