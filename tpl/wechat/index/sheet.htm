@@ -89,7 +89,7 @@
                 <strong style="font-size: 20px;">修改备注信息</strong>
             </div>
             <div class="modal-body" style="width: 90%; margin-left: auto; margin-right: auto; padding: 2%; text-align: center;">
-                <img id="modify_photo_modal_img" v-bind:src="photo.imgUrl" style="max-width: 40vw; max-height: 40vw; padding-bottom: 2%; margin: 2%;">
+                <img id="modify_photo_modal_img" v-bind:src="__imgRoot+photo.imgUrl" style="max-width: 40vw; max-height: 40vw; padding-bottom: 2%; margin: 2%;">
                 <input type="text" class="form-control" id="modify_photo_modal_img_content" placeholder="请添加备注" v-bind:value="photo.imgContent">
             </div>
             <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
