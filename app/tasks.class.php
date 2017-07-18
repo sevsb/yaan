@@ -8,18 +8,18 @@ class tasks {
 
     private $summary = array();
     private $mProject = null;
-    
+
     public function __construct($data) {
         $this->summary = $data;
     }
-    
+
     private function summary($key, $def = "") {
         if (isset($this->summary[$key])) {
             return $this->summary[$key];
         }
         return $def;
     }
-    
+
     public static function create($muffinid){
         if (!empty($muffinid)) {
             $muffininfos = db_muffininfos::inst()->get_one_muffininfos($muffinid);
@@ -27,7 +27,15 @@ class tasks {
             return new tasks($muffininfos);
         }
         return new tasks(null);
+    }
 
+    public static function create_by_id($id){
+        if (!empty($id)) {
+            $muffininfos = db_muffininfos::inst()->get_muffininfos_by_id($id);
+            //logging::d("createPJT", "muffininfos: $muffininfos");
+            return new tasks($muffininfos);
+        }
+        return new tasks(null);
     }
 
     public function id() {
@@ -35,6 +43,9 @@ class tasks {
     }
     public function muffinid() {
         return $this->summary("muffinid");
+    }
+    public function paperid() {
+        return $this->summary("paperid");
     }
     public function wechat_userid() {
         return $this->summary("wechat_userid");
@@ -63,7 +74,7 @@ class tasks {
     public function status() {
         return $this->summary("status");
     }
-    
+
     public function project() {
         if ($this->mProject === null) {
             $muffininfos = db_muffininfos::inst()->get_all_cached();
@@ -89,7 +100,7 @@ class tasks {
     public function is_valid() {
         return !empty($this->summary);
     }
-    
+
     public function pack_info() {
         return array(
             "id" => $this->id(),
@@ -107,7 +118,7 @@ class tasks {
         $pid = $muffinid;
         $mtitle = null;
         $face = null;
-        
+
         $new_muffin_id = db_muffins::inst()->add($pid, $mtitle, $face);
         logging::d("new_muffin_id"," new_muffin_id : $new_muffin_id");
         if (!$new_muffin_id) {
@@ -124,13 +135,13 @@ class tasks {
         //commit();
         return $task_ret;
     }
-    
+
     public static function modify($taskid, $muffinid, $title, $content, $address, $location){
 
         $pid = $muffinid;
         $mtitle = null;
         $face = null;
-        
+
         $ret1 = db_muffins::inst()->modify($taskid, $pid, $mtitle, $face);
         logging::d("new_muffin_id"," new_muffin_id : $new_muffin_id");
         if (!$ret1) {
@@ -149,7 +160,7 @@ class tasks {
         $ret2 = db_muffininfos::inst()->del($id);
         return $ret1 && $ret2;
     }
-    
+
     public static function load_all() {
         $all_muffins = db_muffins::inst()->get_all_cached();
         $all_mufininfos = db_muffininfos::inst()->get_all_cached();
@@ -165,12 +176,12 @@ class tasks {
         }
         return $result_array;
     }
-    
+
     public static function load_tasks($projectid) {
         $all_muffins = db_muffins::inst()->get_all_muffins();
         $all_muffininfos = db_muffininfos::inst()->get_all_muffininfos();
         $result_array = [];
-        
+
         foreach ($all_muffininfos as $id => $info) {
             $infoid = $info['muffinid'];
             foreach ($all_muffins as $mufid => $muffin) {
@@ -178,7 +189,7 @@ class tasks {
                 if ($mufid == $infoid && $pid == $projectid) {
                     $result_array[$id] = new tasks($info);
                 }
-            }       
+            }
         }
         return $result_array;
     }

@@ -35,6 +35,11 @@ class db_muffininfos extends database {
         return $this->get_one_table(TABLE_MUFFININFOS, "muffinid = $muffinid");
     }
 
+    public function get_muffininfos_by_id($id) {
+        $id = (int)$id;
+        return $this->get_one_table(TABLE_MUFFININFOS, "id = $id");
+    }
+
     public function add_project($project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile) {
         return $this->insert(TABLE_MUFFININFOS, array("project_id" => $project_id, "muffinid" => $muffin_id, "title" => $title, "type" => $type, "description" => $description, "text" => $maintext, "cover" => $cover, "limit_time" => $limit_time, "paperfile" => $paperfile, "status" => "未领取"));
     }
