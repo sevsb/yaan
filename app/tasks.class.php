@@ -156,6 +156,11 @@ class tasks {
         return $ret2;
     }
 
+    public static function modify_task_status($taskid, $status){
+        $ret = db_muffininfos::inst()->modify_task_status($taskid, $status);
+        return (!$ret) ? false : $ret;
+    }
+
     public static function del($id) {
         $ret1 = db_muffins::inst()->del($id);
         $ret2 = db_muffininfos::inst()->del($id);
