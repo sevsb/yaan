@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    document.addEventListener("touchstart", function() {}, false);
+
     __ajax('wechat.index.initData', {
         paperId: __paperId,
         userId: __userId,

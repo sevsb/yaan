@@ -16,8 +16,8 @@
   background-color: #fff;
   border: 1px solid transparent;
   border-radius: 2px;
-  -webkit-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.2);
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 0 5px #ccc;
+  box-shadow: 0 0 5px #ccc;
 }
 
 .add_card_btn {
@@ -38,6 +38,9 @@
   color: #bbb;
   -webkit-box-shadow: 0px 0px rgba(0, 0, 0, 0);
   box-shadow: 0px 0px rgba(0, 0, 0, 0);
+
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .card_body {
@@ -73,7 +76,6 @@
   padding-left: 8px;
 }
 
-
 .card_dropdown_btn {
   color: #666;
   font-size: 16px;
@@ -89,6 +91,28 @@
   background-color: #ddd;
 }
 
+.card_menu {
+  min-width: 50%;
+  font-size: 16px;
+  text-align: right;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.card_menu li {
+  padding: 4px 10%;
+}
+
+.card_menu li:active {
+  color: #222;
+  background-color: #ddd;
+}
+
+.fa {
+  font-size: 20px;
+  padding-right: 16px;
+}
+
 .bottom_area {
   min-width: 100vw;
   margin-top: 10%;
@@ -97,4 +121,73 @@
 
 .btn {
   width: 40vw;
+}
+
+.modal {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.modal-header {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2%;
+}
+
+.modal-body {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2%;
+  text-align: center;
+}
+
+.modal-body img{
+  max-width: 40vw;
+  max-height: 40vw;
+  margin: 2%;
+}
+
+.modal-body input{
+  margin: 2%;
+}
+
+.modal-footer {
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  display: flex;
+  display: -webkit-flex;
+}
+
+.modal-footer-btn {
+  height: 100%;
+  width: 100%;
+  padding: 3%;
+  background-color: #fff;
+  -webkit-box-shadow: 0;
+  box-shadow: 0;
+}
+
+.modal-footer-left_btn {
+  border-right: 0.5px solid #e5e5e5;
+  border-bottom-left-radius: 6px;
+}
+
+.modal-footer-left_btn:active {
+  background-color: #ccc;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+
+.modal-footer-right_btn {
+  border-left: 0.5px solid #e5e5e5;
+  border-bottom-right-radius: 6px;
+}
+
+.modal-footer-right_btn:active {
+  background-color: #ccc;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
 }

@@ -44,9 +44,9 @@
                     <button class="card_dropdown_btn" id="dLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel" style="min-width: 10vw;">
-                        <li v-on:click="modifyPhoto(photo.imgUrl)"><i>修改</i></li>
-                        <li v-on:click="deletePhoto(photo.imgUrl)"><i>删除</i></li>
+                    <ul class="dropdown-menu dropdown-menu-right card_menu" aria-labelledby="dLabel">
+                        <li v-on:click="modifyPhoto(photo.imgUrl)"><i class="fa fa-pencil" aria-hidden="true"></i>修改</li>
+                        <li v-on:click="deletePhoto(photo.imgUrl)"><i class="fa fa-trash" aria-hidden="true"></i>删除</li>
                     </ul>
                 </div>
             </div>
@@ -63,40 +63,38 @@
 </div>
 
 <!-- 添加卡片提示框 -->
-<!-- FIXME: 现在是混搭布局，需要以后换成flex... -->
 <div class="modal" id="add_photo_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <div class="modal-content" style="width: 100%;">
-            <div class="modal-header" style="width: 90%; margin-left: auto; margin-right: auto; padding: 2%;">
+        <div class="modal-content">
+            <div class="modal-header">
                 <strong style="font-size: 20px;">提交图片</strong>
             </div>
-            <div class="modal-body" style="width: 90%; margin-left: auto; margin-right: auto; padding: 2%; text-align: center;">
-                <img id="add_photo_modal_img" v-bind:src="imgUrl" style="max-width: 40vw; max-height: 40vw; padding-bottom: 2%; margin: 2%;">
+            <div class="modal-body">
+                <img id="add_photo_modal_img" v-bind:src="imgUrl">
                 <input type="text" class="form-control" id="add_photo_modal_img_content" placeholder="请添加备注" v-bind:value="imgContent">
             </div>
-            <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
-                <div class="modal-footer-left_btn" id="add_photo_cancel" data-dismiss="modal" style="height: 100%; width: 100%; border-right: 0.5px solid #e5e5e5; padding: 3%">取消</div>
-                <div class="modal-footer-right_btn" id="add_photo_submit" style="height: 100%; width: 100%; border-left: 0.5px solid #e5e5e5; padding: 3%;" v-on:click="updatePhoto()">提交</div>
+            <div class="modal-footer">
+                <div class="modal-footer-btn modal-footer-left_btn" id="add_photo_cancel" data-dismiss="modal">取消</div>
+                <div class="modal-footer-btn modal-footer-right_btn" id="add_photo_submit" v-on:click="updatePhoto()">提交</div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- 修改卡片提示框 -->
-<!-- FIXME: 现在是混搭布局，需要以后换成flex... -->
 <div class="modal" id="modify_photo_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <div class="modal-content" style="width: 100%;">
-            <div class="modal-header" style="width: 90%; margin-left: auto; margin-right: auto; padding: 2%;">
+        <div class="modal-content">
+            <div class="modal-header">
                 <strong style="font-size: 20px;">修改备注信息</strong>
             </div>
-            <div class="modal-body" style="width: 90%; margin-left: auto; margin-right: auto; padding: 2%; text-align: center;">
-                <img id="modify_photo_modal_img" v-bind:src="__imgRoot+photo.imgUrl" style="max-width: 40vw; max-height: 40vw; padding-bottom: 2%; margin: 2%;">
+            <div class="modal-body">
+                <img id="modify_photo_modal_img" v-bind:src="__imgRoot+photo.imgUrl">
                 <input type="text" class="form-control" id="modify_photo_modal_img_content" placeholder="请添加备注" v-bind:value="photo.imgContent">
             </div>
             <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
-                <div class="modal-footer-left_btn" id="modify_photo_cancel" data-dismiss="modal" style="height: 100%; width: 100%; border-right: 0.5px solid #e5e5e5; padding: 3%">取消</div>
-                <div class="modal-footer-right_btn" id="modify_photo_submit" style="height: 100%; width: 100%; border-left: 0.5px solid #e5e5e5; padding: 3%;" v-on:click="modifyPhotoContent()">修改</div>
+                <div class="modal-footer-btn modal-footer-left_btn" id="modify_photo_cancel" data-dismiss="modal">取消</div>
+                <div class="modal-footer-btn modal-footer-right_btn" id="modify_photo_submit" v-on:click="modifyPhotoContent()">修改</div>
             </div>
         </div>
     </div>
