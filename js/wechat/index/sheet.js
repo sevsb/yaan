@@ -8,20 +8,37 @@ $(document).ready(function() {
         if(data.ret == 'success') {
             __answerId = data.info.answerId;
             __photosList = data.info.photosList;
-            vue_card_book.refreshPhotosList();
+            vue_wx_view.setPageStatus(1);
+            vue_wx_view.refreshPhotosList();
         } else {
             alert(data.info);
         }
     });
 
-    var vue_card_book = new Vue({
-        el: '#card_book',
+    var vue_wx_view = new Vue({
+        el: '#wx_view',
         data: {
+            pageStatus: 0,
             imgRoot: __imgRoot,
             photosList: __photosList,
         },
         methods: {
-            refreshPhotosList: function(){
+            setPageStatus: function(PageStatus) {
+                // v-if 的选择渲染会出现闪现现象
+                switch(PageStatus) {
+                    case 0:
+                        $('.card_book_loading').css('display','flex');
+                        $('.card_book').css('display','none');
+                        return;
+                    case 1:
+                        $('.card_book_loading').css('display','none');
+                        $('.card_book').css('display','flex');
+                        return;
+                    default :
+                        return;
+                }
+            },
+            refreshPhotosList: function() {
                 this.photosList = __photosList;
             },
             addPhoto: function() {
@@ -63,7 +80,7 @@ $(document).ready(function() {
                             photosList: __photosList,
                         }, function (data) {
                             if(data.ret == 'success'){
-                                vue_card_book.refreshPhotosList();
+                                vue_wx_view.refreshPhotosList();
                             }else {
                                 alert(data.info);
                             }
@@ -78,7 +95,7 @@ $(document).ready(function() {
                     taskId: __taskId,
                 }, function (data) {
                     if(data.ret == 'success'){
-                        vue_card_book.goBack();
+                        vue_wx_view.goBack();
                     } else {
                         alert(data.info);
                     }
@@ -105,6 +122,8 @@ $(document).ready(function() {
                 $('#add_photo_modal').modal('show');
             },
             updatePhoto: function(){
+                $('.uploading_alert').fadeIn(100);
+                $('#add_photo_modal').modal('hide');
                 var photo = {};
                 wx.getLocation({
                     type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
@@ -116,7 +135,6 @@ $(document).ready(function() {
                     }
                 });
                 photo.imgContent = $('#add_photo_modal_img_content').val();
-
                 __ajax('wechat.index.updateImg', {
                     imgData: this.imgData
                 }, function (data) {
@@ -128,10 +146,19 @@ $(document).ready(function() {
                             photosList: __photosList,
                         }, function (data) {
                             if(data.ret == 'success'){
-                                vue_card_book.refreshPhotosList();
-                                $('#add_photo_modal').modal('hide');
+                                $('.uploading_alert').hide();
+                                $('.upload_success_alert').show();
+                                vue_wx_view.refreshPhotosList();
+                                setTimeout(function(){
+                                    $('.upload_success_alert').fadeOut(1000);;
+                                },2000)
                             }else {
                                 alert(data.info);
+                                $('.uploading_alert').hide();
+                                $('.upload_fail_alert').show();
+                                setTimeout(function(){
+                                    $('.upload_fail_alert').fadeOut(1000);;
+                                },2000)
                             }
                         });
                     }else {
@@ -155,13 +182,12 @@ $(document).ready(function() {
             modifyPhotoContent: function(){
                 this.photo.imgContent = $('#modify_photo_modal_img_content').val();
                 __photosList.updatePhotoByImgUrl(this.photo);
-
                 __ajax('wechat.index.updatePhotosList', {
                     answerId: __answerId,
                     photosList: __photosList,
                 }, function (data) {
                     if(data.ret == 'success'){
-                        vue_card_book.refreshPhotosList();
+                        vue_wx_view.refreshPhotosList();
                         $('#modify_photo_modal').modal('hide');
                     }else {
                         alert(data.info);
