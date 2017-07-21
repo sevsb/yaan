@@ -38,6 +38,7 @@ class index_controller {
     }
 
     public function sheet_action() {
+        // $user = get_session_assert("user");
         $tpl = new tpl("wechat/header", "wechat/footer");
         $taskId = get_request_assert("task");
         $task = tasks::create_by_id($taskId);
@@ -53,6 +54,40 @@ class index_controller {
         $tpl->display("wechat/index/sheet");
     }
 
+    private function create_answer($userId, $paperId, $sheet = null) {
+        $answer = new answer(
+            array(
+                "id" => 0,
+                "type" => answer::TYPE_WORD,
+                "title" => "ANSWER_TITLE",
+                "choice" => "",
+                "reply" => "{\"type\":0,\"data\":{\"type\":0,\"data\":{\"imgList\":[]}}}"
+            )
+        );
+        $ret = $answer->save();
+        if($ret === false)
+            return false;
+
+        if(empty($sheet)) {
+            $sheet = new sheet(
+                array(
+                    "id" => 0,
+                    "userid" => $userId,
+                    "paperid" => $paperId,
+                    "title" => "SHEET_TITLE",
+                    "info" => "SHEET_INFO",
+                    "answers" => 0,
+                    "status" => sheet::STATUS_NOTREVIEW,
+                )
+            );
+        }
+        $sheet->set_answers($answer->id());
+        $ret = $sheet->save();
+        if($ret === false)
+            return false;
+        return $answer;
+    }
+
     public function initData_ajax() {
         $paperId = get_request("paperId");
         $userId = get_request("userId");
@@ -64,15 +99,9 @@ class index_controller {
 
         $needCreateSheet = true;
         $sheetsList = sheet::load_all();
-        $ret = '';
+        $ret = "";
         foreach($sheetsList as $sheet) {
             if($sheet->paperid() == $paperId) {
-
-                if($sheet->userid() != $userId) {
-                    $ret = array("ret" => "fail", "info" => "error Sheet: Not match UserId for Sheet.");
-                    return $ret;
-                }
-
                 $needCreateSheet = false;
                 $answersList = $sheet->answers();
                 if(!empty($answersList)) {
@@ -85,60 +114,31 @@ class index_controller {
                     foreach($answersList as $answer) {
                         if(!empty($answer->reply())) {
                             $ret = $answer->reply()->replies();
+                        } else {
+                            $answer->setReply("{\"type\":0,\"data\":{\"type\":0,\"data\":{\"imgList\":[]}}}");
+                            if($ret === false)
+                                return "fail|数据库操作失败，请稍后重试。";
+                            else
+                                $ret = array();
                         }
+                        $ret = array("answerId" => $answer->id(), "photosList" => $ret);
                     }
                 } else {
-                    $answer = new answer(
-                        array(
-                            "id" => 0,
-                            "type" => answer::TYPE_WORD,
-                            "title" => "ANSWER_TITLE",
-                            "choice" => "",
-                            "reply" => ""
-                        )
-                    );
-                    $ret = $answer->save();
+                    $ret = $this->create_answer($userId, $paperId, $sheet);
                     if($ret === false)
                         return "fail|数据库操作失败，请稍后重试。";
-                    $sheet->set_answers($answer->id());
-                    $ret =  $sheet->save();
-                    if($ret === false)
-                        return "fail|数据库操作失败，请稍后重试。";
+                    $ret = array("answerId" => $ret->id(), "photosList" => array());
                 }
             }
         }
 
         if($needCreateSheet) {
-            $sheet = new sheet(
-                array(
-                    "id" => 0,
-                    "userid" => $userId,
-                    "paperid" => $paperId,
-                    "title" => "SHEET_TITLE",
-                    "info" => "SHEET_INFO",
-                    "answers" => 0,
-                    "status" => sheet::STATUS_NOTREVIEW,
-                )
-            );
-            $answer = new answer(
-                array(
-                    "id" => 0,
-                    "type" => answer::TYPE_WORD,
-                    "title" => "ANSWER_TITLE",
-                    "choice" => "",
-                    "reply" => ""
-                )
-            );
-            $ret = $answer->save();
+            $ret = $this->create_answer($userId, $paperId);
             if($ret === false)
                 return "fail|数据库操作失败，请稍后重试。";
-            $sheet->set_answers($answer->id());
-            $ret =  $sheet->save();
-            if($ret === false)
-                return "fail|数据库操作失败，请稍后重试。";
+            $ret = array("answerId" => $ret->id(), "photosList" => array());
         }
 
-        $ret = array("answerId" => $answer->id(), "photosList" => $ret);
         $ret = array("ret" => "success", "info" => $ret);
         return $ret;
     }
