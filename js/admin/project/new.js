@@ -118,10 +118,13 @@ $(document).ready(function (){
     //console.log("uploadpaperfile:" + uploadfilefileURL);
     console.log(uploadfilefileURL);
     
-    //var pattern = '^[a-zA-Z]{4}(\d{6})$';
-    //var result = project_id.match(pattern);
-    //console.debug(result);
-    //return;
+    var pattern = '^[a-zA-Z]{4}([0-9]{6})$';
+    var result = project_id.match(pattern);
+    console.debug(result);
+    if (result == null) {
+        alert('项目编号要求为：前4位字母 后6位数字');
+        return false;
+    }
     if (project_id == '' || title == '' || description == '' || maintext == ''  || limit_time == '' || limit_time == 'NaN') {
         alert('请完整填写项目信息');
         return false;
@@ -170,7 +173,13 @@ $(document).ready(function (){
     var cover = $("#cover_show").attr("src");
     var limit_time = $('#datepicker').val();
     var type = $("#dropdownMenu1").html();
-    
+    var pattern = '^[a-zA-Z]{4}([0-9]{6})$';
+    var result = project_id.match(pattern);
+    console.debug(result);
+    if (result == null) {
+        alert('项目编号要求为：前4位字母 后6位数字');
+        return false;
+    }
     if (project_id == '' || title == '' || description == '' || maintext == ''  || limit_time == '' || limit_time == 'NaN') {
         alert('请完整填写项目信息');
         return false;
