@@ -55,7 +55,7 @@ $('.do_new').click(function (){
         alert('请选择所属项目！');
         return false;
     }
-    if (title == '' || address == '' || content == '') {
+    if (title == '' || address == '' ) {
         alert('请保证内容完整！');
         return false;
     }
@@ -120,12 +120,11 @@ $('.do_modify').click(function (){
         alert('请选择所属项目！');
         return false;
     }
-    if (title == '' || address == '' || content == '') {
+    if (title == '' || address == '' ) {
         alert('请保证内容完整！');
         return false;
     }
     
-
     __ajax('admin.task.modify',{
       taskid: taskid,
       muffinid: muffinid,
