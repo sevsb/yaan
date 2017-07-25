@@ -32,7 +32,7 @@ $(document).ready(function() {
             canceltask: function(event) {
                 var target = event.currentTarget;
                 var tid = tasks.userinfo.tasks[tasks.viewtaskkey].id;
-                __request('wechat.api.reject', {taskid: tid},function (){
+                __ajax('admin.task.assign', {taskid: tid},function (){
                     __request("wechat.api.mytasks", {}, function(res) {
                         console.debug(res);
                         tasks.userinfo = res.data;
