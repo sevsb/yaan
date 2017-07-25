@@ -17,10 +17,10 @@
             $wechat_userid = $task->wechat_userid();
             $location = $task->location();
             $location = json_decode($location);
-            $provice = $location->provice->title;
+            $province = $location->province->title;
             $city = $location->city->title;
             $district = $location->district->title;
-            $location_show = $provice . " " . $city ." " . $district;
+            $location_show = $province . " " . $city ." " . $district;
             $status = $task->status();
             $status_show = $show_status[$status];
         ?>

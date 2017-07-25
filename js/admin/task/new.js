@@ -1,9 +1,9 @@
 $(document).ready(function (){
 console.log('new_page enter.');
-console.log('provice_code enter.' + provice_code);
+console.log('province_code enter.' + province_code);
 $("#distpicker").distpicker('destroy');
 $("#distpicker").distpicker({
-  province: provice_code,
+  province: province_code,
   city: city_code,
   district: district_code
 });
@@ -26,23 +26,23 @@ $('.do_new').click(function (){
     var citys = $("#distpicker").distpicker('getDistricts', province_code);
     var districts = $("#distpicker").distpicker('getDistricts', city_code);
     var loc = new Object();
-    var provice = new Object();
+    var province = new Object();
     var city = new Object();
     var district = new Object();
     console.log('province_code:' + province_code);
     console.log('city_code:' + city_code);
     console.log('district_code:' + district_code);
-    if (province_code == '' || city_code == '' || district_code == '' ) {
+    /*if (province_code == '' || city_code == '' || district_code == '' ) {
         alert('请选择区域');
         return false;
-    }
-    provice.code = province_code
-    provice.title = provinces[province_code];
+    }*/
+    province.code = province_code;
+    province.title = province_code != ''? provinces[province_code] : null;
     city.code = city_code;
-    city.title = citys[city_code];
+    city.title = province_code != '' && city_code != '' ? citys[city_code] : null;
     district.code = district_code;
-    district.title = districts[district_code];
-    loc.provice = provice;
+    district.title = province_code != '' && city_code != '' && district_code != '' ? districts[district_code] : null;
+    loc.province = province;
     loc.city = city;
     loc.district = district;
     loc = JSON.stringify(loc); 
@@ -51,6 +51,7 @@ $('.do_new').click(function (){
     console.log('content:' + content);
     console.log('address:' + address);
     console.log(loc);
+    //return false;
     if (muffinid == 0 || muffinid == null || muffinid == '') {
         alert('请选择所属项目！');
         return false;
@@ -89,23 +90,23 @@ $('.do_modify').click(function (){
     var citys = $("#distpicker").distpicker('getDistricts', province_code);
     var districts = $("#distpicker").distpicker('getDistricts', city_code);
     var loc = new Object();
-    var provice = new Object();
+    var province = new Object();
     var city = new Object();
     var district = new Object();
     console.log('province_code:' + province_code);
     console.log('city_code:' + city_code);
     console.log('district_code:' + district_code);
-    if (province_code == '' || city_code == '' || district_code == '' ) {
+    /*if (province_code == '' || city_code == '' || district_code == '' ) {
         alert('请选择区域');
         return false;
-    }
-    provice.code = province_code
-    provice.title = provinces[province_code];
+    }*/
+    province.code = province_code;
+    province.title = province_code != ''? provinces[province_code] : null;
     city.code = city_code;
-    city.title = citys[city_code];
+    city.title = province_code != '' && city_code != '' ? citys[city_code] : null;
     district.code = district_code;
-    district.title = districts[district_code];
-    loc.provice = provice;
+    district.title = province_code != '' && city_code != '' && district_code != '' ? districts[district_code] : null;
+    loc.province = province;
     loc.city = city;
     loc.district = district;
     loc = JSON.stringify(loc); 

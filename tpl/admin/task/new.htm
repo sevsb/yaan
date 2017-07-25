@@ -2,7 +2,7 @@
 <div id="page-wrapper">
     <div class="clear">
       <script>
-        var provice_code = null;
+        var province_code = null;
         var city_code = null;
         var district_code = null;
       </script>
@@ -10,14 +10,14 @@
         if ($task->is_valid()) {
             $location = $task->location();
             $location = json_decode($location);
-            $provice_code = $location->provice->code;
+            $province_code = $location->province->code;
             $city_code = $location->city->code;
             $district_code = $location->district->code;
             $from_projectid = $task->from_projectid();
             $muffinid = $from_projectid['pid'];
             ?>
               <script>
-                var provice_code = '{:$provice_code}';
+                var province_code = '{:$province_code}';
                 var city_code = '{:$city_code}';
                 var district_code = '{:$district_code}';
               </script>
@@ -53,11 +53,7 @@
                 </div>
             </div>
         
-          <div class="form-group">
-            <label for="title">请输入名称</label>
-            <input type="text" class="form-control" id="title" placeholder="任务名称"
-            value='<?php echo $task->is_valid() ? $task->title() : null?>'>
-          </div>
+
           <div class="form-group">
             <label for="location">请选择市区</label>
             <div data-toggle="distpicker" id='distpicker' data-value-type="code">
@@ -65,6 +61,11 @@
               <select id='city' ></select>
               <select id='district' ></select>
             </div>
+          </div>
+          <div class="form-group">
+            <label for="title">请输入名称</label>
+            <input type="text" class="form-control" id="title" placeholder="任务名称"
+            value='<?php echo $task->is_valid() ? $task->title() : null?>'>
           </div>
           <div class="form-group">
             <label for="address">请输入详细地址</label>
