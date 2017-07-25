@@ -21,7 +21,7 @@
         <form>
           <div class="form-group">
             <label for="project_id">请输入项目编号</label>
-            <input type="number" class="form-control" id="project_id" placeholder="项目编号"
+            <input type="text" class="form-control" id="project_id" maxlength='10' placeholder="4位字母+6位数字"
             value ='<?php echo $project->is_valid() ? $project->project_id() : null; ?>'>
           </div>
           <div class="form-group">
@@ -76,7 +76,7 @@
           <div class="form-group">
             <label for="uploadpaperfile">请上传问卷文件</label>
             <input type="file" id="uploadpaperfile">
-            <p class="help-block">后缀类型: .xls .xlsm .xlsx .doc .docx</p>
+            <p class="help-block">后缀类型: .xls .xlsm .xlsx .doc .docx .pdf .jpg .png</p>
           </div>
           <?php
             if($project->is_valid()){

@@ -73,7 +73,10 @@ $(document).ready(function (){
         "application/vnd.ms-excel", 
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "application/vnd.ms-excel.sheet.macroEnabled.12", 
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+        "application/pdf", 
+        "image/jpeg", 
+        "image/png"];
 
         uploadpaperfile = this.files[0];
         var typeflag = false;
@@ -82,10 +85,12 @@ $(document).ready(function (){
                 typeflag = true;
             }
         }
+        
         if (typeflag == false) {
             alert("文件不是支持的类型！");
             return false;
         }
+        
         var reader = new FileReader();
         reader.onload = function(e) {
             uploadfilefileURL = e.target.result;
@@ -111,11 +116,17 @@ $(document).ready(function (){
     console.log("text:" + maintext);
     //console.log("cover:" + cover);
     //console.log("uploadpaperfile:" + uploadfilefileURL);
-    //console.log(uploadfilefileURL);
+    console.log(uploadfilefileURL);
+    
+    //var pattern = '^[a-zA-Z]{4}(\d{6})$';
+    //var result = project_id.match(pattern);
+    //console.debug(result);
+    //return;
     if (project_id == '' || title == '' || description == '' || maintext == ''  || limit_time == '' || limit_time == 'NaN') {
         alert('请完整填写项目信息');
         return false;
     }
+
     if (type == '' || type == null) {
         alert('请选择类型');
         return false;
@@ -129,7 +140,7 @@ $(document).ready(function (){
         return false;
     }
     limit_time = Date.parse(limit_time) / 1000 - 28800;
-    //return;
+    
     __ajax('admin.project.add',{
       project_id: project_id,
       title: title, 
