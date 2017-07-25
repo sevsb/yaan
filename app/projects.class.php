@@ -63,7 +63,11 @@ class projects {
         return $this->summary("paperfile");
     }
     public function paperfile_url() {
-        return rtrim(FILEUPLOAD_URL, "/") . "/" . $this->summary["paperfile"];
+        if (!empty($this->summary["paperfile"])) {
+            return rtrim(FILEUPLOAD_URL, "/") . "/" . $this->summary["paperfile"];
+        }else {
+            return '404nofound';
+        }
     }
     public function status() {
         return $this->summary("status");

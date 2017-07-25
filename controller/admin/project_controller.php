@@ -70,15 +70,15 @@ class project_controller {
             $covername = explode('/', $cover);
             $covername = end($covername);
         }
-
-        $ret2 = uploadFileViaFileReader($paperfile);
-        logging::e("uploadFile-ret", $ret2);
-        $ret2 = explode("|", $ret2);
-        if ($ret2[0] == 'fail') {
-            return false;
+        if (!empty($paperfile)) {
+            $ret2 = uploadFileViaFileReader($paperfile);
+            logging::e("uploadFile-ret", $ret2);
+            $ret2 = explode("|", $ret2);
+            if ($ret2[0] == 'fail') {
+                return false;
+            }
+            $paperfilename = $ret2[1];
         }
-        $paperfilename = $ret2[1];
-
         $result = projects::add($project_id, $title, $type, $description, $maintext, $covername, $limit_time, $paperfilename);
         return $result ? array('ret' => "success",'info' => $result ) : array("ret"=>"fail", "info" => 'failed!') ;
     }
@@ -110,20 +110,20 @@ class project_controller {
             $covername = explode('/', $cover);
             $covername = end($covername);
         }
-        
-        if (substr($paperfile, 0, 5) == "data:") {
-            $ret2 = uploadFileViaFileReader($paperfile);
-            logging::e("uploadFile-ret", $ret2);
-            $ret2 = explode("|", $ret2);
-            if ($ret2[0] == 'fail') {
-                return false;
+        if (!empty($paperfile)) {
+            if (substr($paperfile, 0, 5) == "data:") {
+                $ret2 = uploadFileViaFileReader($paperfile);
+                logging::e("uploadFile-ret", $ret2);
+                $ret2 = explode("|", $ret2);
+                if ($ret2[0] == 'fail') {
+                    return false;
+                }
+                $paperfilename = $ret2[1];
+            }else {
+                $paperfilename = explode('/', $paperfile);
+                $paperfilename = end($paperfilename);
             }
-            $paperfilename = $ret2[1];
-        }else {
-            $paperfilename = explode('/', $paperfile);
-            $paperfilename = end($paperfilename);
         }
-
       
         $result = projects::modify($muffinid, $project_id, $title, $type, $description, $maintext, $covername, $limit_time, $paperfilename);
         return $result ? 'success' : 'fail';

@@ -135,10 +135,10 @@ $(document).ready(function (){
         alert('请上传封面');
         return false;
     }
-    if (uploadfilefileURL == '' ) {
+    /*if (uploadfilefileURL == '' ) {
         alert('请上传试卷文件');
         return false;
-    }
+    }*/
     limit_time = Date.parse(limit_time) / 1000 - 28800;
     
     __ajax('admin.project.add',{
@@ -198,7 +198,6 @@ $(document).ready(function (){
     console.log("cover:" + cover);
     //console.log("uploadpaperfile:" + uploadfilefileURL);
     //console.log(uploadfilefileURL);
-        
     
     limit_time = Date.parse(limit_time) / 1000 - 28800;
     //return;
