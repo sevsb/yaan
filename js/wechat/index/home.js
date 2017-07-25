@@ -31,8 +31,11 @@ $(document).ready(function() {
             },
             canceltask: function(event) {
                 var target = event.currentTarget;
+                var userid = null;
+                alert(234);
                 var tid = tasks.userinfo.tasks[tasks.viewtaskkey].id;
-                __ajax('admin.task.assign', {taskid: tid},function (){
+                __ajax('admin.task.assign', {taskid: tid, userid: userid},function (data){
+                    console.log(data);
                     __request("wechat.api.mytasks", {}, function(res) {
                         console.debug(res);
                         tasks.userinfo = res.data;
