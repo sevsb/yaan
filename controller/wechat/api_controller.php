@@ -114,7 +114,7 @@ class api_controller {
         }
     }
     
-    public function cancel_action() {
+    public function reject_action() {
         $taskid = get_request_assert("taskid");
         logging::d("Debug", $taskid);
         go("admin/task/assign&taskid=$taskid");

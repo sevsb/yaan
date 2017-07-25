@@ -32,7 +32,17 @@ $(document).ready(function() {
             canceltask: function(event) {
                 var target = event.currentTarget;
                 var tid = tasks.userinfo.tasks[tasks.viewtaskkey].id;
-                __ajax('wechat.api.cancel', {taskid: tid},true);
+                __request('wechat.api.reject', {taskid: tid},function (){
+                    __request("wechat.api.mytasks", {}, function(res) {
+                        console.debug(res);
+                        tasks.userinfo = res.data;
+                        if (res.data.tasks.length == 0) {
+                            tasks.pagestatus = 1;
+                        } else {
+                            tasks.pagestatus = 2;
+                        }
+                    });
+                });
             }
         }
     });
