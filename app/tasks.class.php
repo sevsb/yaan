@@ -91,6 +91,12 @@ class tasks {
         }
         return $this->mProject;
     }
+    
+    public function is_expired() {
+        $project = $this->project();
+        $limit_time = $project->limit_time();
+        return time() > $limit_time ? true : false;
+    }
 
     public function from_projectid() {
         $muffinid = $this->summary('muffinid');
@@ -220,6 +226,9 @@ class tasks {
                 continue;
             }
             if ($task->status() != self::STATUS_PENDING) {
+                continue;
+            }
+            if ($task->is_expired()) {
                 continue;
             }
             // logging::d("Debug", "compareing " . json_encode($task->location_obj()->pack_info()) . " with " . json_encode($location->pack_info()));
