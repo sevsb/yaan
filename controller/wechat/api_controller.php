@@ -113,6 +113,12 @@ class api_controller {
             echo json_encode(array("op" => "taskaround", "data" => $data));
         }
     }
+    
+    public function cancel_action() {
+        $taskid = get_request_assert("taskid");
+        logging::d("Debug", $taskid);
+        go("admin/task/assign&taskid=$taskid");
+    }
 
     public function taskaround_action() {
         $user = get_session_assert("user");

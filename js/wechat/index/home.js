@@ -28,6 +28,11 @@ $(document).ready(function() {
             },
             goback: function(event) {
                 tasks.pagestatus = 2;
+            },
+            canceltask: function(event) {
+                var target = event.currentTarget;
+                var tid = tasks.userinfo.tasks[tasks.viewtaskkey].id;
+                __ajax('wechat.api.cancel', {taskid: tid},true);
             }
         }
     });
