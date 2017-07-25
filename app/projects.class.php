@@ -49,6 +49,10 @@ class projects {
         $ret = date('Y-m-d', $lmt_time);
         return $ret;
     }
+    public function limit_time_stamp() {
+        return $this->summary('limit_time');
+
+    }
     public function deadline() {
         return $this->limit_time();
         // $deadline = new DateTime("@" . $this->summary('limit_time'));

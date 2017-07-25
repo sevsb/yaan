@@ -94,8 +94,8 @@ class tasks {
     
     public function is_expired() {
         $project = $this->project();
-        $limit_time = $project->limit_time();
-        return time() > $limit_time ? true : false;
+        $limit_time_stamp = $project->limit_time_stamp();
+        return time() > $limit_time_stamp ? true : false;
     }
 
     public function from_projectid() {
