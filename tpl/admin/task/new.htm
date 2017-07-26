@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div style='display: inline-block;'>
-                <input type="text" class="" id="fourthloc" placeholder="第四级别区域"
+                <input onkeyUp='update_loc()' type="text" class="" id="fourthloc" placeholder="第四级别区域"
             value='<?php echo $task->is_valid() ? $task->fourthloc() : null?>'>
             </div>
           </div>

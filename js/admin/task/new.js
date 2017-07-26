@@ -1,4 +1,5 @@
 $(document).ready(function (){
+var task_tmp_name = '';
 console.log('new_page enter.');
 console.log('province_code enter.' + province_code);
 $("#distpicker").distpicker('destroy');
@@ -13,7 +14,22 @@ $('.dropdownLi').click(function (){
     muffinid = $(this).attr('muffinid');
     $('#dropdownMenu1').html(chooseproject);
 });
-  
+
+$('select').click(function (){
+    update_loc();
+    /*var province_code = $('#province').val();
+    var city_code = $('#city').val();
+    var district_code = $('#district').val();
+    var provinces = $("#distpicker").distpicker('getDistricts');
+    var citys = $("#distpicker").distpicker('getDistricts', province_code);
+    var districts = $("#distpicker").distpicker('getDistricts', city_code);
+    province_title = province_code != ''? provinces[province_code] : '';
+    city_title = province_code != '' && city_code != '' ? citys[city_code] : '';
+    district_title = province_code != '' && city_code != '' && district_code != '' ? districts[district_code] : '';
+    task_tmp_name = province_title + city_title + district_title
+    $('#title').val(task_tmp_name);*/
+});
+
 $('.do_new').click(function (){
     var title = $('#title').val();
     var content = $('#content').val();
@@ -151,3 +167,17 @@ $('.do_modify').click(function (){
 
 
 });
+var update_loc = function (){
+    var fourthloc = $('#fourthloc').val();
+    var province_code = $('#province').val();
+    var city_code = $('#city').val();
+    var district_code = $('#district').val();
+    var provinces = $("#distpicker").distpicker('getDistricts');
+    var citys = $("#distpicker").distpicker('getDistricts', province_code);
+    var districts = $("#distpicker").distpicker('getDistricts', city_code);
+    province_title = province_code != ''? provinces[province_code] : '';
+    city_title = province_code != '' && city_code != '' ? citys[city_code] : '';
+    district_title = province_code != '' && city_code != '' && district_code != '' ? districts[district_code] : '';
+    task_tmp_name = province_title + city_title + district_title
+    $('#title').val(task_tmp_name + fourthloc);
+};
