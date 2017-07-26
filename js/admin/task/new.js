@@ -13,21 +13,11 @@ $('.dropdownLi').click(function (){
     chooseproject = $(this).find("a").html();
     muffinid = $(this).attr('muffinid');
     $('#dropdownMenu1').html(chooseproject);
+    update_title();
 });
 
 $('select').click(function (){
-    update_loc();
-    /*var province_code = $('#province').val();
-    var city_code = $('#city').val();
-    var district_code = $('#district').val();
-    var provinces = $("#distpicker").distpicker('getDistricts');
-    var citys = $("#distpicker").distpicker('getDistricts', province_code);
-    var districts = $("#distpicker").distpicker('getDistricts', city_code);
-    province_title = province_code != ''? provinces[province_code] : '';
-    city_title = province_code != '' && city_code != '' ? citys[city_code] : '';
-    district_title = province_code != '' && city_code != '' && district_code != '' ? districts[district_code] : '';
-    task_tmp_name = province_title + city_title + district_title
-    $('#title').val(task_tmp_name);*/
+    update_title();
 });
 
 $('.do_new').click(function (){
@@ -167,9 +157,14 @@ $('.do_modify').click(function (){
 
 
 });
-var update_loc = function (){
-    var projecttitle = $('#dropdownMenu1').html();
-    projecttitle = projecttitle.replace(/\s+/g,"");
+var update_title = function (){
+    console.log(muffinid)
+    if (muffinid != '' || muffinid != 0) {
+        var projecttitle = $('#dropdownMenu1').html();
+        projecttitle = projecttitle.replace(/\s+/g,"");
+    }else {
+        projecttitle = '';
+    }
     var fourthloc = $('#fourthloc').val();
     var province_code = $('#province').val();
     var city_code = $('#city').val();
