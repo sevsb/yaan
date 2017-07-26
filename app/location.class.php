@@ -63,6 +63,7 @@ class location {
         }
         $this->mCity = new location_node($arr["city"]);
         $this->mDistrict = new location_node($arr["district"]);
+        $this->mFourthloc = $arr["fourthloc"];
         $this->mTime = isset($summary["time"]) ? $summary["time"] : 0;
         if (isset($arr["adcode"])) {
             $this->mCode = $arr["adcode"];
@@ -79,6 +80,9 @@ class location {
 
     public function &district() {
         return $this->mDistrict;
+    }
+    public function &fourthloc() {
+        return $this->mFourthloc;
     }
 
     public function epoch_time() {

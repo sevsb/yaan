@@ -63,6 +63,11 @@ class tasks {
         return $loc;
     }
 
+    public function fourthloc() {
+        $loc_obj = $this->location_obj();
+        return $loc_obj->fourthloc();
+        
+    }
     public function address() {
         return $this->summary("address");
     }

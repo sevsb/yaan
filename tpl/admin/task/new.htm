@@ -55,11 +55,17 @@
         
 
           <div class="form-group">
-            <label for="location">请选择市区</label>
-            <div data-toggle="distpicker" id='distpicker' data-value-type="code">
-              <select id='province'></select>
-              <select id='city' ></select>
-              <select id='district' ></select>
+            <div style='display: inline-block;'>
+                <label for="location">请选择市区</label>
+                <div data-toggle="distpicker" id='distpicker' data-value-type="code">
+                  <select id='province'></select>
+                  <select id='city' ></select>
+                  <select id='district' ></select>
+                </div>
+            </div>
+            <div style='display: inline-block;'>
+                <input type="text" class="" id="fourthloc" placeholder="第四级别区域"
+            value='<?php echo $task->is_valid() ? $task->fourthloc() : null?>'>
             </div>
           </div>
           <div class="form-group">

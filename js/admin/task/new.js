@@ -18,6 +18,7 @@ $('.do_new').click(function (){
     var title = $('#title').val();
     var content = $('#content').val();
     var address = $('#address').val();
+    var fourthloc = $('#fourthloc').val();
     //muffinid = get_request('muffinid');
     var province_code = $('#province').val();
     var city_code = $('#city').val();
@@ -32,10 +33,10 @@ $('.do_new').click(function (){
     console.log('province_code:' + province_code);
     console.log('city_code:' + city_code);
     console.log('district_code:' + district_code);
-    /*if (province_code == '' || city_code == '' || district_code == '' ) {
-        alert('请选择区域');
+    if (province_code == '' || city_code == '') {
+        alert('请选择1级区域和2级区域');
         return false;
-    }*/
+    }
     province.code = province_code;
     province.title = province_code != ''? provinces[province_code] : null;
     city.code = city_code;
@@ -45,12 +46,14 @@ $('.do_new').click(function (){
     loc.province = province;
     loc.city = city;
     loc.district = district;
+    loc.fourthloc = fourthloc;
     loc = JSON.stringify(loc); 
     console.log('muffinid:' + muffinid);
     console.log('title:' + title);
     console.log('content:' + content);
     console.log('address:' + address);
     console.log(loc);
+    
     //return false;
     if (muffinid == 0 || muffinid == null || muffinid == '') {
         alert('请选择所属项目！');
@@ -82,6 +85,7 @@ $('.do_modify').click(function (){
     var title = $('#title').val();
     var content = $('#content').val();
     var address = $('#address').val();
+    var fourthloc = $('#fourthloc').val();
     taskid = get_request('taskid');
     var province_code = $('#province').val();
     var city_code = $('#city').val();
@@ -96,10 +100,10 @@ $('.do_modify').click(function (){
     console.log('province_code:' + province_code);
     console.log('city_code:' + city_code);
     console.log('district_code:' + district_code);
-    /*if (province_code == '' || city_code == '' || district_code == '' ) {
-        alert('请选择区域');
+    if (province_code == '' || city_code == '') {
+        alert('请选择1级区域和2级区域');
         return false;
-    }*/
+    }
     province.code = province_code;
     province.title = province_code != ''? provinces[province_code] : null;
     city.code = city_code;
@@ -109,6 +113,7 @@ $('.do_modify').click(function (){
     loc.province = province;
     loc.city = city;
     loc.district = district;
+    loc.fourthloc = fourthloc;
     loc = JSON.stringify(loc); 
     console.log('taskid:' + taskid);
     console.log('muffinid:' + muffinid);
