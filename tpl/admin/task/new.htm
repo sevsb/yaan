@@ -27,9 +27,8 @@
       ?>
       <script>
         var muffinid = {:$muffinid};
-        //$("#distpicker").distpicker('');
       </script>
-      <h3>新建任务</h3><hr>
+      <h3><?php echo $task->is_valid() ? '修改任务' : '新建任务';?></h3><hr>
         <form>
             <div class="form-group">
                 <label for="dropdownMenu1">请选择所属项目<span style='color: red;'>&nbsp*</span></label>
@@ -65,18 +64,18 @@
             </div>
             <div style='display: inline-block;'>
                 <input onkeyUp='update_title()' type="text" class="" id="fourthloc" placeholder="第四级别区域"
-            value='<?php echo $task->is_valid() ? $task->fourthloc() : null?>'>
+            value='<?php echo $task->is_valid() ? $task->fourthloc() : null;?>'>
             </div>
           </div>
           <div class="form-group">
             <label for="title">请输入名称<span style='color: red;'>&nbsp*</span></label>
             <input type="text" class="form-control" id="title" placeholder="任务名称"
-            value='<?php echo $task->is_valid() ? $task->title() : null?>'>
+            value='<?php echo $task->is_valid() ? $task->title() : null;?>'>
           </div>
           <div class="form-group">
             <label for="address">请输入详细地址<span style='color: red;'>&nbsp*</span></label>
             <input class="form-control" type='text' id="address"
-            value='<?php echo $task->is_valid() ? $task->address() : null?>'>
+            value='<?php echo $task->is_valid() ? $task->address() : null;?>'>
           </div>
           <div class="form-group">
             <label for="content">请输入联系人信息和备注</label>
@@ -86,7 +85,7 @@
           if ($task->is_valid()) {
             ?><div type="submit" class="btn btn-primary do_modify">保存</div><?php
           }else {
-            ?><div type="submit" class="btn btn-primary do_new">新建</div><?php
+            ?><div type="submit" class="btn btn-primary do_new">新建</div><div type="submit" class="btn btn-primary do_new_and_more" style='margin-left: 20px;'>新建并创建更多</div><?php
           }
           ?>
           <br>

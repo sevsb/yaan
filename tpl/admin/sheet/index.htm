@@ -1,25 +1,29 @@
 
 <div id="sheetlist">
     <div id="page-wrapper" class="rel">
-        <table class="table">
-            <tr>
-                <th>项目</th>
-                <th>任务</th>
-                <th>区域</th>
-                <th>地址</th>
-                <th>调查员</th>
-                <th>状态</th>
-                <th>查看</th>
-            </tr>
-            <tr v-for="(sheet, skey) in sheetlist" v-bind:class="{success: sheet.info.nstatus == 1, warning: sheet.info.nstatus == 2}">
-                <td>{{sheet.task.project.title}}</td>
-                <td>{{sheet.task.title}}</td>
-                <td>{{sheet.task.location.province.title}}{{sheet.task.location.city.title}}{{sheet.task.location.district.title}}</td>
-                <td>{{sheet.task.address}}</td>
-                <td>{{sheet.info.user.nick}}</td>
-                <td>{{sheet.info.status}}</td>
-                <td><button class="" v-on:click="viewSheet" v-bind:sheet="skey">查看</button></td>
-            </tr>
+        <table class="table" id='mytable'>
+            <thead>
+                <tr>
+                    <th>项目</th>
+                    <th>任务</th>
+                    <th>区域</th>
+                    <th>地址</th>
+                    <th>调查员</th>
+                    <th>状态</th>
+                    <th>查看</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(sheet, skey) in sheetlist" v-bind:class="{success: sheet.info.nstatus == 1, warning: sheet.info.nstatus == 2}">
+                    <td>{{sheet.task.project.title}}</td>
+                    <td>{{sheet.task.title}}</td>
+                    <td>{{sheet.task.location.province.title}}{{sheet.task.location.city.title}}{{sheet.task.location.district.title}}</td>
+                    <td>{{sheet.task.address}}</td>
+                    <td>{{sheet.info.user.nick}}</td>
+                    <td>{{sheet.info.status}}</td>
+                    <td><button class="" v-on:click="viewSheet" v-bind:sheet="skey">查看</button></td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
