@@ -168,6 +168,8 @@ $('.do_modify').click(function (){
 
 });
 var update_loc = function (){
+    var projecttitle = $('#dropdownMenu1').html();
+    projecttitle = projecttitle.replace(/\s+/g,"");
     var fourthloc = $('#fourthloc').val();
     var province_code = $('#province').val();
     var city_code = $('#city').val();
@@ -178,6 +180,6 @@ var update_loc = function (){
     province_title = province_code != ''? provinces[province_code] : '';
     city_title = province_code != '' && city_code != '' ? citys[city_code] : '';
     district_title = province_code != '' && city_code != '' && district_code != '' ? districts[district_code] : '';
-    task_tmp_name = province_title + city_title + district_title
+    task_tmp_name = (projecttitle) + city_title + district_title
     $('#title').val(task_tmp_name + fourthloc);
 };
