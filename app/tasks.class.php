@@ -236,6 +236,9 @@ class tasks {
             if ($task->is_expired()) {
                 continue;
             }
+            if ($task->project()->status() != '1') {
+                continue;
+            }
             // logging::d("Debug", "compareing " . json_encode($task->location_obj()->pack_info()) . " with " . json_encode($location->pack_info()));
             if ($task->location_obj()->is_same_city_with($location)) {
                 // logging::d("Debug", "SAME!");

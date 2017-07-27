@@ -4,6 +4,7 @@
     <hr>
     <?php
     //var_dump($all_projects);
+    $show_status = array('未发布', '进行中', '项目暂停' ,'已过期');
     if (!empty($all_projects)) {
         foreach ($all_projects as $project) {
             $project_id = $project->project_id();
@@ -14,6 +15,8 @@
             $cover_thumbnail_url = $project->cover_thumbnail_url();
             $limit_time = $project->limit_time();
             $status = $project->status();
+            $is_expired = $project->is_expired();
+            $status_show = $is_expired ? $show_status[3] : $show_status[$status];
             $paperfile_url = $project->paperfile_url();
         ?>
             <div class='project_elf' muffinid='{:$muffinid}'>
@@ -23,15 +26,20 @@
                         <div class='project_id'>编号：{:$project_id}</div>
                         <div class='title'>名称：{:$title}</div>
                         <div class='type'>类别：{:$type}</div>
-                        <div class='type'>时限：{:$limit_time}</div>
-                        <!--<div class='type'>状态：{:$status}</div>-->
+                        <div class='status'>状态：{:$status_show}</div>
+                        <div class='limit_time'>时限：{:$limit_time}</div>
                         <div style='margin-bottom: 3px;'>
-                            <!--<a href='{:$paperfile_url}'><div class='btn btn-success'>下载文件</div></a>-->
                             <a href='?admin/task/index&projectmuffinid={:$muffinid}'><div class='btn btn-default'>任务列表</div></a>
+                            <?php
+                            if (($status == 0 || $status == 2)&& !$is_expired) {
+                                ?><div class='btn btn-success update_status_btn' sid='1'>启动项目</div><?php
+                            }else if ($status == 1 && !$is_expired) {
+                                ?><div class='btn btn-success update_status_btn' sid='2'>暂停项目</div><?php
+                            }
+                            ?>
                         </div>
                         <div>
                             <div class='btn btn-danger del_btn' data-toggle="modal" data-target="#myModal" >删除项目</div>
-                            <!--<a href='?admin/project/new&projectmuffinid={:$muffinid}'><div class='btn btn-primary modify_btn'>编辑项目</div></a>-->
                         </div>
                     </div>
                 </div>

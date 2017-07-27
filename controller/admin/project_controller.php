@@ -133,7 +133,14 @@ class project_controller {
         $del_id = get_request('del_id');
         
         $ret = projects::del($del_id);
-        //return $ret;
+        return $ret ? 'success' : 'fail';
+    }
+    
+    public function update_status_ajax(){
+        $muffinid = get_request('muffinid');
+        $status = get_request('sid');
+        
+        $ret = projects::update_status($muffinid, $status);
         return $ret ? 'success' : 'fail';
     }
 

@@ -51,7 +51,9 @@ class projects {
     }
     public function limit_time_stamp() {
         return $this->summary('limit_time');
-
+    }
+    public function is_expired() {
+        return time() > $this->limit_time_stamp() ? true : false;
     }
     public function deadline() {
         return $this->limit_time();
@@ -132,6 +134,14 @@ class projects {
     public static function modify($muffinid, $project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile){
         
         $muffininfo_ret = db_muffininfos::inst()->modify_project($muffinid, $project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile);
+        if (!$muffininfo_ret) {
+            return false;
+        }
+        return $muffininfo_ret;
+    }
+    
+    public static function update_status($muffinid, $status){
+        $muffininfo_ret = db_muffininfos::inst()->update_status_project($muffinid, $status);
         if (!$muffininfo_ret) {
             return false;
         }

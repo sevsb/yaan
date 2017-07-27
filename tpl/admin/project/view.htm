@@ -21,7 +21,7 @@
         <form>
           <div class="form-group">
             <label for="project_id">项目编号</label>
-            <input type="number" class="form-control" id="project_id" placeholder="项目编号"
+            <input type="text" class="form-control" id="project_id" placeholder="项目编号"
             value ='<?php echo $project->is_valid() ? $project->project_id() : null; ?>' readonly>
           </div>
           <div class="form-group">
