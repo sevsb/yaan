@@ -56,7 +56,7 @@ var update_title = function (){
     $('#title').val(task_tmp_name + fourthloc);
 };
 
-var manage_task = function (act, id = 0) {
+var manage_task = function (act) {
     var title = $('#title').val();
     var content = $('#content').val();
     var address = $('#address').val();
