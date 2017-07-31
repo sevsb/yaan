@@ -47,6 +47,13 @@ class db_init extends database {
         // muffins
         $this->create_table(TABLE_MUFFINS,  array("pid" => "INT", "title" => "TEXT", "face" => "TEXT", "count" => "INT"));
         
+        // questionnaires
+        $this->create_table(TABLE_QUESTIONNAIRES,  array("pid" => "INT", "title" => "TEXT", "notes" => "TEXT", "count" => "INT"));
+        // questions
+        $this->create_table(TABLE_QUESTION,  array("nid" => "INT", "title" => "TEXT", "type" => "TEXT", "notes" => "TEXT", "value" => "TEXT"));
+        // question_options
+        $this->create_table(TABLE_QUESTIONOPTIONS,  array("qid" => "INT", "value" => "TEXT", "title" => "TEXT", "option_id" => "INT"));
+        
         // sheet (task)
         $this->create_table(TABLE_SHEETS,  array("muffinid" => "INT", "wechat_userid" => "INT", "title" => "TEXT","location" => "TEXT", "address" => "TEXT", "content" => "TEXT", "answers" => "TEXT", "status" => "INT"));
         

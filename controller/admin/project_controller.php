@@ -29,6 +29,16 @@ class project_controller {
         $tpl->display("admin/project/new");
     }
     
+    public function question_action() {
+        $tpl = new tpl("admin/header", "admin/footer");
+        $pid = get_request('projectmuffinid');
+//         $readonly = get_request('readonly');
+        $questionnaire = questionnaires::create($pid);
+        $tpl->set('questionnaire', $questionnaire);
+//         $tpl->set('readonly', $readonly);
+//         $tpl->set('project', $project);
+        $tpl->display("admin/questionnaire/edit");
+    }
     
     public function view_action() {
         $tpl = new tpl("admin/header", "admin/footer");
