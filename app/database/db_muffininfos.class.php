@@ -58,7 +58,10 @@ class db_muffininfos extends database {
     }
 
     public function modify_task($taskid, $title, $content, $address, $location) {
-        return $this->update(TABLE_MUFFININFOS, array("title" => $title, "type" => $type, "content" => $content, "address" => $address, "location" => $location), "muffinid = $taskid");
+        $ret = $this->update(TABLE_MUFFININFOS, array("title" => $title, "type" => $type, "content" => $content, "address" => $address, "location" => $location), "muffinid = $taskid");
+        $this->get_cached("db:muffininfos", TABLE_MUFFININFOS);
+        return $ret;
+        
     }
 
     public function modify_task_status($taskid, $status) {

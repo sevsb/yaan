@@ -63,7 +63,7 @@ class location {
         }
         $this->mCity = new location_node($arr["city"]);
         $this->mDistrict = new location_node($arr["district"]);
-        $this->mFourthloc = $arr["fourthloc"];
+        $this->mFourthloc = isset($arr["fourthloc"]) ? $arr["fourthloc"] : null;
         $this->mTime = isset($summary["time"]) ? $summary["time"] : 0;
         if (isset($arr["adcode"])) {
             $this->mCode = $arr["adcode"];
