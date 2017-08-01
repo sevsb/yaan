@@ -107,14 +107,12 @@ class location {
             logging::d('O P_T',$o->province()->title());
             logging::d('THIS C_T',$this->city()->title());
             logging::d('O C_T',$o->city()->title());
-            return;
+            //return;
             return 
-            (strpos($this->province()->title(), $o->province()->title()) || 
-            strpos($o->province()->title(), $this->province()->title()) ||
-            $o->province()->title() == $this->province->title() ) && 
-            (strpos($this->city()->title(), $o->city()->title()) || 
-            strpos($o->city()->title(), $this->city()->title()) ||
-            $o->city()->title() == $this->city->title());
+            ($o->province()->title() == $this->province->title() ) && 
+            ((strpos($this->city()->title(), $o->city()->title()) === 0) || 
+            (strpos($o->city()->title(), $this->city()->title()) === 0) ||
+            ($o->city()->title() == $this->city->title()));
 
             //return $this->province()->equals($o->province()) && $this->city()->equals($o->city());    
         }
