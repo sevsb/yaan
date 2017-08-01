@@ -95,14 +95,23 @@ class projects {
     }
 
     public static function del($id){
+        $ret4 = db_muffins::inst()->del($id);
+        $ret3 = db_muffininfos::inst()->del($id);
+        return $ret3 && $ret4;
         
         $wanna_del_tasks = db_muffins::inst()->load_tasks_by_project($id);
         $wanna_del_tasks = array_keys($wanna_del_tasks);
+        logging::d('wannadelid', $id);
         array_push($wanna_del_tasks, $id);
+        logging::d('wannadel', json_encode($wanna_del_tasks));
+        return;
         if(!empty($wanna_del_tasks)){
             foreach ($wanna_del_tasks as $k) {
                 $ret4 = db_muffins::inst()->del($k);
                 $ret3 = db_muffininfos::inst()->del($k);
+                if ($k != $id) {
+                    
+                }
             }
         }else{
             $ret4 = true;

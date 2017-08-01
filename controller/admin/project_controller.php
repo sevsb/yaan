@@ -132,8 +132,18 @@ class project_controller {
     public function del_ajax(){
         $del_id = get_request('del_id');
         
+        $wanna_del_tasks = db_muffins::inst()->load_tasks_by_project($del_id);
+        $wanna_del_tasks = array_keys($wanna_del_tasks);
+        logging::d('wanna_del_tasks', json_encode($wanna_del_tasks));
+        //return;
         $ret = projects::del($del_id);
-        return $ret ? 'success' : 'fail';
+        $ret2 = true;
+        if (!empty($wanna_del_tasks) && is_array($wanna_del_tasks)) {
+            foreach ($wanna_del_tasks as $tid) {
+                $ret2 &= tasks::del($tid);
+            }
+        }
+        return $ret && $ret2 ? 'success' : 'fail';
     }
     
     public function update_status_ajax(){
