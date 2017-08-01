@@ -96,10 +96,16 @@ class location {
     public function set_time($time) {
         $this->mTime = $time;
     }
+    
+    public function replace_city_title($replace_city_title) {
+        $this->mTime = $time;
+    }
 
     private function title_equals($o) {
-        if ($this->district()->title() == null) {
-            return $this->province()->equals($o->province()) && $this->city()->equals($o->city());    
+        if (empty($this->district()->code())) {
+            return (strpos($this->province()->title(), $o->province()->title()) || strpos($o->province()->title(), $this->province()->title())) && (strpos($this->city()->title(), $o->city()->title()) || strpos($o->city()->title(), $this->city()->title()));
+
+            //return $this->province()->equals($o->province()) && $this->city()->equals($o->city());    
         }
         return ($this->province()->equals($o->province()) && $this->city()->equals($o->city()) && $this->district()->equals($o->district()));
     }
@@ -117,6 +123,10 @@ class location {
         }
 
         if ($this->code() != 0) {
+            if(empty($this->district()->code())){
+                logging::d("Debug", "\tcompare title because this one has no district code.");
+                return $this->title_equals($o);
+            }
             if ($o->province()->code() != 0) {
                 logging::d("Debug", "\tcompare code with item.code.");
                 $ret = ($this->code() == $o->province()->code());
