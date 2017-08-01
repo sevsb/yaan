@@ -85,6 +85,30 @@ class task_controller {
         logging::d("Debug", $taskid);
         $userid == null ? $status = 0 : $status = 1;
         $ret = db_muffininfos::inst()->update_wechat_userid($taskid, $userid, $status);
+        if ($userid != null) {
+            $task = tasks::create($taskid);
+            $task_title = $task->title();
+            $project_title = $task->project()->title();
+            $project_limit_time = $task->project()->limit_time();
+            $wechatuser = wechatuser::create($userid);
+            $openid = $wechatuser->openid();
+            $data_array = array(
+                "touser" => $openid,
+                "template_id" => "ANRlAUP0QhXMBatijUM_Ez5ouM77JpAgGM4AubwFdBw",
+                "url" => "",
+                "miniprogram" => array(
+                    "appid" => "",
+                    "pagepath" => ""),
+                "data" => array(
+                    "first" => "你好，你被分配到一个新的任务！",
+                    "keyword1" => "$project_title",
+                    "keyword2" => "$task_title",
+                    "keyword3" => "略",
+                    "keyword4" => "$project_limit_time",
+                    "remark" => "请尽快落实任务！"));
+            $result = wxApi::inst()->send_template_message($data_array);
+            logging::d("SENDTEMMSG",$result);
+        }
         return $ret ? array('ret' => 'success') : array('status' => 'fail');
     }
     

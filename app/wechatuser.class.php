@@ -14,6 +14,9 @@ class wechatuser {
     public function id() {
         return $this->summary["id"];
     }
+    public function openid() {
+        return $this->summary["openid"];
+    }
 
     public function nick() {
         return $this->summary["nickname"];

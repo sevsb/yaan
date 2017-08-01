@@ -1,12 +1,19 @@
 <?php
-
+defined('LOCK_DIR') or define('LOCK_DIR', ROOT_PATH . '/tmp');
+defined('LOCK_URL') or define('LOCK_URL', rtrim(INSTANCE_URL, "/") . '/tmp');
 class Lock {
     private $keypath = null;
     // private $id = null;
     private $fp = null;
 
     public function __construct($key) {
-        $this->keypath = "/tmp/" . $key;
+        $this->keypath = LOCK_DIR . "/" . $key;
+        if (strstr(PHP_OS, 'WIN')) {
+            if (!file_exists(LOCK_DIR . "/")) {
+                $r = mkdir(LOCK_DIR . "/", 0777, true);
+                logging::d('MKDIR', $r);
+            }
+        }
         // $this->id = uniqid("", true);
         touch($this->keypath);
         @chmod($this->keypath, 0777);

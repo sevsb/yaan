@@ -45,7 +45,8 @@ defined('FILEUPLOAD_DIR') or define('FILEUPLOAD_DIR', ROOT_PATH . '/upload/files
 defined('FILEUPLOAD_URL') or define('FILEUPLOAD_URL', rtrim(INSTANCE_URL, "/") . '/upload/files');
 
 defined('THUMBNAIL_DIR') or define('THUMBNAIL_DIR', ROOT_PATH . '/upload/thumbnails');
-defined('THUMBNAIL_URL') or define('THUMBNAIL_URL', rtrim(INSTANCE_URL, "/") . '/upload/thumbnails');
+defined('THUMBNAIL_URL') or define('THUMBNAIL_URL', rtrim(INSTANCE_URL, "/") . '/upload/thumbnails');defined('LOCK_DIR') or define('LOCK_DIR', ROOT_PATH . '/tmp');
+defined('LOCK_URL') or define('LOCK_URL', rtrim(INSTANCE_URL, "/") . '/tmp');
 defined('UPLOAD_LIMIT') or define('UPLOAD_LIMIT', 10 * 1024 * 1024);
 defined('PICSERVICE_IP') or define('PICSERVICE_IP', "http://pic.zizhuzhuangxiu.cn");
 defined('PICSERVICE_URL') or define('PICSERVICE_URL', "http://pic.zizhuzhangxiu.cn/");
