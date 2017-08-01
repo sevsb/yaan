@@ -27,7 +27,7 @@ include_once(dirname(__FILE__) . "/app/projects.class.php");
 include_once(dirname(__FILE__) . "/app/tasks.class.php");
 include_once(dirname(__FILE__) . "/app/customers.class.php");
 include_once(dirname(__FILE__) . "/app/questionnaires.class.php");
-include_once(dirname(__FILE__) . "/app/questios.class.php");
+include_once(dirname(__FILE__) . "/app/questions.class.php");
 include_once(dirname(__FILE__) . "/app/questionoptions.class.php");
 include_once(dirname(__FILE__) . "/app/login.class.php");
 include_once(dirname(__FILE__) . "/app/sheet.class.php");
@@ -76,7 +76,7 @@ defined('TABLE_MUFFININFOS') or define('TABLE_MUFFININFOS', MYSQL_PREFIX . "muff
 // db_muffininfos 
 defined('TABLE_QUESTIONNAIRES') or define('TABLE_QUESTIONNAIRES', MYSQL_PREFIX . "questionnaires");
 // db_muffininfos 
-defined('TABLE_QUESTIONS') or define('TABLE_QUESTION', MYSQL_PREFIX . "questions");
+defined('TABLE_QUESTION') or define('TABLE_QUESTION', MYSQL_PREFIX . "questions");
 // db_muffininfos 
 defined('TABLE_QUESTIONOPTIONS') or define('TABLE_QUESTIONOPTIONS', MYSQL_PREFIX . "questionoptions");
 // db_muffins

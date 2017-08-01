@@ -32,7 +32,7 @@ class db_question extends database {
     }
 
     public function get_by_naireid($nid) {
-        return $this->get_one_table(TABLE_QUESTION, "nid = $nid");
+        return $this->get_all_table(TABLE_QUESTION, "nid = $nid","order by id");
     }
 
     public function get_questions_by_id($id) {

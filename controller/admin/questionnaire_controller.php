@@ -41,7 +41,13 @@ class questionnaire_controller {
         
 //         $task = tasks::create($taskid);
         $questionnaire = questionnaires::create($pid);
+        $questions = questions::load_by_nid($questionnaire->id());
+        $i = 1;
+        for($i=1;$i<=count($questions); $i++){
+            $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
+        }
         $tpl->set('questionnaire', $questionnaire);
+        $tpl->set('questions', $questions);
         
         $tpl->display("admin/questionnaire/edit");
     }
@@ -58,6 +64,16 @@ class questionnaire_controller {
             $questionnaire = questionnaires::modify($id,$title,$notes);
         }
         
+    }
+    
+    public function editQuestions_action() {
+
+        $qid = get_request("qid", 0);
+        
+        $questions = questions::load_by_id($qid);
+        $questions[$i]['options'] = questionoptions::load_by_qid($qid);
+        
+        return $questions;
     }
     
     public function addQuestions_action() {

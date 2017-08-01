@@ -108,6 +108,11 @@ class questionoptions {
         }
         return $result_array;
     }
+    
+    public static function load_by_qid($qid) {
+        $questionoptions = db_questionoptions::inst()->get_by_questionid($qid);
+        return $questionoptions;
+    }
 
     public function pack_info() {
         return array(

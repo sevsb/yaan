@@ -112,6 +112,16 @@ class questions {
         }
         return $result_array;
     }
+    
+    public static function load_by_nid($nid) {
+        $questions = db_question::inst()->get_by_naireid($nid);
+        return $questions;
+    }
+    
+    public static function load_by_id($nid) {
+        $questions = db_question::inst()->get_questions_by_id($nid);
+        return $questions;
+    }
 
     public function pack_info() {
         return array(

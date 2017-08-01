@@ -32,7 +32,7 @@ class db_questionoptions extends database {
     }
 
     public function get_by_questionid($qid) {
-        return $this->get_one_table(TABLE_QUESTIONOPTIONS, "qid = $qid");
+        return $this->get_all_table(TABLE_QUESTIONOPTIONS, "qid = $qid","order by option_id");
     }
 
     public function get_options_by_id($id) {
