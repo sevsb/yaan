@@ -95,7 +95,7 @@ class task_controller {
             $data_array = array(
                 "touser" => $openid,
                 "template_id" => "ANRlAUP0QhXMBatijUM_Ez5ouM77JpAgGM4AubwFdBw",
-                "url" => "",
+                "url" => "http://yaan.rendajinrong.com/?wechat/index/home",
                 "miniprogram" => array(
                     "appid" => "",
                     "pagepath" => ""),
@@ -113,7 +113,7 @@ class task_controller {
                         "color" => "#173177"
                     ),
                     "keyword3" => array(
-                        "value" =>"略",
+                        "value" =>"xytest",
                         "color" => "#173177"
                     ),
                     "keyword4" => array(
@@ -124,6 +124,7 @@ class task_controller {
                         "value" =>"请尽快落实任务！",
                         "color" => "#173177"
             )));
+            logging::d("SENDDATA",json_encode($data_array));
             $result = wxApi::inst()->send_template_message($data_array);
             logging::d("SENDTEMMSG",$result);
         }
