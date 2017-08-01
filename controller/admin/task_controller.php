@@ -86,7 +86,7 @@ class task_controller {
         $userid == null ? $status = 0 : $status = 1;
         $ret = db_muffininfos::inst()->update_wechat_userid($taskid, $userid, $status);
         if ($userid != null) {
-            $task = tasks::create($taskid);
+            $task = tasks::create_by_id($taskid);
             $task_title = $task->title();
             $project_title = $task->project()->title();
             $project_limit_time = $task->project()->limit_time();
