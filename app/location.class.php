@@ -103,6 +103,11 @@ class location {
 
     private function title_equals($o) {
         if (empty($this->district()->code())) {
+            logging::d('THIS P_T',$this->province()->title());
+            logging::d('O P_T',$o->province()->title());
+            logging::d('THIS C_T',$this->city()->title());
+            logging::d('O C_T',$o->city()->title());
+            return;
             return 
             (strpos($this->province()->title(), $o->province()->title()) || 
             strpos($o->province()->title(), $this->province()->title()) ||
