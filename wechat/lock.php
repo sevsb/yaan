@@ -8,6 +8,7 @@ class Lock {
 
     public function __construct($key) {
         $this->keypath = LOCK_DIR . "/" . $key;
+        logging::d('LOCKDIR', $this->keypath);
         if (strstr(PHP_OS, 'WIN')) {
             if (!file_exists(LOCK_DIR . "/")) {
                 $r = mkdir(LOCK_DIR . "/", 0777, true);
