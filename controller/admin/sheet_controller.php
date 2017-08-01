@@ -35,7 +35,7 @@ class sheet_controller {
         $sheet = sheet::create($sid);
         logging::d('SHEET', json_encode($sheet));
         $wechat_userid = $sheet->userid();
-        $wechat_user = wechat_user::create($wechat_userid);
+        $wechat_user = wechatuser::create($wechat_userid);
         $openid = $wechat_user->openid();
         $task_title = $sheet->task()->title();
         logging::d('wechat_userid', json_encode($wechat_userid));
