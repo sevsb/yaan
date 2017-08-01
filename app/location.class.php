@@ -102,7 +102,7 @@ class location {
     }
 
     private function title_equals($o) {
-        if (empty($this->district()->code())) {
+        if (empty($this->district()->title())) {
             logging::d('THIS P_T',$this->province()->title());
             logging::d('O P_T',$o->province()->title());
             logging::d('THIS C_T',$this->city()->title());
@@ -128,7 +128,7 @@ class location {
         }
 
         if ($this->code() != 0) {
-            if(empty($this->district()->code())){
+            if(empty($this->district()->title())){
                 logging::d("Debug", "\tcompare title because this one has no district code.");
                 return $this->title_equals($o);
             }
@@ -142,7 +142,7 @@ class location {
             logging::d("Debug", "\tcompare title because the other one has no item code.");
             return $this->title_equals($o);
         }
-        if(empty($this->district()->code())){
+        if(empty($this->district()->title())){
             logging::d("Debug", "\tcompare title because this one has no district code.");
             return $this->title_equals($o);
         }
