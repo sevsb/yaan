@@ -173,9 +173,16 @@ class tasks {
     }
 
     public static function del($id) {
+        $task = tasks::create($id);
+        $paperid = $task->paperid();
+        $sheet = sheet::create_by_paperid($paperid);
+        $answers_id = $sheet->answers_text();
+        logging::d('answers_id', "$answers_id");
+        $ret3 = db_sheets::inst()->del_by_paperid($paperid);
+        $ret4 = db_answers::inst()->del($answers_id);
         $ret1 = db_muffins::inst()->del($id);
         $ret2 = db_muffininfos::inst()->del($id);
-        return $ret1 && $ret2;
+        return $ret1 && $ret2 && $ret3 && $ret4;
     }
 
     public static function load_all() {

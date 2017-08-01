@@ -47,6 +47,20 @@ class db_answers extends database {
         $where = "id = " . implode(" OR id = ", $idarr);
         return $this->get_all_table(TABLE_ANSWERS, $where);
     }
+    
+    public function del($answers_id) {
+        if (is_array($answers_id)) {
+            $where = '';
+            foreach ($answers_id as $id) {
+                $where .= "id = '$id' or ";
+            }
+            $where = substr($where, 0, -3);
+            return $this->delete(TABLE_ANSWERS, $where);
+        }
+        if (is_numeric($answers_id)) {
+            return $this->delete(TABLE_ANSWERS, "id = '$answers_id'");
+        }
+    }
 };
 
 

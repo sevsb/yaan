@@ -22,7 +22,7 @@ $(document).ready(function() {
                 }
             }
         }
-        //console.debug(data.data);
+        console.debug(data.data);
         sheetlist.sheetlist = data.data;
     };
 
