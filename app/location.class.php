@@ -98,6 +98,9 @@ class location {
     }
 
     private function title_equals($o) {
+        if ($this->district()->title() == null) {
+            return $this->province()->equals($o->province()) && $this->city()->equals($o->city());    
+        }
         return ($this->province()->equals($o->province()) && $this->city()->equals($o->city()) && $this->district()->equals($o->district()));
     }
 
