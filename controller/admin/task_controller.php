@@ -124,7 +124,6 @@ class task_controller {
                         "value" =>"请尽快落实任务！点击跳转到我的任务",
                         "color" => "#173177"
             )));
-            logging::d("SENDDATA",json_encode($data_array));
             $result = wxApi::inst()->send_template_message($data_array);
             logging::d("SENDTEMMSG",$result);
         }
