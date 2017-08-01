@@ -100,12 +100,30 @@ class task_controller {
                     "appid" => "",
                     "pagepath" => ""),
                 "data" => array(
-                    "first" => "你好，你被分配到一个新的任务！",
-                    "keyword1" => "$project_title",
-                    "keyword2" => "$task_title",
-                    "keyword3" => "略",
-                    "keyword4" => "$project_limit_time",
-                    "remark" => "请尽快落实任务！"));
+                    "first" => array(
+                        "value" =>"你好，你被分配到一个新的任务！",
+                        "color" => "#173177"
+                    ),
+                    "keyword1" => array(
+                        "value" =>"$project_title",
+                        "color" => "#173177"
+                    ),
+                    "keyword2" => array(
+                        "value" =>"$task_title",
+                        "color" => "#173177"
+                    ),
+                    "keyword3" => array(
+                        "value" =>"略",
+                        "color" => "#173177"
+                    ),
+                    "keyword4" => array(
+                        "value" =>"$project_limit_time",
+                        "color" => "#173177"
+                    ),
+                    "remark" => array(
+                        "value" =>"请尽快落实任务！",
+                        "color" => "#173177"
+            )));
             $result = wxApi::inst()->send_template_message($data_array);
             logging::d("SENDTEMMSG",$result);
         }
