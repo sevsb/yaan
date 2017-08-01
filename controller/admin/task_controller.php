@@ -113,7 +113,7 @@ class task_controller {
                         "color" => "#173177"
                     ),
                     "keyword3" => array(
-                        "value" =>"xytest",
+                        "value" =>"您为此任务负责人",
                         "color" => "#173177"
                     ),
                     "keyword4" => array(
@@ -121,7 +121,7 @@ class task_controller {
                         "color" => "#173177"
                     ),
                     "remark" => array(
-                        "value" =>"请尽快落实任务！",
+                        "value" =>"请尽快落实任务！点击跳转到我的任务",
                         "color" => "#173177"
             )));
             logging::d("SENDDATA",json_encode($data_array));
