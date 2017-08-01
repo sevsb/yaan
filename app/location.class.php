@@ -142,6 +142,10 @@ class location {
             logging::d("Debug", "\tcompare title because the other one has no item code.");
             return $this->title_equals($o);
         }
+        if(empty($this->district()->code())){
+            logging::d("Debug", "\tcompare title because this one has no district code.");
+            return $this->title_equals($o);
+        }
         logging::d("Debug", "\treverse compare.");
         return $o->equals($this);
     }
