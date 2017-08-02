@@ -57,6 +57,9 @@ class tasks {
     public function location() {
         return $this->summary("location");
     }
+    public function broadcast_area() {
+        return json_decode($this->summary("broadcast_area"));
+    }
 
     public function location_obj() {
         $loc = new location($this->location());
@@ -169,6 +172,10 @@ class tasks {
 
     public static function modify_task_status($taskid, $status){
         $ret = db_muffininfos::inst()->modify_task_status($taskid, $status);
+        return (!$ret) ? false : $ret;
+    }
+    public static function update_broadcast_area($taskid, $broadcast_loctions){
+        $ret = db_muffininfos::inst()->update_broadcast_area($taskid, $broadcast_loctions);
         return (!$ret) ? false : $ret;
     }
 

@@ -54,6 +54,7 @@
                         <!--<div class='btn btn-default'>审核任务</div>-->
                         <div>
                             <div class='btn btn-default accept_btn' data-toggle="modal" data-target="#accept_modal">分派任务</div>
+                            <div class='btn btn-success broadcast_btn' data-toggle="modal" data-target="#broadCastModal">推送其他区域</div>
                             <a href='?admin/task/new&taskid={:$muffinid}'><div class='btn btn-primary'>编辑任务</div></a>
                             <div class='btn btn-danger del_btn' data-toggle="modal" data-target="#myModal">删除任务</div>
                         </div>
@@ -121,6 +122,27 @@
         <button type="button" class="btn btn-danger cancel_accept">撤消分派任务</button>
         <!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
         <button type="button" class="btn btn-success do_accept">确认分派</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="broadCastModal" tabindex="-1" role="dialog" aria-labelledby="broadCastModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="broadCastModalLabel">请选择要推送到地其他区域</h4>
+      </div>
+      <div class="modal-body">
+          <div class='broadcast_area_list'></div>
+          <div class='btn btn-success more_loc_btn' style='margin-top: 15px;'>新增区域选择</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary save_locs_btn">保存</button>
       </div>
     </div>
   </div>

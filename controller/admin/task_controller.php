@@ -6,6 +6,16 @@ class task_controller {
     public function preaction($action) {
         login::assert();
     }
+    public function load_all_broadcast_areas_action() {
+        $all_broadcast_areas = array();
+        $tasks = tasks::load_all();
+        foreach ($tasks as $task) {
+            $id = $task->id();
+            $broadcast_areas = $task->broadcast_area();
+            $all_broadcast_areas[$id] = $broadcast_areas;
+        }
+        echo json_encode($all_broadcast_areas);
+    }
 
     public function index_action() {
         $tpl = new tpl("admin/header", "admin/footer");
@@ -130,7 +140,15 @@ class task_controller {
         return $ret ? array('ret' => 'success') : array('status' => 'fail');
     }
     
-    
+    public function update_broadcast_area_ajax() {
+        $taskid = get_request('taskid');
+        $broadcast_loctions = get_request('broadcast_loctions');
+        logging::d("taskid", "taskid: $taskid");
+        logging::d("broadcast_loctions", "broadcast_loctions: $broadcast_loctions");
+        //return true;
+        $result = tasks::update_broadcast_area($taskid, $broadcast_loctions);
+        return $result ? 'success' : 'fail';
+    }   
 
 }
 
