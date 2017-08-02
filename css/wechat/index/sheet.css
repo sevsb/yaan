@@ -4,10 +4,10 @@
 }
 
 .card_book_loading {
-    text-align: center;
-    padding-top: 20vh;
-    font-size: 1.5em;
-    font-weight: bolder;
+  text-align: center;
+  padding-top: 20vh;
+  font-size: 1.5em;
+  font-weight: bolder;
 }
 
 .card_book_page {
@@ -91,6 +91,9 @@
 
 .card_title {
   padding-left: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .card_dropdown_btn {
