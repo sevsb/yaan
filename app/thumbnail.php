@@ -55,6 +55,12 @@ function mkThumbnail($src, $width = 0, $height = 0, $filename = null) {
     $imagecreatefunc = 'imagecreatefrom' . $img_type;
     $src_img = $imagecreatefunc($src);
     $dest_img = imagecreatetruecolor($width, $height);
+
+    // 解决透明色会成黑色的问题
+    $color = imagecolorallocate($dest_img, 255, 255, 255);
+    // imagecolortransparent($dest_img, $color);
+    imagefill($dest_img, 0, 0, $color);
+
     imagecopyresampled($dest_img, $src_img, 0, 0, 0, 0, $width, $height, $src_w, $src_h);
 
     $imagefunc = 'image' . $img_type;
