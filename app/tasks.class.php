@@ -260,7 +260,7 @@ class tasks {
             $broadcast_compare_ret = false;
             logging::d('broadcast_areas', $broadcast_areas);
             if (!empty($broadcast_areas)) {
-                //$broadcast_areas = json_decode($broadcast_areas);
+                $broadcast_areas = json_decode($broadcast_areas, true);
                 foreach ($broadcast_areas as $area) {
                     logging::d('area', $area);
                     $area_obj = new location($area);
