@@ -5,16 +5,42 @@ var __log = function(msg) {
     $("#log").html(m);
 }
 
-
 $(document).ready(function() {
     var tasks = new Vue({
         el: '#task-wrapper',
         data: {
             pagestatus: 0,
+            tabstatus: 1,
             viewtaskkey: 0,
             userinfo: null,
         },
         methods: {
+            isOnShow: function(status) {
+                switch(this.tabstatus) {
+                    case 0:
+                        return true;
+                    case 1:
+                        if (status == STATUS_ASSIGNED || status == STATUS_REJECT) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    case 2:
+                        if (status == STATUS_NOTREVIEW) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    case 3:
+                        if (status == STATUS_PASS) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    default:
+                        return false;
+                }
+            },
             viewTask: function(event) {
                 var target = event.currentTarget;
                 var taskkey = $(target).attr("taskkey");
@@ -32,7 +58,6 @@ $(document).ready(function() {
             canceltask: function(event) {
                 var target = event.currentTarget;
                 var userid = null;
-                //alert(234);
                 var tid = tasks.userinfo.tasks[tasks.viewtaskkey].id;
                 __ajax('admin.task.assign', {taskid: tid, userid: userid},function (data){
                     console.log(data);
@@ -50,7 +75,6 @@ $(document).ready(function() {
         }
     });
 
-
     __request("wechat.api.mytasks", {}, function(res) {
         console.debug(res);
         tasks.userinfo = res.data;
@@ -61,12 +85,3 @@ $(document).ready(function() {
         }
     });
 });
-
-
-
-
-
-
-
-
-

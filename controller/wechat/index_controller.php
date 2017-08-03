@@ -14,6 +14,10 @@ class index_controller {
         $baiduak = settings::instance()->load("BAIDU_MAP_AK");
 
         $tpl = new tpl("wechat/header", "wechat/footer");
+        $tpl->set("STATUS_ASSIGNED", tasks::STATUS_ASSIGNED);
+        $tpl->set("STATUS_NOTREVIEW", tasks::STATUS_NOTREVIEW);
+        $tpl->set("STATUS_PASS", tasks::STATUS_PASS);
+        $tpl->set("STATUS_REJECT", tasks::STATUS_REJECT);
         $tpl->set("user", $user);
         $tpl->set("baiduak", $baiduak);
         $signPackage = WXApi::inst()->get_SignPackage();

@@ -1,11 +1,24 @@
+<script type="text/javascript">
+    var STATUS_ASSIGNED = {:$STATUS_ASSIGNED};
+    var STATUS_NOTREVIEW = {:$STATUS_NOTREVIEW};
+    var STATUS_PASS = {:$STATUS_PASS};
+    var STATUS_REJECT = {:$STATUS_REJECT};
+</script>
 
 <div class="">
     <!-- pre id="log"></pre -->
-    <div id="task-wrapper">
-        <div class="userinfo">
-            <div class=""><img src="{:$user['face']}" class="img-responsive img-circle"></div>
-            <div class="text-center"><p>{:$user["nickname"]}</p></div>
+    <div class="flex-item flex-col" id="task-wrapper">
+        <div class="userinfo flex-item flex-row">
+            <div class="userinfo_headimg flex-item flex-center flex-vcenter">
+                <img class="img-responsive img-rounded" src="{:$user['face']}">
+            </div>
+            <div class="userinfo_info flex-item flex-col">
+                <div class="userinfo_item">
+                <p>{:$user["nickname"]}</p>
+                </div>
+            </div>
         </div>
+
         <div class="tip" v-if="pagestatus == 0">
             <p>正在加载，请稍候...</p>
         </div>
@@ -14,7 +27,21 @@
         </div>
 
         <div class="tasks" class="clear" v-if="pagestatus == 2">
-            <div class="task" v-for="(task, taskkey) in userinfo.tasks" v-bind:taskkey="taskkey" v-on:click="viewTask">
+            <ul class="tasks_tabs flex-item flex-row flex-space-around">
+                <li class="tasks_tab" v-on:click="tabstatus = 0" v-bind:class="{tab_active : tabstatus == 0}">
+                    全部
+                </li>
+                <li class="tasks_tab" v-on:click="tabstatus = 1" v-bind:class="{tab_active : tabstatus == 1}">
+                    待提交
+                </li>
+                <li class="tasks_tab" v-on:click="tabstatus = 2" v-bind:class="{tab_active : tabstatus == 2}">
+                    未审核
+                </li>
+                <li class="tasks_tab" v-on:click="tabstatus = 3" v-bind:class="{tab_active : tabstatus == 3}">
+                    已通过
+                </li>
+            </ul>
+            <div class="task" v-for="(task, taskkey) in userinfo.tasks" v-if="isOnShow(task.status)" v-bind:taskkey="taskkey" v-on:click="viewTask">
                 <div class="task-title">{{task.title}}</div>
                 <div class="task-brief">摘要：{{task.project.description}}</div>
                 <div>地址：{{task.address}}</div>
@@ -48,4 +75,3 @@
     </div>
 </div>
 <script> var baiduak = "{=$baiduak}"; </script>
-
