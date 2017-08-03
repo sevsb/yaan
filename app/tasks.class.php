@@ -256,7 +256,18 @@ class tasks {
                 continue;
             }
             // logging::d("Debug", "compareing " . json_encode($task->location_obj()->pack_info()) . " with " . json_encode($location->pack_info()));
-            if ($task->location_obj()->is_same_city_with($location)) {
+            $broadcast_areas = $task->broadcast_area();
+            logging::d('broadcast_areas', $broadcast_areas);
+            if (!empty($broadcast_areas) && $broadcast_areas != '[]') {
+                foreach ($broadcast_areas as $area) {
+                    logging::d('area', $area);
+                    $area_obj = new location($area);
+                    $broadcast_compare_ret |= $area_obj->is_same_city_with($location);
+                    logging::d('COMPARE_RET', $broadcast_compare_ret);
+                }
+            }
+            $loc_compare_ret = $task->location_obj()->is_same_city_with($location);
+            if ($loc_compare_ret || $broadcast_compare_ret) {
                 // logging::d("Debug", "SAME!");
                 $arr[$id] = $task;
             }
