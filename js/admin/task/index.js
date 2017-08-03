@@ -36,6 +36,9 @@ $('.cancel_accept').click(function (){
     __ajax('admin.task.assign', {taskid : taskid , userid: userid} ,true )
 });
 
+$(document).on('click', '.eraser_btn', function (){
+    $(this).parents('.broad_cast_loc_div').remove();
+});
 
 $('.broadcast_btn').click(function (){
   $('.broadcast_area_list').html('');
@@ -51,7 +54,7 @@ $('.broadcast_btn').click(function (){
       add_item += "<select class='province'></select>";
       add_item += "<select class='city' ></select>";
       add_item += "<select class='district' ></select>";
-      add_item += "</div>";
+      add_item += "<span class='btn btn-danger eraser_btn'>删除</span></div>";
       add_item += "</div>";
       $('.broadcast_area_list').append(add_item);
       $('.distpicker').distpicker(); 
@@ -71,7 +74,7 @@ $('.broadcast_btn').click(function (){
           add_item += "<select class='province'></select>";
           add_item += "<select class='city' ></select>";
           add_item += "<select class='district' ></select>";
-          add_item += "</div>";
+          add_item += "<span class='btn btn-danger eraser_btn'>删除</span></div>";
           add_item += "</div>";
           $('.broadcast_area_list').append(add_item);
           $('#' + pickerId).distpicker({
