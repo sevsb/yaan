@@ -259,6 +259,7 @@ class tasks {
             $broadcast_areas = $task->broadcast_area();
             logging::d('broadcast_areas', $broadcast_areas);
             if (!empty($broadcast_areas) && $broadcast_areas != '[]') {
+                $broadcast_areas = json_decode($broadcast_areas);
                 foreach ($broadcast_areas as $area) {
                     logging::d('area', $area);
                     $area_obj = new location($area);
