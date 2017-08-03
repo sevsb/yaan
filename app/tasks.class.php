@@ -257,9 +257,10 @@ class tasks {
             }
             // logging::d("Debug", "compareing " . json_encode($task->location_obj()->pack_info()) . " with " . json_encode($location->pack_info()));
             $broadcast_areas = $task->broadcast_area();
+            $broadcast_compare_ret = false;
             logging::d('broadcast_areas', $broadcast_areas);
-            if (!empty($broadcast_areas) && $broadcast_areas != '[]') {
-                $broadcast_areas = json_decode($broadcast_areas);
+            if (!empty($broadcast_areas)) {
+                //$broadcast_areas = json_decode($broadcast_areas);
                 foreach ($broadcast_areas as $area) {
                     logging::d('area', $area);
                     $area_obj = new location($area);
