@@ -10,6 +10,8 @@ body {
   border-bottom: #eee solid 1px;
 
   background-color: #fff;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .userinfo_headimg {
@@ -56,6 +58,9 @@ body {
   margin: 0px;
 
   background-color: #fff;
+
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .tasks_tab {
