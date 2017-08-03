@@ -260,10 +260,13 @@ class tasks {
             $broadcast_compare_ret = false;
             logging::d('broadcast_areas', $broadcast_areas);
             if (!empty($broadcast_areas)) {
-                $broadcast_areas = json_encode($broadcast_areas);
-                $broadcast_areas = json_decode($broadcast_areas, true);
+                //$broadcast_areas = json_encode($broadcast_areas);
+                //$broadcast_areas = json_decode($broadcast_areas, true);
                 foreach ($broadcast_areas as $area) {
                     logging::d('area', $area);
+                    $area = json_encode($area);
+                    $area = json_decode($area, true);
+                    logging::d('area_array', $area);
                     $area_obj = new location($area);
                     $broadcast_compare_ret |= $area_obj->is_same_city_with($location);
                     logging::d('COMPARE_RET', $broadcast_compare_ret);
