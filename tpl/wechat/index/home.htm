@@ -38,6 +38,9 @@
                     未审核
                 </li>
                 <li class="tasks_tab" v-on:click="tabstatus = 3" v-bind:class="{tab_active : tabstatus == 3}">
+                    被驳回
+                </li>
+                <li class="tasks_tab" v-on:click="tabstatus = 4" v-bind:class="{tab_active : tabstatus == 4}">
                     已通过
                 </li>
             </ul>
@@ -66,10 +69,10 @@
             </div>
 
             <div class="task-operations">
-                <a class="weui_btn weui_btn_primary" v-bind:href="userinfo.tasks[viewtaskkey].project.word">问卷下载</a>
-                <button class="weui_btn weui_btn_primary" v-on:click="gosheet">提交任务</button>
-                <button class="weui_btn weui_btn_primary" v-on:click="canceltask">放弃任务</button>
-                <button class="weui_btn weui_btn_primary" v-on:click="goback">返回</button>
+                <a class="btn btn-primary btn-lg btn-block" v-if="!userinfo.tasks[viewtaskkey].project.word.indexOf('404notfound')" v-bind:href="userinfo.tasks[viewtaskkey].project.word">问卷下载</a>
+                <button class="btn btn-primary btn-lg btn-block" v-if="isAssigned(userinfo.tasks[viewtaskkey].status)" v-on:click="gosheet">提交任务</button>
+                <button class="btn btn-danger btn-lg btn-block" v-if="isAssigned(userinfo.tasks[viewtaskkey].status)" v-on:click="canceltask">放弃任务</button>
+                <button class="btn btn-primary btn-lg btn-block" v-on:click="goback">返回</button>
             </div>
         </div>
     </div>
