@@ -51,7 +51,6 @@
                 <div>期限：{{task.project.deadline}}</div>
             </div>
         </div>
-        <div id="" v-if="pagestatus == 3"></div>
         <div id="task-info" class="clear" v-if="pagestatus == 3">
             <div class="task-title">{{userinfo.tasks[viewtaskkey].title}}</div>
             <div>
@@ -71,8 +70,26 @@
             <div class="task-operations">
                 <a class="btn btn-primary btn-lg btn-block" v-if="!userinfo.tasks[viewtaskkey].project.word.indexOf('404notfound')" v-bind:href="userinfo.tasks[viewtaskkey].project.word">问卷下载</a>
                 <button class="btn btn-primary btn-lg btn-block" v-if="isAssigned(userinfo.tasks[viewtaskkey].status)" v-on:click="gosheet">提交任务</button>
-                <button class="btn btn-danger btn-lg btn-block" v-if="isAssigned(userinfo.tasks[viewtaskkey].status)" v-on:click="canceltask">放弃任务</button>
+                <button class="btn btn-danger btn-lg btn-block" v-if="isAssigned(userinfo.tasks[viewtaskkey].status)" v-on:click="showcancelmodal">放弃任务</button>
                 <button class="btn btn-primary btn-lg btn-block" v-on:click="goback">返回</button>
+            </div>
+
+            <div class="modal" id="cancel_task_modal" tabindex="-1" role="dialog" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <strong style="font-size: 1.5em;">确认放弃任务？</strong>
+                        </div> -->
+                        <div class="modal-body" style="padding-top: 1.5em;">
+                            <strong style="font-size: 1.5em;">确认放弃任务？</strong>
+                            <p style="margin-top: 1em;">放弃该任务之后，可能无法找回</p>
+                        </div>
+                        <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
+                            <div class="modal-footer-btn modal-footer-left_btn" id="cancel_task_cancel" data-dismiss="modal">取消</div>
+                            <div class="modal-footer-btn modal-footer-right_btn text-danger" id="cancel_task_submit" v-on:click="canceltask">放弃</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
