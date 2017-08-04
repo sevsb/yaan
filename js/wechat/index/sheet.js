@@ -21,6 +21,10 @@ $(document).ready(function() {
             pageStatus: 0,
             imgRoot: __imgRoot,
             photosList: __photosList,
+            imgUrl: '',
+            imgData: '',
+            imgContent: '',
+            photo: {},
         },
         methods: {
             setPageStatus: function(PageStatus) {
@@ -39,7 +43,7 @@ $(document).ready(function() {
                 }
             },
             refreshPhotosList: function() {
-                this.photosList = __photosList;
+                vue_wx_view.photosList = __photosList;
             },
             addPhoto: function() {
                 wx.chooseImage({
@@ -60,65 +64,16 @@ $(document).ready(function() {
                                 if(imgData.substr(0, 23).search('data:image/jpeg;base64,') < 0){
                                     imgData = 'data:image/jpeg;base64,' + imgData;
                                 }
-                                vue_add_photo_modal.showAddPhotoModal(localId, imgData);
+                                vue_wx_view.showAddPhotoModal(localId, imgData);
                             }
                         });
                     }
                 });
             },
-            modifyPhoto: function(imgUrl) {
-                vue_modify_photo_modal.showModifyPhotoModal(__photosList.getPhotoByImgUrl(imgUrl));
-            },
-            deletePhoto: function(imgUrl) {
-                __ajax('wechat.index.deleteImg', {
-                    imgName: imgUrl
-                }, function (data) {
-                    if(data.ret == 'success'){
-                        __photosList.deletePhotoByImgUrl(imgUrl);
-                        __ajax('wechat.index.updatePhotosList', {
-                            answerId: __answerId,
-                            photosList: __photosList,
-                        }, function (data) {
-                            if(data.ret == 'success'){
-                                vue_wx_view.refreshPhotosList();
-                            }else {
-                                alert(data.info);
-                            }
-                        });
-                    }else {
-                        alert(data.info);
-                    }
-                });
-            },
-            sumbitSheet: function() {
-                __ajax('wechat.index.sumbitSheet', {
-                    taskId: __taskId,
-                }, function (data) {
-                    if(data.ret == 'success'){
-                        vue_wx_view.goBack();
-                    } else {
-                        alert(data.info);
-                    }
-                });
-            },
-            goBack: function() {
-                window.location.href = location.origin+'/?wechat/index/home';
-            },
-        }
-    });
-
-    var vue_add_photo_modal = new Vue({
-        el: '#add_photo_modal',
-        data: {
-            imgUrl: '',
-            imgData: '',
-            imgContent: '',
-        },
-        methods: {
             showAddPhotoModal: function(imgUrl, imgData, imgContent = ''){
-                this.imgUrl = imgUrl;
-                this.imgData = imgData;
-                this.imgContent = imgContent;
+                vue_wx_view.imgUrl = imgUrl;
+                vue_wx_view.imgData = imgData;
+                vue_wx_view.imgContent = imgContent;
                 $('#add_photo_modal').modal('show');
             },
             updatePhoto: function(){
@@ -136,7 +91,7 @@ $(document).ready(function() {
                 });
                 photo.imgContent = $('#add_photo_modal_img_content').val();
                 __ajax('wechat.index.updateImg', {
-                    imgData: this.imgData
+                    imgData: vue_wx_view.imgData
                 }, function (data) {
                     if(data.ret == 'success'){
                         photo.imgUrl = data.imgUrl;
@@ -165,23 +120,15 @@ $(document).ready(function() {
                         alert(data.info);
                     }
                 });
-            }
-        }
-    });
-
-    var vue_modify_photo_modal = new Vue({
-        el: '#modify_photo_modal',
-        data: {
-            photo: {},
-        },
-        methods: {
-            showModifyPhotoModal: function(photo){
-                this.photo = photo;
+            },
+            showModifyPhotoModal: function(imgUrl){
+                photo = __photosList.getPhotoByImgUrl(imgUrl)
+                vue_wx_view.photo = photo;
                 $('#modify_photo_modal').modal('show');
             },
             modifyPhotoContent: function(){
-                this.photo.imgContent = $('#modify_photo_modal_img_content').val();
-                __photosList.updatePhotoByImgUrl(this.photo);
+                vue_wx_view.photo.imgContent = $('#modify_photo_modal_img_content').val();
+                __photosList.updatePhotoByPhoto(vue_wx_view.photo);
                 __ajax('wechat.index.updatePhotosList', {
                     answerId: __answerId,
                     photosList: __photosList,
@@ -193,7 +140,50 @@ $(document).ready(function() {
                         alert(data.info);
                     }
                 });
-            }
+            },
+            showDeletePhotoModal: function(imgUrl){
+                photo = __photosList.getPhotoByImgUrl(imgUrl)
+                vue_wx_view.photo = photo;
+                $('#delete_photo_modal').modal('show');
+            },
+            deletePhoto: function() {
+                __ajax('wechat.index.deleteImg', {
+                    imgName: vue_wx_view.photo
+                }, function (data) {
+                    if(data.ret == 'success'){
+                        __photosList.deletePhotoByPhoto(vue_wx_view.photo);
+                        __ajax('wechat.index.updatePhotosList', {
+                            answerId: __answerId,
+                            photosList: __photosList,
+                        }, function (data) {
+                            if(data.ret == 'success'){
+                                vue_wx_view.refreshPhotosList();
+                            }else {
+                                alert(data.info);
+                            }
+                        });
+                    }else {
+                        alert(data.info);
+                    }
+                });
+            },
+            goBack: function() {
+                window.location.href = location.origin+'/?wechat/index/home';
+            },
+            showSubmitSheetModal: function(){
+                $('#submit_sheet_modal').modal('show');
+            },
+            sumbitSheet: function() {
+                __ajax('wechat.index.sumbitSheet', {
+                    taskId: __taskId,
+                }, function (data) {
+                    if(data.ret == 'success'){
+                        vue_wx_view.goBack();
+                    } else {
+                        alert(data.info);
+                    }
+                });
+            },
         }
     });
 });
@@ -210,19 +200,19 @@ Array.prototype.getPhotoByImgUrl = function(imgUrl) {
     }
     return -1;
 };
-Array.prototype.deletePhotoByImgUrl = function(imgUrl) {
-    if(imgUrl === undefined) {
+Array.prototype.deletePhotoByPhoto = function(photoObject) {
+    if(photoObject === undefined) {
         return -1;
     }
 
     for(var i = 0; i < this.length; i++) {
-        if(this[i].imgUrl == imgUrl) {
+        if(this[i].imgUrl == photoObject.imgUrl) {
             return this.splice(i, 1);
         }
     }
     return -1;
 };
-Array.prototype.updatePhotoByImgUrl = function(photoObject) {
+Array.prototype.updatePhotoByPhoto = function(photoObject) {
     if(photoObject === undefined) {
         return -1;
     }

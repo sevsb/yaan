@@ -57,8 +57,8 @@
                         <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right card_menu" aria-labelledby="dLabel">
-                        <li v-on:click="modifyPhoto(photo.imgUrl)"><i class="fa fa-pencil" aria-hidden="true"></i>修改</li>
-                        <li v-on:click="deletePhoto(photo.imgUrl)"><i class="fa fa-trash" aria-hidden="true"></i>删除</li>
+                        <li v-on:click="showModifyPhotoModal(photo.imgUrl)"><i class="fa fa-pencil" aria-hidden="true"></i>修改</li>
+                        <li v-on:click="showDeletePhotoModal(photo.imgUrl)"><i class="fa fa-trash" aria-hidden="true"></i>删除</li>
                     </ul>
                 </div>
             </div>
@@ -72,41 +72,72 @@
             <button type="button" class="btn btn-primary" v-on:click="sumbitSheet()">提交</button>
         </div>
     </div>
-</div>
 
-<!-- 添加卡片提示框 -->
-<div class="modal" id="add_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <strong style="font-size: 1.5em;">提交图片</strong>
-            </div>
-            <div class="modal-body">
-                <img id="add_photo_modal_img" v-bind:src="imgUrl">
-                <input type="text" class="form-control" id="add_photo_modal_img_content" placeholder="请添加备注" v-bind:value="imgContent">
-            </div>
-            <div class="modal-footer">
-                <div class="modal-footer-btn modal-footer-left_btn" id="add_photo_cancel" data-dismiss="modal">取消</div>
-                <div class="modal-footer-btn modal-footer-right_btn" id="add_photo_submit" v-on:click="updatePhoto()">提交</div>
+    <!-- 添加卡片提示框 -->
+    <div class="modal" id="add_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong style="font-size: 1.5em;">提交图片</strong>
+                </div>
+                <div class="modal-body">
+                    <img id="add_photo_modal_img" v-bind:src="imgUrl">
+                    <input type="text" class="form-control" id="add_photo_modal_img_content" placeholder="请添加备注" v-bind:value="imgContent">
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn modal-footer-left_btn" id="add_photo_cancel" data-dismiss="modal">取消</div>
+                    <div class="modal-footer-btn modal-footer-right_btn text-primary" id="add_photo_submit" v-on:click="updatePhoto()">提交</div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- 修改卡片提示框 -->
-<div class="modal" id="modify_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <strong style="font-size: 1.5em;">修改备注信息</strong>
+    <!-- 修改卡片提示框 -->
+    <div class="modal" id="modify_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong style="font-size: 1.5em;">修改备注信息</strong>
+                </div>
+                <div class="modal-body">
+                    <img id="modify_photo_modal_img" v-bind:src="__imgRoot+photo.imgUrl">
+                    <input type="text" class="form-control" id="modify_photo_modal_img_content" placeholder="请添加备注" v-bind:value="photo.imgContent">
+                </div>
+                <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
+                    <div class="modal-footer-btn modal-footer-left_btn" id="modify_photo_cancel" data-dismiss="modal">取消</div>
+                    <div class="modal-footer-btn modal-footer-right_btn text-primary" id="modify_photo_submit" v-on:click="modifyPhotoContent()">修改</div>
+                </div>
             </div>
-            <div class="modal-body">
-                <img id="modify_photo_modal_img" v-bind:src="__imgRoot+photo.imgUrl">
-                <input type="text" class="form-control" id="modify_photo_modal_img_content" placeholder="请添加备注" v-bind:value="photo.imgContent">
+        </div>
+    </div>
+
+    <!-- 删除卡片提示框 -->
+    <div class="modal" id="delete_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" style="padding-top: 1.5em;">
+                    <strong style="font-size: 1.5em; margin-bottom: 1em;">确认删除照片？</strong>
+                </div>
+                <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
+                    <div class="modal-footer-btn modal-footer-left_btn" id="delete_photo_cancel" data-dismiss="modal">取消</div>
+                    <div class="modal-footer-btn modal-footer-right_btn text-danger" id="delete_photo_submit" v-on:click="deletePhoto()">删除</div>
+                </div>
             </div>
-            <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
-                <div class="modal-footer-btn modal-footer-left_btn" id="modify_photo_cancel" data-dismiss="modal">取消</div>
-                <div class="modal-footer-btn modal-footer-right_btn" id="modify_photo_submit" v-on:click="modifyPhotoContent()">修改</div>
+        </div>
+    </div>
+
+    <!-- 提交任务提示框 -->
+    <div class="modal" id="submit_sheet_modal" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" style="padding-top: 1.5em;">
+                    <strong style="font-size: 1.5em;">确认提交任务？</strong>
+                    <p style="margin-top: 1em;">提交任务之后将无法继续修改，请等待审核</p>
+                </div>
+                <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
+                    <div class="modal-footer-btn modal-footer-left_btn" id="submit_sheet_cancel" data-dismiss="modal">取消</div>
+                    <div class="modal-footer-btn modal-footer-right_btn text-primary" id="submit_sheet_submit" v-on:click="sumbitSheet()">提交</div>
+                </div>
             </div>
         </div>
     </div>
