@@ -96,7 +96,7 @@ $('.more_loc_btn').click(function (){
     add_item += "<select class='province'></select>";
     add_item += "<select class='city' ></select>";
     add_item += "<select class='district' ></select>";
-    add_item += "</div>";
+    add_item += "<span class='btn btn-danger eraser_btn'>删除</span></div>";
     add_item += "</div>";
     $('.broadcast_area_list').append(add_item);
     $('.distpicker').distpicker();
