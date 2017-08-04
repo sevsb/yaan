@@ -9,7 +9,9 @@ class project_controller {
 
     public function index_action() {
         $tpl = new tpl("admin/header", "admin/footer");
+        $flag = get_request('flag', 0);
         $all_projects = projects::load_all();
+        $tpl->set('flag', $flag);
         $tpl->set('all_projects', $all_projects);
         $tpl->display("admin/project/index");
     }
