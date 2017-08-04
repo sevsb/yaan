@@ -78,12 +78,16 @@ $(document).ready(function() {
                     document.body.scrollTop = tasks.pageanchor;
                 }, 0);
             },
+            showcancelmodal: function(event) {
+                $('#cancel_task_modal').modal('show');
+            },
             canceltask: function(event) {
                 var target = event.currentTarget;
                 var userid = null;
                 var tid = tasks.userinfo.tasks[tasks.viewtaskkey].id;
                 __ajax('admin.task.assign', {taskid: tid, userid: userid},function (data){
                     console.log(data);
+                    $('#cancel_task_modal').modal('hide');
                     __request("wechat.api.mytasks", {}, function(res) {
                         console.debug(res);
                         tasks.userinfo = res.data;
