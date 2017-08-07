@@ -9,6 +9,8 @@ class investigator_controller {
 
     public function index_action() {
         $tpl = new tpl("admin/header", "admin/footer");
+        $flag = get_request('flag', 0);
+        $tpl->set('flag', $flag);
         $tpl->display("admin/investigator/index");
     }
 

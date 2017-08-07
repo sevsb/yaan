@@ -1,36 +1,74 @@
+<div>
+    <div>
+        
+    </div>
+    <div id="user-infos">
+    
+        <div v-if="flag == 1">
+            <div id="page-wrapper">
+            <table class='table' id='mytable1'>
+                <thead>
+                    <tr>
+                        <td>头像</td>
+                        <td>昵称</td>
+                        <td>积分</td>
+                        <td>位置</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-for="(user, key) in userlist" v-bind:userkey="key" v-on:click="viewUser">
+                        <tr>
+                            <td><img :src="user.face" class="userinfo-avatar" /></td>
+                            <td>{{user.nick}}</td>
+                            <td>{{user.score}}</td>
+                            <td>{{user.location}}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <div v-else="">
+            <div id="page-wrapper" class="clear">
+                <div class="user pull-left" v-for="(user, key) in userlist" v-bind:userkey="key" v-on:click="viewUser">
+                    <table class="table table-bordered">
+                        <tr><td colspan="2"><center><b>{{user.nick}}</b></center></td></tr>
+                        <tr><td rowspan="2" class="item-table-1"><img :src="user.face" class="userinfo-avatar" /></td><td>积分：{{user.score}}</td></tr>
+                        <tr><td>位置：{{user.location}}</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-<div id="user-infos">
-    <div id="page-wrapper" class="clear">
-        <div class="user pull-left" v-for="(user, key) in userlist" v-bind:userkey="key" v-on:click="viewUser">
+        
+        
+        
+        
+        
+        
+        <div id="user-info-view-background" v-if="showuserinfoview" v-on:click="closeUserView"></div>
+        <div id="user-info-view" v-if="showuserinfoview">
+            <div class="toolbar clear">
+                <button class="btn btn-danger pull-right" v-on:click="closeUserView">X</button>
+            </div>
             <table class="table table-bordered">
-                <tr><td colspan="2"><center><b>{{user.nick}}</b></center></td></tr>
-                <tr><td rowspan="2" class="item-table-1"><img :src="user.face" class="userinfo-avatar" /></td><td>积分：{{user.score}}</td></tr>
-                <tr><td>位置：{{user.location}}</td></tr>
+                <tr><td class="item-table-1"><img class="userinfo-avatar" :src="userlist[viewuserkey].face" /></td><td>{{userlist[viewuserkey].nick}}</td></tr>
+                <tr><td></td><td>
+                    <p>总任务：{{userlist[viewuserkey].taskcount}}</p>
+                    <p>通过任务数：{{userlist[viewuserkey].pass}}</p>
+                    <p>失败任务数：{{userlist[viewuserkey].reject}}</p>
+                    <p>积分：{{userlist[viewuserkey].score}}</p>
+                    <p>位置记录：</p>
+                    <ul>
+                        <li v-for="location in userlist[viewuserkey].locations">{{location.province.title}}{{location.city.title}}{{location.district.title}}&nbsp;&nbsp;{{location.timestr}}</li>
+                    </ul>
+                    <p>正在进行任务：</p>
+                    <ul>
+                        <li v-for="task in userlist[viewuserkey].tasks">{{task.project.title}}-{{task.title}}-{{task.project.deadline}}</li>
+                    </ul>
+                </td></tr>
             </table>
         </div>
-    </div>
-    <div id="user-info-view-background" v-if="showuserinfoview" v-on:click="closeUserView"></div>
-    <div id="user-info-view" v-if="showuserinfoview">
-        <div class="toolbar clear">
-            <button class="btn btn-danger pull-right" v-on:click="closeUserView">X</button>
-        </div>
-        <table class="table table-bordered">
-            <tr><td class="item-table-1"><img class="userinfo-avatar" :src="userlist[viewuserkey].face" /></td><td>{{userlist[viewuserkey].nick}}</td></tr>
-            <tr><td></td><td>
-                <p>总任务：{{userlist[viewuserkey].taskcount}}</p>
-                <p>通过任务数：{{userlist[viewuserkey].pass}}</p>
-                <p>失败任务数：{{userlist[viewuserkey].reject}}</p>
-                <p>积分：{{userlist[viewuserkey].score}}</p>
-                <p>位置记录：</p>
-                <ul>
-                    <li v-for="location in userlist[viewuserkey].locations">{{location.province.title}}{{location.city.title}}{{location.district.title}}&nbsp;&nbsp;{{location.timestr}}</li>
-                </ul>
-                <p>正在进行任务：</p>
-                <ul>
-                    <li v-for="task in userlist[viewuserkey].tasks">{{task.project.title}}-{{task.title}}-{{task.project.deadline}}</li>
-                </ul>
-            </td></tr>
-        </table>
     </div>
 </div>
 
