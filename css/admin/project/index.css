@@ -31,3 +31,7 @@ div > .project_elf {
     margin-top: 8px;
     padding: 5px;
 }
+
+thead td  {
+    background-image: none !important;
+}
