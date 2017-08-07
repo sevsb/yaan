@@ -125,4 +125,6 @@ img.userinfo-avatar {
     border-radius: 50%;
 }
 
-
+.sorting_asc, .sorting, .sorting_desc{
+    background-image: none !important;
+}
