@@ -166,6 +166,14 @@ class sheet {
         }
         return new sheet($s);
     }
+    
+    public static function create_by_paperid($paperid) {
+        $s = db_sheets::inst()->get_sheet_by_paperid($paperid);
+        if ($s === false) {
+            return null;
+        }
+        return new sheet($s);
+    }
 
     public static function load_all() {
         $sheets = db_sheets::inst()->load_all();
@@ -185,6 +193,8 @@ class sheet {
         foreach ($this->answers() as $id => $answer) {
             $ans []= $answer->pack_info();
         }
+        logging::d('TASKIS:',$this->task());
+        logging::d('paperid:',$this->paperid());
         return array(
             "info" => array(
                 "id" => $this->id(),

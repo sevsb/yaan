@@ -9,7 +9,9 @@ class project_controller {
 
     public function index_action() {
         $tpl = new tpl("admin/header", "admin/footer");
+        $flag = get_request('flag', 0);
         $all_projects = projects::load_all();
+        $tpl->set('flag', $flag);
         $tpl->set('all_projects', $all_projects);
         $tpl->display("admin/project/index");
     }
@@ -80,15 +82,15 @@ class project_controller {
             $covername = explode('/', $cover);
             $covername = end($covername);
         }
-
-        $ret2 = uploadFileViaFileReader($paperfile);
-        logging::e("uploadFile-ret", $ret2);
-        $ret2 = explode("|", $ret2);
-        if ($ret2[0] == 'fail') {
-            return false;
+        if (!empty($paperfile)) {
+            $ret2 = uploadFileViaFileReader($paperfile);
+            logging::e("uploadFile-ret", $ret2);
+            $ret2 = explode("|", $ret2);
+            if ($ret2[0] == 'fail') {
+                return false;
+            }
+            $paperfilename = $ret2[1];
         }
-        $paperfilename = $ret2[1];
-
         $result = projects::add($project_id, $title, $type, $description, $maintext, $covername, $limit_time, $paperfilename);
         return $result ? array('ret' => "success",'info' => $result ) : array("ret"=>"fail", "info" => 'failed!') ;
     }
@@ -120,20 +122,20 @@ class project_controller {
             $covername = explode('/', $cover);
             $covername = end($covername);
         }
-        
-        if (substr($paperfile, 0, 5) == "data:") {
-            $ret2 = uploadFileViaFileReader($paperfile);
-            logging::e("uploadFile-ret", $ret2);
-            $ret2 = explode("|", $ret2);
-            if ($ret2[0] == 'fail') {
-                return false;
+        if (!empty($paperfile)) {
+            if (substr($paperfile, 0, 5) == "data:") {
+                $ret2 = uploadFileViaFileReader($paperfile);
+                logging::e("uploadFile-ret", $ret2);
+                $ret2 = explode("|", $ret2);
+                if ($ret2[0] == 'fail') {
+                    return false;
+                }
+                $paperfilename = $ret2[1];
+            }else {
+                $paperfilename = explode('/', $paperfile);
+                $paperfilename = end($paperfilename);
             }
-            $paperfilename = $ret2[1];
-        }else {
-            $paperfilename = explode('/', $paperfile);
-            $paperfilename = end($paperfilename);
         }
-
       
         $result = projects::modify($muffinid, $project_id, $title, $type, $description, $maintext, $covername, $limit_time, $paperfilename);
         return $result ? 'success' : 'fail';
@@ -142,8 +144,25 @@ class project_controller {
     public function del_ajax(){
         $del_id = get_request('del_id');
         
+        $wanna_del_tasks = db_muffins::inst()->load_tasks_by_project($del_id);
+        $wanna_del_tasks = array_keys($wanna_del_tasks);
+        logging::d('wanna_del_tasks', json_encode($wanna_del_tasks));
+        //return;
         $ret = projects::del($del_id);
-        //return $ret;
+        $ret2 = true;
+        if (!empty($wanna_del_tasks) && is_array($wanna_del_tasks)) {
+            foreach ($wanna_del_tasks as $tid) {
+                $ret2 &= tasks::del($tid);
+            }
+        }
+        return $ret && $ret2 ? 'success' : 'fail';
+    }
+    
+    public function update_status_ajax(){
+        $muffinid = get_request('muffinid');
+        $status = get_request('sid');
+        
+        $ret = projects::update_status($muffinid, $status);
         return $ret ? 'success' : 'fail';
     }
 

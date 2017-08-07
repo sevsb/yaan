@@ -30,6 +30,11 @@ class db_sheets extends database {
         $id = (int)$id;
         return $this->get_one_table(TABLE_SHEETS, "id = $id");
     }
+    
+    public function get_sheet_by_paperid($paperid) {
+        $paperid = (int)$paperid;
+        return $this->get_one_table(TABLE_SHEETS, "paperid = $paperid");
+    }
 
     public function add_sheet($userid, $paperid, $title, $info, $answers, $status) {
         return $this->insert(TABLE_SHEETS, array("userid" => $userid, "paperid" => $paperid, "title" => $title, "info" => $info, "answers" => $answers, "status" => $status));
@@ -40,6 +45,9 @@ class db_sheets extends database {
         return $this->update(TABLE_SHEETS, array("userid" => $userid, "paperid" => $paperid, "title" => $title, "info" => $info, "answers" => $answers, "status" => $status), "id = $id");
     }
 
+    public function del_by_paperid($paperid) {
+        return $this->delete(TABLE_SHEETS, "paperid = '$paperid'");
+    }
 };
 
 

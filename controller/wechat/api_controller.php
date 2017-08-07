@@ -102,7 +102,7 @@ class api_controller {
         $user = get_session_assert("user");
         logging::d("Debug", $task);
         logging::d("Debug", $user);
-        $ret = db_muffininfos::inst()->update_wechat_userid($task, $user["id"]);
+        $ret = db_muffininfos::inst()->update_wechat_userid($task, $user["id"], tasks::STATUS_ASSIGNED);
         if ($ret) {
             $loc = get_session_assert("temp.wechatapi.location");
             $tasks = tasks::load_around($loc);

@@ -16,7 +16,6 @@
             <div class="task" v-for="(task, taskkey) in tasks" v-bind:taskkey="taskkey" v-on:click="viewTask">
                 <div class="task-title">{{task.title}}</div>
                 <div class="task-brief">摘要：{{task.project.description}}</div>
-                <div>地址：{{task.address}}</div>
                 <div>期限：{{task.project.deadline}}</div>
             </div>
         </div>
@@ -31,8 +30,6 @@
             <div class="task-text">{{tasks[viewtaskkey].project.text}}</div>
 
             <div class="task-infomations">
-                <div class="task-address">地址：{{tasks[viewtaskkey].address}}</div>
-                <div class="task-contacts">联系人：{{tasks[viewtaskkey].content}}</div>
                 <div class="task-deadline">期限：{{tasks[viewtaskkey].project.deadline}}</div>
                 <div class="task-projectid">项目编号：{{tasks[viewtaskkey].project.projectid}}</div>
             </div>

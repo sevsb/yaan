@@ -3,6 +3,7 @@ include_once(dirname(__FILE__) . "/../config.php");
 
 class tasks {
     const STATUS_PENDING = 0;
+    const STATUS_ASSIGNED = 4;
     const STATUS_NOTREVIEW = 3;
     const STATUS_PASS = 1;
     const STATUS_REJECT = 2;
@@ -57,12 +58,20 @@ class tasks {
     public function location() {
         return $this->summary("location");
     }
+    public function broadcast_area() {
+        return json_decode($this->summary("broadcast_area"));
+    }
 
     public function location_obj() {
         $loc = new location($this->location());
         return $loc;
     }
 
+    public function fourthloc() {
+        $loc_obj = $this->location_obj();
+        return $loc_obj->fourthloc();
+        
+    }
     public function address() {
         return $this->summary("address");
     }
@@ -90,6 +99,12 @@ class tasks {
             }
         }
         return $this->mProject;
+    }
+    
+    public function is_expired() {
+        $project = $this->project();
+        $limit_time_stamp = $project->limit_time_stamp();
+        return time() > $limit_time_stamp ? true : false;
     }
 
     public function from_projectid() {
@@ -160,11 +175,23 @@ class tasks {
         $ret = db_muffininfos::inst()->modify_task_status($taskid, $status);
         return (!$ret) ? false : $ret;
     }
+    public static function update_broadcast_area($taskid, $broadcast_loctions){
+        $ret = db_muffininfos::inst()->update_broadcast_area($taskid, $broadcast_loctions);
+        return (!$ret) ? false : $ret;
+    }
 
     public static function del($id) {
+        $task = tasks::create($id);
+        $task_status = $task->status();
+        $paperid = $task->paperid();
+        $sheet = sheet::create_by_paperid($paperid);
+        $answers_id = $sheet->answers_text();
+        logging::d('answers_id', "$answers_id");
+        $ret3 = db_sheets::inst()->del_by_paperid($paperid);
+        $ret4 = db_answers::inst()->del($answers_id);
         $ret1 = db_muffins::inst()->del($id);
         $ret2 = db_muffininfos::inst()->del($id);
-        return $ret1 && $ret2;
+        return $ret1 && $ret2 || $ret3 || $ret4;
     }
 
     public static function load_all() {
@@ -222,8 +249,31 @@ class tasks {
             if ($task->status() != self::STATUS_PENDING) {
                 continue;
             }
+            if ($task->is_expired()) {
+                continue;
+            }
+            if ($task->project()->status() != '1') {
+                continue;
+            }
             // logging::d("Debug", "compareing " . json_encode($task->location_obj()->pack_info()) . " with " . json_encode($location->pack_info()));
-            if ($task->location_obj()->is_same_city_with($location)) {
+            $broadcast_areas = $task->broadcast_area();
+            $broadcast_compare_ret = false;
+            logging::d('broadcast_areas', $broadcast_areas);
+            if (!empty($broadcast_areas)) {
+                //$broadcast_areas = json_encode($broadcast_areas);
+                //$broadcast_areas = json_decode($broadcast_areas, true);
+                foreach ($broadcast_areas as $area) {
+                    logging::d('area', $area);
+                    $area = json_encode($area);
+                    $area = json_decode($area, true);
+                    logging::d('area_array', $area);
+                    $area_obj = new location($area);
+                    $broadcast_compare_ret |= $area_obj->is_same_city_with($location);
+                    logging::d('COMPARE_RET', $broadcast_compare_ret);
+                }
+            }
+            $loc_compare_ret = $task->location_obj()->is_same_city_with($location);
+            if ($loc_compare_ret || $broadcast_compare_ret) {
                 // logging::d("Debug", "SAME!");
                 $arr[$id] = $task;
             }

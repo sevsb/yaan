@@ -11,6 +11,7 @@ include_once(dirname(__FILE__) . "/app/database/db_customers.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_muffininfos.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_questionnaires.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_question.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_answer.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_questionoptions.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_muffins.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_wechatusers.class.php");
@@ -29,6 +30,7 @@ include_once(dirname(__FILE__) . "/app/customers.class.php");
 include_once(dirname(__FILE__) . "/app/questionnaires.class.php");
 include_once(dirname(__FILE__) . "/app/questions.class.php");
 include_once(dirname(__FILE__) . "/app/questionoptions.class.php");
+include_once(dirname(__FILE__) . "/app/answers.class.php");
 include_once(dirname(__FILE__) . "/app/login.class.php");
 include_once(dirname(__FILE__) . "/app/sheet.class.php");
 include_once(dirname(__FILE__) . "/app/location.class.php");
@@ -51,7 +53,8 @@ defined('FILEUPLOAD_DIR') or define('FILEUPLOAD_DIR', ROOT_PATH . '/upload/files
 defined('FILEUPLOAD_URL') or define('FILEUPLOAD_URL', rtrim(INSTANCE_URL, "/") . '/upload/files');
 
 defined('THUMBNAIL_DIR') or define('THUMBNAIL_DIR', ROOT_PATH . '/upload/thumbnails');
-defined('THUMBNAIL_URL') or define('THUMBNAIL_URL', rtrim(INSTANCE_URL, "/") . '/upload/thumbnails');
+defined('THUMBNAIL_URL') or define('THUMBNAIL_URL', rtrim(INSTANCE_URL, "/") . '/upload/thumbnails');defined('LOCK_DIR') or define('LOCK_DIR', ROOT_PATH . '/tmp');
+defined('LOCK_URL') or define('LOCK_URL', rtrim(INSTANCE_URL, "/") . '/tmp');
 defined('UPLOAD_LIMIT') or define('UPLOAD_LIMIT', 10 * 1024 * 1024);
 defined('PICSERVICE_IP') or define('PICSERVICE_IP', "http://pic.zizhuzhuangxiu.cn");
 defined('PICSERVICE_URL') or define('PICSERVICE_URL', "http://pic.zizhuzhangxiu.cn/");
@@ -77,6 +80,8 @@ defined('TABLE_MUFFININFOS') or define('TABLE_MUFFININFOS', MYSQL_PREFIX . "muff
 defined('TABLE_QUESTIONNAIRES') or define('TABLE_QUESTIONNAIRES', MYSQL_PREFIX . "questionnaires");
 // db_muffininfos 
 defined('TABLE_QUESTION') or define('TABLE_QUESTION', MYSQL_PREFIX . "questions");
+// db_muffininfos
+defined('TABLE_ANSWER') or define('TABLE_ANSWER', MYSQL_PREFIX . "answer");
 // db_muffininfos 
 defined('TABLE_QUESTIONOPTIONS') or define('TABLE_QUESTIONOPTIONS', MYSQL_PREFIX . "questionoptions");
 // db_muffins

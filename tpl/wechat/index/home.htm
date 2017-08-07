@@ -1,11 +1,24 @@
+<script type="text/javascript">
+    var STATUS_ASSIGNED = {:$STATUS_ASSIGNED};
+    var STATUS_NOTREVIEW = {:$STATUS_NOTREVIEW};
+    var STATUS_PASS = {:$STATUS_PASS};
+    var STATUS_REJECT = {:$STATUS_REJECT};
+</script>
 
 <div class="">
     <!-- pre id="log"></pre -->
-    <div id="task-wrapper">
-        <div class="userinfo">
-            <div class=""><img src="{:$user['face']}" class="img-responsive img-circle"></div>
-            <div class=""><p>{:$user["nickname"]}</p></div>
+    <div class="flex-item flex-col" id="task-wrapper">
+        <div class="userinfo flex-item flex-row">
+            <div class="userinfo_headimg flex-item flex-center flex-vcenter">
+                <img class="img-responsive img-rounded" src="{:$user['face']}">
+            </div>
+            <div class="userinfo_info flex-item flex-col">
+                <div class="userinfo_item">
+                <p>{:$user["nickname"]}</p>
+                </div>
+            </div>
         </div>
+
         <div class="tip" v-if="pagestatus == 0">
             <p>正在加载，请稍候...</p>
         </div>
@@ -14,14 +27,30 @@
         </div>
 
         <div class="tasks" class="clear" v-if="pagestatus == 2">
-            <div class="task" v-for="(task, taskkey) in userinfo.tasks" v-bind:taskkey="taskkey" v-on:click="viewTask">
+            <ul class="tasks_tabs flex-item flex-row flex-space-around">
+                <li class="tasks_tab" v-on:click="tabstatus = 0" v-bind:class="{tab_active : tabstatus == 0}">
+                    全部
+                </li>
+                <li class="tasks_tab" v-on:click="tabstatus = 1" v-bind:class="{tab_active : tabstatus == 1}">
+                    待提交
+                </li>
+                <li class="tasks_tab" v-on:click="tabstatus = 2" v-bind:class="{tab_active : tabstatus == 2}">
+                    未审核
+                </li>
+                <li class="tasks_tab" v-on:click="tabstatus = 3" v-bind:class="{tab_active : tabstatus == 3}">
+                    被驳回
+                </li>
+                <li class="tasks_tab" v-on:click="tabstatus = 4" v-bind:class="{tab_active : tabstatus == 4}">
+                    已通过
+                </li>
+            </ul>
+            <div class="task" v-for="(task, taskkey) in userinfo.tasks" v-if="isOnShow(task.status)" v-bind:taskkey="taskkey" v-on:click="viewTask">
                 <div class="task-title">{{task.title}}</div>
                 <div class="task-brief">摘要：{{task.project.description}}</div>
                 <div>地址：{{task.address}}</div>
                 <div>期限：{{task.project.deadline}}</div>
             </div>
         </div>
-        <div id="" v-if="pagestatus == 3"></div>
         <div id="task-info" class="clear" v-if="pagestatus == 3">
             <div class="task-title">{{userinfo.tasks[viewtaskkey].title}}</div>
             <div>
@@ -39,12 +68,30 @@
             </div>
 
             <div class="task-operations">
-                <a class="weui_btn weui_btn_primary" v-bind:href="userinfo.tasks[viewtaskkey].project.word">问卷下载</a>
-                <button class="weui_btn weui_btn_primary" v-on:click="gosheet">提交任务</button>
-                <button class="weui_btn weui_btn_primary" v-on:click="goback">返回</button>
+                <a class="btn btn-primary btn-lg btn-block" v-if="!userinfo.tasks[viewtaskkey].project.word.indexOf('404notfound')" v-bind:href="userinfo.tasks[viewtaskkey].project.word">问卷下载</a>
+                <button class="btn btn-primary btn-lg btn-block" v-if="isAssigned(userinfo.tasks[viewtaskkey].status)" v-on:click="gosheet">提交任务</button>
+                <button class="btn btn-danger btn-lg btn-block" v-if="isAssigned(userinfo.tasks[viewtaskkey].status)" v-on:click="showcancelmodal">放弃任务</button>
+                <button class="btn btn-primary btn-lg btn-block" v-on:click="goback">返回</button>
+            </div>
+
+            <div class="modal" id="cancel_task_modal" tabindex="-1" role="dialog" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <strong style="font-size: 1.5em;">确认放弃任务？</strong>
+                        </div> -->
+                        <div class="modal-body" style="padding-top: 1.5em;">
+                            <strong style="font-size: 1.5em;">确认放弃任务？</strong>
+                            <p style="margin-top: 1em;">放弃该任务之后，可能无法找回</p>
+                        </div>
+                        <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
+                            <div class="modal-footer-btn modal-footer-left_btn" id="cancel_task_cancel" data-dismiss="modal">取消</div>
+                            <div class="modal-footer-btn modal-footer-right_btn text-danger" id="cancel_task_submit" v-on:click="canceltask">放弃</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script> var baiduak = "{=$baiduak}"; </script>
-

@@ -12,6 +12,9 @@
         <link rel="stylesheet" href="[:vendor]/jquery-ui-1.12.1/jquery-ui.min.css">
         <link rel="stylesheet" href="[:vendor]/jquery-ui-1.12.1/jquery-ui.theme.min.css">
         <link rel="stylesheet" href="[:vendor]/jquery-ui-1.12.1/jquery-ui.structure.min.css">
+        <link rel="stylesheet" href="[:vendor]/datatables/css/jquery.dataTables.css">
+        <!--<link rel="stylesheet" href="[:vendor]/datatables-plugins/dataTables.bootstrap.css">
+        <link rel="stylesheet" href="[:vendor]/datatables-responsive/dataTables.responsive.css">-->
         
         <link rel="stylesheet" href="[:app]/css/main.css">
         <link rel="stylesheet" href="[:app]/css/modify-on-click.css">
@@ -23,11 +26,16 @@
         <script src="[:vendor]/jquery-ui-1.12.1/jquery-ui.min.js"></script>
         <script src="[:vendor]/distpicker/distpicker.js"></script>
         <script src="[:vendor]/vue/vue.js"></script>
+        <script src="[:vendor]/datatables/js/jquery.dataTables.js"></script>
+        <!--<script src="[:vendor]/datatables-plugins/dataTables.bootstrap.js"></script>
+        <script src="[:vendor]/datatables-plugins/jquery.dataTables.js"></script>
+        <script src="[:vendor]/datatables-responsive/dataTables.responsive.js"></script>-->
         
         <script src="[:app]/js/main.js"></script>
         <script src="[:app]/js/picservice.js"></script>
         <script src="[:app]/js/calendar.js"></script>
         <script src="[:app]/js/modify-on-click.js"></script>
+
         <title> 预约系统 </title>
     </head>
 
@@ -84,10 +92,14 @@
                         </div>
                         </li>
                         -->
-                        <li><a href="?admin/project/index"><i class="fa fa-dashboard fa-fw"></i> 任务管理</a></li>
-                        <li><a href="?admin/sheet/index"><i class="fa fa-dashboard fa-fw"></i> 调查结果</a></li>
-                        <li><a href="?admin/investigator/index"><i class="fa fa-dashboard fa-fw"></i> 调查员信息</a></li>
+                        <li><a href="?admin/project/index"><i class="fa fa-tasks fa-fw"></i> 任务管理</a></li>
+                        <li><a href="?admin/sheet/index"><i class="fa fa-edit fa-fw"></i> 调查结果</a></li>
+                        <li><a href="?admin/investigator/index"><i class="fa fa-users fa-fw"></i> 调查员信息</a></li>
+                        <li><a href="https://mpkf.weixin.qq.com/" target='_blank'><i class="fa fa-weixin fa-fw"></i> 客服功能</a></li>
                         <li><a href="?admin/system/settings"><i class="fa fa-fw fa-wrench "></i> 系统设置</span></a></li>
+                        <li><a href="?admin/questionnaire/index"><i class="fa fa-questions fa-fw"></i> 问卷管理</a></li>
+                        <li><a href="?admin/questionnaire/answerList"><i class="fa fa-answers fa-fw"></i> 结果管理</a></li>
+                        <li><a href="?admin/questionnaire/answer&id=1"><i class="fa fa-answers fa-fw"></i> 添加测试</a></li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

@@ -2,7 +2,7 @@
 <div id="page-wrapper">
     <div class="clear">
       <script>
-        var provice_code = null;
+        var province_code = null;
         var city_code = null;
         var district_code = null;
       </script>
@@ -10,14 +10,14 @@
         if ($task->is_valid()) {
             $location = $task->location();
             $location = json_decode($location);
-            $provice_code = $location->provice->code;
+            $province_code = $location->province->code;
             $city_code = $location->city->code;
             $district_code = $location->district->code;
             $from_projectid = $task->from_projectid();
             $muffinid = $from_projectid['pid'];
             ?>
               <script>
-                var provice_code = '{:$provice_code}';
+                var province_code = '{:$province_code}';
                 var city_code = '{:$city_code}';
                 var district_code = '{:$district_code}';
               </script>
@@ -27,12 +27,11 @@
       ?>
       <script>
         var muffinid = {:$muffinid};
-        //$("#distpicker").distpicker('');
       </script>
-      <h3>新建任务</h3><hr>
+      <h3><?php echo $task->is_valid() ? '修改任务' : '新建任务';?></h3><hr>
         <form>
             <div class="form-group">
-                <label for="dropdownMenu1">请选择所属项目</label>
+                <label for="dropdownMenu1">请选择所属项目<span style='color: red;'>&nbsp*</span></label>
                 <div class="dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                   <?php
@@ -53,23 +52,30 @@
                 </div>
             </div>
         
+
           <div class="form-group">
-            <label for="title">请输入名称</label>
-            <input type="text" class="form-control" id="title" placeholder="任务名称"
-            value='<?php echo $task->is_valid() ? $task->title() : null?>'>
-          </div>
-          <div class="form-group">
-            <label for="location">请选择市区</label>
-            <div data-toggle="distpicker" id='distpicker' data-value-type="code">
-              <select id='province'></select>
-              <select id='city' ></select>
-              <select id='district' ></select>
+            <div style='display: inline-block;'>
+                <label for="location">请选择市区<span style='color: red;'>&nbsp* <small>1级和2级区域必选</small></span></label>
+                <div data-toggle="distpicker" id='distpicker' data-value-type="code">
+                  <select id='province'></select>
+                  <select id='city' ></select>
+                  <select id='district' ></select>
+                </div>
+            </div>
+            <div style='display: inline-block;'>
+                <input onkeyUp='update_title()' type="text" class="" id="fourthloc" placeholder="第四级别区域"
+            value='<?php echo $task->is_valid() ? $task->fourthloc() : null;?>'>
             </div>
           </div>
           <div class="form-group">
-            <label for="address">请输入详细地址</label>
+            <label for="title">请输入名称<span style='color: red;'>&nbsp*</span></label>
+            <input type="text" class="form-control" id="title" placeholder="任务名称"
+            value='<?php echo $task->is_valid() ? $task->title() : null;?>'>
+          </div>
+          <div class="form-group">
+            <label for="address">请输入详细地址<span style='color: red;'>&nbsp*</span></label>
             <input class="form-control" type='text' id="address"
-            value='<?php echo $task->is_valid() ? $task->address() : null?>'>
+            value='<?php echo $task->is_valid() ? $task->address() : null;?>'>
           </div>
           <div class="form-group">
             <label for="content">请输入联系人信息和备注</label>
@@ -79,7 +85,7 @@
           if ($task->is_valid()) {
             ?><div type="submit" class="btn btn-primary do_modify">保存</div><?php
           }else {
-            ?><div type="submit" class="btn btn-primary do_new">新建</div><?php
+            ?><div type="submit" class="btn btn-primary do_new">新建</div><div type="submit" class="btn btn-primary do_new_and_more" style='margin-left: 20px;'>新建并创建更多</div><?php
           }
           ?>
           <br>

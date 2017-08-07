@@ -71,7 +71,10 @@ function uploadFileViaFileReader($filesrc = null) {
     "application/vnd.ms-excel" => "xls", 
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "xlsx", 
     "application/vnd.ms-excel.sheet.macroEnabled.12" => "xlsm", 
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "docx"
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "docx", 
+    "image/jpeg" => "jpg", 
+    "application/pdf" => "pdf", 
+    "image/png" => "png"
     );
 
     if ($filesrc == null) {

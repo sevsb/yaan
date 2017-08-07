@@ -1,0 +1,56 @@
+<div id="page-wrapper">
+    <div class="clear">
+    <h3>问卷列表
+<a href='?admin/questionnaire/new'><button class='btn btn-success' style='display:inline-block; float: right;'>新建任务</button></a>
+    <hr>
+    <table class='table table-condensed' id='projects_table'>
+      <thead><tr>
+        <td>编号</td>
+        <td>名称</td>
+        <td>备注</td>
+        <td>操作</td>
+      </tr></thead><tbody>
+    <?php
+        if (!empty($questionnaires)) {
+            foreach ($questionnaires as $questionnaire) {
+                $naire_id = $questionnaire['id'];
+                $title = $questionnaire['title'];
+                $notes = $questionnaire['notes'];
+      ?>
+      <tr class='project_elf' muffinid='{:$naire_id}'>
+        <td>{:$naire_id}</td>
+        <td>{:$title}</td>
+        <td>{:$notes}</td>
+        <td>
+            <a href='?admin/questionnaire/edit&id={:$naire_id}'><div class='btn btn-default'>编辑</div></a>
+            <div class='btn btn-danger del_btn' data-toggle="modal" data-target="#myModal" >删除</div>
+        </td>
+      </tr>
+    <?php
+            }
+        }
+    ?></tbody>
+    </table>
+    </div>
+</div>
+
+
+<!-- Modal     data-toggle="modal" data-target="#myModal"   -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">提示！</h4>
+      </div>
+      <div class="modal-body">
+        确认是要删除此项目吗？
+        （项目中的任务也一并会删除！）
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-danger do_del">确认删除</button>
+      </div>
+    </div>
+  </div>
+</div>

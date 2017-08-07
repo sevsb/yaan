@@ -9,38 +9,37 @@ class questionnaire_controller {
     
     public function index_action() {
         $tpl = new tpl("admin/header", "admin/footer");
-        $projectmuffinid = get_request("projectmuffinid");
-        $project = projects::create($projectmuffinid);
-        $project_title = $project->title();
-        $tasks = tasks::load_tasks($projectmuffinid);
-        $wechatusers = wechatuser::load_all();
-        $tpl->set('wechatusers', $wechatusers);
-        $tpl->set('project_title', $project_title);
-        $tpl->set('muffinid', $projectmuffinid);
-        $tpl->set('tasks', $tasks);
-        $tpl->display("admin/task/index");
+        
+        $all_questionnaires = questionnaires::load_all();
+        $tpl->set('questionnaires', $all_questionnaires);
+        
+        $tpl->display("admin/questionnaire/index");
     }
     
     public function new_action() {
+        $tpl = new tpl();
         $tpl = new tpl("admin/header", "admin/footer");
-        $pid = get_request("muffinid", 0);
-        $taskid = get_request("taskid");
         
-        $task = tasks::create($taskid);
-        $all_projects = projects::load_all();
-        $tpl->set('all_projects', $all_projects);
-        $tpl->set('muffinid', $muffinid);
-        $tpl->set('task', $task);
-        $tpl->display("admin/questionnaire/edit");
+        //         $task = tasks::create($taskid);
+        $questionnaire = questionnaires::create(0);
+        $questions = questions::load_by_nid($questionnaire->id());
+        $i = 1;
+        for($i=1;$i<=count($questions); $i++){
+            $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
+        }
+        $tpl->set('questionnaire', $questionnaire);
+        $tpl->set('questions', $questions);
+        
+        $tpl->display("admin/questionnaire/new");
     }
     
     public function edit_action() {
         $tpl = new tpl();
-//         $tpl = new tpl("admin/header", "admin/footer");
-        $pid = get_request("projectmuffinid", 0);
+        $tpl = new tpl("admin/header", "admin/footer");
+        $id = get_request("id", 0);
         
 //         $task = tasks::create($taskid);
-        $questionnaire = questionnaires::create($pid);
+        $questionnaire = questionnaires::load_by_id($id);
         $questions = questions::load_by_nid($questionnaire->id());
         $i = 1;
         for($i=1;$i<=count($questions); $i++){
@@ -50,6 +49,94 @@ class questionnaire_controller {
         $tpl->set('questions', $questions);
         
         $tpl->display("admin/questionnaire/edit");
+    }
+    
+    public function editPid_action() {
+        $tpl = new tpl();
+        $tpl = new tpl("admin/header", "admin/footer");
+        $pid = get_request("projectmuffinid", 0);
+        
+        //         $task = tasks::create($taskid);
+        $questionnaire = questionnaires::createPid($pid);
+        $questions = questions::load_by_nid($questionnaire->id());
+        $i = 1;
+        for($i=1;$i<=count($questions); $i++){
+            $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
+        }
+        $tpl->set('questionnaire', $questionnaire);
+        $tpl->set('questions', $questions);
+        
+        $tpl->display("admin/questionnaire/edit");
+    }
+    
+    public function answer_action() {
+        $tpl = new tpl();
+        $tpl = new tpl("admin/header", "admin/footer");
+        $nid = get_request("nid", 0);
+        
+        //         $task = tasks::create($taskid);
+        $questionnaire = questionnaires::load_by_id($nid);
+        $answer = answers::create($nid,$questionnaire['title'],$questionnaire['notes']);
+        $questions = questions::load_by_nid($questionnaire['id']);
+        $i = 1;
+        for($i=1;$i<=count($questions); $i++){
+            $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
+        }
+        $tpl->set('questionnaire', $questionnaire);
+        $tpl->set('questions', $questions);
+        $tpl->set('answer', $answer);
+        
+        $tpl->display("admin/questionnaire/answer");
+    }
+    
+    public function addAnswer_action() {
+        
+        $id = get_request("id", 0);
+        $answer = answers::load_by_id($id);
+        $questionnaire = questionnaires::load_by_id($answer['nid']);
+        $questions = questions::load_by_nid($questionnaire['id']);
+        $i = 1;
+        for($i=1;$i<=count($questions); $i++){
+            if(isset($_POST[$questions[$i]['id']])){
+                $answers[$questions[$i]['id']] = urldecode($_POST[$questions[$i]['id']]);
+            }
+        }
+        $str = serialize($answers);
+        
+        db_answer::inst()->modify_answer($id, $answer['title'], $answer['notes'], $str);
+    }
+    
+    public function answerView_action() {
+        $tpl = new tpl();
+        $tpl = new tpl("admin/header", "admin/footer");
+        $id = get_request("id", 0);
+        
+        //         $task = tasks::create($taskid);
+        $answer = answers::load_by_id($id);
+        $questionnaire = questionnaires::load_by_id($answer['nid']);
+        $questions = questions::load_by_nid($questionnaire['id']);
+        $i = 1;
+        for($i=1;$i<=count($questions); $i++){
+            $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
+        }
+        $answers = unserialize($answer['content']);
+        $tpl->set('questionnaire', $questionnaire);
+        $tpl->set('questions', $questions);
+        $tpl->set('answer', $answer);
+        $tpl->set('answers', $answers);
+        
+        $tpl->display("admin/questionnaire/answerView");
+    }
+    
+    public function answerList_action() {
+        $tpl = new tpl();
+        $tpl = new tpl("admin/header", "admin/footer");
+        
+        $answers = answers::load_all();
+        
+        $tpl->set('answers', $answers);
+        
+        $tpl->display("admin/questionnaire/answerList");
     }
     
     public function editTitle_action() {

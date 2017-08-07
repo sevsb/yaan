@@ -1,0 +1,78 @@
+
+	<div class="container">
+		<h1><?php if(empty($questionnaire['title'])) echo "新建答卷";else echo $questionnaire['title']; ?></h1>
+		<div class="row">
+						<div id="preview">
+							<h1 id='nairetitlelab'><?php if(empty($questionnaire['title'])) echo "添加标题";else echo $questionnaire['title']; ?></h1>
+							<h2 id='nairenoteslab'><?php if(empty($questionnaire['notes'])) echo "添加备注";else echo $questionnaire['notes']; ?></h2>
+					<form class="form-horizontal" role="form" id="answer">		
+			<?php
+			    //var_dump($all_projects);
+    			if (!empty($questions)) {
+        			foreach ($questions as $question) {
+            			if($question['type']=='check'){
+        	?>
+							
+							
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label id='title' for="name"><?php echo $question['title']; ?></label>
+								<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+								<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+								<div>
+						<?php
+							if (!empty($question['options'])) {
+								foreach ($question['options'] as $option ) {
+						?>
+									<label class="checkbox-inline"> <input type="checkbox"
+											name="<?php echo $question['id']; ?>" 
+										id="inlineCheckbox<?php echo $option['option_id']; ?>" value="<?php echo $option['value']; ?>"> <?php echo $option['title']; ?> 
+									</label> 
+						<?php 
+								}
+							} 
+						?>
+								</div>
+							</div>
+					<?php 
+						}else if($question['type']=='radio'){
+					?>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<label id='title' for="name"><?php echo $question['title']; ?></label>
+									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+									<div>
+						<?php
+							if (!empty($question['options'])) {
+								foreach ($question['options'] as $option ) {
+						?>
+										<label class="radio-inline"> <input type="radio"
+											name="<?php echo $question['id']; ?>" id="optionsRadios<?php echo $option['option_id']; ?>" value="<?php echo $option['value']; ?>"
+											checked> <?php echo $option['title']; ?>
+										</label>
+						<?php 
+								}
+							} 
+						?>
+									</div>
+								</div>
+					
+			<?php
+						}
+					}
+    			}
+    		?>
+						
+						<input type="hidden" name="id" value="<?php echo $answer->id(); ?>"> 
+						<div class="form-group input-group-lg input-group-sm">
+									<button type="button" id='add_answer'
+										class="btn btn-default">添加</button>
+									<button type="reset" id='reset'
+										class="btn btn-default">重置</button>
+								</div>
+						</form>	
+						</div>
+						<hr>
+						
+					</div>
+				</div>
+

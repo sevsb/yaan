@@ -49,6 +49,12 @@ class projects {
         $ret = date('Y-m-d', $lmt_time);
         return $ret;
     }
+    public function limit_time_stamp() {
+        return $this->summary('limit_time');
+    }
+    public function is_expired() {
+        return time() > $this->limit_time_stamp() ? true : false;
+    }
     public function deadline() {
         return $this->limit_time();
         // $deadline = new DateTime("@" . $this->summary('limit_time'));
@@ -59,7 +65,11 @@ class projects {
         return $this->summary("paperfile");
     }
     public function paperfile_url() {
-        return rtrim(FILEUPLOAD_URL, "/") . "/" . $this->summary["paperfile"];
+        if (!empty($this->summary["paperfile"])) {
+            return rtrim(FILEUPLOAD_URL, "/") . "/" . $this->summary["paperfile"];
+        }else {
+            return '404nofound';
+        }
     }
     public function status() {
         return $this->summary("status");
@@ -85,14 +95,23 @@ class projects {
     }
 
     public static function del($id){
+        $ret4 = db_muffins::inst()->del($id);
+        $ret3 = db_muffininfos::inst()->del($id);
+        return $ret3 && $ret4;
         
         $wanna_del_tasks = db_muffins::inst()->load_tasks_by_project($id);
         $wanna_del_tasks = array_keys($wanna_del_tasks);
+        logging::d('wannadelid', $id);
         array_push($wanna_del_tasks, $id);
+        logging::d('wannadel', json_encode($wanna_del_tasks));
+        return;
         if(!empty($wanna_del_tasks)){
             foreach ($wanna_del_tasks as $k) {
                 $ret4 = db_muffins::inst()->del($k);
                 $ret3 = db_muffininfos::inst()->del($k);
+                if ($k != $id) {
+                    
+                }
             }
         }else{
             $ret4 = true;
@@ -124,6 +143,14 @@ class projects {
     public static function modify($muffinid, $project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile){
         
         $muffininfo_ret = db_muffininfos::inst()->modify_project($muffinid, $project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile);
+        if (!$muffininfo_ret) {
+            return false;
+        }
+        return $muffininfo_ret;
+    }
+    
+    public static function update_status($muffinid, $status){
+        $muffininfo_ret = db_muffininfos::inst()->update_status_project($muffinid, $status);
         if (!$muffininfo_ret) {
             return false;
         }

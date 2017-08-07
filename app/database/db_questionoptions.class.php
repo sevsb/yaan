@@ -32,7 +32,7 @@ class db_questionoptions extends database {
     }
 
     public function get_by_questionid($qid) {
-        return $this->get_all_table(TABLE_QUESTIONOPTIONS, "qid = $qid","order by option_id");
+        return $this->get_all_table(TABLE_QUESTIONOPTIONS, "qid = $qid and is_remove = 0","order by option_id");
     }
 
     public function get_options_by_id($id) {
@@ -47,6 +47,10 @@ class db_questionoptions extends database {
     public function modify_options($id, $title, $value) {
         file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."id:$id, title:$title value:$value \r\n", FILE_APPEND);
         return $this->update(TABLE_QUESTIONOPTIONS, array("title" => $title, "value" => $value), "id = $id");
+    }
+    
+    public function remove($id){
+        return $this->update(TABLE_QUESTIONOPTIONS, array("is_remove" => 1), "id = $id");
     }
 
     public function del($id){

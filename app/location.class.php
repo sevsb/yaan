@@ -63,6 +63,7 @@ class location {
         }
         $this->mCity = new location_node($arr["city"]);
         $this->mDistrict = new location_node($arr["district"]);
+        $this->mFourthloc = isset($arr["fourthloc"]) ? $arr["fourthloc"] : null;
         $this->mTime = isset($summary["time"]) ? $summary["time"] : 0;
         if (isset($arr["adcode"])) {
             $this->mCode = $arr["adcode"];
@@ -80,6 +81,9 @@ class location {
     public function &district() {
         return $this->mDistrict;
     }
+    public function &fourthloc() {
+        return $this->mFourthloc;
+    }
 
     public function epoch_time() {
         return $this->mTime;
@@ -92,8 +96,22 @@ class location {
     public function set_time($time) {
         $this->mTime = $time;
     }
+    
+    public function replace_city_title($replace_city_title) {
+        $this->mTime = $time;
+    }
 
     private function title_equals($o) {
+        if (empty($this->district()->title())) {
+            logging::d('THIS P_T',$this->province()->title());
+            logging::d('O P_T',$o->province()->title());
+            logging::d('THIS C_T',$this->city()->title());
+            logging::d('O C_T',$o->city()->title());
+            //return;
+            return ($this->province()->equals($o->province())) && ((strpos($this->city()->title(), $o->city()->title()) === 0) || (strpos($o->city()->title(), $this->city()->title()) === 0) || ($o->city()->title() == $this->city->title()));
+
+            //return $this->province()->equals($o->province()) && $this->city()->equals($o->city());    
+        }
         return ($this->province()->equals($o->province()) && $this->city()->equals($o->city()) && $this->district()->equals($o->district()));
     }
 
@@ -110,6 +128,10 @@ class location {
         }
 
         if ($this->code() != 0) {
+            if(empty($this->district()->title())){
+                logging::d("Debug", "\tcompare title because this one has no district code.");
+                return $this->title_equals($o);
+            }
             if ($o->province()->code() != 0) {
                 logging::d("Debug", "\tcompare code with item.code.");
                 $ret = ($this->code() == $o->province()->code());
@@ -118,6 +140,10 @@ class location {
                 return $ret;
             }
             logging::d("Debug", "\tcompare title because the other one has no item code.");
+            return $this->title_equals($o);
+        }
+        if(empty($this->district()->title())){
+            logging::d("Debug", "\tcompare title because this one has no district code.");
             return $this->title_equals($o);
         }
         logging::d("Debug", "\treverse compare.");

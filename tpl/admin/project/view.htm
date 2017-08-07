@@ -16,12 +16,12 @@
         <li class="active">新建项目</li>
       </ol>-->
       <h3>
-        查看项目<a href='?admin/task/new&muffinid={:$muffinid}'><button class='btn btn-success' style='display:inline-block; float: right;'>新建任务</button></a>
+        查看项目<a href='?admin/task/new&muffinid={:$muffinid}'><button class='btn btn-success' style='display:inline-block; float: right;'>新建任务</button></a><a href='?admin/project/new&projectmuffinid={:$muffinid}'><button class='btn btn-primary' style='display:inline-block; float: right; margin-right: 15px;'>编辑项目</button></a>
       </h3><hr>
         <form>
           <div class="form-group">
             <label for="project_id">项目编号</label>
-            <input type="number" class="form-control" id="project_id" placeholder="项目编号"
+            <input type="text" class="form-control" id="project_id" placeholder="项目编号"
             value ='<?php echo $project->is_valid() ? $project->project_id() : null; ?>' readonly>
           </div>
           <div class="form-group">
@@ -58,7 +58,7 @@
           
           <div class="form-group">
             <label for="limit_time">试卷</label><br>
-            <a href='{:$project->paperfile_url()}'><div class='btn btn-success'>点击下载试卷</div></a>
+            <a download='{:$project->title()}' href='{:$project->paperfile_url()}'><div class='btn btn-success'>点击下载试卷</div></a>
           </div>
 
           

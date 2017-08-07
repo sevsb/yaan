@@ -32,7 +32,7 @@ class db_question extends database {
     }
 
     public function get_by_naireid($nid) {
-        return $this->get_all_table(TABLE_QUESTION, "nid = $nid","order by id");
+        return $this->get_all_table(TABLE_QUESTION, "nid = $nid and is_remove = 0","order by id");
     }
 
     public function get_questions_by_id($id) {
@@ -48,6 +48,10 @@ class db_question extends database {
         return $this->update(TABLE_QUESTION, array("title" => $title, "type" => $type, "notes" => $notes, "value" => $value), "id = $id");
     }
 
+    public function remove($id){
+        return $this->update(TABLE_QUESTION, array("is_remove" => 1), "id = $id");
+    }
+    
     public function del($id){
         return $this->delete(TABLE_QUESTION, "id = '$id'");
     }

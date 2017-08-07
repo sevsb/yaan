@@ -1,7 +1,7 @@
 <?php
 include_once(dirname(__FILE__) . "/../config.php");
 
-class questionnaires {
+class answers {
     private $summary = array();
     
     public function __construct($data) {
@@ -18,8 +18,8 @@ class questionnaires {
     public function id() {
         return $this->summary("id", 0);
     }
-    public function pid() {
-        return $this->summary("pid");
+    public function nid() {
+        return $this->summary("nid");
     }
     public function title() {
         return $this->summary("title");
@@ -27,18 +27,24 @@ class questionnaires {
     public function notes() {
         return $this->summary("notes");
     }
-    public function count() {
-        return $this->summary("count", 0);
+    public function content() {
+        return $this->summary("content", 0);
     }
     public function is_valid() {
         return !empty($this->summary);
     }
 
-    public static function create($pid){
-        $id = db_questionnaires::inst()->add_questionnaires(0,'ÐÂ½¨ÎÊ¾í','');
-        $questionnaires = db_questionnaires::inst()->get_questionnaires_by_id($id);
+    public static function create($nid,$title,$notes){
+        $answer = db_answer::inst()->get_one_bynid($nid);
+        
+        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."nid:$nid,answer:".count($answer)."\r\n", FILE_APPEND);
+        
+        if(empty($answer)){
+            $id = db_answer::inst()->add_answer($nid,$title,$notes,'');
+            $answer = db_answer::inst()->get_answer_by_id($id);
+        }
         //logging::d("createPJT", "muffininfos: $muffininfos");
-        return new questionnaires($questionnaires);
+        return new answers($answer);
 
     }
     
@@ -104,13 +110,18 @@ class questionnaires {
     }
 
     public static function load_all() {
-        $all_questionnaires = db_questionnaires::inst()->get_all_questionnaires();
-        return $all_questionnaires;
+        $answers = db_answer::inst()->get_all_answer();
+        return $answers;
     }
     
     public static function load_by_id($id) {
-        $questionnaires = db_questionnaires::inst()->get_questionnaires_by_id($id);
-        return $questionnaires;
+        $answer = db_answer::inst()->get_answer_by_id($id);
+        return $answer;
+    }
+    
+    public static function load_by_nid($id) {
+        $answer = db_answer::inst()->get_one_bynid($id);
+        return $answer;
     }
 
     public function pack_info() {
