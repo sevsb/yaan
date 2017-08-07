@@ -20,10 +20,12 @@ class task_controller {
     public function index_action() {
         $tpl = new tpl("admin/header", "admin/footer");
         $projectmuffinid = get_request("projectmuffinid");
+        $flag = get_request('flag', 0);
         $project = projects::create($projectmuffinid);
         $project_title = $project->title();
         $tasks = tasks::load_tasks($projectmuffinid);
         $wechatusers = wechatuser::load_all();
+        $tpl->set('flag', $flag);
         $tpl->set('wechatusers', $wechatusers);
         $tpl->set('project_title', $project_title);
         $tpl->set('muffinid', $projectmuffinid);

@@ -1,4 +1,4 @@
-.task_elf {
+div.task_elf {
     border: 1px solid #eee;
     padding: 6px;
     border-radius: 5px;
@@ -34,4 +34,8 @@
 }
 .choosed  {
     border: 2px solid red;
+}
+
+thead td  {
+    background-image: none !important;
 }
