@@ -109,7 +109,7 @@ var manage_task = function (act) {
             console.log(data);
             ret = data.ret;
             if (ret == 'success'){
-                document.location.href = '?admin/task/index&projectmuffinid=' +　muffinid;
+                document.location.href = '?admin/task/index&projectmuffinid=' +　muffinid + '&flag=1';
             }
         });
     }else if (act == 'new_and_more') {
@@ -133,7 +133,7 @@ var manage_task = function (act) {
             console.log(data);
             ret = data.ret;
             if (ret == 'success'){
-                document.location.href = '?admin/task/index&projectmuffinid=' + muffinid;
+                document.location.href = '?admin/task/index&projectmuffinid=' + muffinid + '&flag=1';
             }
         });
     }

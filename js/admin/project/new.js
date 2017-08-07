@@ -157,7 +157,7 @@ $(document).ready(function (){
         console.log(data);
         if(data.ret == 'success'){
             var id = data.info;
-            document.location.href = '?admin/project/view&projectmuffinid=' + id;
+            document.location.href = '?admin/project/view&projectmuffinid=' + id + '&flag=1';
         }else {
             alert(data.info);
         }
@@ -224,7 +224,7 @@ $(document).ready(function (){
         console.log(data);
         ret = data.ret;
         if (ret == 'success'){
-            document.location.href = '?admin/project/index';
+            document.location.href = '?admin/project/index&flag=1';
         }
         
     });

@@ -150,6 +150,16 @@ class task_controller {
         //return true;
         $result = tasks::update_broadcast_area($taskid, $broadcast_loctions);
         return $result ? 'success' : 'fail';
+    }
+    
+    public function server_check_action() {
+        $taskid = get_request('taskid');
+        $broadcast_loctions = get_request('broadcast_loctions');
+        logging::d("taskid", "taskid: $taskid");
+        logging::d("broadcast_loctions", "broadcast_loctions: $broadcast_loctions");
+        //return true;
+        $result = tasks::update_broadcast_area($taskid, $broadcast_loctions);
+        return $result ? 'success' : 'fail';
     }   
 
 }

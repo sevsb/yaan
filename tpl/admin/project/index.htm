@@ -87,7 +87,7 @@
         <td>{:$status_show}</td>
         <td>{:$limit_time}</td>
         <td>
-            <a href='?admin/task/index&projectmuffinid={:$muffinid}'><div class='btn btn-default'>任务列表</div></a>
+            <a href='?admin/task/index&projectmuffinid={:$muffinid}&flag=1'><div class='btn btn-default'>任务列表</div></a>
             <?php
             if (($status == 0 || $status == 2)&& !$is_expired) {
                 ?><div class='btn btn-success update_status_btn' sid='1'>启动项目</div><?php
