@@ -41,6 +41,8 @@ include_once(dirname(__FILE__) . "/wechat/wxBizMsgCrypt.php");
 defined('UPLOAD_DIR') or define('UPLOAD_DIR', ROOT_PATH . '/upload/images');
 defined('UPLOAD_URL') or define('UPLOAD_URL', rtrim(INSTANCE_URL, "/") . '/upload/images');
 
+defined('VENDOR_DIR') or define('VENDOR_DIR', ROOT_PATH . '/vendor/');
+
 defined('FILEUPLOAD_DIR') or define('FILEUPLOAD_DIR', ROOT_PATH . '/upload/files');
 defined('FILEUPLOAD_URL') or define('FILEUPLOAD_URL', rtrim(INSTANCE_URL, "/") . '/upload/files');
 

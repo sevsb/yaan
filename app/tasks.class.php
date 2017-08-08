@@ -280,6 +280,32 @@ class tasks {
         }
         return $arr;
     }
+    
+    public static function process_data_from_importfile($import_file){
+        include_once( VENDOR_DIR . 'phpexcel/PHPExcel.php');
+        $fileName = FILEUPLOAD_DIR . '/'. $import_file;
+        logging::d('IMPORT_FILE_SHOW', $fileName);
+        if (!file_exists($fileName)) {
+            die('no file!');
+        }
+        $objPHPExcel = PHPExcel_IOFactory::load("$fileName");  // Remove the createReader line before this
+        $currentSheet = $objPHPExcel ->getSheet(0);
+
+        /**取得最大的列号*/ 
+        $allColumn = $currentSheet->getHighestColumn(); 
+        /**取得一共有多少行*/ 
+        $allRow = $currentSheet->getHighestRow(); 
+        /**从第二行开始输出，因为excel表中第一行为列名*/ 
+        $result_array = array();
+        for($currentRow = 2;$currentRow <= $allRow;$currentRow++){ 
+            /**从第A列开始输出*/ 
+            for($currentColumn= 'A';$currentColumn<= $allColumn; $currentColumn++){
+                $val = $currentSheet->getCellByColumnAndRow(ord($currentColumn) - 65,$currentRow)->getValue();
+                $result_array[$currentRow][$currentColumn] = $val;
+            } 
+        }
+        return $result_array;
+    }
 }
 
 ?>

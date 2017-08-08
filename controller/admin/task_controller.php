@@ -33,6 +33,13 @@ class task_controller {
         $tpl->display("admin/task/index");
     }
     
+    public function import_action() {
+        $tpl = new tpl("admin/header", "admin/footer");
+        $muffinid = get_request("muffinid");
+        $tpl->set('muffinid', $muffinid);
+        $tpl->display("admin/task/import");
+    }
+    
     public function new_action() {
         $tpl = new tpl("admin/header", "admin/footer");
         $muffinid = get_request("muffinid", 0);
@@ -63,6 +70,29 @@ class task_controller {
         $result = tasks::add($muffinid, $title, $content, $address, $location);
         return $result ? 'success' : 'fail';
     }
+
+    public function process_import_file_action() {
+        //$muffinid = get_request('muffinid');
+        $import_file = get_request('import_file');
+
+        $import_file_name = null;
+
+        if (!empty($import_file)) {
+            if (substr($import_file, 0, 5) == "data:") {
+                $ret2 = uploadFileViaFileReader($import_file);
+                logging::e("uploadFile-ret", $ret2);
+                $ret2 = explode("|", $ret2);
+                if ($ret2[0] == 'fail') {
+                    return false;
+                }
+                $import_file_name = $ret2[1];
+            }
+        }
+        $result_data = tasks::process_data_from_importfile($import_file_name);
+        
+        //return $result ? 'success' : 'fail';
+        echo json_encode($result_data);
+    }
     
     public function modify_ajax() {
         $taskid = get_request('taskid');
@@ -80,7 +110,8 @@ class task_controller {
 
 
         $result = tasks::modify($taskid, $muffinid, $title, $content, $address, $location);
-        return $result ? 'success' : 'fail';
+        
+        return $result ? array('ret' => 'success', 'info' => $result) : array('status' => 'fail');
     }
     
     public function del_ajax() {
@@ -95,7 +126,7 @@ class task_controller {
         $taskid = get_request('taskid');
         logging::d("Debug", $userid);
         logging::d("Debug", $taskid);
-        $userid == null ? $status = tasks:STATUS_PENDING : $status = tasks:STATUS_ASSIGNED;
+        $userid == null ? $status = tasks::STATUS_PENDING : $status = tasks::STATUS_ASSIGNED;
         $ret = db_muffininfos::inst()->update_wechat_userid($taskid, $userid, $status);
         if ($userid != null) {
             $task = tasks::create_by_id($taskid);
