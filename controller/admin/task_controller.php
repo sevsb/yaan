@@ -95,7 +95,7 @@ class task_controller {
         $taskid = get_request('taskid');
         logging::d("Debug", $userid);
         logging::d("Debug", $taskid);
-        $userid == null ? $status = 0 : $status = 1;
+        $userid == null ? $status = tasks:STATUS_PENDING : $status = tasks:STATUS_ASSIGNED;
         $ret = db_muffininfos::inst()->update_wechat_userid($taskid, $userid, $status);
         if ($userid != null) {
             $task = tasks::create_by_id($taskid);

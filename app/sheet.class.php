@@ -135,14 +135,17 @@ class sheet {
 
     public function reset_review() {
         $this->summary["status"] = self::STATUS_NOTREVIEW;
+        tasks::modify_task_status($this->mTask->id(), tasks::STATUS_NOTREVIEW);
     }
 
     public function pass() {
         $this->summary["status"] = self::STATUS_PASS;
+        tasks::modify_task_status($this->mTask->id(), tasks::STATUS_PASS);
     }
 
     public function reject() {
         $this->summary["status"] = self::STATUS_REJECT;
+        tasks::modify_task_status($this->mTask->id(), tasks::STATUS_REJECT);
     }
 
 
