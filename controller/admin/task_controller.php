@@ -37,6 +37,8 @@ class task_controller {
         $tpl = new tpl("admin/header", "admin/footer");
         $muffinid = get_request("muffinid");
         $tpl->set('muffinid', $muffinid);
+        $baiduak = settings::instance()->load("BAIDU_MAP_AK");
+        $tpl->set('baiduak', $baiduak);
         $tpl->display("admin/task/import");
     }
     
