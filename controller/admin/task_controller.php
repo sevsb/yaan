@@ -115,6 +115,30 @@ class task_controller {
         
         return $result ? array('ret' => 'success', 'info' => $result) : array('status' => 'fail');
     }
+
+    public function do_import_ajax() {
+        $muffinid = get_request('muffinid');
+        $task_list = get_request('task_list');
+        logging::d("TASKIMPORT", "muffinid: $muffinid");
+        //$result = true;
+        foreach ($task_list as $task) {
+            if (empty($task)) {
+                continue;
+            }
+            $title = $task['title'];
+            $address = $task['address'];
+            $location = $task['location'];
+            $content = $task['content'];
+            logging::d("TASKIMPORT", "title: $title");
+            logging::d("TASKIMPORT", "address: $address");
+            logging::d("TASKIMPORT", "location: $location");
+            logging::d("TASKIMPORT", "content: $content");
+            $result = tasks::add($muffinid, $title, $content, $address, $location);
+            logging::d("TASKIMPORT", "result: $result");
+        }
+        
+        return $result ? array('ret' => 'success', 'info' => $result) : array('status' => 'fail');
+    }
     
     public function del_ajax() {
         $del_id = get_request('del_id');

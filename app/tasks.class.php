@@ -301,6 +301,7 @@ class tasks {
             /**从第A列开始输出*/ 
             for($currentColumn= 'A';$currentColumn<= $allColumn; $currentColumn++){
                 $val = $currentSheet->getCellByColumnAndRow(ord($currentColumn) - 65,$currentRow)->getValue();
+                $val = str_replace("null", "", $val);
                 $result_array[$currentRow][$currentColumn] = $val;
             } 
         }

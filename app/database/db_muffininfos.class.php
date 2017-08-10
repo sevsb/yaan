@@ -54,11 +54,11 @@ class db_muffininfos extends database {
 
     public function add_task($new_muffin_id, $title, $content, $address, $location, $paper = 0) {
         $paper = (int)$paper;
-        return $this->insert(TABLE_MUFFININFOS, array("muffinid" => $new_muffin_id, "title" => $title, "type" => $type, "content" => $content, "address" => $address, "location" => $location, "status" => "0", "paperid" => $paper));
+        return $this->insert(TABLE_MUFFININFOS, array("muffinid" => $new_muffin_id, "title" => $title, "content" => $content, "address" => $address, "location" => $location, "status" => "0", "paperid" => $paper));
     }
 
     public function modify_task($taskid, $title, $content, $address, $location) {
-        $ret = $this->update(TABLE_MUFFININFOS, array("title" => $title, "type" => $type, "content" => $content, "address" => $address, "location" => $location), "muffinid = $taskid");
+        $ret = $this->update(TABLE_MUFFININFOS, array("title" => $title, "content" => $content, "address" => $address, "location" => $location), "muffinid = $taskid");
         cache::instance()->drop("db:muffininfos");
         //$this->get_cached("db:muffininfos", TABLE_MUFFININFOS);
         return $ret;
