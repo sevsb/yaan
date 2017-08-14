@@ -158,9 +158,34 @@ class questionnaire_controller {
         $qid = get_request("qid", 0);
         
         $questions = questions::load_by_id($qid);
-        $questions[$i]['options'] = questionoptions::load_by_qid($qid);
+        $questions['options'] = questionoptions::load_by_qid($qid);
         
-        return $questions;
+        echo json_encode($questions);
+    }
+    
+    public function editQuestionsDo_action() {
+        
+        $id = get_request("id", 0);
+        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."id:$id\r\n", FILE_APPEND);
+        
+        if(!empty($id)){
+            $title = get_request("title", "");
+            $notes = get_request("notes", "");
+            $type = get_request("type", "");
+            $value= get_request("value", "");
+            
+            $qid = db_question::inst()->modify_questions($id, $title, $type, $notes, $value);
+            //             $questions = db_question::inst()->get_questions_by_id($id);
+            $titles = get_request("titles");
+            $values = get_request("values");
+            file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."id:$id, titles:".count($titles).",values,".count($values)."\r\n", FILE_APPEND);
+            $i = 0;
+            db_questionoptions::inst()->removeAll($id);
+            foreach($titles as $option ){
+                $questionoptions[] = questionoptions::create($id, $option, $values[$i], $i);
+                $i++;
+            }
+        }
     }
     
     public function addQuestions_action() {

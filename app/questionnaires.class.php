@@ -35,7 +35,7 @@ class questionnaires {
     }
 
     public static function create($pid){
-        $id = db_questionnaires::inst()->add_questionnaires(0,'ÐÂ½¨ÎÊ¾í','');
+        $id = db_questionnaires::inst()->add_questionnaires(0,'æ–°å»ºé—®å·','');
         $questionnaires = db_questionnaires::inst()->get_questionnaires_by_id($id);
         //logging::d("createPJT", "muffininfos: $muffininfos");
         return new questionnaires($questionnaires);
@@ -110,7 +110,7 @@ class questionnaires {
     
     public static function load_by_id($id) {
         $questionnaires = db_questionnaires::inst()->get_questionnaires_by_id($id);
-        return $questionnaires;
+        return new questionnaires($questionnaires);
     }
 
     public function pack_info() {

@@ -118,8 +118,8 @@ class questions {
         return $questions;
     }
     
-    public static function load_by_id($nid) {
-        $questions = db_question::inst()->get_questions_by_id($nid);
+    public static function load_by_id($id) {
+        $questions = db_question::inst()->get_questions_by_id($id);
         return $questions;
     }
 

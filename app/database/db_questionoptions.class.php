@@ -52,6 +52,10 @@ class db_questionoptions extends database {
     public function remove($id){
         return $this->update(TABLE_QUESTIONOPTIONS, array("is_remove" => 1), "id = $id");
     }
+    
+    public function removeAll($qid){
+        return $this->update(TABLE_QUESTIONOPTIONS, array("is_remove" => 1), "qid = $qid");
+    }
 
     public function del($id){
         return $this->delete(TABLE_QUESTIONOPTIONS, "id = $id");
