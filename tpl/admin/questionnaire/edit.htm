@@ -585,9 +585,14 @@
 				var datastr = "";
 				$.post("index.php?admin/questionnaire/editQuestions", 
 						{ qid:$(e.target).parent().prev().children().eq(2).text() }, function(data){
-						datastr	= data.substr(0,data.indexOf("<br />"));
-						//alert(datastr);
-						var parsedJson = jQuery.parseJSON(datastr);
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+							//alert(datastr);
+							var parsedJson = jQuery.parseJSON(datastr);
+						}else{
+							//alert(datastr);
+							var parsedJson = jQuery.parseJSON(data);
+						}
 					    //alert(parsedJson.title); // John
 					    
 					    title = parsedJson.title;
