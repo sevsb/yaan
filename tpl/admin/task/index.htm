@@ -12,7 +12,7 @@
     //$ret = strpos('北京市市辖区','北京市');
     //var_dump($ret);
     
-    $show_status = array('未领取', '已领取', '审核失败' ,'任务完成');
+    $show_status = array('未领取', '审核通过', '审核失败' ,'未审核', '已分派');
     if (!empty($tasks)) {
         if ($flag == 0) {
             foreach ($tasks as $task) {
@@ -99,7 +99,7 @@
                     $status = $task->status();
                     $status_show = $show_status[$status];
                 ?>
-                <tr class='task_elf' muffinid='{:$muffinid}'>
+                <tr class='task_elf' taskid='{:$taskid}' muffinid='{:$muffinid}'>
                     <td>{:$title}</td>
                     <td>{:$location_show}</td>
                     <td>{:$address}</td>

@@ -218,6 +218,64 @@ class task_controller {
         $result = tasks::update_broadcast_area($taskid, $broadcast_loctions);
         return $result ? 'success' : 'fail';
     }   
+    
+    public function task_reminder_action() {
+        $wechatuser_list = wechatuser::load_all();
+        foreach ($wechatuser_list as $wechatuser) {
+            $user_tasks = $wechatuser->running_tasks();
+            $openid = $wechatuser->openid();
+            foreach ($user_tasks as $user_task) {
+                $task_limit_time_stamp = $user_task->project()->limit_time_stamp();
+                $time = time();
+                $time_diff = $task_limit_time_stamp - $time;
+                if ($time_diff <= 3600 * 24 * 3) {
+                    var_dump($task_limit_time_stamp);
+                    var_dump($time);
+                    var_dump($time_diff);
+                    $title = $user_task->title();
+                    $limit_time = $user_task->project()->limit_time();
+                    $left_days = round($time_diff / (3600 * 24));
+                    $data_array = array(
+                        "touser" => $openid,
+                        "template_id" => "2ff21t6_3QPDqGh9VGpTfKk2p62YCXs2S7km_F_LAzw",
+                        "url" => "http://yaan.rendajinrong.com/?wechat/index/home",
+                        "miniprogram" => array(
+                            "appid" => "",
+                            "pagepath" => ""),
+                        "data" => array(
+                            "first" => array(
+                                "value" =>"您好，您的任务即将到期！",
+                                "color" => "#173177"
+                            ),
+                            "keyword1" => array(
+                                "value" =>"$title",
+                                "color" => "#173177"
+                            ),
+                            "keyword2" => array(
+                                "value" =>"略",
+                                "color" => "#173177"
+                            ),
+                            "keyword3" => array(
+                                "value" =>"$limit_time",
+                                "color" => "#173177"
+                            ),
+                            "keyword4" => array(
+                                "value" =>"$left_days 天",
+                                "color" => "#173177"
+                            ),
+                            "remark" => array(
+                                "value" =>"请按时完成任务！",
+                                "color" => "#173177"
+                    )));
+                    $result = wxApi::inst()->send_template_message($data_array);
+                    var_dump($data_array);
+                    logging::d("SENDTEMMSG data_array", $data_array);
+                    logging::d("SENDTEMMSG result", $result);
+                }
+            }
+        }
+        return;
+    }   
 
 }
 
