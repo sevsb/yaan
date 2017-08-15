@@ -4,7 +4,10 @@ include_once(dirname(__FILE__) . "/../../config.php");
 class task_controller {
     
     public function preaction($action) {
-        login::assert();
+        $_string = $_SERVER['QUERY_STRING'];
+        if ($_string != 'admin/task/task_reminder') {
+            login::assert();
+        }
     }
     public function load_all_broadcast_areas_action() {
         $all_broadcast_areas = array();
@@ -217,9 +220,11 @@ class task_controller {
         //return true;
         $result = tasks::update_broadcast_area($taskid, $broadcast_loctions);
         return $result ? 'success' : 'fail';
-    }   
+    }
     
     public function task_reminder_action() {
+        //var_dump($_SESSION);
+        //var_dump($_SERVER);
         $wechatuser_list = wechatuser::load_all();
         foreach ($wechatuser_list as $wechatuser) {
             $user_tasks = $wechatuser->running_tasks();
