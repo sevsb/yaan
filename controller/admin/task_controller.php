@@ -167,7 +167,7 @@ class task_controller {
             $data_array = array(
                 "touser" => $openid,
                 "template_id" => "ANRlAUP0QhXMBatijUM_Ez5ouM77JpAgGM4AubwFdBw",
-                "url" => "http://yaan.rendajinrong.com/?wechat/index/home",
+                "url" => "http://yaan.rendajinrong.com/?action=wechat.index&debugroute=1",
                 "miniprogram" => array(
                     "appid" => "",
                     "pagepath" => ""),
@@ -243,7 +243,7 @@ class task_controller {
                     $data_array = array(
                         "touser" => $openid,
                         "template_id" => "2ff21t6_3QPDqGh9VGpTfKk2p62YCXs2S7km_F_LAzw",
-                        "url" => "http://yaan.rendajinrong.com/?wechat/index/home",
+                        "url" => "http://yaan.rendajinrong.com/?action=wechat.index&debugroute=1",
                         "miniprogram" => array(
                             "appid" => "",
                             "pagepath" => ""),

@@ -46,7 +46,7 @@ class sheet_controller {
             $data_array = array(
                 "touser" => $openid,
                 "template_id" => "M6sVbyyZU4d94tI3gBRU1uoIX5TXXOWbblnjuqWI2Yc",
-                "url" => "",
+                "url" => "http://yaan.rendajinrong.com/?action=wechat.index&debugroute=1",
                 "miniprogram" => array(
                     "appid" => "",
                     "pagepath" => ""),
@@ -74,7 +74,7 @@ class sheet_controller {
             $data_array = array(
                 "touser" => $openid,
                 "template_id" => "VuF_vWJfP6a1SuMlRUyKLOHzTgmT2M4VdQrfDzRffaw",
-                "url" => "",
+                "url" => "http://yaan.rendajinrong.com/?action=wechat.index&debugroute=1",
                 "miniprogram" => array(
                     "appid" => "",
                     "pagepath" => ""),
