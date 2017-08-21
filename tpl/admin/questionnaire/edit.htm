@@ -4,12 +4,11 @@
 		<div class="row">
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 				<div class="btn-group-vertical">
-					<button id="myButtons1" type="button" class="btn btn-default">多选题</button>
 					<button id="myButtons2" type="button" class="btn btn-default">单选题</button>
-					<button id="myButtons3" type="button" class="btn btn-default">联动题</button>
-					<button id="myButtons4" type="button" class="btn btn-default">单行文字</button>
-					<button id="myButtons5" type="button" class="btn btn-default">多行文本</button>
-					<button id="myButtons6" type="button" class="btn btn-default">填空题</button>
+					<button id="myButtons1" type="button" class="btn btn-default">多选题</button>
+					<button id="myButtons3" type="button" class="btn btn-default">量表题</button>
+					<button id="myButtons4" type="button" class="btn btn-default">范围题</button>
+					<button id="myButtons5" type="button" class="btn btn-default">填空题</button>
 					<p class="active-tab">
 						<strong>激活的标签页</strong>：<span></span>
 					</p>
@@ -93,6 +92,68 @@
 								</div>
 					
 			<?php
+						}else if($question['type']=='star'){
+					?>
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<label id='title' for="name"><?php echo $question['title']; ?></label>
+									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+									<div>
+										<label class="radio-inline"><?php echo $question['value']; ?><div id="star<?php echo $question['id']; ?>" width="200"></div></label><label class="radio-inline">分</label>
+									</div>
+								</div>
+								<div
+									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
+									<button type="button" id="edit_star" class="btn btn-default">编辑</button>
+									<button type="button" id="del" class="btn btn-default">删除</button>
+								</div>
+								<script type="text/javascript">
+			                        $(function() {
+				                        $("#star<?php echo $question['id']; ?>").raty({
+						                        hints: ["1", "2", "3", "4", "5"],
+						                        path:"/bigsword/yaan/images",
+						                        click: function (score, evt) {
+						                        	alert("u selected "+score);
+					                        }
+				                        });
+			                        });
+		                        </script>
+					
+			<?php
+						}else if($question['type']=='range'){
+					?>
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<label id='title' for="name"><?php echo $question['title']; ?></label>
+									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+									<div>
+										<?php $selectstar = json_decode($question['value'],1); ?>
+										<label class="radio-inline"><?php echo $selectstar['selectstar']; ?><input type="range" name="selectrange" value="<?php echo $selectstar['setnumber']; ?>" /></label class="radio-inline"><label><?php echo $selectstar['setnumber']; ?>分</label>
+									</div>
+								</div>
+								<div
+									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
+									<button type="button" id="edit_radio" class="btn btn-default">编辑</button>
+									<button type="button" id="del" class="btn btn-default">删除</button>
+								</div>
+					
+			<?php
+						}else if($question['type']=='text'){
+					?>
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<label id='title' for="name"><?php echo $question['title']; ?></label><input type="text" name="text" value="" />
+									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+									<div>
+										<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+									</div>
+								</div>
+								<div
+									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
+									<button type="button" id="edit_radio" class="btn btn-default">编辑</button>
+									<button type="button" id="del" class="btn btn-default">删除</button>
+								</div>
+					
+			<?php
 						}
 					}
     			}
@@ -102,97 +163,9 @@
 						</div>
 						<hr>
 						<div id="editview">
-						
-						
-							<form class="form-horizontal" role="form">
-								<div class="input-group input-group-lg input-group-sm">
-									<span class="input-group-addon">标题</span> <input type="text" name="title"
-										class="form-control" placeholder="twitterhandle">
-								</div>
-								<br>
-								<div class="input-group input-group-lg input-group-sm">
-									<span class="input-group-addon">备注</span> <input type="text" name="notes"
-										class="form-control" placeholder="twitterhandle">
-								</div>
-								<br>
-								<div class="input-group input-group-lg input-group-sm">
-									<span class="input-group-addon">选项</span> <input type="text" name="checktitle"
-										class="form-control" placeholder="twitterhandle"><span
-										class="input-group-addon glyphicon glyphicon-remove" id="spanremove"></span>
-								</div>
-								<div class="form-group input-group-lg input-group-sm">
-									<label for="choiceadd"
-										class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">子项</label>
-									<button type="button" id='add_child_btn'
-										class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加子项</button>
-								</div>
-								<div id="childdiv" >
-									<div id="childcheck" style="padding:0px 0px 0px 20px">
-										
-									
-										<div class="input-group input-group-lg input-group-sm">
-										<span class="input-group-addon" id='1'>标题</span> <input type="text" name="title"
-											class="form-control" placeholder="twitterhandle" id='2'>
-										</div>
-										<br>
-										<div class="input-group input-group-lg input-group-sm">
-											<span class="input-group-addon" id='3'>备注</span> <input type="text" name="notes"
-												class="form-control" placeholder="twitterhandle" id='4'>
-										</div>
-										<br>
-										<div class="input-group input-group-lg input-group-sm">
-											<span class="input-group-addon" id='5'>选项</span> <input type="text" name="checktitle"
-												class="form-control" placeholder="twitterhandle" id='6'><span
-												class="input-group-addon glyphicon glyphicon-remove" id='7'></span>
-										</div>
-										<br>
-										<div class="input-group input-group-lg input-group-sm">
-											<span class="input-group-addon" id='8'>选项</span> <input type="text" name="checktitle"
-												class="form-control" placeholder="twitterhandle" id='9'><span
-												class="input-group-addon glyphicon glyphicon-remove" id='10'></span>
-										</div>
-										<br>
-										<div class="form-group input-group-lg input-group-sm" id='5'>
-											<label for="choiceadd"
-												class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">选项</label>
-											<button type="button" id='add_child_check_btn'
-												class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>
-										</div>
-										<br>
-									</div>
-								</div>
-								<br>
-								<div class="input-group input-group-lg input-group-sm">
-									<span class="input-group-addon">选项</span> <input type="text" name="checktitle"
-										class="form-control" placeholder="twitterhandle"><span
-										class="input-group-addon glyphicon glyphicon-remove" id="spanremove"></span>
-								</div>
-								<div class="form-group input-group-lg input-group-sm">
-									<label for="choiceadd"
-										class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">子项</label>
-									<button type="button" id='add_child_btn'
-										class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加子项</button>
-								</div>
-								<div id="childdiv" >
-								</div>
-								<br>
-								<div class="form-group input-group-lg input-group-sm">
-									<label for="choiceadd"
-										class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">选项</label>
-									<button type="button" id='add_lian_btn'
-										class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>
-								</div>
-								<br>
-								<div class="form-group input-group-lg input-group-sm">
-									<button type="button" id='add_lian'
-										class="btn btn-default">添加</button>
-									<button type="reset" id='reset'
-										class="btn btn-default">重置</button>
-								</div>
-							</form>
-							
-							
-						</div>
+
+
+					</div>
 					</div>
 					<div class="tab-pane fade" id="view">
 						<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch
@@ -351,53 +324,33 @@
 				//				alert(p);
 				//$("#preview").append(p);
 				$("#editview").empty();
-				var d = '<h4>添加联动</h4><form class="form-horizontal" role="form">'
+				var d = '<h4>添加量表</h4><form class="form-horizontal" role="form">'
 					+'<div class="input-group input-group-lg input-group-sm">'
-					+'<span class="input-group-addon">标题</span> <input type="text" name="title"'
-					+' class="form-control" placeholder="标题">'
-					+'</div>'
-					+'<br>'
-					+'<div class="input-group input-group-lg input-group-sm">'
-					+'<span class="input-group-addon">备注</span> <input type="text" name="notes"'
-					+' class="form-control" placeholder="备注">'
+					+'<span class="input-group-addon">标题</span> <input type="text"'
+					+' name="title" class="form-control" placeholder="标题">'
 					+'</div>'
 					+'<br>'
 					+'<div class="input-group input-group-lg input-group-sm">'
-					+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
-					+' class="form-control" placeholder="选项"><span'
-					+' class="input-group-addon glyphicon glyphicon-remove"></span>'
-					+'</div>'
-					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<label for="choiceadd"'
-					+'class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">子项</label>'
-					+'<button type="button" id="add_child_btn"'
-					+'class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加子项</button>'
+					+'<span class="input-group-addon">备注</span> <input type="text"'
+					+' name="notes" class="form-control" placeholder="备注">'
 					+'</div>'
 					+'<br>'
 					+'<div class="input-group input-group-lg input-group-sm">'
-					+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
-					+' class="form-control" placeholder="选项"><span'
-					+' class="input-group-addon glyphicon glyphicon-remove"></span>'
-					+'</div>'
-					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<label for="choiceadd"'
-					+'class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">子项</label>'
-					+'<button type="button" id="add_child_btn"'
-					+'class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加子项</button>'
-					+'</div>'
-					+'<br>'
-					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<label for="choiceadd"'
-					+' class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">选项</label>'
-					+'<button type="button" id="add_lian_btn"'
-					+' class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>'
+					+'<span class="input-group-addon">量表类型</span> <select'
+					+' name="selectstar" id="selectstar" class="form-control">'
+					+'<option value="满意度">满意度</option>'
+					+'<option value="认同度">认同度</option>'
+					+'<option value="重要度">重要度</option>'
+					+'<option value="愿意度">愿意度</option>'
+					+'<option value="符合度">符合度</option>'
+					+'</select><span'
+					+' class="input-group-addon">量表范围</span>'
+					+'<div id="star" class="form-control"></div>'
 					+'</div>'
 					+'<br>'
 					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<button type="button" id="add_check"'
-					+' class="btn btn-default">添加</button>'
-					+'<button type="reset" id="reset"'
-					+' class="btn btn-default">重置</button>'
+					+'<button type="button" id="add_star" class="btn btn-default">添加</button>'
+					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
 					+'</div>'
 					+'</form>';
 				$("#editview").append(d);
@@ -405,12 +358,58 @@
 		});
 		$(function() {
 			$("#myButtons4").click(function() {
-				$("#myButtons4").toggle();
+				$("#editview").empty();
+				var d = '<h4>添加范围</h4><form class="form-horizontal" role="form">'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">标题</span> <input type="text"'
+					+' name="title" class="form-control" placeholder="标题">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">备注</span> <input type="text"'
+					+' name="notes" class="form-control" placeholder="备注">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">范围类型</span> <select'
+					+' name="selectstar" id="selectstar" class="form-control">'
+					+'<option value="满意度">满意度</option>'
+					+'<option value="认同度">认同度</option>'
+					+'<option value="重要度">重要度</option>'
+					+'<option value="愿意度">愿意度</option>'
+					+'<option value="符合度">符合度</option>'
+					+'</select><span class="input-group-addon">范围</span> <input type="number"'
+					+' name="setnumber" id="setnumber" class="form-control" value="10" placeholder="范围">'
+					+'</div>'
+					+'<br>'
+					+'<div class="form-group input-group-lg input-group-sm">'
+					+'<button type="button" id="add_range" class="btn btn-default">添加</button>'
+					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
+					+'</div>'
+					+'</form>';
+				$("#editview").append(d);
 			});
 		});
 		$(function() {
-			$("#myButtons4").click(function() {
-				$("#myButtons4").toggle();
+			$("#myButtons5").click(function() {
+				$("#editview").empty();
+				var d = '<h4>添加填空</h4><form class="form-horizontal" role="form">'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">标题</span> <input type="text"'
+					+' name="title" class="form-control" placeholder="标题">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">备注</span> <input type="text"'
+					+' name="notes" class="form-control" placeholder="备注">'
+					+'</div>'
+					+'<br>'
+					+'<div class="form-group input-group-lg input-group-sm">'
+					+'<button type="button" id="add_text" class="btn btn-default">添加</button>'
+					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
+					+'</div>'
+					+'</form>';
+				$("#editview").append(d);
 			});
 		});
 		$(function() {
@@ -438,26 +437,26 @@
 			});
 		});
 		
-		$(function() {
+		/*$(function() {
 			$("#editview").on("click",".form-horizontal > #childdiv > #childcheck > .input-group > span.glyphicon-remove", function(e) {
 				if($(e.target).attr('id')==undefined){
 					$(e.target).parent().next().remove();
 					$(e.target).parent().remove();
 				}
 			});
-		});
+		});*/
 		
 		$(function() {
 			$("#editview").on("click",".form-horizontal > .form-group > #add_check_btn", function(e) {
 				$(this).parent().before('<div class="input-group input-group-lg input-group-sm"><span class="input-group-addon">选项</span> <input type="text" name="checktitle" class="form-control" placeholder="选项"><span class="input-group-addon glyphicon glyphicon-remove"></span></div><br>');
 			});
 		});
-		$(function() {
+		/*$(function() {
 			$("#editview").on("click",".form-horizontal > #childdiv > #childcheck > .form-group > #add_child_check_btn", function(e) {
 				$(this).parent().before('<div class="input-group input-group-lg input-group-sm"><span class="input-group-addon">选项</span> <input type="text" name="checktitle" class="form-control" placeholder="选项"><span class="input-group-addon glyphicon glyphicon-remove"></span></div><br>');
 			});
-		});
-		$(function() {
+		});*/
+		/*$(function() {
 			$("#editview").on("click",".form-horizontal > .form-group > #add_lian_btn", function(e) {
 				var d = '<div class="input-group input-group-lg input-group-sm">'
 				+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
@@ -475,7 +474,7 @@
 				+'<br>'
 				$(this).parent().before(d);
 			});
-		});
+		});*/
 		/*$(function() {
 			$('.form-group').click(function() {
 				$(this).find('span.glyphicon').parent().parent().remove();
@@ -528,8 +527,144 @@
 			   }, "json");
 			});
 		});
-		
+
 		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_star", function(e) {
+				/*title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				text = $("#editview >.form-horizontal > .input-group > #selectstar").val();
+				
+				
+				
+				var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">0</label><div>';
+				p = p+'<label width="60">'+text+'<div id="star1" width="200"></div></label><label width="60">分</label></div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+				p = p+'<script type="text/javascript">'
+				+' $(function() {'
+				+' $("#star1").raty({'
+				+' hints: ["1", "2", "3", "4", "5"],'
+				+' path:"/bigsword/yaan/images",'
+				+' click: function (score, evt) {'
+				+' alert("u selected "+score);'
+				+' }'
+				+' });'
+				+'});'
+				+'<\/script>';
+				$("#preview").append(p);
+				$("#editview").empty();*/
+				
+				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				text = $("#editview >.form-horizontal > .input-group > #selectstar").val();
+
+				var datastr = "";
+				$.post("index.php?admin/questionnaire/addQuestions", 
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'star', 'selectstar': text }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} // John
+						
+					   	var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
+						p = p+ '<label class="radio-inline">'+text+'<div id="star'+datastr+'" width="200"></div></label><label class="radio-inline">分</label>';
+						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+							
+						p = p+'<script type="text/javascript">'
+						+' $(function() {'
+						+' $("#star'+datastr+'").raty({'
+						+' hints: ["1", "2", "3", "4", "5"],'
+						+' path:"/bigsword/yaan/images",'
+						+' click: function (score, evt) {'
+						+' alert("u selected "+score);'
+						+' }'
+						+' });'
+						+'});'
+							+'<\/script>';
+						$("#preview").append(p);
+						$("#editview").empty();
+			   });
+				
+				/*var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><input type="text" name="text" value="" /><label id="qid" for="name" style="display: none;">/label><div>';
+				p = p+ '<label class="radio-inline">'+notes+'</label class="radio-inline">';
+				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+				$("#preview").append(p);
+				$("#editview").empty();*/
+				
+			});
+		});
+
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_range", function(e) {
+				/*title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				text = $("#editview >.form-horizontal > .input-group > #selectstar").val();
+				setnumber = $("#editview >.form-horizontal > .input-group > #setnumber").val();
+				
+				$.post("index.php?admin/questionnaire/addQuestions", 
+						{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'range', 'selectstar': text, 'setnumber': setnumber }, function(data){
+					     alert(data); // John
+				   });
+				
+				var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">0</label><div>';
+				p = p+'<label>'+text+'<input type="range" name="selectrange" value="'+setnumber+'" /></label><label>'+setnumber+'分</label></div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+				$("#preview").append(p);
+				$("#editview").empty();*/
+
+				var datastr = "";
+				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				text = $("#editview >.form-horizontal > .input-group > #selectstar").val();
+				setnumber = $("#editview >.form-horizontal > .input-group > #setnumber").val();
+				
+				$.post("index.php?admin/questionnaire/addQuestions", 
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'range', 'selectstar': text, 'setnumber': setnumber }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} // John
+						
+						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
+						p = p+ '<label class="radio-inline">'+text+'<input type="range" name="selectrange" value="'+setnumber+'" /></label class="radio-inline"><label>'+setnumber+'分</label>';
+						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+						$("#preview").append(p);
+						$("#editview").empty();
+			   });
+			});
+		});
+
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_text", function(e) {
+				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+
+				var datastr = "";
+				$.post("index.php?admin/questionnaire/addQuestions", 
+						
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'text' }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} // John
+						   
+						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><input type="text" name="text" value="" /><label id="qid" for="name" style="display: none;">'+datastr+'/label><div>';
+						p = p+ '<label class="radio-inline">'+notes+'</label class="radio-inline">';
+						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+						$("#preview").append(p);
+						$("#editview").empty();
+			   });
+				
+			});
+		});
+		
+		/*$(function() {
 			$("#editview").on("click",".form-horizontal > .form-group > #add_lian", function(e) {
 				var d = "";
 				
@@ -564,7 +699,7 @@
 			});
 		});
 		
-		/*$(function() {
+		$(function() {
 			$("#editview >.form-horizontal > .input-group > input[name='checktitle']").blur(function() {
 				var options = new Array();
 				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function() {
@@ -790,25 +925,25 @@
 			});
 		});
 		
-		$(function() {
+		/*$(function() {
 			$("#editview").on("click",".form-horizontal > .form-group > #add_child_btn", function(e) {
-				/*title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
-				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
-				var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label for="name"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label></label><label id="qid" for="name" style="display: none;">0</label><div>';
-				var options = new Array();
-				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
-					options.push($(this).val());
-					p = p+ '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckbox" value="'+i+'"> '+ $(this).val() +' </label>';
-				}); 
-				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-					+'<button type="button" id="edit_check" class="btn btn-default">编辑</button><button type="button" class="btn btn-default">删除</button></div>';
-				$("#preview").append(p);
-				$("#editview").empty();
+				//title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				//notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				//var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label for="name"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label></label><label id="qid" for="name" style="display: none;">0</label><div>';
+				//var options = new Array();
+				//$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
+					//options.push($(this).val());
+					//p = p+ '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckbox" value="'+i+'"> '+ $(this).val() +' </label>';
+				//}); 
+				//p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					//+'<button type="button" id="edit_check" class="btn btn-default">编辑</button><button type="button" class="btn btn-default">删除</button></div>';
+				//$("#preview").append(p);
+				//$("#editview").empty();
 				
-				$.post("index.php?admin/questionnaire/addQuestions", 
-					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'check', 'titles': options, 'values': options }, function(data){
-				     alert(data); // John
-			   }, "json");*/
+				//$.post("index.php?admin/questionnaire/addQuestions", 
+					//{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'check', 'titles': options, 'values': options }, function(data){
+				     //alert(data); // John
+			   //}, "json");
 			   var d = '<div id="childcheck" style="padding:0px 0px 0px 20px">'
 				+'<div class="input-group input-group-lg input-group-sm">'
 				+'<span class="input-group-addon">标题</span> <input type="text" name="title"'
@@ -842,13 +977,22 @@
 				+'</div>';
 			   $(e.target).parent().next().append(d);
 			});
-		});
+		});*/
 		
 		$(function() {
 			$("#preview").on("click",".btn-group-vertical > #del", function(e) {
 				$(e.target).parent().prev().children().eq(2).text();
 				$(e.target).parent().prev().remove();
 				$(e.target).parent().remove();
+			});
+		});
+		$(function() {
+			$('#star').raty({
+				hints: ['2', '4', '6', '8', '10'],
+				path:"/bigsword/yaan/images",
+				click: function (score, evt) {
+					alert('u selected '+score);
+				}
 			});
 		});
 	</script>

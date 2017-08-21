@@ -72,10 +72,11 @@ class questionnaire_controller {
     public function answer_action() {
         $tpl = new tpl();
         $tpl = new tpl("admin/header", "admin/footer");
-        $nid = get_request("nid", 0);
+        $nid = get_request("id", 0);
         
         //         $task = tasks::create($taskid);
-        $questionnaire = questionnaires::load_by_id($nid);
+        $questionnaire = db_questionnaires::inst()->get_questionnaires_by_id($nid);
+        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."{$questionnaire['notes']}id:{$questionnaire['title']}\r\n", FILE_APPEND);
         $answer = answers::create($nid,$questionnaire['title'],$questionnaire['notes']);
         $questions = questions::load_by_nid($questionnaire['id']);
         $i = 1;
@@ -157,9 +158,12 @@ class questionnaire_controller {
 
         $qid = get_request("qid", 0);
         
+        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."qid:$qid\r\n", FILE_APPEND);
+        
         $questions = questions::load_by_id($qid);
         $questions['options'] = questionoptions::load_by_qid($qid);
         
+        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."qid:".json_encode($questions)."\r\n", FILE_APPEND);
         echo json_encode($questions);
     }
     
@@ -196,20 +200,36 @@ class questionnaire_controller {
             $title = get_request("title", "");
             $notes = get_request("notes", "");
             $type = get_request("type", "");
-            $value= get_request("value", "");
             
-            $id = db_question::inst()->add_questions($nid, $title, $type, $notes, $value);
-//             $questions = db_question::inst()->get_questions_by_id($id);
-            $titles = get_request("titles");
-            $values = get_request("values");
-            file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."titles:".count($titles).",values,".count($values)."\r\n", FILE_APPEND);
-            $i = 0;
-            foreach($titles as $option ){
-                $questionoptions[] = questionoptions::create($id, $option, $values[$i], $i);
-                $i++;
+            if($type=='star'){
+                $value= get_request("selectstar", "");
+                $id = db_question::inst()->add_questions($nid, $title, $type, $notes, $value);
+                file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."$type,selectstar:$value\r\n", FILE_APPEND);
+            }else if($type=='range'){
+                $value= get_request("selectstar", "");
+                $setnumber= get_request("setnumber", "");
+                $id = db_question::inst()->add_questions($nid, $title, $type, $notes, json_encode(array('selectstar'=>$value,'setnumber'=>$setnumber)));
+                file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."$type,selectstar:$value,setnumber:$setnumber\r\n", FILE_APPEND);
+            }else if($type=='text'){
+                $id = db_question::inst()->add_questions($nid, $title, $type, $notes);
+                file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."$type,notes:$notes\r\n", FILE_APPEND);
+            }else{
+                $value= get_request("value", "");
+                
+                $id = db_question::inst()->add_questions($nid, $title, $type, $notes, $value);
+    //             $questions = db_question::inst()->get_questions_by_id($id);
+                $titles = get_request("titles");
+                $values = get_request("values");
+                file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."titles:".count($titles).",values,".count($values)."\r\n", FILE_APPEND);
+                $i = 0;
+                foreach($titles as $option ){
+                    $questionoptions[] = questionoptions::create($id, $option, $values[$i], $i);
+                    $i++;
+                }
             }
         }
         
+        echo $id;
     }
     
     public function add_ajax() {
