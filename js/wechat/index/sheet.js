@@ -39,7 +39,7 @@ $(document).ready(function() {
                 }
             },
             refreshPhotosList: function() {
-                this.photosList = __photosList;
+                vue_wx_view.photosList = __photosList;
             },
             addPhoto: function() {
                 wx.chooseImage({
@@ -70,25 +70,10 @@ $(document).ready(function() {
                 vue_modify_photo_modal.showModifyPhotoModal(__photosList.getPhotoByImgUrl(imgUrl));
             },
             deletePhoto: function(imgUrl) {
-                __ajax('wechat.index.deleteImg', {
-                    imgName: imgUrl
-                }, function (data) {
-                    if(data.ret == 'success'){
-                        __photosList.deletePhotoByImgUrl(imgUrl);
-                        __ajax('wechat.index.updatePhotosList', {
-                            answerId: __answerId,
-                            photosList: __photosList,
-                        }, function (data) {
-                            if(data.ret == 'success'){
-                                vue_wx_view.refreshPhotosList();
-                            }else {
-                                alert(data.info);
-                            }
-                        });
-                    }else {
-                        alert(data.info);
-                    }
-                });
+                vue_delete_photo_modal.showDeletePhotoModal(imgUrl);
+            },
+            showSumbitSheetModal: function() {
+                $('#submit_sheet_modal').modal('show');
             },
             sumbitSheet: function() {
                 __ajax('wechat.index.sumbitSheet', {
@@ -116,9 +101,9 @@ $(document).ready(function() {
         },
         methods: {
             showAddPhotoModal: function(imgUrl, imgData, imgContent = ''){
-                this.imgUrl = imgUrl;
-                this.imgData = imgData;
-                this.imgContent = imgContent;
+                vue_add_photo_modal.imgUrl = imgUrl;
+                vue_add_photo_modal.imgData = imgData;
+                vue_add_photo_modal.imgContent = imgContent;
                 $('#add_photo_modal').modal('show');
             },
             updatePhoto: function(){
@@ -136,7 +121,7 @@ $(document).ready(function() {
                 });
                 photo.imgContent = $('#add_photo_modal_img_content').val();
                 __ajax('wechat.index.updateImg', {
-                    imgData: this.imgData
+                    imgData: vue_add_photo_modal.imgData
                 }, function (data) {
                     if(data.ret == 'success'){
                         photo.imgUrl = data.imgUrl;
@@ -176,12 +161,12 @@ $(document).ready(function() {
         },
         methods: {
             showModifyPhotoModal: function(photo){
-                this.photo = photo;
+                vue_modify_photo_modal.photo = photo;
                 $('#modify_photo_modal').modal('show');
             },
             modifyPhotoContent: function(){
-                this.photo.imgContent = $('#modify_photo_modal_img_content').val();
-                __photosList.updatePhotoByImgUrl(this.photo);
+                vue_modify_photo_modal.photo.imgContent = $('#modify_photo_modal_img_content').val();
+                __photosList.updatePhotoByImgObject(vue_modify_photo_modal.photo);
                 __ajax('wechat.index.updatePhotosList', {
                     answerId: __answerId,
                     photosList: __photosList,
@@ -194,6 +179,40 @@ $(document).ready(function() {
                     }
                 });
             }
+        }
+    });
+
+    var vue_delete_photo_modal = new Vue({
+        el: '#delete_photo_modal',
+        data: {
+            imgUrl: '',
+        },
+        methods: {
+            showDeletePhotoModal: function(imgUrl){
+                vue_delete_photo_modal.imgUrl = imgUrl;
+                $('#delete_photo_modal').modal('show');
+            },
+            deletePhoto: function() {
+                __ajax('wechat.index.deleteImg', {
+                    imgName: vue_delete_photo_modal.imgUrl
+                }, function (data) {
+                    if(data.ret == 'success'){
+                        __photosList.deletePhotoByImgUrl(imgUrl);
+                        __ajax('wechat.index.updatePhotosList', {
+                            answerId: __answerId,
+                            photosList: __photosList,
+                        }, function (data) {
+                            if(data.ret == 'success'){
+                                vue_wx_view.refreshPhotosList();
+                            }else {
+                                alert(data.info);
+                            }
+                        });
+                    }else {
+                        alert(data.info);
+                    }
+                });
+            },
         }
     });
 });
@@ -222,7 +241,7 @@ Array.prototype.deletePhotoByImgUrl = function(imgUrl) {
     }
     return -1;
 };
-Array.prototype.updatePhotoByImgUrl = function(photoObject) {
+Array.prototype.updatePhotoByImgObject = function(photoObject) {
     if(photoObject === undefined) {
         return -1;
     }
