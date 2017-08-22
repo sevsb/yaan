@@ -225,6 +225,10 @@ class task_controller {
     public function task_reminder_action() {
         //var_dump($_SESSION);
         //var_dump($_SERVER);
+        // 1503450000 2017/8/23 9:00:00
+        // 1503504000 2017/8/24 0:00:00 54000
+        // 1503590400 2017/8/25 0:00:00 140400
+        // 1503676800 2017/8/26 0:00:00 226800
         $wechatuser_list = wechatuser::load_all();
         foreach ($wechatuser_list as $wechatuser) {
             $user_tasks = $wechatuser->running_tasks();
@@ -233,13 +237,14 @@ class task_controller {
                 $task_limit_time_stamp = $user_task->project()->limit_time_stamp();
                 $time = time();
                 $time_diff = $task_limit_time_stamp - $time;
-                if ($time_diff <= 3600 * 24 * 3) {
+                // 259200 - 32400
+                if ($time_diff <= (3600 * 24 * 3 - 3600 * 9) && $time_diff > 0) {
                     var_dump($task_limit_time_stamp);
                     var_dump($time);
                     var_dump($time_diff);
                     $title = $user_task->title();
                     $limit_time = $user_task->project()->limit_time();
-                    $left_days = round($time_diff / (3600 * 24));
+                    $left_days = round(($time_diff + 9 * 3600 )/ (3600 * 24));
                     $data_array = array(
                         "touser" => $openid,
                         "template_id" => "2ff21t6_3QPDqGh9VGpTfKk2p62YCXs2S7km_F_LAzw",
