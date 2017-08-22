@@ -237,6 +237,10 @@ class task_controller {
                 $task_limit_time_stamp = $user_task->project()->limit_time_stamp();
                 $time = time();
                 $time_diff = $task_limit_time_stamp - $time;
+                if ($user_task->is_expired()) {
+                    logging::d('TASK_REMINDER', $user_task->title(). " is expired");
+                    continue;
+                }
                 // 259200 - 32400
                 if ($time_diff <= (3600 * 24 * 3 - 3600 * 9) && $time_diff > 0) {
                     var_dump($task_limit_time_stamp);
