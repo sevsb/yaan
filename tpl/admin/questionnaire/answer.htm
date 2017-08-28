@@ -66,6 +66,7 @@
 									<div>
 										<label class="radio-inline"><?php echo $question['value']; ?><div id="star<?php echo $question['id']; ?>" width="200"></div></label><label class="radio-inline">分</label>
 									</div>
+									<input type="hidden" name="<?php echo $question['id']; ?>" id="<?php echo $question['id']; ?>" value="">
 								</div>
 								<script type="text/javascript">
 			                        $(function() {
@@ -73,7 +74,7 @@
 						                        hints: ["1", "2", "3", "4", "5"],
 						                        path:"/bigsword/yaan/images",
 						                        click: function (score, evt) {
-						                        	alert("u selected "+score);
+						                        	$("#<?php echo $question['id']; ?>").val(score);
 					                        }
 				                        });
 			                        });
@@ -88,7 +89,7 @@
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
 									<div>
 										<?php $selectstar = json_decode($question['value'],1); ?>
-										<label class="radio-inline"><?php echo $selectstar['selectstar']; ?><input type="range" name="selectrange" value="<?php echo $selectstar['setnumber']; ?>" /></label class="radio-inline"><label><?php echo $selectstar['setnumber']; ?>分</label>
+										<label class="radio-inline"><?php echo $selectstar['selectstar']; ?><input type="range" name="<?php echo $question['id']; ?>" min="1" max="<?php echo $selectstar['setnumber']; ?>" /></label class="radio-inline"><label><?php echo $selectstar['setnumber']; ?>分</label>
 									</div>
 								</div>
 					
@@ -96,7 +97,7 @@
 						}else if($question['type']=='text'){
 					?>
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-									<label id='title' for="name"><?php echo $question['title']; ?></label><input type="text" name="text" value="" />
+									<label id='title' for="name"><?php echo $question['title']; ?></label><input type="text" name="<?php echo $question['id']; ?>" value="" />
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
 									<div>
 										<label id='notes' for="name"><?php echo $question['notes']; ?></label>

@@ -61,7 +61,8 @@
 							</div>
 							<div
 								class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
-								<button type="button" id="edit_check" class="btn btn-default">编辑</button>
+								<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
+								<!-- <button type="button" id="edit_check" class="btn btn-default">编辑</button> -->
 								<button type="button" id="del" class="btn btn-default">删除</button>
 							</div>
 					<?php 
@@ -88,7 +89,8 @@
 								</div>
 								<div
 									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
-									<button type="button" id="edit_radio" class="btn btn-default">编辑</button>
+									<!-- <button type="button" id="edit_radio" class="btn btn-default">编辑</button> -->
+									<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
 									<button type="button" id="del" class="btn btn-default">删除</button>
 								</div>
 					
@@ -105,7 +107,8 @@
 								</div>
 								<div
 									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
-									<button type="button" id="edit_star" class="btn btn-default">编辑</button>
+									<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
+									<!-- <button type="button" id="edit_star" class="btn btn-default">编辑</button> -->
 									<button type="button" id="del" class="btn btn-default">删除</button>
 								</div>
 								<script type="text/javascript">
@@ -129,12 +132,13 @@
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
 									<div>
 										<?php $selectstar = json_decode($question['value'],1); ?>
-										<label class="radio-inline"><?php echo $selectstar['selectstar']; ?><input type="range" name="selectrange" value="<?php echo $selectstar['setnumber']; ?>" /></label class="radio-inline"><label><?php echo $selectstar['setnumber']; ?>分</label>
+										<label class="radio-inline"><?php echo $selectstar['selectstar']; ?><input type="range" name="selectrange" min="1" max="<?php echo $selectstar['setnumber']; ?>" /></label class="radio-inline"><label><?php echo $selectstar['setnumber']; ?>分</label>
 									</div>
 								</div>
 								<div
 									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
-									<button type="button" id="edit_radio" class="btn btn-default">编辑</button>
+									<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
+									<!-- <button type="button" id="edit_radio" class="btn btn-default">编辑</button> -->
 									<button type="button" id="del" class="btn btn-default">删除</button>
 								</div>
 					
@@ -150,7 +154,8 @@
 								</div>
 								<div
 									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
-									<button type="button" id="edit_radio" class="btn btn-default">编辑</button>
+									<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
+									<!-- <button type="button" id="edit_radio" class="btn btn-default">编辑</button> -->
 									<button type="button" id="del" class="btn btn-default">删除</button>
 								</div>
 					
@@ -491,42 +496,58 @@
 			$("#editview").on("click",".form-horizontal > .form-group > #add_check", function(e) {
 				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
 				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
-				var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label for="name"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label></label><label id="qid" for="name" style="display: none;">0</label><div>';
+				var p1 = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';				
+				var p = '<div>';
 				var options = new Array();
 				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
 					options.push($(this).val());
 					p = p+ '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckbox" value="'+i+'"> '+ $(this).val() +' </label>';
 				}); 
 				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-					+'<button type="button" id="edit_check" class="btn btn-default">编辑</button><button type="button" class="btn btn-default">删除</button></div>';
-				$("#preview").append(p);
-				$("#editview").empty();
+					+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+//					+'<button type="button" id="edit_check" class="btn btn-default">编辑</button><button type="button" class="btn btn-default">删除</button></div>';
+
 				
 				$.post("index.php?admin/questionnaire/addQuestions", 
 					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'check', 'titles': options, 'values': options }, function(data){
-				     alert(data); // John
-			   }, "json");
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} // John				
+						p1 = p1+ '<label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+
+						$("#preview").append(p1+p);
+						$("#editview").empty();
+			   });
 			});
 		});
 		$(function() {
 			$("#editview").on("click",".form-horizontal > .form-group > #add_radio", function(e) {
 				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
 				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
-				var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">0</label><div>';
+				var p1 = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';
+				var p = '<div>';
 				var options = new Array();
 				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
 					options.push($(this).val());
 					p = p+ '<label class="radio-inline"> <input type="radio" name="optionsRadiosinline" id="optionsRadios" value="'+i+'"> '+ $(this).val() +' </label>';
 				}); 
 				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-					+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
-				$("#preview").append(p);
-				$("#editview").empty();
+					+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
 				
 				$.post("index.php?admin/questionnaire/addQuestions", 
 					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'radio', 'titles': options, 'values': options }, function(data){
-				     alert(data); // John
-			   }, "json");
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} // John				
+						p1 = p1+ '<label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+
+						$("#preview").append(p1+p);
+						$("#editview").empty();
+			   });
 			});
 		});
 
@@ -571,7 +592,8 @@
 					   	var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
 						p = p+ '<label class="radio-inline">'+text+'<div id="star'+datastr+'" width="200"></div></label><label class="radio-inline">分</label>';
 						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+//							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
 							
 						p = p+'<script type="text/javascript">'
 						+' $(function() {'
@@ -633,7 +655,8 @@
 						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
 						p = p+ '<label class="radio-inline">'+text+'<input type="range" name="selectrange" value="'+setnumber+'" /></label class="radio-inline"><label>'+setnumber+'分</label>';
 						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+//							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
 						$("#preview").append(p);
 						$("#editview").empty();
 			   });
@@ -655,10 +678,11 @@
 							datastr = data;
 						} // John
 						   
-						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><input type="text" name="text" value="" /><label id="qid" for="name" style="display: none;">'+datastr+'/label><div>';
+						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><input type="text" name="text" value="" /><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
 						p = p+ '<label class="radio-inline">'+notes+'</label class="radio-inline">';
 						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+//							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
 						$("#preview").append(p);
 						$("#editview").empty();
 			   });
@@ -983,9 +1007,22 @@
 		
 		$(function() {
 			$("#preview").on("click",".btn-group-vertical > #del", function(e) {
-				$(e.target).parent().prev().children().eq(2).text();
-				$(e.target).parent().prev().remove();
-				$(e.target).parent().remove();
+				$.post("index.php?admin/questionnaire/delQuestions", { 'qid':$(e.target).parent().prev().children().eq(2).text() }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} 
+					     alert(datastr); // John
+						$(e.target).parent().prev().remove();
+						$(e.target).parent().remove();
+				   });
+			});
+		});
+		
+		$(function() {
+			$("#preview").on("click",".btn-group-vertical > #add_assoc", function(e) {
+				window.open("index.php?admin/questionnaire/assoc&qid="+$(e.target).parent().prev().children().eq(2).text());
 			});
 		});
 		$(function() {

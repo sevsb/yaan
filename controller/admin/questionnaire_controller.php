@@ -90,6 +90,39 @@ class questionnaire_controller {
         $tpl->display("admin/questionnaire/answer");
     }
     
+    public function assoc_action() {
+        $tpl = new tpl();
+        $qid = get_request("qid", 0);
+        $question = questions::load_by_id($qid);
+        $questions = questions::load_assoc_by_nid($question['nid'],$qid);
+        $i = 1;
+        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."qid:".json_encode($questions)."\r\n", FILE_APPEND);
+        foreach($questions as $question){
+            $question['options'] = questionoptions::load_by_qid($question['id']);
+            $tqlquestions[$i] = $question;
+            $i++;
+            file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."$i:".$question['id']."\r\n", FILE_APPEND);
+        }
+        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."qid:".json_encode($tqlquestions)."\r\n", FILE_APPEND);
+        $tpl->set('questions', $tqlquestions);
+        $tpl->set('qid', $qid);
+        
+        $tpl->display("admin/questionnaire/assoc");
+    }
+
+    public function editAssoc_action() {
+        $tpl = new tpl();
+        $qid = get_request("qid", 0);
+        $id = get_request("optionsRadios", 0);
+        $optionid = get_request($id, 0);
+        
+        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."qid:$qid, id:$id, optionid:$optionid\r\n", FILE_APPEND);
+        
+        db_question::inst()->set_parent($qid,$optionid);
+        
+        echo "关联成功";
+    }
+    
     public function addAnswer_action() {
         
         $id = get_request("id", 0);
@@ -165,6 +198,16 @@ class questionnaire_controller {
         
         file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."qid:".json_encode($questions)."\r\n", FILE_APPEND);
         echo json_encode($questions);
+    }
+    
+    public function delQuestions_action() {
+
+        $qid = get_request("qid", 0);
+        
+        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."qid:$qid\r\n", FILE_APPEND);
+        
+        $questions = questions::remove($qid);
+        echo $qid;
     }
     
     public function editQuestionsDo_action() {

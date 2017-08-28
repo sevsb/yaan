@@ -118,8 +118,19 @@ class questions {
         return $questions;
     }
     
+    public static function load_assoc_by_nid($nid,$qid) {
+        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."nid:$nid\r\n", FILE_APPEND);
+        $questions = db_question::inst()->get_assoc_by_naireid($nid,$qid);
+        return $questions;
+    }
+    
     public static function load_by_id($id) {
         $questions = db_question::inst()->get_questions_by_id($id);
+        return $questions;
+    }
+    
+    public static function remove($qid) {
+        $questions = db_question::inst()->remove($qid);
         return $questions;
     }
 
