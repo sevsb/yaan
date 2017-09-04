@@ -14,7 +14,10 @@
         	?>
 							
 							
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" <?php if(!empty($question['is_parent'])){
+																							echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
+																							echo ' style="display: none;"';
+																							} ?>>
 								<label id='title' for="name"><?php echo $question['title']; ?></label>
 								<label id='notes' for="name"><?php echo $question['notes']; ?></label>
 								<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
@@ -25,7 +28,7 @@
 						?>
 									<label class="checkbox-inline"> <input type="checkbox"
 											name="<?php echo $question['id']; ?>" 
-										id="inlineCheckbox<?php echo $option['option_id']; ?>" value="<?php echo $option['value']; ?>"> <?php echo $option['title']; ?> 
+										id="inlineCheckbox<?php echo $option['id']; ?>" value="<?php echo $option['value']; ?>"> <?php echo $option['title']; ?> 
 									</label> 
 						<?php 
 								}
@@ -33,10 +36,34 @@
 						?>
 								</div>
 							</div>
+							
+							<?php
+								if (!empty($question['options'])) {
+									echo '<script type="text/javascript">';
+			                        echo '$(function() {';
+								foreach ($question['options'] as $option ) {
+							?>
+								$("#inlineCheckbox<?php echo $option['id']; ?>").change(function() { 
+									if($("#inlineCheckbox<?php echo $option['id']; ?>").is(':checked')){
+	                        			$("div[id^='<?php echo $option['id']; ?>_']").show();
+	                        		}else{
+	                        			$("div[id^='<?php echo $option['id']; ?>_']").hide();
+	                        		}
+			                    }); 
+							<?php 
+									}
+
+			                    echo '});';
+		                        echo '</script>';
+								} 
+							?>
 					<?php 
 						}else if($question['type']=='radio'){
 					?>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" <?php if(!empty($question['is_parent'])){
+																							echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
+																							echo ' style="display: none;"';
+																							} ?>>
 									<label id='title' for="name"><?php echo $question['title']; ?></label>
 									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
@@ -46,8 +73,7 @@
 								foreach ($question['options'] as $option ) {
 						?>
 										<label class="radio-inline"> <input type="radio"
-											name="<?php echo $question['id']; ?>" id="optionsRadios<?php echo $option['option_id']; ?>" value="<?php echo $option['value']; ?>"
-											checked> <?php echo $option['title']; ?>
+											name="<?php echo $question['id']; ?>" id="optionsRadios<?php echo $option['id']; ?>" value="<?php echo $option['value']; ?>"> <?php echo $option['title']; ?>
 										</label>
 						<?php 
 								}
@@ -55,11 +81,42 @@
 						?>
 									</div>
 								</div>
+								
+								<?php
+								if (!empty($question['options'])) {
+									echo '<script type="text/javascript">';
+			                        echo '$(function() {';
+								foreach ($question['options'] as $option ) {
+							?>
+								$("#optionsRadios<?php echo $option['id']; ?>").change(function() { 
+									if($("#optionsRadios<?php echo $option['id']; ?>").is(':checked')){
+									<?php
+										foreach ($question['options'] as $options ) {
+											if($options['id']!=$option['id']){
+									?>
+												$("div[id^='<?php echo $options['id']; ?>_']").hide();
+									<?php		}else{ ?>
+												$("div[id^='<?php echo $option['id']; ?>_']").show();
+									<?php				}
+										}
+									?>
+	                        		}
+			                    }); 
+							<?php 
+									}
+
+			                    echo '});';
+		                        echo '</script>';
+								} 
+							?>
 					
 			<?php
 						}else if($question['type']=='star'){
 					?>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" <?php if(!empty($question['is_parent'])){
+																							echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
+																							echo ' style="display: none;"';
+																							} ?>>
 									<label id='title' for="name"><?php echo $question['title']; ?></label>
 									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
@@ -83,7 +140,10 @@
 			<?php
 						}else if($question['type']=='range'){
 					?>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" <?php if(!empty($question['is_parent'])){
+																							echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
+																							echo ' style="display: none;"';
+																							} ?>>
 									<label id='title' for="name"><?php echo $question['title']; ?></label>
 									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
@@ -96,7 +156,10 @@
 			<?php
 						}else if($question['type']=='text'){
 					?>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" <?php if(!empty($question['is_parent'])){
+																							echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
+																							echo ' style="display: none;"';
+																							} ?>>
 									<label id='title' for="name"><?php echo $question['title']; ?></label><input type="text" name="<?php echo $question['id']; ?>" value="" />
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
 									<div>
