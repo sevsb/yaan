@@ -7,36 +7,6 @@
 <a href='?admin/project/new'><button class='btn btn-success' style='display:inline-block; float: right; margin-right: 15px;'>新建项目</button></a></h3>
     <hr>
     <?php
-    //var_dump($all_projects);
-    if (!empty($all_projects)) {
-        foreach ($all_projects as $project) {
-            $project_id = $project->project_id();
-            $muffinid = $project->muffinid();
-            $type = $project->type();
-            $title = $project->title();
-            $description = $project->description();
-            $cover_thumbnail_url = $project->cover_thumbnail_url();
-            $limit_time = $project->limit_time();
-            $status = $project->status();
-            $paperfile_url = $project->paperfile_url();
-        ?>
-            <div class='project_elf' muffinid='{:$muffinid}'>
-                <div class='project_info'>
-                    <div class='cover_thumbnail'><a href='?admin/project/view&projectmuffinid={:$muffinid}'><img src='{:$cover_thumbnail_url}'></a></div>
-                    <div class='project_info_right'>
-                        <div class='project_id'>编号：{:$project_id}</div>
-                        <div class='title'>名称：{:$title}</div>
-                        <div class='type'>类别：{:$type}</div>
-                        <div class='type'>时限：{:$limit_time}</div>
-                        <!--<div class='type'>状态：{:$status}</div>-->
-                        <div style='margin-bottom: 3px;'>
-                            <a href='{:$paperfile_url}'><div class='btn btn-success'>下载文件</div></a>
-                            <a href='?admin/task/index&projectmuffinid={:$muffinid}'><div class='btn btn-default'>任务列表</div></a>
-                            <a href='?admin/questionnaire/edit&projectmuffinid={:$muffinid}'><div class='btn btn-default'>问卷</div></a>
-                        </div>
-                        <div>
-                            <div class='btn btn-danger del_btn' data-toggle="modal" data-target="#myModal" >删除项目</div>
-                            <a href='?admin/project/new&projectmuffinid={:$muffinid}'><div class='btn btn-primary modify_btn'>编辑项目</div></a>
     if ($flag == 0) {
         //var_dump($all_projects);
         $show_status = array('未发布', '进行中', '项目暂停' ,'已过期');
