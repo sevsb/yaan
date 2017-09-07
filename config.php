@@ -9,6 +9,10 @@ include_once(dirname(__FILE__) . "/app/database/db_user.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_settings.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_customers.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_muffininfos.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_questionnaires.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_question.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_answer.class.php");
+include_once(dirname(__FILE__) . "/app/database/db_questionoptions.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_muffins.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_wechatusers.class.php");
 include_once(dirname(__FILE__) . "/app/database/db_sheets.class.php");
@@ -23,6 +27,10 @@ include_once(dirname(__FILE__) . "/app/settings.class.php");
 include_once(dirname(__FILE__) . "/app/projects.class.php");
 include_once(dirname(__FILE__) . "/app/tasks.class.php");
 include_once(dirname(__FILE__) . "/app/customers.class.php");
+include_once(dirname(__FILE__) . "/app/questionnaires.class.php");
+include_once(dirname(__FILE__) . "/app/questions.class.php");
+include_once(dirname(__FILE__) . "/app/questionoptions.class.php");
+include_once(dirname(__FILE__) . "/app/answers.class.php");
 include_once(dirname(__FILE__) . "/app/login.class.php");
 include_once(dirname(__FILE__) . "/app/sheet.class.php");
 include_once(dirname(__FILE__) . "/app/location.class.php");
@@ -70,6 +78,14 @@ defined('MYSQL_COMMON') or define('MYSQL_COMMON', 'common_');
 
 // db_muffininfos 
 defined('TABLE_MUFFININFOS') or define('TABLE_MUFFININFOS', MYSQL_PREFIX . "muffininfos");
+// db_muffininfos 
+defined('TABLE_QUESTIONNAIRES') or define('TABLE_QUESTIONNAIRES', MYSQL_PREFIX . "questionnaires");
+// db_muffininfos 
+defined('TABLE_QUESTION') or define('TABLE_QUESTION', MYSQL_PREFIX . "questions");
+// db_muffininfos
+defined('TABLE_ANSWER') or define('TABLE_ANSWER', MYSQL_PREFIX . "answer");
+// db_muffininfos 
+defined('TABLE_QUESTIONOPTIONS') or define('TABLE_QUESTIONOPTIONS', MYSQL_PREFIX . "questionoptions");
 // db_muffins
 defined('TABLE_MUFFINS') or define('TABLE_MUFFINS', MYSQL_COMMON . "muffins");
 // db_wechatusers

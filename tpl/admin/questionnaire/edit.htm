@@ -1,0 +1,1037 @@
+
+<div id="page-wrapper">
+	<div class="container">
+		<h1><?php if(empty($questionnaire->title())) echo "新建内容";else echo $questionnaire->title(); ?></h1>
+		<div class="row">
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				<div class="btn-group-vertical">
+					<button id="myButtons2" type="button" class="btn btn-default">单选题</button>
+					<button id="myButtons1" type="button" class="btn btn-default">多选题</button>
+					<button id="myButtons3" type="button" class="btn btn-default">量表题</button>
+					<button id="myButtons4" type="button" class="btn btn-default">范围题</button>
+					<button id="myButtons5" type="button" class="btn btn-default">填空题</button>
+					<p class="active-tab">
+						<strong>激活的标签页</strong>：<span></span>
+					</p>
+					<p class="previous-tab">
+						<strong>前一个激活的标签页</strong>：<span></span>
+					</p>
+				</div>
+			</div>
+			<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+				<ul id="myTab" class="nav nav-tabs">
+					<li class="active"><a href="#home" data-toggle="tab">设计</a></li>
+					<li><a href="?admin/questionnaire/answer&id=<?php echo $questionnaire->id(); ?>" target="_blank">预览</a></li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane fade in active" id="home">
+						<div id="preview">
+							<h1 id='nairetitlelab'><?php if(empty($questionnaire->title())) echo "添加标题";else echo $questionnaire->title(); ?></h1>
+							<input type="text" name="nairetitle" id="nairetitle"
+										class="form-control" placeholder="标题" style="display: none;">
+							<h2 id='nairenoteslab'><?php if(empty($questionnaire->notes())) echo "添加备注";else echo $questionnaire->notes(); ?></h2>
+							<input type="text" name="nairenotes" id="nairenotes"
+										class="form-control" placeholder="备注" style="display: none;">
+							
+			<?php
+			    //var_dump($all_projects);
+    			if (!empty($questions)) {
+        			foreach ($questions as $question) {
+            			if($question['type']=='check'){
+        	?>
+							
+							
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+								<label id='title' for="name"><?php echo $question['title']; ?></label>
+								<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+								<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+								<div>
+						<?php
+							if (!empty($question['options'])) {
+								foreach ($question['options'] as $option ) {
+						?>
+									<label class="checkbox-inline"> <input type="checkbox"
+										id="inlineCheckbox<?php echo $option['option_id']; ?>" value="<?php echo $option['value']; ?>"> <?php echo $option['title']; ?> 
+									</label> 
+						<?php 
+								}
+							} 
+						?>
+								</div>
+							</div>
+							<div
+								class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
+								<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
+								<!-- <button type="button" id="edit_check" class="btn btn-default">编辑</button> -->
+								<button type="button" id="del" class="btn btn-default">删除</button>
+							</div>
+					<?php 
+						}else if($question['type']=='radio'){
+					?>
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<label id='title' for="name"><?php echo $question['title']; ?></label>
+									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+									<div>
+						<?php
+							if (!empty($question['options'])) {
+								foreach ($question['options'] as $option ) {
+						?>
+										<label class="radio-inline"> <input type="radio"
+											name="optionsRadiosinline" id="optionsRadios<?php echo $option['option_id']; ?>" value="<?php echo $option['value']; ?>"
+											checked> <?php echo $option['title']; ?>
+										</label>
+						<?php 
+								}
+							} 
+						?>
+									</div>
+								</div>
+								<div
+									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
+									<!-- <button type="button" id="edit_radio" class="btn btn-default">编辑</button> -->
+									<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
+									<button type="button" id="del" class="btn btn-default">删除</button>
+								</div>
+					
+			<?php
+						}else if($question['type']=='star'){
+					?>
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<label id='title' for="name"><?php echo $question['title']; ?></label>
+									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+									<div>
+										<label class="radio-inline"><?php echo $question['value']; ?><div id="star<?php echo $question['id']; ?>" width="200"></div></label><label class="radio-inline">分</label>
+									</div>
+								</div>
+								<div
+									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
+									<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
+									<!-- <button type="button" id="edit_star" class="btn btn-default">编辑</button> -->
+									<button type="button" id="del" class="btn btn-default">删除</button>
+								</div>
+								<script type="text/javascript">
+			                        $(function() {
+				                        $("#star<?php echo $question['id']; ?>").raty({
+						                        hints: ["1", "2", "3", "4", "5"],
+						                        path:"[:app]/images",
+						                        click: function (score, evt) {
+						                        	alert("u selected "+score);
+					                        }
+				                        });
+			                        });
+		                        </script>
+					
+			<?php
+						}else if($question['type']=='range'){
+					?>
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<label id='title' for="name"><?php echo $question['title']; ?></label>
+									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+									<div>
+										<?php $selectstar = json_decode($question['value'],1); ?>
+										<label class="radio-inline"><?php echo $selectstar['selectstar']; ?><input type="range" name="selectrange" min="1" max="<?php echo $selectstar['setnumber']; ?>" /></label class="radio-inline"><label><?php echo $selectstar['setnumber']; ?>分</label>
+									</div>
+								</div>
+								<div
+									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
+									<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
+									<!-- <button type="button" id="edit_radio" class="btn btn-default">编辑</button> -->
+									<button type="button" id="del" class="btn btn-default">删除</button>
+								</div>
+					
+			<?php
+						}else if($question['type']=='text'){
+					?>
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<label id='title' for="name"><?php echo $question['title']; ?></label><input type="text" name="text" value="" />
+									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+									<div>
+										<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+									</div>
+								</div>
+								<div
+									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
+									<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
+									<!-- <button type="button" id="edit_radio" class="btn btn-default">编辑</button> -->
+									<button type="button" id="del" class="btn btn-default">删除</button>
+								</div>
+					
+			<?php
+						}
+					}
+    			}
+    		?>
+							
+							
+						</div>
+						<hr>
+						<div id="editview">
+
+
+					</div>
+					</div>
+					<div class="tab-pane fade" id="view">
+						<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch
+							和 Apple TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS
+							是苹果的移动版本。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script type="text/javascript">
+		$(function() {
+			//			$('#myTab li:eq(1) a').tab('show');
+			$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+				// 获取已激活的标签页的名称
+				var activeTab = $(e.target).text();
+				// 获取前一个激活的标签页的名称
+				var previousTab = $(e.relatedTarget).text();
+				$(".active-tab span").html(activeTab);
+				$(".previous-tab span").html(previousTab);
+			});
+		});
+		$(function() {
+			$("#nairetitlelab").click(function() {
+				$(this).hide();
+				$("#nairetitle").show();
+				$("#nairetitle").val($("#nairetitlelab").text());
+			});
+		});
+		$(function() {
+			$("#nairetitle").blur(function() {
+				$("#nairetitle").hide();
+				$("#nairetitlelab").text($("#nairetitle").val());
+				$(".container").children().eq(0).text($("#nairetitle").val());
+				$("#nairetitlelab").show();
+				$.post("index.php?admin/questionnaire/editTitle", { id:<?php echo $questionnaire->id(); ?>, title: $("#nairetitle").val(), notes:$("#nairenoteslab").text() } );
+			});
+		});
+		$(function() {
+			$("#nairenoteslab").click(function() {
+				$(this).hide();
+				$("#nairenotes").show();
+				$("#nairenotes").val($("#nairenoteslab").text());
+			});
+		});
+		$(function() {
+			$("#nairenotes").blur(function() {
+				$("#nairenotes").hide();
+				$("#nairenoteslab").text($("#nairenotes").val());
+				$("#nairenoteslab").show();
+				$.post("index.php?admin/questionnaire/editTitle", { id:<?php echo $questionnaire->id(); ?>, title: $("#nairetitle").val(), notes:$("#nairenoteslab").text() } );
+			});
+		});
+		$(function() {
+			$("#myButtons1").click(function() {
+				//var p = '<label for="name">内联的复选框和单选按钮的实例</label><div><label class="checkbox-inline"> <input type="checkbox" id="inlineCheckbox1" value="option1"> 选项 1 </label> <label class="checkbox-inline"> <input type="checkbox" id="inlineCheckbox2" value="option2"> 选项 2 </label> <label class="checkbox-inline"> <input type="checkbox" id="inlineCheckbox3" value="option3"> 选项 3 </label> </div>';
+				//			var d = document.createElement("div");
+				//		    d.innerHTML = "生成的div:" + count;
+				//		    d.style.height = "25px";
+				//		    count++;
+				//				alert(p);
+				//$("#preview").append(p);
+				$("#editview").empty();
+				var d = '<h4>添加多选</h4><form class="form-horizontal" role="form">'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">标题</span> <input type="text" name="title"'
+					+' class="form-control" placeholder="标题">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">备注</span> <input type="text" name="notes"'
+					+' class="form-control" placeholder="备注">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
+					+' class="form-control" placeholder="选项"><span'
+					+' class="input-group-addon glyphicon glyphicon-remove"></span>'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
+					+' class="form-control" placeholder="选项"><span'
+					+' class="input-group-addon glyphicon glyphicon-remove"></span>'
+					+'</div>'
+					+'<br>'
+					+'<div class="form-group input-group-lg input-group-sm">'
+					+'<label for="choiceadd"'
+					+' class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">选项</label>'
+					+'<button type="button" id="add_check_btn"'
+					+' class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>'
+					+'</div>'
+					+'<br>'
+					+'<div class="form-group input-group-lg input-group-sm">'
+					+'<button type="button" id="add_check"'
+					+' class="btn btn-default">添加</button>'
+					+'<button type="reset" id="reset"'
+					+' class="btn btn-default">重置</button>'
+					+'</div>'
+					+'</form>';
+				$("#editview").append(d);
+			});
+		});
+		$(function() {
+			$("#myButtons2").click(function() {
+				//var p = '<label for="name">内联的复选框和单选按钮的实例<div></label><label class="radio-inline"> <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="option1" checked> 选项 1 </label> <label class="radio-inline"> <input type="radio" name="optionsRadiosinline" id="optionsRadios4" value="option2"> 选项 2 </label></div>';
+				//$("#preview").append(p);
+				$("#editview").empty();
+				var d = '<h4>添加单选</h4><form class="form-horizontal" role="form">'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">标题</span> <input type="text" name="title"'
+					+' class="form-control" placeholder="标题">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">备注</span> <input type="text" name="notes"'
+					+' class="form-control" placeholder="备注">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
+					+' class="form-control" placeholder="选项"><span'
+					+' class="input-group-addon glyphicon glyphicon-remove"></span>'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
+					+' class="form-control" placeholder="选项"><span'
+					+' class="input-group-addon glyphicon glyphicon-remove"></span>'
+					+'</div>'
+					+'<br>'
+					+'<div class="form-group input-group-lg input-group-sm">'
+					+'<label for="choiceadd"'
+					+' class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">选项</label>'
+					+'<button type="button" id="add_check_btn"'
+					+' class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>'
+					+'</div>'
+					+'<br>'
+					+'<div class="form-group input-group-lg input-group-sm">'
+					+'<button type="button" id="add_radio"'
+					+' class="btn btn-default">添加</button>'
+					+'<button type="reset" id="reset"'
+					+' class="btn btn-default">重置</button>'
+					+'</div>'
+					+'</form>';
+				$("#editview").append(d);
+			});
+		});
+		$(function() {
+			$("#myButtons3").click(function() {
+				//var p = '<label for="name">内联的复选框和单选按钮的实例</label><div><label class="checkbox-inline"> <input type="checkbox" id="inlineCheckbox1" value="option1"> 选项 1 </label> <label class="checkbox-inline"> <input type="checkbox" id="inlineCheckbox2" value="option2"> 选项 2 </label> <label class="checkbox-inline"> <input type="checkbox" id="inlineCheckbox3" value="option3"> 选项 3 </label> </div>';
+				//			var d = document.createElement("div");
+				//		    d.innerHTML = "生成的div:" + count;
+				//		    d.style.height = "25px";
+				//		    count++;
+				//				alert(p);
+				//$("#preview").append(p);
+				$("#editview").empty();
+				var d = '<h4>添加量表</h4><form class="form-horizontal" role="form">'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">标题</span> <input type="text"'
+					+' name="title" class="form-control" placeholder="标题">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">备注</span> <input type="text"'
+					+' name="notes" class="form-control" placeholder="备注">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">量表类型</span> <select'
+					+' name="selectstar" id="selectstar" class="form-control">'
+					+'<option value="满意度">满意度</option>'
+					+'<option value="认同度">认同度</option>'
+					+'<option value="重要度">重要度</option>'
+					+'<option value="愿意度">愿意度</option>'
+					+'<option value="符合度">符合度</option>'
+					+'</select><span'
+					+' class="input-group-addon">量表范围</span>'
+					+'<div id="star" class="form-control"></div>'
+					+'</div>'
+					+'<br>'
+					+'<div class="form-group input-group-lg input-group-sm">'
+					+'<button type="button" id="add_star" class="btn btn-default">添加</button>'
+					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
+					+'</div>'
+					+'</form>';
+				$("#editview").append(d);
+			});
+		});
+		$(function() {
+			$("#myButtons4").click(function() {
+				$("#editview").empty();
+				var d = '<h4>添加范围</h4><form class="form-horizontal" role="form">'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">标题</span> <input type="text"'
+					+' name="title" class="form-control" placeholder="标题">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">备注</span> <input type="text"'
+					+' name="notes" class="form-control" placeholder="备注">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">范围类型</span> <select'
+					+' name="selectstar" id="selectstar" class="form-control">'
+					+'<option value="满意度">满意度</option>'
+					+'<option value="认同度">认同度</option>'
+					+'<option value="重要度">重要度</option>'
+					+'<option value="愿意度">愿意度</option>'
+					+'<option value="符合度">符合度</option>'
+					+'</select><span class="input-group-addon">范围</span> <input type="number"'
+					+' name="setnumber" id="setnumber" class="form-control" value="10" placeholder="范围">'
+					+'</div>'
+					+'<br>'
+					+'<div class="form-group input-group-lg input-group-sm">'
+					+'<button type="button" id="add_range" class="btn btn-default">添加</button>'
+					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
+					+'</div>'
+					+'</form>';
+				$("#editview").append(d);
+			});
+		});
+		$(function() {
+			$("#myButtons5").click(function() {
+				$("#editview").empty();
+				var d = '<h4>添加填空</h4><form class="form-horizontal" role="form">'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">标题</span> <input type="text"'
+					+' name="title" class="form-control" placeholder="标题">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">备注</span> <input type="text"'
+					+' name="notes" class="form-control" placeholder="备注">'
+					+'</div>'
+					+'<br>'
+					+'<div class="form-group input-group-lg input-group-sm">'
+					+'<button type="button" id="add_text" class="btn btn-default">添加</button>'
+					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
+					+'</div>'
+					+'</form>';
+				$("#editview").append(d);
+			});
+		});
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .input-group > span.glyphicon-remove", function(e) {
+				if($(e.target).attr('id')==undefined){
+					$(e.target).parent().next().remove();
+					$(e.target).parent().remove();
+				}else{
+					$(e.target).parent().next().remove();
+					$(e.target).parent().next().remove();
+					$(e.target).parent().remove();
+				}
+			});
+		});
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .input-group > span.glyphicon-remove", function(e) {
+				if($(e.target).attr('id')==undefined){
+					$(e.target).parent().next().remove();
+					$(e.target).parent().remove();
+				}else{
+					$(e.target).parent().next().remove();
+					$(e.target).parent().next().remove();
+					$(e.target).parent().remove();
+				}
+			});
+		});
+		
+		/*$(function() {
+			$("#editview").on("click",".form-horizontal > #childdiv > #childcheck > .input-group > span.glyphicon-remove", function(e) {
+				if($(e.target).attr('id')==undefined){
+					$(e.target).parent().next().remove();
+					$(e.target).parent().remove();
+				}
+			});
+		});*/
+		
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_check_btn", function(e) {
+				$(this).parent().before('<div class="input-group input-group-lg input-group-sm"><span class="input-group-addon">选项</span> <input type="text" name="checktitle" class="form-control" placeholder="选项"><span class="input-group-addon glyphicon glyphicon-remove"></span></div><br>');
+			});
+		});
+		/*$(function() {
+			$("#editview").on("click",".form-horizontal > #childdiv > #childcheck > .form-group > #add_child_check_btn", function(e) {
+				$(this).parent().before('<div class="input-group input-group-lg input-group-sm"><span class="input-group-addon">选项</span> <input type="text" name="checktitle" class="form-control" placeholder="选项"><span class="input-group-addon glyphicon glyphicon-remove"></span></div><br>');
+			});
+		});*/
+		/*$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_lian_btn", function(e) {
+				var d = '<div class="input-group input-group-lg input-group-sm">'
+				+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
+				+' class="form-control" placeholder="选项"><span'
+				+' class="input-group-addon glyphicon glyphicon-remove" id="spanremove"></span>'
+				+'</div>'
+				+'<div class="form-group input-group-lg input-group-sm">'
+				+'<label for="choiceadd"'
+				+'class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">子项</label>'
+				+'<button type="button" id="add_child_btn"'
+				+'class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加子项</button>'
+				+'</div>'
+				+'<div id="childdiv" >'
+				+'</div>'
+				+'<br>'
+				$(this).parent().before(d);
+			});
+		});*/
+		/*$(function() {
+			$('.form-group').click(function() {
+				$(this).find('span.glyphicon').parent().parent().remove();
+			});
+		});
+		$(function() {
+			$('.form-group').click(function() {
+				$(this).find('span.glyphicon').parent().parent().remove();
+			});
+		});*/
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_check", function(e) {
+				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				var p1 = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';				
+				var p = '<div>';
+				var options = new Array();
+				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
+					options.push($(this).val());
+					p = p+ '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckbox" value="'+i+'"> '+ $(this).val() +' </label>';
+				}); 
+				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+//					+'<button type="button" id="edit_check" class="btn btn-default">编辑</button><button type="button" class="btn btn-default">删除</button></div>';
+
+				
+				$.post("index.php?admin/questionnaire/addQuestions", 
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'check', 'titles': options, 'values': options }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} // John				
+						p1 = p1+ '<label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+
+						$("#preview").append(p1+p);
+						$("#editview").empty();
+			   });
+			});
+		});
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_radio", function(e) {
+				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				var p1 = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';
+				var p = '<div>';
+				var options = new Array();
+				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
+					options.push($(this).val());
+					p = p+ '<label class="radio-inline"> <input type="radio" name="optionsRadiosinline" id="optionsRadios" value="'+i+'"> '+ $(this).val() +' </label>';
+				}); 
+				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+				
+				$.post("index.php?admin/questionnaire/addQuestions", 
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'radio', 'titles': options, 'values': options }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} // John				
+						p1 = p1+ '<label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+
+						$("#preview").append(p1+p);
+						$("#editview").empty();
+			   });
+			});
+		});
+
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_star", function(e) {
+				/*title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				text = $("#editview >.form-horizontal > .input-group > #selectstar").val();
+				
+				
+				
+				var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">0</label><div>';
+				p = p+'<label width="60">'+text+'<div id="star1" width="200"></div></label><label width="60">分</label></div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+				p = p+'<script type="text/javascript">'
+				+' $(function() {'
+				+' $("#star1").raty({'
+				+' hints: ["1", "2", "3", "4", "5"],'
+				+' path:"[:app]/images",'
+				+' click: function (score, evt) {'
+				+' alert("u selected "+score);'
+				+' }'
+				+' });'
+				+'});'
+				+'<\/script>';
+				$("#preview").append(p);
+				$("#editview").empty();*/
+				
+				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				text = $("#editview >.form-horizontal > .input-group > #selectstar").val();
+
+				var datastr = "";
+				$.post("index.php?admin/questionnaire/addQuestions", 
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'star', 'selectstar': text }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} // John
+						
+					   	var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
+						p = p+ '<label class="radio-inline">'+text+'<div id="star'+datastr+'" width="200"></div></label><label class="radio-inline">分</label>';
+						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+//							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+							
+						p = p+'<script type="text/javascript">'
+						+' $(function() {'
+						+' $("#star'+datastr+'").raty({'
+						+' hints: ["1", "2", "3", "4", "5"],'
+						+' path:"[:app]/images",'
+						+' click: function (score, evt) {'
+						+' alert("u selected "+score);'
+						+' }'
+						+' });'
+						+'});'
+							+'<\/script>';
+						$("#preview").append(p);
+						$("#editview").empty();
+			   });
+				
+				/*var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><input type="text" name="text" value="" /><label id="qid" for="name" style="display: none;">/label><div>';
+				p = p+ '<label class="radio-inline">'+notes+'</label class="radio-inline">';
+				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+				$("#preview").append(p);
+				$("#editview").empty();*/
+				
+			});
+		});
+
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_range", function(e) {
+				/*title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				text = $("#editview >.form-horizontal > .input-group > #selectstar").val();
+				setnumber = $("#editview >.form-horizontal > .input-group > #setnumber").val();
+				
+				$.post("index.php?admin/questionnaire/addQuestions", 
+						{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'range', 'selectstar': text, 'setnumber': setnumber }, function(data){
+					     alert(data); // John
+				   });
+				
+				var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">0</label><div>';
+				p = p+'<label>'+text+'<input type="range" name="selectrange" value="'+setnumber+'" /></label><label>'+setnumber+'分</label></div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+				$("#preview").append(p);
+				$("#editview").empty();*/
+
+				var datastr = "";
+				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				text = $("#editview >.form-horizontal > .input-group > #selectstar").val();
+				setnumber = $("#editview >.form-horizontal > .input-group > #setnumber").val();
+				
+				$.post("index.php?admin/questionnaire/addQuestions", 
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'range', 'selectstar': text, 'setnumber': setnumber }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} // John
+						
+						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
+						p = p+ '<label class="radio-inline">'+text+'<input type="range" name="selectrange" value="'+setnumber+'" /></label class="radio-inline"><label>'+setnumber+'分</label>';
+						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+//							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+						$("#preview").append(p);
+						$("#editview").empty();
+			   });
+			});
+		});
+
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_text", function(e) {
+				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+
+				var datastr = "";
+				$.post("index.php?admin/questionnaire/addQuestions", 
+						
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'text' }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} // John
+						   
+						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><input type="text" name="text" value="" /><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
+						p = p+ '<label class="radio-inline">'+notes+'</label class="radio-inline">';
+						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+//							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+						$("#preview").append(p);
+						$("#editview").empty();
+			   });
+				
+			});
+		});
+		
+		/*$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_lian", function(e) {
+				var d = "";
+				
+				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
+					d = d+'{"title":"'+$(this).val()+'","child":[';
+					//alert($(this).val());
+					$(this).parent().next().next().children().each(function(i){
+						$(this).children().each(function(i){
+							$(this).children().each(function(m){
+								//{"id":"1","qid":"5","value":"\u9009\u98791","title":"\u9009\u98791","option_id":"0","is_remove":"0"}
+								if($(this).attr('name')=='title'){
+									d = d+'{"title":"'+$(this).val()+'",';
+								}
+								if($(this).attr('name')=='notes'){
+									d = d+'"notes":"'+$(this).val()+'","checktitle":[';
+								}
+								if($(this).attr('name')=='checktitle'){
+									alert(m);
+									if(m>1){
+										d=d+',';
+									}
+									d = d+'{"title":"'+$(this).val()+'"}';
+									m = m+1;
+								}
+								//alert($(this).tagName);
+							});
+						});
+					});
+					d = d+']]}';
+				}); 
+				alert(d);
+			});
+		});
+		
+		$(function() {
+			$("#editview >.form-horizontal > .input-group > input[name='checktitle']").blur(function() {
+				var options = new Array();
+				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function() {
+					if(options.indexOf($(this).val())>0){
+						$(this).val("");
+						alert("该选项已存在");
+						return;
+					}
+					if($(this).val().length>0)
+						options.push($(this).val());
+					alert(options.length);
+				});
+			});
+		});*/
+		$(function() {
+			$("#preview").on("click",".btn-group-vertical > #edit_check", function(e) {
+				var id = $(e.target).parent().prev().children().eq(2).text();
+				var datastr = "";
+				$.post("index.php?admin/questionnaire/editQuestions", 
+						{ qid:$(e.target).parent().prev().children().eq(2).text() }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+							//alert(datastr);
+							var parsedJson = jQuery.parseJSON(datastr);
+						}else{
+							//alert(datastr);
+							var parsedJson = jQuery.parseJSON(data);
+						}
+					    //alert(parsedJson.title); // John
+					    
+					    title = parsedJson.title;
+						notes = parsedJson.notes;
+						id = parsedJson.id;
+						$("#editview").empty();
+						var d = '<h4>编辑多选</h4><form class="form-horizontal" role="form">'
+							+'<div class="input-group input-group-lg input-group-sm">'
+							+'<span class="input-group-addon">标题</span> <input type="text" name="title"'
+							+' class="form-control" placeholder="标题" value="'+title+'">'
+							+'</div>'
+							+'<br>'
+							+'<div class="input-group input-group-lg input-group-sm">'
+							+'<span class="input-group-addon">备注</span> <input type="text" name="notes"'
+							+' class="form-control" placeholder="备注" value="'+notes+'">'
+							+'</div>'
+							+'<br>'
+							+'<div class="input-group input-group-lg input-group-sm" style="display: none;">'
+							+'<span class="input-group-addon">id</span> <input type="text" name="qid"'
+							+' class="form-control" placeholder="qid" value="'+id+'">'
+							+'</div>';
+
+							$.each(parsedJson.options,function(idx,item){ 
+								d = d+'<div class="input-group input-group-lg input-group-sm">'
+								+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
+								+' class="form-control" placeholder="选项" value="'+item.title+'"><span'
+								+' class="input-group-addon glyphicon glyphicon-remove"></span>'
+								+'</div>'
+								+'<br>'
+							}); 
+							
+							d = d + '<div class="form-group input-group-lg input-group-sm">'
+							+'<label for="choiceadd"'
+							+' class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">选项</label>'
+							+'<button type="button" id="add_check_btn"'
+							+' class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>'
+							+'</div>'
+							+'<br>'
+							+'<div class="form-group input-group-lg input-group-sm">'
+							+'<button type="button" id="editDo_check"'
+							+' class="btn btn-default">修改</button>'
+							+'<button type="reset" id="reset"'
+							+' class="btn btn-default">重置</button>'
+							+'</div>'
+							+'</form>';
+						$("#editview").append(d);
+						$(e.target).parent().prev().remove();
+						$(e.target).parent().remove();
+				   });
+				/*title = $("#preview > div > #title").text();
+				notes = $("#preview > div > #notes").text();
+				$("#editview").empty();
+				var d = '<h4>添加单选</h4><form class="form-horizontal" role="form">'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">标题</span> <input type="text" name="title"'
+					+' class="form-control" placeholder="标题" value="'+title+'">'
+					+'</div>'
+					+'<br>'
+					+'<div class="input-group input-group-lg input-group-sm">'
+					+'<span class="input-group-addon">备注</span> <input type="text" name="notes"'
+					+' class="form-control" placeholder="备注" value="'+notes+'">'
+					+'</div>'
+					+'<br>';
+
+					//+'<div class="input-group input-group-lg input-group-sm">'
+					//+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
+					//+' class="form-control" placeholder="选项" value="'+title+'"><span'
+					//+' class="input-group-addon glyphicon glyphicon-remove"></span>'
+					//+'</div>'
+					//+'<br>'
+					
+					
+					d = d + '<div class="form-group input-group-lg input-group-sm">'
+					+'<label for="choiceadd"'
+					+' class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">选项</label>'
+					+'<button type="button" id="add_check_btn"'
+					+' class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>'
+					+'</div>'
+					+'<br>'
+					+'<div class="form-group input-group-lg input-group-sm">'
+					+'<button type="button" id="add_radio"'
+					+' class="btn btn-default">添加</button>'
+					+'<button type="reset" id="reset"'
+					+' class="btn btn-default">重置</button>'
+					+'</div>'
+					+'</form>';
+				$("#editview").append(d);*/
+			});
+		});
+
+		$(function() {
+			$("#preview").on("click",".btn-group-vertical > #edit_radio", function(e) {
+				var id = $(e.target).parent().prev().children().eq(2).text();
+				var datastr = "";
+				$.post("index.php?admin/questionnaire/editQuestions", 
+						{ qid:$(e.target).parent().prev().children().eq(2).text() }, function(data){
+						datastr	= data.substr(0,data.indexOf("<br />"));
+						//alert(datastr);
+						var parsedJson = jQuery.parseJSON(datastr);
+					    //alert(parsedJson.title); // John
+					    
+					    title = parsedJson.title;
+						notes = parsedJson.notes;
+						id = parsedJson.id;
+						$("#editview").empty();
+						var d = '<h4>编辑单选</h4><form class="form-horizontal" role="form">'
+							+'<div class="input-group input-group-lg input-group-sm">'
+							+'<span class="input-group-addon">标题</span> <input type="text" name="title"'
+							+' class="form-control" placeholder="标题" value="'+title+'">'
+							+'</div>'
+							+'<br>'
+							+'<div class="input-group input-group-lg input-group-sm">'
+							+'<span class="input-group-addon">备注</span> <input type="text" name="notes"'
+							+' class="form-control" placeholder="备注" value="'+notes+'">'
+							+'</div>'
+							+'<br>'
+							+'<div class="input-group input-group-lg input-group-sm" style="display: none;">'
+							+'<span class="input-group-addon">id</span> <input type="text" name="qid"'
+							+' class="form-control" placeholder="qid" value="'+id+'">'
+							+'</div>';
+
+							$.each(parsedJson.options,function(idx,item){ 
+								d = d+'<div class="input-group input-group-lg input-group-sm">'
+								+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
+								+' class="form-control" placeholder="选项" value="'+item.title+'"><span'
+								+' class="input-group-addon glyphicon glyphicon-remove"></span>'
+								+'</div>'
+								+'<br>'
+							}); 
+							
+							d = d + '<div class="form-group input-group-lg input-group-sm">'
+							+'<label for="choiceadd"'
+							+' class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">选项</label>'
+							+'<button type="button" id="add_check_btn"'
+							+' class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>'
+							+'</div>'
+							+'<br>'
+							+'<div class="form-group input-group-lg input-group-sm">'
+							+'<button type="button" id="editDo_radio"'
+							+' class="btn btn-default">修改</button>'
+							+'<button type="reset" id="reset"'
+							+' class="btn btn-default">重置</button>'
+							+'</div>'
+							+'</form>';
+						$("#editview").append(d);
+						$(e.target).parent().prev().remove();
+						$(e.target).parent().remove();
+				   });
+			});
+		});
+
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #editDo_check", function(e) {
+				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				id = $("#editview >.form-horizontal > .input-group > input[name='qid']").val();
+				var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label for="name"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label></label><label id="qid" for="name" style="display: none;">0</label><div>';
+				var options = new Array();
+				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
+					options.push($(this).val());
+					p = p+ '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckbox" value="'+i+'"> '+ $(this).val() +' </label>';
+				}); 
+				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					+'<button type="button" id="edit_check" class="btn btn-default">编辑</button><button type="button" class="btn btn-default">删除</button></div>';
+				$("#preview").append(p);
+				$("#editview").empty();
+				
+				$.post("index.php?admin/questionnaire/editQuestionsDo", 
+					{ 'id':id, 'title': title, 'notes': notes, 'type':'check', 'titles': options, 'values': options }, function(data){
+				     alert(data); // John
+			   }, "json");
+			});
+		});
+
+		$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #editDo_radio", function(e) {
+				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				id = $("#editview >.form-horizontal > .input-group > input[name='qid']").val();
+				var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">0</label><div>';
+				var options = new Array();
+				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
+					options.push($(this).val());
+					p = p+ '<label class="radio-inline"> <input type="radio" name="optionsRadiosinline" id="optionsRadios" value="'+i+'"> '+ $(this).val() +' </label>';
+				}); 
+				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+				$("#preview").append(p);
+				$("#editview").empty();
+				
+				$.post("index.php?admin/questionnaire/editQuestionsDo", 
+					{ 'id':id, 'title': title, 'notes': notes, 'type':'radio', 'titles': options, 'values': options }, function(data){
+				     alert(data); // John
+			   }, "json");
+			});
+		});
+		
+		/*$(function() {
+			$("#editview").on("click",".form-horizontal > .form-group > #add_child_btn", function(e) {
+				//title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
+				//notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+				//var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label for="name"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label></label><label id="qid" for="name" style="display: none;">0</label><div>';
+				//var options = new Array();
+				//$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
+					//options.push($(this).val());
+					//p = p+ '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckbox" value="'+i+'"> '+ $(this).val() +' </label>';
+				//}); 
+				//p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
+					//+'<button type="button" id="edit_check" class="btn btn-default">编辑</button><button type="button" class="btn btn-default">删除</button></div>';
+				//$("#preview").append(p);
+				//$("#editview").empty();
+				
+				//$.post("index.php?admin/questionnaire/addQuestions", 
+					//{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'check', 'titles': options, 'values': options }, function(data){
+				     //alert(data); // John
+			   //}, "json");
+			   var d = '<div id="childcheck" style="padding:0px 0px 0px 20px">'
+				+'<div class="input-group input-group-lg input-group-sm">'
+				+'<span class="input-group-addon">标题</span> <input type="text" name="title"'
+				+'class="form-control" placeholder="twitterhandle">'
+				+'</div>'
+				+'<br>'
+				+'<div class="input-group input-group-lg input-group-sm">'
+				+'<span class="input-group-addon">备注</span> <input type="text" name="notes"'
+				+'class="form-control" placeholder="twitterhandle">'
+				+'</div>'
+				+'<br>'
+				+'<div class="input-group input-group-lg input-group-sm">'
+				+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
+				+'class="form-control" placeholder="twitterhandle"><span'
+				+'class="input-group-addon glyphicon glyphicon-remove"></span>'
+				+'</div>'
+				+'<br>'
+				+'<div class="input-group input-group-lg input-group-sm">'
+				+'<span class="input-group-addon">选项</span> <input type="text" name="checktitle"'
+				+'class="form-control" placeholder="twitterhandle"><span'
+				+'class="input-group-addon glyphicon glyphicon-remove"></span>'
+				+'</div>'
+				+'<br>'
+				+'<div class="form-group input-group-lg input-group-sm">'
+				+'<label for="choiceadd"'
+				+'class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">选项</label>'
+				+'<button type="button" id="add_check_btn"'
+				+'class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>'
+				+'</div>'
+				+'<br>'
+				+'</div>';
+			   $(e.target).parent().next().append(d);
+			});
+		});*/
+		
+		$(function() {
+			$("#preview").on("click",".btn-group-vertical > #del", function(e) {
+				$.post("index.php?admin/questionnaire/delQuestions", { 'qid':$(e.target).parent().prev().children().eq(2).text() }, function(data){
+						if(data.indexOf("<br />")>0){
+							datastr	= data.substr(0,data.indexOf("<br />"));
+						}else{
+							datastr = data;
+						} 
+					     alert(datastr); // John
+						$(e.target).parent().prev().remove();
+						$(e.target).parent().remove();
+				   });
+			});
+		});
+		
+		$(function() {
+			$("#preview").on("click",".btn-group-vertical > #add_assoc", function(e) {
+				window.open("index.php?admin/questionnaire/assoc&qid="+$(e.target).parent().prev().children().eq(2).text());
+			});
+		});
+		$(function() {
+			$('#star').raty({
+				hints: ['2', '4', '6', '8', '10'],
+				path:"[:app]/images",
+				click: function (score, evt) {
+					alert('u selected '+score);
+				}
+			});
+		});
+	</script>

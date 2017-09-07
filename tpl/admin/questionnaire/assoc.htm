@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no"/>
+
+        <script src="[:vendor]/jquery/jquery-2.1.1.min.js"></script>
+        <script src="[:vendor]/bootstrap/js/bootstrap.min.js"></script>
+
+        <title> 关联 </title>
+    </head>
+
+    <body>
+    <div>
+	<form id="frmassoc">
+	<?php
+   		foreach ($questions as $key=>$value) {
+	?>
+	<label class="radio-inline"> <input type="radio"
+		name="optionsRadios"
+		id="optionsRadios" onchange="myfunction(<?php echo $key; ?>)" 
+		value="<?php echo $value['id']; ?>"> <?php echo $key.':'.$value['title']; ?>
+	</label>
+	<br>
+	<?php 
+		}
+	?>
+	<input type="hidden" name="qid" id="qid" value="<?php echo $qid; ?>">
+	<div id='select_assoc'>
+	<?php
+   		foreach ($questions as $key=>$value) {
+	?>
+		<div id="<?php echo $key; ?>" style="display: none;">
+			<?php echo $key.':'.$value['title']; ?>
+			<select  id="<?php echo $value['id']; ?>"  name="<?php echo $value['id']; ?>">
+			  	<?php
+   					foreach ($value['options'] as $option) {
+						echo '<option value ="'.$option['id'].'">'.$option['title'].'</option>';
+					}
+				?>
+			</select>
+		</div>
+	<?php 
+		}
+	?>
+	</div>
+</div>
+	<input type="button" value="关联" id="assoc"/>
+	</form>
+	<script type="text/javascript">
+		function myfunction(id){
+			$("#select_assoc").children().hide();
+			$("#"+id).show();
+		}
+		$(function() {
+			$("#assoc").click(function() {
+				$.post("index.php?admin/questionnaire/editAssoc", $("#frmassoc").serialize(), function(data){
+					if(data.indexOf("<br />")>0){
+						datastr	= data.substr(0,data.indexOf("<br />"));
+					}else{
+						datastr = data;
+					} 
+				     alert(datastr); // John
+			   });
+			});
+		});
+	</script>
+</body>
+</html>

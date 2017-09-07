@@ -1,0 +1,162 @@
+
+	<div class="container">
+		<h1><?php if(empty($questionnaire->title())) echo "新建内容";else echo $questionnaire->title(); ?></h1>
+		<div class="row">
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				<div class="btn-group-vertical">
+					<button id="myButtons1" type="button" class="btn btn-default">单选题</button>
+					<button id="myButtons2" type="button" class="btn btn-default">多选题</button>
+					<button id="myButtons3" type="button" class="btn btn-default">下拉题</button>
+					<button id="myButtons4" type="button" class="btn btn-default">单行文字</button>
+					<button id="myButtons5" type="button" class="btn btn-default">多行文本</button>
+					<button id="myButtons6" type="button" class="btn btn-default">填空题</button>
+					<button id="myButtons7" type="button" class="btn btn-default">按钮
+						1</button>
+					<button id="myButtons8" type="button" class="btn btn-default">按钮
+						2</button>
+					<p class="active-tab">
+						<strong>激活的标签页</strong>：<span></span>
+					</p>
+					<p class="previous-tab">
+						<strong>前一个激活的标签页</strong>：<span></span>
+					</p>
+				</div>
+			</div>
+			<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+				<ul id="myTab" class="nav nav-tabs">
+					<li class="active"><a href="#home" data-toggle="tab">设计</a></li>
+					<li><a href="#view" data-toggle="tab">预览</a></li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane fade in active" id="home">
+						<div id="preview">
+							<h1 id='nairetitlelab'><?php if(empty($questionnaire->title())) echo "添加标题";else echo $questionnaire->title(); ?></h1>
+							<input type="text" name="nairetitle" id="nairetitle"
+										class="form-control" placeholder="标题" style="display: none;">
+							<h2 id='nairenoteslab'><?php if(empty($questionnaire->notes())) echo "添加备注";else echo $questionnaire->notes(); ?></h2>
+							<input type="text" name="nairenotes" id="nairenotes"
+										class="form-control" placeholder="备注" style="display: none;">
+							
+			<?php
+			    //var_dump($all_projects);
+    			if (!empty($questions)) {
+        			foreach ($questions as $question) {
+            			if($question['type']=='check'){
+        	?>
+							
+							
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+								<label id='title' for="name"><?php echo $question['title']; ?></label>
+								<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+								<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+								<div>
+						<?php
+							if (!empty($question['options'])) {
+								foreach ($question['options'] as $option ) {
+						?>
+									<label class="checkbox-inline"> <input type="checkbox"
+										id="inlineCheckbox<?php echo $option['option_id']; ?>" value="<?php echo $option['value']; ?>"> <?php echo $option['title']; ?> 
+									</label> 
+						<?php 
+								}
+							} 
+						?>
+								</div>
+							</div>
+							<div
+								class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
+								<button type="button" id="edit" class="btn btn-default">编辑</button>
+								<button type="button" id="del" class="btn btn-default">删除</button>
+							</div>
+					<?php 
+						}else if($question['type']=='radio'){
+					?>
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<label id='title' for="name"><?php echo $question['title']; ?></label>
+									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
+									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+									<div>
+						<?php
+							if (!empty($question['options'])) {
+								foreach ($question['options'] as $option ) {
+						?>
+										<label class="radio-inline"> <input type="radio"
+											name="optionsRadiosinline" id="optionsRadios<?php echo $option['option_id']; ?>" value="<?php echo $option['value']; ?>"
+											checked> <?php echo $option['title']; ?>
+										</label>
+						<?php 
+								}
+							} 
+						?>
+									</div>
+								</div>
+								<div
+									class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">
+									<button type="button" id="edit" class="btn btn-default">编辑</button>
+									<button type="button" id="del" class="btn btn-default">删除</button>
+								</div>
+					
+			<?php
+						}
+					}
+    			}
+    		?>
+							
+							
+						</div>
+						<hr>
+						<div id="editview">
+						
+						
+							<form class="form-horizontal" role="form">
+								<div class="input-group input-group-lg input-group-sm">
+									<span class="input-group-addon">标题</span> <input type="text" name="title"
+										class="form-control" placeholder="twitterhandle">
+								</div>
+								<br>
+								<div class="input-group input-group-lg input-group-sm">
+									<span class="input-group-addon">备注</span> <input type="text" name="notes"
+										class="form-control" placeholder="twitterhandle">
+								</div>
+								<br>
+								<div class="input-group input-group-lg input-group-sm">
+									<span class="input-group-addon">选项</span> <input type="text" name="checktitle"
+										class="form-control" placeholder="twitterhandle"><span
+										class="input-group-addon glyphicon glyphicon-remove"></span>
+								</div>
+
+								<br>
+								<div class="input-group input-group-lg input-group-sm">
+									<span class="input-group-addon">选项</span> <input type="text" name="checktitle"
+										class="form-control" placeholder="twitterhandle"><span
+										class="input-group-addon glyphicon glyphicon-remove"></span>
+								</div>
+								<br>
+								<div class="form-group input-group-lg input-group-sm">
+									<label for="choiceadd"
+										class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">选项</label>
+									<button type="button" id='add_check_btn'
+										class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>
+								</div>
+								<br>
+								<div class="form-group input-group-lg input-group-sm">
+									<button type="button" id='add_check'
+										class="btn btn-default">添加</button>
+									<button type="reset" id='reset'
+										class="btn btn-default">重置</button>
+								</div>
+							</form>
+							
+							
+						</div>
+					</div>
+					<div class="tab-pane fade" id="view">
+						<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch
+							和 Apple TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS
+							是苹果的移动版本。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
