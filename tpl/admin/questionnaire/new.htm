@@ -8,19 +8,20 @@
 	<div class="container-fluid">
 		<h1 class='text-center'><?php if(empty($questionnaire->title())) echo "新建内容";else echo $questionnaire->title(); ?></h1>
 		<div class="row">
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-				<div class="btn-group-vertical">
+			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+				<div class="list_button_add btn-group-vertical">
 					<button id="myButtons2" type="button" class="btn btn-default">单选题</button>
 					<button id="myButtons1" type="button" class="btn btn-default">多选题</button>
 					<button id="myButtons3" type="button" class="btn btn-default">量表题</button>
 					<button id="myButtons4" type="button" class="btn btn-default">范围题</button>
 					<button id="myButtons5" type="button" class="btn btn-default">填空题</button>
-					<p class="active-tab">
+                    <p class="text-muted text-center">点击添加题目</p>
+					<!--<p class="active-tab">
 						<strong>激活的标签页</strong>：<span></span>
 					</p>
 					<p class="previous-tab">
 						<strong>前一个激活的标签页</strong>：<span></span>
-					</p>
+					</p>-->
 				</div>
 			</div>
 			<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
@@ -38,7 +39,7 @@
 							<h2 id='nairenoteslab'><?php if(empty($questionnaire->notes())) echo "添加备注";else echo $questionnaire->notes(); ?></h2>
 							<input type="text" name="nairenotes" id="nairenotes"
                                 class="form-control content_input" placeholder="备注" 
-                                style="display: none;">
+                                style="display: none;"><hr>
 							
 			<?php
 			    //var_dump($all_projects);
@@ -47,7 +48,7 @@
             			if($question['type']=='check'){
         	?>
 							
-							
+                        <div class='row'>
 							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 								<label id='title' for="name"><?php echo $question['title']; ?></label>
 								<label id='notes' for="name"><?php echo $question['notes']; ?></label>
@@ -73,9 +74,11 @@
 								<!-- <button type="button" id="edit_check" class="btn btn-default">编辑</button> -->
 								<button type="button" id="del" class="btn btn-default">删除</button>
 							</div>
+                        </div><br>
 					<?php 
 						}else if($question['type']=='radio'){
 					?>
+                        <div class='row'>
 							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 									<label id='title' for="name"><?php echo $question['title']; ?></label>
 									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
@@ -102,10 +105,12 @@
 									<button type="button" id="add_assoc" class="btn btn-default">添加关联</button>
 									<button type="button" id="del" class="btn btn-default">删除</button>
 								</div>
+                            </div><br>
 					
 			<?php
 						}else if($question['type']=='star'){
 					?>
+                        <div class='row'>
 							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 									<label id='title' for="name"><?php echo $question['title']; ?></label>
 									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
@@ -121,6 +126,7 @@
 									<!-- <button type="button" id="edit_star" class="btn btn-default">编辑</button> -->
 									<button type="button" id="del" class="btn btn-default">删除</button>
 								</div>
+                        	</div><br>
 								<script type="text/javascript">
 			                        $(function() {
 				                        $("#star<?php echo $question['id']; ?>").raty({
@@ -136,6 +142,7 @@
 			<?php
 						}else if($question['type']=='range'){
 					?>
+                        <div class='row'>
 							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 									<label id='title' for="name"><?php echo $question['title']; ?></label>
 									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
@@ -152,10 +159,12 @@
 									<!-- <button type="button" id="edit_radio" class="btn btn-default">编辑</button> -->
 									<button type="button" id="del" class="btn btn-default">删除</button>
 								</div>
+                        </div><br>
 					
 			<?php
 						}else if($question['type']=='text'){
 					?>
+                        <div class='row'>
 							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 									<label id='title' for="name"><?php echo $question['title']; ?></label><input type="text" name="text" value="" />
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
@@ -170,6 +179,7 @@
 									<!-- <button type="button" id="edit_radio" class="btn btn-default">编辑</button> -->
 									<button type="button" id="del" class="btn btn-default">删除</button>
 								</div>
+                        </div><br>
 					
 			<?php
 						}
@@ -192,7 +202,9 @@
 			</div>
 		</div>
 	</div>
-    <div class='save_naire_btn btn btn-success' id='<?php echo $questionnaire->id(); ?>'>保存试卷</div>
+    <div>
+        <div style='margin-bottom: 20px;' class='save_naire_btn btn btn-primary col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-2' id='<?php echo $questionnaire->id(); ?>'>保存试卷</div>
+    </div>
 </div>
 	<script type="text/javascript">
     $(function (){
@@ -526,7 +538,7 @@
                 is_upload = is_upload ? '1' : '0';
                 //console.log(is_upload);
                 //return;
-				var p1 = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';
+				var p1 = '<div class="row"><div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';
                 
 				var p = '<div>';
 				var options = new Array();
@@ -535,7 +547,7 @@
 					p = p+ '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckbox" value="'+i+'"> '+ $(this).val() +' </label>';
 				}); 
 				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-					+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+					+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div></div><br>';
 //					+'<button type="button" id="edit_check" class="btn btn-default">编辑</button><button type="button" class="btn btn-default">删除</button></div>';
 
 				
@@ -559,7 +571,7 @@
 				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
                 is_upload = $('#editview').find('.is_upload_input').prop('checked');
                 is_upload = is_upload ? '1' : '0';
-				var p1 = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';
+				var p1 = '<div class="row"><div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';
 				var p = '<div>';
 				var options = new Array();
 				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
@@ -567,7 +579,7 @@
 					p = p+ '<label class="radio-inline"> <input type="radio" name="optionsRadiosinline" id="optionsRadios" value="'+i+'"> '+ $(this).val() +' </label>';
 				}); 
 				p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-					+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+					+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div></div><br>';
 				
 				$.post("index.php?admin/questionnaire/addQuestions", 
 					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'radio', 'titles': options, 'values': options, 'is_upload' : is_upload  }, function(data){
@@ -625,12 +637,12 @@
 							datastr = data;
 						} // John
 						
-					   	var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+					   	var p = '<div class="row"><div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label>';
                         p += is_upload == '1' ? '<span class="upload_flag">需上传图片</span>' : '';
                         p += '<div>';
 						p = p+ '<label class="radio-inline">'+text+'<div id="star'+datastr+'" width="200"></div></label><label class="radio-inline">分</label>';
 						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div></div><br>';
 //							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
 							
 						p = p+'<script type="text/javascript">'
@@ -692,13 +704,13 @@
 							datastr = data;
 						} // John
 						
-						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+						var p = '<div class="row"><div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label>';
                         p += is_upload == '1' ? '<span class="upload_flag">需上传图片</span>' : '';
                         
                         p += '<div>';
 						p = p+ '<label class="radio-inline">'+text+'<input type="range" name="selectrange" value="'+setnumber+'" /></label class="radio-inline"><label>'+setnumber+'分</label>';
 						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div></div><br>';
 //							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
 						$("#preview").append(p);
 						$("#editview").empty();
@@ -722,12 +734,12 @@
 							datastr = data;
 						} // John
 						   
-						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><input type="text" name="text" value="" /><label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+						var p = '<div class="row"><div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><input type="text" name="text" value="" /><label id="qid" for="name" style="display: none;">'+datastr+'</label>';
                         p += is_upload == '1' ? '<span class="upload_flag">需上传图片</span>' : '';
                         p +='<div>';
 						p = p+ '<label class="radio-inline">'+notes+'</label class="radio-inline">';
 						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
-							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
+							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div></div><br>';
 //							+'<button type="button" id="edit_radio" class="btn btn-default">编辑</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
 						$("#preview").append(p);
 						$("#editview").empty();

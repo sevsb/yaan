@@ -5,6 +5,7 @@ thead td {
 
 .add_question_btn  {
     margin-right: 15px;
+    margin-left: 15px;
 }
 
 .title_input {
@@ -22,4 +23,19 @@ thead td {
 .upload_flag {
     background-color: #faa755;
     color: white;
+}
+
+.list_button_add button {
+    min-width: 140px;
+}
+
+.list_button_add {
+    position: fixed;
+    left: 200px;
+    top: 135px;
+}
+
+#editview input[type="checkbox"] {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
