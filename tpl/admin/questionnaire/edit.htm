@@ -169,11 +169,11 @@
 						</div>
 						<hr>
 						<div id="editview">
-
+                            
 
 					</div>
 					</div>
-					<div class="tab-pane fade" id="view">
+					<div class="tab-panel fade" id="view">
 						<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch
 							和 Apple TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS
 							是苹果的移动版本。</p>
@@ -236,7 +236,7 @@
 				//				alert(p);
 				//$("#preview").append(p);
 				$("#editview").empty();
-				var d = '<h4>添加多选</h4><form class="form-horizontal" role="form">'
+				var d = '<h4>添加多选题</h4><form class="form-horizontal" role="form">'
 					+'<div class="input-group input-group-lg input-group-sm">'
 					+'<span class="input-group-addon">标题</span> <input type="text" name="title"'
 					+' class="form-control" placeholder="标题">'
@@ -268,7 +268,7 @@
 					+'<br>'
 					+'<div class="form-group input-group-lg input-group-sm">'
 					+'<button type="button" id="add_check"'
-					+' class="btn btn-default">添加</button>'
+					+' class="add_question_btn btn btn-success">确认添加问题</button>'
 					+'<button type="reset" id="reset"'
 					+' class="btn btn-default">重置</button>'
 					+'</div>'
@@ -281,7 +281,7 @@
 				//var p = '<label for="name">内联的复选框和单选按钮的实例<div></label><label class="radio-inline"> <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="option1" checked> 选项 1 </label> <label class="radio-inline"> <input type="radio" name="optionsRadiosinline" id="optionsRadios4" value="option2"> 选项 2 </label></div>';
 				//$("#preview").append(p);
 				$("#editview").empty();
-				var d = '<h4>添加单选</h4><form class="form-horizontal" role="form">'
+				var d = '<h4>添加单选题</h4><form class="form-horizontal" role="form">'
 					+'<div class="input-group input-group-lg input-group-sm">'
 					+'<span class="input-group-addon">标题</span> <input type="text" name="title"'
 					+' class="form-control" placeholder="标题">'
@@ -313,7 +313,7 @@
 					+'<br>'
 					+'<div class="form-group input-group-lg input-group-sm">'
 					+'<button type="button" id="add_radio"'
-					+' class="btn btn-default">添加</button>'
+					+' class="add_question_btn btn btn-success">确认添加问题</button>'
 					+'<button type="reset" id="reset"'
 					+' class="btn btn-default">重置</button>'
 					+'</div>'
@@ -331,7 +331,7 @@
 				//				alert(p);
 				//$("#preview").append(p);
 				$("#editview").empty();
-				var d = '<h4>添加量表</h4><form class="form-horizontal" role="form">'
+				var d = '<h4>添加量表题</h4><form class="form-horizontal" role="form">'
 					+'<div class="input-group input-group-lg input-group-sm">'
 					+'<span class="input-group-addon">标题</span> <input type="text"'
 					+' name="title" class="form-control" placeholder="标题">'
@@ -356,7 +356,7 @@
 					+'</div>'
 					+'<br>'
 					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<button type="button" id="add_star" class="btn btn-default">添加</button>'
+					+'<button type="button" id="add_star" class="add_question_btn btn btn-success">确认添加问题</button>'
 					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
 					+'</div>'
 					+'</form>';
@@ -366,7 +366,7 @@
 		$(function() {
 			$("#myButtons4").click(function() {
 				$("#editview").empty();
-				var d = '<h4>添加范围</h4><form class="form-horizontal" role="form">'
+				var d = '<h4>添加范围题</h4><form class="form-horizontal" role="form">'
 					+'<div class="input-group input-group-lg input-group-sm">'
 					+'<span class="input-group-addon">标题</span> <input type="text"'
 					+' name="title" class="form-control" placeholder="标题">'
@@ -390,7 +390,7 @@
 					+'</div>'
 					+'<br>'
 					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<button type="button" id="add_range" class="btn btn-default">添加</button>'
+					+'<button type="button" id="add_range" class="add_question_btn btn btn-success">确认添加问题</button>'
 					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
 					+'</div>'
 					+'</form>';
@@ -400,7 +400,7 @@
 		$(function() {
 			$("#myButtons5").click(function() {
 				$("#editview").empty();
-				var d = '<h4>添加填空</h4><form class="form-horizontal" role="form">'
+				var d = '<h4>添加填空题</h4><form class="form-horizontal" role="form">'
 					+'<div class="input-group input-group-lg input-group-sm">'
 					+'<span class="input-group-addon">标题</span> <input type="text"'
 					+' name="title" class="form-control" placeholder="标题">'
@@ -412,7 +412,7 @@
 					+'</div>'
 					+'<br>'
 					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<button type="button" id="add_text" class="btn btn-default">添加</button>'
+					+'<button type="button" id="add_text" class="add_question_btn btn btn-success">确认添加问题</button>'
 					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
 					+'</div>'
 					+'</form>';

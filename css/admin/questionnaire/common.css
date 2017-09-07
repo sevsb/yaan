@@ -2,3 +2,7 @@
 thead td {
     background-image: none !important;
 } 
+
+.add_question_btn  {
+    margin-right: 15px;
+}

@@ -35,7 +35,7 @@ class questionnaires {
     }
 
     public static function create($pid){
-        $id = db_questionnaires::inst()->add_questionnaires(0,'新建问卷','');
+        $id = db_questionnaires::inst()->add_questionnaires(0,'问卷标题','');
         $questionnaires = db_questionnaires::inst()->get_questionnaires_by_id($id);
         //logging::d("createPJT", "muffininfos: $muffininfos");
         return new questionnaires($questionnaires);
