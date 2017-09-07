@@ -9,9 +9,10 @@ class questionnaire_controller {
     
     public function index_action() {
         $tpl = new tpl("admin/header", "admin/footer");
-        
+        $userid = get_session('user.id');
         $all_questionnaires = questionnaires::load_all();
         $tpl->set('questionnaires', $all_questionnaires);
+        $tpl->set('userid', $userid);
         
         $tpl->display("admin/questionnaire/index");
     }
@@ -19,9 +20,14 @@ class questionnaire_controller {
     public function new_action() {
         $tpl = new tpl();
         $tpl = new tpl("admin/header", "admin/footer");
-        
-        //         $task = tasks::create($taskid);
-        $questionnaire = questionnaires::create(0);
+        $userid = get_session('user.id');
+        $cache_questionnaire = questionnaires::get_cache_naire($userid);
+        //var_dump($cache_questionnaire);
+        if (!empty($cache_questionnaire)) {
+            $questionnaire = $cache_questionnaire;
+        }else {
+            $questionnaire = questionnaires::create(0);
+        }
         $questions = questions::load_by_nid($questionnaire->id());
         $i = 1;
         for($i=1;$i<=count($questions); $i++){
@@ -243,23 +249,24 @@ class questionnaire_controller {
             $title = get_request("title", "");
             $notes = get_request("notes", "");
             $type = get_request("type", "");
+            $is_upload = get_request("is_upload", 0);
             
             if($type=='star'){
                 $value= get_request("selectstar", "");
-                $id = db_question::inst()->add_questions($nid, $title, $type, $notes, $value);
+                $id = db_question::inst()->add_questions($nid, $is_upload, $title, $type, $notes, $value);
                 file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."$type,selectstar:$value\r\n", FILE_APPEND);
             }else if($type=='range'){
                 $value= get_request("selectstar", "");
                 $setnumber= get_request("setnumber", "");
-                $id = db_question::inst()->add_questions($nid, $title, $type, $notes, json_encode(array('selectstar'=>$value,'setnumber'=>$setnumber)));
+                $id = db_question::inst()->add_questions($nid, $is_upload, $title, $type, $notes, json_encode(array('selectstar'=>$value,'setnumber'=>$setnumber)));
                 file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."$type,selectstar:$value,setnumber:$setnumber\r\n", FILE_APPEND);
             }else if($type=='text'){
-                $id = db_question::inst()->add_questions($nid, $title, $type, $notes);
+                $id = db_question::inst()->add_questions($nid, $is_upload, $title, $type, $notes);
                 file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."$type,notes:$notes\r\n", FILE_APPEND);
             }else{
                 $value= get_request("value", "");
                 
-                $id = db_question::inst()->add_questions($nid, $title, $type, $notes, $value);
+                $id = db_question::inst()->add_questions($nid, $is_upload, $title, $type, $notes, $value);
     //             $questions = db_question::inst()->get_questions_by_id($id);
                 $titles = get_request("titles");
                 $values = get_request("values");
@@ -273,6 +280,12 @@ class questionnaire_controller {
         }
         
         echo $id;
+    }
+    
+    public function save_naire_ajax() {
+        $id = get_request('id');
+        $result = questionnaires::save_naire($id);
+        return $result ? 'success' : 'fail';
     }
     
     public function add_ajax() {

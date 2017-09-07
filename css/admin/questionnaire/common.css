@@ -6,3 +6,20 @@ thead td {
 .add_question_btn  {
     margin-right: 15px;
 }
+
+.title_input {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 39px;
+}
+
+.content_input {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 33px;
+}
+
+.upload_flag {
+    background-color: #faa755;
+    color: white;
+}

@@ -45,8 +45,8 @@ class db_question extends database {
         return $this->get_one_table(TABLE_QUESTION, "id = $id");
     }
 
-    public function add_questions($nid, $title, $type, $notes, $value='') {
-        return $this->insert(TABLE_QUESTION, array("nid" => $nid, "title" => $title, "type" => $type, "notes" => $notes, "value" =>$value));
+    public function add_questions($nid, $is_upload, $title, $type, $notes, $value='') {
+        return $this->insert(TABLE_QUESTION, array("nid" => $nid, "is_upload" => $is_upload, "title" => $title, "type" => $type, "notes" => $notes, "value" =>$value));
     }
 
     public function modify_questions($id, $title, $type, $notes, $value='') {

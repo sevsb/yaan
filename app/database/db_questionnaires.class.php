@@ -28,7 +28,7 @@ class db_questionnaires extends database {
     }
 
     public function get_all_questionnaires() {
-        return $this->get_all_table(TABLE_QUESTIONNAIRES, "is_remove = 0");
+        return $this->get_all_table(TABLE_QUESTIONNAIRES, "is_remove = 0 and is_cache != 1");
     }
 
     public function get_one_by_projectid($pid) {
@@ -39,14 +39,24 @@ class db_questionnaires extends database {
         $id = (int)$id;
         return $this->get_one_table(TABLE_QUESTIONNAIRES, "id = $id");
     }
+    
+    public function get_cache_naire($userid) {
+        $userid = (int)$userid;
+        return $this->get_one_table(TABLE_QUESTIONNAIRES, "creater_id = $userid and is_cache = 1");
+    }
 
-    public function add_questionnaires($pid, $title, $notes) {
-        return $this->insert(TABLE_QUESTIONNAIRES, array("pid" => $pid, "title" => $title, "notes" => $notes, "count" => 0));
+    public function add_questionnaires($pid, $title, $notes, $userid) {
+        return $this->insert(TABLE_QUESTIONNAIRES, array("pid" => $pid, "title" => $title, "notes" => $notes, "count" => 0, "creater_id" => $userid, "is_cache" => 1));
     }
 
     public function modify_questionnaires($id, $title, $notes) {
         file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."id:$id, title:$title notes:$notes \r\n", FILE_APPEND);
         return $this->update(TABLE_QUESTIONNAIRES, array("title" => $title, "notes" => $notes), "id = $id");
+    }
+    
+    public function save_naire($id) {
+        //file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."id:$id, title:$title notes:$notes \r\n", FILE_APPEND);
+        return $this->update(TABLE_QUESTIONNAIRES, array("is_cache" => 0), "id = $id");
     }
     
     public function remove($id){

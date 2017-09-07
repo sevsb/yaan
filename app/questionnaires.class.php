@@ -35,13 +35,13 @@ class questionnaires {
     }
 
     public static function create($pid){
-        $id = db_questionnaires::inst()->add_questionnaires(0,'问卷标题','');
+        $userid = get_session('user.id');
+        $id = db_questionnaires::inst()->add_questionnaires(0,'问卷标题','', $userid);
         $questionnaires = db_questionnaires::inst()->get_questionnaires_by_id($id);
         //logging::d("createPJT", "muffininfos: $muffininfos");
         return new questionnaires($questionnaires);
-
     }
-    
+
     public static function createPid($pid){
         $questionnaires = null;
         if (!empty($pid)) {
@@ -102,6 +102,15 @@ class questionnaires {
         }
         return $questionnaires;
     }
+    
+    public static function save_naire($id){
+        
+        $questionnaires = db_questionnaires::inst()->save_naire($id);
+        if (!$questionnaires) {
+            return false;
+        }
+        return $questionnaires;
+    }
 
     public static function load_all() {
         $all_questionnaires = db_questionnaires::inst()->get_all_questionnaires();
@@ -111,6 +120,12 @@ class questionnaires {
     public static function load_by_id($id) {
         $questionnaires = db_questionnaires::inst()->get_questionnaires_by_id($id);
         return new questionnaires($questionnaires);
+    }
+    
+    public static function get_cache_naire($userid) {
+        $cache_naire = db_questionnaires::inst()->get_cache_naire($userid);
+        logging::d('cache_naire',"cache_naire: $cache_naire");
+        return empty($cache_naire) ? null : new questionnaires($cache_naire);
     }
 
     public function pack_info() {

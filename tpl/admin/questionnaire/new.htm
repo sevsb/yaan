@@ -1,5 +1,10 @@
 
 <div id="page-wrapper">
+<?php
+//var_dump($questionnaire);
+//var_dump($questions);
+
+?>
 	<div class="container">
 		<h1><?php if(empty($questionnaire->title())) echo "新建内容";else echo $questionnaire->title(); ?></h1>
 		<div class="row">
@@ -28,12 +33,12 @@
 						<div id="preview">
 							<h1 id='nairetitlelab'><?php if(empty($questionnaire->title())) echo "添加标题";else echo $questionnaire->title(); ?></h1>
 							<input type="text" name="nairetitle" id="nairetitle"
-                                class="form-control" placeholder="标题" 
-                                style="display: none;margin-top: 20px;margin-bottom: 10px;height: 39px;">
+                                class="form-control title_input" placeholder="标题" 
+                                style="display: none;">
 							<h2 id='nairenoteslab'><?php if(empty($questionnaire->notes())) echo "添加备注";else echo $questionnaire->notes(); ?></h2>
 							<input type="text" name="nairenotes" id="nairenotes"
-                                class="form-control" placeholder="备注" 
-                                style="display: none;margin-top: 20px;margin-bottom: 10px;height: 33px;">
+                                class="form-control content_input" placeholder="备注" 
+                                style="display: none;">
 							
 			<?php
 			    //var_dump($all_projects);
@@ -47,6 +52,7 @@
 								<label id='title' for="name"><?php echo $question['title']; ?></label>
 								<label id='notes' for="name"><?php echo $question['notes']; ?></label>
 								<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+                                <span class='upload_flag'><?php echo $question['is_upload'] == 1 ? '需上传图片' : ''; ?></span>
 								<div>
 						<?php
 							if (!empty($question['options'])) {
@@ -74,6 +80,7 @@
 									<label id='title' for="name"><?php echo $question['title']; ?></label>
 									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+                                    <span class='upload_flag'><?php echo $question['is_upload'] == 1 ? '需上传图片' : ''; ?></span>
 									<div>
 						<?php
 							if (!empty($question['options'])) {
@@ -103,6 +110,7 @@
 									<label id='title' for="name"><?php echo $question['title']; ?></label>
 									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+                                    <span class='upload_flag'><?php echo $question['is_upload'] == 1 ? '需上传图片' : ''; ?></span>
 									<div>
 										<label class="radio-inline"><?php echo $question['value']; ?><div id="star<?php echo $question['id']; ?>" width="200"></div></label><label class="radio-inline">分</label>
 									</div>
@@ -132,6 +140,7 @@
 									<label id='title' for="name"><?php echo $question['title']; ?></label>
 									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+                                    <span class='upload_flag'><?php echo $question['is_upload'] == 1 ? '需上传图片' : ''; ?></span>
 									<div>
 										<?php $selectstar = json_decode($question['value'],1); ?>
 										<label class="radio-inline"><?php echo $selectstar['selectstar']; ?><input type="range" name="selectrange" min="1" max="<?php echo $selectstar['setnumber']; ?>" /></label class="radio-inline"><label><?php echo $selectstar['setnumber']; ?>分</label>
@@ -150,6 +159,7 @@
 							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 									<label id='title' for="name"><?php echo $question['title']; ?></label><input type="text" name="text" value="" />
 									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+                                    <span class='upload_flag'><?php echo $question['is_upload'] == 1 ? '需上传图片' : ''; ?></span>
 									<div>
 										<label id='notes' for="name"><?php echo $question['notes']; ?></label>
 									</div>
@@ -173,7 +183,7 @@
 						<div id="editview">
 
                         </div>
-					<div class="tab-panel fade" id="view">
+					<div class="tab-pane fade hide" id="view">
 						<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch
 							和 Apple TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS
 							是苹果的移动版本。</p>
@@ -182,8 +192,18 @@
 			</div>
 		</div>
 	</div>
+    <div class='save_naire_btn btn btn-success' id='<?php echo $questionnaire->id(); ?>'>保存试卷</div>
 </div>
 	<script type="text/javascript">
+    $(function (){
+        $('.save_naire_btn').click(function(){
+            var id = $(this).attr('id');
+            console.log(id);
+            __ajax('admin.questionnaire.save_naire', {id: id}, function (){
+                go('admin/questionnaire/index');
+            });
+        });
+    });
 		$(function() {
 			//			$('#myTab li:eq(1) a').tab('show');
 			$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
@@ -265,10 +285,11 @@
 					+'<button type="button" id="add_check_btn"'
 					+' class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>'
 					+'</div>'
+                    +'<label class=""><input class="is_upload_input" type="checkbox" id="" value="1">需要上传文件</label>'
 					+'<br>'
 					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<button type="button" style="margin: 0 15px 0 0;" id="add_check"'
-					+' class="btn btn-success">确认添加问题</button>'
+					+'<button type="button" id="add_check"'
+					+' class="add_question_btn btn btn-success">确认添加问题</button>'
 					+'<button type="reset" id="reset"'
 					+' class="btn btn-default">重置</button>'
 					+'</div>'
@@ -310,10 +331,12 @@
 					+'<button type="button" id="add_check_btn"'
 					+' class="col-xs-10 col-sm-10 col-md-10 col-lg-10 btn btn-default">添加选项</button>'
 					+'</div>'
+                    +'<label class=""><input class="is_upload_input" type="checkbox" id="" value="1">需要上传文件</label>'
 					+'<br>'
+                    
 					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<button type="button" style="margin: 0 15px 0 0;" id="add_radio"'
-					+' class="btn btn-success">确认添加问题</button>'
+					+'<button type="button" id="add_radio"'
+					+' class="add_question_btn btn btn-success">确认添加问题</button>'
 					+'<button type="reset" id="reset"'
 					+' class="btn btn-default">重置</button>'
 					+'</div>'
@@ -354,9 +377,10 @@
 					+' class="input-group-addon">量表范围</span>'
 					+'<div id="star" class="form-control"></div>'
 					+'</div>'
+                    +'<label class=""><input class="is_upload_input" type="checkbox" id="" value="1">需要上传文件</label>'
 					+'<br>'
 					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<button type="button"  style="margin: 0 15px 0 0;" id="add_star" class="btn btn-success">确认添加问题</button>'
+					+'<button type="button" id="add_star" class="add_question_btn btn btn-success">确认添加问题</button>'
 					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
 					+'</div>'
 					+'</form>';
@@ -388,9 +412,10 @@
 					+'</select><span class="input-group-addon">范围</span> <input type="number"'
 					+' name="setnumber" id="setnumber" class="form-control" value="10" placeholder="范围">'
 					+'</div>'
+                    +'<label class=""><input class="is_upload_input" type="checkbox" id="" value="1">需要上传文件</label>'
 					+'<br>'
 					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<button type="button" id="add_range"  style="margin: 0 15px 0 0;" class="btn btn-success">确认添加问题</button>'
+					+'<button type="button" id="add_range" class="add_question_btn btn btn-success">确认添加问题</button>'
 					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
 					+'</div>'
 					+'</form>';
@@ -410,9 +435,10 @@
 					+'<span class="input-group-addon">备注</span> <input type="text"'
 					+' name="notes" class="form-control" placeholder="备注">'
 					+'</div>'
+                    +'<label class=""><input class="is_upload_input" type="checkbox" id="" value="1">需要上传文件</label>'
 					+'<br>'
 					+'<div class="form-group input-group-lg input-group-sm">'
-					+'<button  style="margin: 0 15px 0 0;" type="button" id="add_text" class="btn btn-success">确认添加问题</button>'
+					+'<button type="button" id="add_text" class="add_question_btn btn btn-success">确认添加问题</button>'
 					+'<button type="reset" id="reset" class="btn btn-default">重置</button>'
 					+'</div>'
 					+'</form>';
@@ -496,7 +522,12 @@
 			$("#editview").on("click",".form-horizontal > .form-group > #add_check", function(e) {
 				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
 				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
-				var p1 = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';				
+                is_upload = $('#editview').find('.is_upload_input').prop('checked');
+                is_upload = is_upload ? '1' : '0';
+                //console.log(is_upload);
+                //return;
+				var p1 = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';
+                
 				var p = '<div>';
 				var options = new Array();
 				$("#editview >.form-horizontal > .input-group > input[name='checktitle']").each(function(i) {
@@ -509,14 +540,14 @@
 
 				
 				$.post("index.php?admin/questionnaire/addQuestions", 
-					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'check', 'titles': options, 'values': options }, function(data){
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'check', 'titles': options, 'values': options, 'is_upload' : is_upload }, function(data){
 						if(data.indexOf("<br />")>0){
 							datastr	= data.substr(0,data.indexOf("<br />"));
 						}else{
 							datastr = data;
 						} // John				
 						p1 = p1+ '<label id="qid" for="name" style="display: none;">'+datastr+'</label>';
-
+                        p1 += is_upload == '1' ? '<span class="upload_flag">需上传图片</span>' : '';
 						$("#preview").append(p1+p);
 						$("#editview").empty();
 			   });
@@ -526,6 +557,8 @@
 			$("#editview").on("click",".form-horizontal > .form-group > #add_radio", function(e) {
 				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
 				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
+                is_upload = $('#editview').find('.is_upload_input').prop('checked');
+                is_upload = is_upload ? '1' : '0';
 				var p1 = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><label id="notes">'+notes+'</label>';
 				var p = '<div>';
 				var options = new Array();
@@ -537,13 +570,14 @@
 					+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
 				
 				$.post("index.php?admin/questionnaire/addQuestions", 
-					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'radio', 'titles': options, 'values': options }, function(data){
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'radio', 'titles': options, 'values': options, 'is_upload' : is_upload  }, function(data){
 						if(data.indexOf("<br />")>0){
 							datastr	= data.substr(0,data.indexOf("<br />"));
 						}else{
 							datastr = data;
 						} // John				
 						p1 = p1+ '<label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+                        p1 += is_upload == '1' ? '<span class="upload_flag">需上传图片</span>' : '';
 
 						$("#preview").append(p1+p);
 						$("#editview").empty();
@@ -579,17 +613,21 @@
 				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
 				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
 				text = $("#editview >.form-horizontal > .input-group > #selectstar").val();
+                is_upload = $('#editview').find('.is_upload_input').prop('checked');
+                is_upload = is_upload ? '1' : '0';
 
 				var datastr = "";
 				$.post("index.php?admin/questionnaire/addQuestions", 
-					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'star', 'selectstar': text }, function(data){
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'star', 'selectstar': text, 'is_upload' : is_upload  }, function(data){
 						if(data.indexOf("<br />")>0){
 							datastr	= data.substr(0,data.indexOf("<br />"));
 						}else{
 							datastr = data;
 						} // John
 						
-					   	var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
+					   	var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+                        p += is_upload == '1' ? '<span class="upload_flag">需上传图片</span>' : '';
+                        p += '<div>';
 						p = p+ '<label class="radio-inline">'+text+'<div id="star'+datastr+'" width="200"></div></label><label class="radio-inline">分</label>';
 						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
 							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
@@ -643,16 +681,21 @@
 				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
 				text = $("#editview >.form-horizontal > .input-group > #selectstar").val();
 				setnumber = $("#editview >.form-horizontal > .input-group > #setnumber").val();
+                is_upload = $('#editview').find('.is_upload_input').prop('checked');
+                is_upload = is_upload ? '1' : '0';
 				
 				$.post("index.php?admin/questionnaire/addQuestions", 
-					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'range', 'selectstar': text, 'setnumber': setnumber }, function(data){
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'range', 'selectstar': text, 'setnumber': setnumber, 'is_upload' : is_upload  }, function(data){
 						if(data.indexOf("<br />")>0){
 							datastr	= data.substr(0,data.indexOf("<br />"));
 						}else{
 							datastr = data;
 						} // John
 						
-						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
+						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label>:<label id="notes">'+notes+'</label><label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+                        p += is_upload == '1' ? '<span class="upload_flag">需上传图片</span>' : '';
+                        
+                        p += '<div>';
 						p = p+ '<label class="radio-inline">'+text+'<input type="range" name="selectrange" value="'+setnumber+'" /></label class="radio-inline"><label>'+setnumber+'分</label>';
 						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
 							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
@@ -667,18 +710,21 @@
 			$("#editview").on("click",".form-horizontal > .form-group > #add_text", function(e) {
 				title = $("#editview >.form-horizontal > .input-group > input[name='title']").val();
 				notes = $("#editview >.form-horizontal > .input-group > input[name='notes']").val();
-
+                is_upload = $('#editview').find('.is_upload_input').prop('checked');
+                is_upload = is_upload ? '1' : '0';
 				var datastr = "";
 				$.post("index.php?admin/questionnaire/addQuestions", 
 						
-					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'text' }, function(data){
+					{ nid:<?php echo $questionnaire->id(); ?>, 'title': title, 'notes': notes, 'type':'text', 'is_upload' : is_upload  }, function(data){
 						if(data.indexOf("<br />")>0){
 							datastr	= data.substr(0,data.indexOf("<br />"));
 						}else{
 							datastr = data;
 						} // John
 						   
-						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><input type="text" name="text" value="" /><label id="qid" for="name" style="display: none;">'+datastr+'</label><div>';
+						var p = '<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"><label id="title">'+title+'</label><input type="text" name="text" value="" /><label id="qid" for="name" style="display: none;">'+datastr+'</label>';
+                        p += is_upload == '1' ? '<span class="upload_flag">需上传图片</span>' : '';
+                        p +='<div>';
 						p = p+ '<label class="radio-inline">'+notes+'</label class="radio-inline">';
 						p = p+'</div></div><div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn-group-vertical input-group-sm">'
 							+'<button type="button" id="add_assoc" class="btn btn-default">添加关联</button><button type="button" id="del" class="btn btn-default">删除</button></div>';
