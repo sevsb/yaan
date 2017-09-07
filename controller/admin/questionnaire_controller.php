@@ -13,7 +13,6 @@ class questionnaire_controller {
         $all_questionnaires = questionnaires::load_all();
         $tpl->set('questionnaires', $all_questionnaires);
         $tpl->set('userid', $userid);
-        
         $tpl->display("admin/questionnaire/index");
     }
     
@@ -77,7 +76,7 @@ class questionnaire_controller {
     
     public function answer_action() {
         $tpl = new tpl();
-        $tpl = new tpl("admin/header", "admin/footer");
+        $tpl = new tpl("admin/noheader", "admin/footer");
         $nid = get_request("id", 0);
         
         //         $task = tasks::create($taskid);
@@ -285,6 +284,12 @@ class questionnaire_controller {
     public function save_naire_ajax() {
         $id = get_request('id');
         $result = questionnaires::save_naire($id);
+        return $result ? 'success' : 'fail';
+    }    
+    
+    public function remove_naire_ajax() {
+        $id = get_request('id');
+        $result = questionnaires::remove_naire($id);
         return $result ? 'success' : 'fail';
     }
     

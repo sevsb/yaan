@@ -1,6 +1,6 @@
 $(document).ready(function (){
 //    
-//del_id = null;
+del_id = null;
 //
 //$('.do_del').click(function (){
 //    console.log(del_id);
@@ -40,6 +40,15 @@ $(document).ready(function (){
           },
         }
       });
+    $('.del_btn').click(function (){
+        del_id = $(this).parents('.project_elf').attr('naire_id');
+        //console.log('del_id:' + del_id);
+    });
+   
+    $('.do_del').click(function (){
+        console.log('del_id:' + del_id);
+        __ajax('admin.questionnaire.remove_naire', {id : del_id}, true);
+    });
    
 });
 

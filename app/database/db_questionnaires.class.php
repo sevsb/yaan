@@ -59,6 +59,10 @@ class db_questionnaires extends database {
         return $this->update(TABLE_QUESTIONNAIRES, array("is_cache" => 0), "id = $id");
     }
     
+    public function remove_naire($id) {
+        return $this->update(TABLE_QUESTIONNAIRES, array("is_remove" => 1), "id = $id");
+    }
+    
     public function remove($id){
         return $this->update(TABLE_QUESTIONNAIRES, array("is_remove" => 1), "id = $id");
     }

@@ -22,7 +22,7 @@
                 $title = $questionnaire['title'];
                 $notes = $questionnaire['notes'];
       ?>
-      <tr class='project_elf' muffinid='{:$naire_id}'>
+      <tr class='project_elf' naire_id='{:$naire_id}'>
         <td>{:$naire_id}</td>
         <td>{:$title}</td>
         <td>{:$notes}</td>
@@ -49,8 +49,8 @@
         <h4 class="modal-title" id="myModalLabel">提示！</h4>
       </div>
       <div class="modal-body">
-        确认是要删除此项目吗？
-        （项目中的任务也一并会删除！）
+        确认删除此问卷吗？
+        （可能导致关联的答卷失效！）
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

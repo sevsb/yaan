@@ -111,6 +111,15 @@ class questionnaires {
         }
         return $questionnaires;
     }
+    
+    public static function remove_naire($id){
+        
+        $questionnaires = db_questionnaires::inst()->remove_naire($id);
+        if (!$questionnaires) {
+            return false;
+        }
+        return $questionnaires;
+    }
 
     public static function load_all() {
         $all_questionnaires = db_questionnaires::inst()->get_all_questionnaires();
