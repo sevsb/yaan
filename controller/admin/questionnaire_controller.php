@@ -79,13 +79,12 @@ class questionnaire_controller {
         $tpl = new tpl("admin/noheader", "admin/footer");
         $nid = get_request("id", 0);
         
-        //         $task = tasks::create($taskid);
         $questionnaire = db_questionnaires::inst()->get_questionnaires_by_id($nid);
         file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."{$questionnaire['notes']}id:{$questionnaire['title']}\r\n", FILE_APPEND);
         $answer = answers::create($nid,$questionnaire['title'],$questionnaire['notes']);
         $questions = questions::load_by_nid($questionnaire['id']);
-        $i = 1;
-        for($i=1;$i<=count($questions); $i++){
+
+        foreach ($questions as $i => $question) {
             $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
         }
         $tpl->set('questionnaire', $questionnaire);
@@ -128,21 +127,13 @@ class questionnaire_controller {
         echo "关联成功";
     }
     
-    public function addAnswer_action() {
-        
+    public function addAnswer_ajax() {
         $id = get_request("id", 0);
-        $answer = answers::load_by_id($id);
-        $questionnaire = questionnaires::load_by_id($answer['nid']);
-        $questions = questions::load_by_nid($questionnaire['id']);
-        $i = 1;
-        for($i=1;$i<=count($questions); $i++){
-            if(isset($_POST[$questions[$i]['id']])){
-                $answers[$questions[$i]['id']] = urldecode($_POST[$questions[$i]['id']]);
-            }
-        }
-        $str = serialize($answers);
+        $answer_list = get_request("answer_list");
         
-        db_answer::inst()->modify_answer($id, $answer['title'], $answer['notes'], $str);
+        $questionnaire = questionnaires::load_by_id($id);
+        $ret = db_answer::inst()->add_answer($id, $questionnaire->title(),  $questionnaire->notes(), $answer_list);
+        return $ret ? 'success' : 'fail';
     }
     
     public function answerView_action() {
@@ -150,19 +141,25 @@ class questionnaire_controller {
         $tpl = new tpl("admin/header", "admin/footer");
         $id = get_request("id", 0);
         
-        //         $task = tasks::create($taskid);
         $answer = answers::load_by_id($id);
         $questionnaire = questionnaires::load_by_id($answer['nid']);
-        $questions = questions::load_by_nid($questionnaire['id']);
-        $i = 1;
-        for($i=1;$i<=count($questions); $i++){
+        $questions = questions::load_by_nid($questionnaire->id());
+        logging::d('answer', $answer);
+        logging::d('questionnaire', $questionnaire);
+        logging::d('questions', $questions);
+        //return;
+        foreach ($questions as $i => $question) {
             $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
         }
-        $answers = unserialize($answer['content']);
+        $answers = json_decode($answer['content']);
+        $answer_list = [];
+        foreach ($answers as $answer_elf) {
+            $answer_list[$answer_elf->id] = $answer_elf;
+        }
         $tpl->set('questionnaire', $questionnaire);
         $tpl->set('questions', $questions);
         $tpl->set('answer', $answer);
-        $tpl->set('answers', $answers);
+        $tpl->set('answers', $answer_list);
         
         $tpl->display("admin/questionnaire/answerView");
     }

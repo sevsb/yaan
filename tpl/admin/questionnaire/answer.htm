@@ -1,189 +1,248 @@
+<div class="container">
+<?php
+//var_dump($questionnaire);
+//var_dump($questions);
+//var_dump($answer);
+$q_no = 1;
+?>
+    <h1><?php if(empty($questionnaire['title'])) echo "新建答卷";else echo $questionnaire['title']; ?></h1>
+    <div class="row">
+        <div id="preview">
+            <h1 id='nairetitlelab'><?php if(empty($questionnaire['title'])) echo "添加标题";else echo $questionnaire['title']; ?></h1>
+            <h2 id='nairenoteslab'><?php if(empty($questionnaire['notes'])) echo "添加备注";else echo $questionnaire['notes']; ?></h2>
+            <form class="form-horizontal" role="form" id="answer">		
+            <?php
+            //var_dump($all_projects);
+            if (!empty($questions)) {
+                foreach ($questions as $question) {
+                    if($question['type']=='check'){
+                    ?>
+                    <div class='row'>
+                        <div class="question col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                            qid="<?php echo $question['id'];?>" 
+                            qtype='<?php echo $question['type'];?>' 
+                            qtitle='<?php echo $question['title'];?>' 
+                            qnotes='<?php echo $question['notes'];?>' 
+                        <?php 
+                        if(!empty($question['is_parent'])){
+                            echo 'id="' . $question['is_parent'] . '_' . $question['id'] . '"';
+                            echo ' style="display: none;"';
+                        } ?>>
+                            <label id='title' for="name"><?php echo $q_no++ . ". " . $question['title']; ?></label>
+                            <label id='notes' for="name"><?php echo $question['notes']; ?></label>
+                            <label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+                            <div>
+                        <?php
+                        if (!empty($question['options'])) {
+                            foreach ($question['options'] as $option ) {
+                        ?>
+                            <label class="checkbox-inline">
+                            <input type="checkbox" name="<?php echo $question['id']; ?>" 
+                                id="inlineCheckbox<?php echo $option['id']; ?>" 
+                                value="<?php echo $option['value']; ?>"> 
+                                <?php echo $option['title']; ?> 
+                            </label> 
+                        <?php
+                            }
+                        }
+                        ?>
+                            </div>
+                        </div>
+                    </div>
+                        <?php
+                        if (!empty($question['options'])) {
+                            echo '<script type="text/javascript">';
+                            echo '$(function() {';
+                            foreach ($question['options'] as $option ) {
+                            ?>
+                            $("#inlineCheckbox<?php echo $option['id']; ?>").change(function() { 
+                                if($("#inlineCheckbox<?php echo $option['id']; ?>").is(':checked')){
+                                    $("div[id^='<?php echo $option['id']; ?>_']").show();
+                                }else{
+                                    $("div[id^='<?php echo $option['id']; ?>_']").hide();
+                                }
+                            }); 
+                            <?php 
+                            }
+                            echo '});';
+                            echo '</script>';
+                        } 
+                        ?>
+                    
+                    <?php 
+                    } else if($question['type']=='radio'){
+                    ?>
+                    <div class='row'>
+                        <div class="question col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                            qid='<?php echo $question['id'];?>'
+                            qtype='<?php echo $question['type'];?>'
+                            qtitle='<?php echo $question['title'];?>'
+                            qnotes='<?php echo $question['notes'];?>'
+                        <?php 
+                        if(!empty($question['is_parent'])){
+                            echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
+                            echo ' style="display: none;"';
+                        } ?>>
+                            <label id='title' for="name"><?php echo $q_no++ . ". " . $question['title']; ?></label>
+                            <label id='notes' for="name"><?php echo $question['notes']; ?></label>
+                            <label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+                            <div>
+                            <?php
+                            if (!empty($question['options'])) {
+                                foreach ($question['options'] as $option ) {
+                                ?>
+                                <label class="radio-inline"> <input type="radio"
+                                    name="<?php echo $question['id']; ?>" id="optionsRadios<?php echo $option['id']; ?>" 
+                                    value="<?php echo $option['value']; ?>"> 
+                                    <?php echo $option['title']; ?>
+                                </label>
+                                <?php 
+                                }
+                            } 
+                            ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    if (!empty($question['options'])) {
+                        echo '<script type="text/javascript">';
+                        echo '$(function() {';
+                        foreach ($question['options'] as $option ) {
+                        ?>
+                            $("#optionsRadios<?php echo $option['id']; ?>").change(function() { 
+                                if($("#optionsRadios<?php echo $option['id']; ?>").is(':checked')){
+                                <?php
+                                    foreach ($question['options'] as $options ) {
+                                        if($options['id']!=$option['id']){
+                                        ?>
+                                        $("div[id^='<?php echo $options['id']; ?>_']").hide();
+                                        <?php		
+                                        }else{ ?>
+                                        $("div[id^='<?php echo $option['id']; ?>_']").show();
+                                        <?php				
+                                        }
+                                    }
+                                ?>
+                                }
+                            }); 
+                        <?php 
+                        }
+                        echo '});';
+                        echo '</script>';
+                        } 
+                    ?>
+                    
+                    <?php
+                    }else if($question['type']=='star'){
+                    ?>
+                    <div class='row'>
+                        <div class="question col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                            qid='<?php echo $question['id'];?>'
+                            qtype='<?php echo $question['type'];?>'
+                            qtitle='<?php echo $question['title'];?>'
+                            qnotes='<?php echo $question['notes'];?>'
+                        <?php 
+                        if(!empty($question['is_parent'])){
+                            echo 'id="' . $question['is_parent'] . '_' . $question['id'] . '"';
+                            echo ' style="display: none;"';
+                        } ?>>
+                        <label id='title' for="name"><?php echo $q_no++ . ". " . $question['title']; ?></label>
+                        <label id='notes' for="name"><?php echo $question['notes']; ?></label>
+                        <label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+                        <div>
+                            <label class="radio-inline"><?php echo $question['value']; ?>
+                                <div id="star<?php echo $question['id']; ?>" width="200"></div>
+                            </label>
+                            <label class="radio-inline">分</label>
+                        </div>
+                        <input type="hidden" name="<?php echo $question['id']; ?>" 
+                        id="<?php echo $question['id']; ?>" value="">
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                    $(function() {
+                        $("#star<?php echo $question['id']; ?>").raty({
+                            hints: ["1", "2", "3", "4", "5"],
+                            path:"/bigsword/yaan/images",
+                            click: function (score, evt) {
+                                $("#<?php echo $question['id']; ?>").val(score);
+                                console.log(score);
+                                $("#<?php echo $question['id']; ?>").prev().find('label:last').html(score + '分');
+                            }
+                        });
+                    });
+                    </script>
+                    
+                    <?php
+                    }else if($question['type']=='range'){
+                    ?>
+                    <div class='row'>
+                        <div class="question col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                            qid='<?php echo $question['id'];?>'
+                            qtype='<?php echo $question['type'];?>'
+                            qtitle='<?php echo $question['title'];?>'
+                            qnotes='<?php echo $question['notes'];?>'
+                        <?php 
+                        if(!empty($question['is_parent'])){
+                            echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
+                            echo ' style="display: none;"';
+                        } ?>>
+                            <label id='title' for="name"><?php echo $q_no++ . ". " . $question['title']; ?></label>
+                            <label id='notes' for="name"><?php echo $question['notes']; ?></label>
+                            <label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+                            <div>
+                            <?php $selectstar = json_decode($question['value'],1); ?>
+                            <label class="radio-inline"><?php echo $selectstar['selectstar']; ?>
+                                <input type="range" name="<?php echo $question['id']; ?>" min="1" max="<?php echo $selectstar['setnumber']; ?>" />
+                            </label class="radio-inline">
+                            <label><?php echo $selectstar['setnumber']; ?>分</label>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                    $('input[name="<?php echo $question['id']; ?>"]').click(function (){
+                        console.log(<?php echo $question['id']; ?>);
+                        var v = $(this).val();
+                        $(this).parent().next().html(v + '分');
+                    });
+                    </script>
+                    
+                    <?php
+                    }else if($question['type']=='text'){
+                    ?>
+                    <div class='row'>
+                        <div class="question col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                            qid='<?php echo $question['id'];?>'
+                            qtype='<?php echo $question['type'];?>'
+                            qtitle='<?php echo $question['title'];?>'
+                            qnotes='<?php echo $question['notes'];?>'
+                        <?php 
+                        if(!empty($question['is_parent'])){
+                            echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
+                            echo ' style="display: none;"';
+                        } ?>>
+                            <label id='title' for="name"><?php echo $q_no++ . ". " . $question['title']; ?></label>
+                            <label id='notes' for="name"><?php echo $question['notes']; ?></label>
+                            <label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
+                            <div>
+                                <input type="text" name="<?php echo $question['id']; ?>" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    }
+                }
+            }
+            ?>
 
-	<div class="container">
-		<h1><?php if(empty($questionnaire['title'])) echo "新建答卷";else echo $questionnaire['title']; ?></h1>
-		<div class="row">
-						<div id="preview">
-							<h1 id='nairetitlelab'><?php if(empty($questionnaire['title'])) echo "添加标题";else echo $questionnaire['title']; ?></h1>
-							<h2 id='nairenoteslab'><?php if(empty($questionnaire['notes'])) echo "添加备注";else echo $questionnaire['notes']; ?></h2>
-					<form class="form-horizontal" role="form" id="answer">		
-			<?php
-			    //var_dump($all_projects);
-    			if (!empty($questions)) {
-        			foreach ($questions as $question) {
-            			if($question['type']=='check'){
-        	?>
-							
-							
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" <?php if(!empty($question['is_parent'])){
-																							echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
-																							echo ' style="display: none;"';
-																							} ?>>
-								<label id='title' for="name"><?php echo $question['title']; ?></label>
-								<label id='notes' for="name"><?php echo $question['notes']; ?></label>
-								<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
-								<div>
-						<?php
-							if (!empty($question['options'])) {
-								foreach ($question['options'] as $option ) {
-						?>
-									<label class="checkbox-inline"> <input type="checkbox"
-											name="<?php echo $question['id']; ?>" 
-										id="inlineCheckbox<?php echo $option['id']; ?>" value="<?php echo $option['value']; ?>"> <?php echo $option['title']; ?> 
-									</label> 
-						<?php 
-								}
-							} 
-						?>
-								</div>
-							</div>
-							
-							<?php
-								if (!empty($question['options'])) {
-									echo '<script type="text/javascript">';
-			                        echo '$(function() {';
-								foreach ($question['options'] as $option ) {
-							?>
-								$("#inlineCheckbox<?php echo $option['id']; ?>").change(function() { 
-									if($("#inlineCheckbox<?php echo $option['id']; ?>").is(':checked')){
-	                        			$("div[id^='<?php echo $option['id']; ?>_']").show();
-	                        		}else{
-	                        			$("div[id^='<?php echo $option['id']; ?>_']").hide();
-	                        		}
-			                    }); 
-							<?php 
-									}
-
-			                    echo '});';
-		                        echo '</script>';
-								} 
-							?>
-					<?php 
-						}else if($question['type']=='radio'){
-					?>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" <?php if(!empty($question['is_parent'])){
-																							echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
-																							echo ' style="display: none;"';
-																							} ?>>
-									<label id='title' for="name"><?php echo $question['title']; ?></label>
-									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
-									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
-									<div>
-						<?php
-							if (!empty($question['options'])) {
-								foreach ($question['options'] as $option ) {
-						?>
-										<label class="radio-inline"> <input type="radio"
-											name="<?php echo $question['id']; ?>" id="optionsRadios<?php echo $option['id']; ?>" value="<?php echo $option['value']; ?>"> <?php echo $option['title']; ?>
-										</label>
-						<?php 
-								}
-							} 
-						?>
-									</div>
-								</div>
-								
-								<?php
-								if (!empty($question['options'])) {
-									echo '<script type="text/javascript">';
-			                        echo '$(function() {';
-								foreach ($question['options'] as $option ) {
-							?>
-								$("#optionsRadios<?php echo $option['id']; ?>").change(function() { 
-									if($("#optionsRadios<?php echo $option['id']; ?>").is(':checked')){
-									<?php
-										foreach ($question['options'] as $options ) {
-											if($options['id']!=$option['id']){
-									?>
-												$("div[id^='<?php echo $options['id']; ?>_']").hide();
-									<?php		}else{ ?>
-												$("div[id^='<?php echo $option['id']; ?>_']").show();
-									<?php				}
-										}
-									?>
-	                        		}
-			                    }); 
-							<?php 
-									}
-
-			                    echo '});';
-		                        echo '</script>';
-								} 
-							?>
-					
-			<?php
-						}else if($question['type']=='star'){
-					?>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" <?php if(!empty($question['is_parent'])){
-																							echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
-																							echo ' style="display: none;"';
-																							} ?>>
-									<label id='title' for="name"><?php echo $question['title']; ?></label>
-									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
-									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
-									<div>
-										<label class="radio-inline"><?php echo $question['value']; ?><div id="star<?php echo $question['id']; ?>" width="200"></div></label><label class="radio-inline">分</label>
-									</div>
-									<input type="hidden" name="<?php echo $question['id']; ?>" id="<?php echo $question['id']; ?>" value="">
-								</div>
-								<script type="text/javascript">
-			                        $(function() {
-				                        $("#star<?php echo $question['id']; ?>").raty({
-						                        hints: ["1", "2", "3", "4", "5"],
-						                        path:"/bigsword/yaan/images",
-						                        click: function (score, evt) {
-						                        	$("#<?php echo $question['id']; ?>").val(score);
-					                        }
-				                        });
-			                        });
-		                        </script>
-					
-			<?php
-						}else if($question['type']=='range'){
-					?>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" <?php if(!empty($question['is_parent'])){
-																							echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
-																							echo ' style="display: none;"';
-																							} ?>>
-									<label id='title' for="name"><?php echo $question['title']; ?></label>
-									<label id='notes' for="name"><?php echo $question['notes']; ?></label>
-									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
-									<div>
-										<?php $selectstar = json_decode($question['value'],1); ?>
-										<label class="radio-inline"><?php echo $selectstar['selectstar']; ?><input type="range" name="<?php echo $question['id']; ?>" min="1" max="<?php echo $selectstar['setnumber']; ?>" /></label class="radio-inline"><label><?php echo $selectstar['setnumber']; ?>分</label>
-									</div>
-								</div>
-					
-			<?php
-						}else if($question['type']=='text'){
-					?>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" <?php if(!empty($question['is_parent'])){
-																							echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
-																							echo ' style="display: none;"';
-																							} ?>>
-									<label id='title' for="name"><?php echo $question['title']; ?></label><input type="text" name="<?php echo $question['id']; ?>" value="" />
-									<label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
-									<div>
-										<label id='notes' for="name"><?php echo $question['notes']; ?></label>
-									</div>
-								</div>
-					
-			<?php
-						}
-					}
-    			}
-    		?>
-						
-						<input type="hidden" name="id" value="<?php echo $answer->id(); ?>"> 
-						<div class="form-group input-group-lg input-group-sm">
-									<button type="button" id='add_answer'
-										class="btn btn-default">添加</button>
-									<button type="reset" id='reset'
-										class="btn btn-default">重置</button>
-								</div>
-						</form>	
-						</div>
-						<hr>
-						
-					</div>
-				</div>
+                <input type="hidden" name="id" value="<?php echo $questionnaire['id']; ?>"> 
+                <div class="form-group input-group-lg input-group-sm">
+                    <button type="button" id='add_answer' class="btn btn-default">添加</button>
+                    <button type="reset" id='reset' class="btn btn-default">重置</button>
+                </div>
+            </form>	
+        </div>
+        <hr>
+    </div>
+</div>
 
