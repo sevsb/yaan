@@ -28,8 +28,7 @@ class questionnaire_controller {
             $questionnaire = questionnaires::create(0);
         }
         $questions = questions::load_by_nid($questionnaire->id());
-        $i = 1;
-        for($i=1;$i<=count($questions); $i++){
+        foreach ($questions as $i => $question) {
             $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
         }
         $tpl->set('questionnaire', $questionnaire);
@@ -46,8 +45,7 @@ class questionnaire_controller {
 //         $task = tasks::create($taskid);
         $questionnaire = questionnaires::load_by_id($id);
         $questions = questions::load_by_nid($questionnaire->id());
-        $i = 1;
-        for($i=1;$i<=count($questions); $i++){
+        foreach ($questions as $i => $question) {
             $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
         }
         $tpl->set('questionnaire', $questionnaire);
