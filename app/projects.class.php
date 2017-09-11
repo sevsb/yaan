@@ -80,8 +80,20 @@ class projects {
     public function stars() {
         return $this->summary("stars");
     }
+    public function paperid() {
+        return $this->summary("paperid");
+    }
     public function is_valid() {
         return !empty($this->summary);
+    }
+    
+    public function naire_is_valid() {
+        return !empty($this->paperid());
+    }
+    
+    public function naire() {
+        $naire_id = $this->paperid();
+        return questionnaires::load_by_id($naire_id);
     }
 
     public static function create($muffinid){
@@ -120,7 +132,7 @@ class projects {
         return $ret3 && $ret4;
     }
     
-    public static function add($project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile){
+    public static function add($project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile, $paperid){
         //begin_transaction();
         
         $pid = null;
@@ -132,7 +144,7 @@ class projects {
         if (!$muffin_id) {
             return false;
         }
-        $muffininfo_ret = db_muffininfos::inst()->add_project($project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile);
+        $muffininfo_ret = db_muffininfos::inst()->add_project($project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile, $paperid);
         if (!$muffininfo_ret) {
             return false;
         }
@@ -140,9 +152,9 @@ class projects {
         return $muffin_id;
     }
     
-    public static function modify($muffinid, $project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile){
+    public static function modify($muffinid, $project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile, $paperid){
         
-        $muffininfo_ret = db_muffininfos::inst()->modify_project($muffinid, $project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile);
+        $muffininfo_ret = db_muffininfos::inst()->modify_project($muffinid, $project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile, $paperid);
         if (!$muffininfo_ret) {
             return false;
         }

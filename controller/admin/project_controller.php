@@ -21,9 +21,11 @@ class project_controller {
         $projectmuffinid = get_request('projectmuffinid');
         $readonly = get_request('readonly');
         $project = projects::create($projectmuffinid);
+        $all_naires = questionnaires::load_all_naires();
         $tpl->set('muffinid', $projectmuffinid);
         $tpl->set('readonly', $readonly);
         $tpl->set('project', $project);
+        $tpl->set('all_naires', $all_naires);
         $project_types = db_settings::inst()->load('project_types');
         $project_types = $project_types['value'];
         $project_types = explode(',', $project_types);
@@ -46,9 +48,11 @@ class project_controller {
         $tpl = new tpl("admin/header", "admin/footer");
         $projectmuffinid = get_request('projectmuffinid');
         $project = projects::create($projectmuffinid);
+        $all_naires = questionnaires::load_all_naires();
         $tpl->set('muffinid', $projectmuffinid);
         $tpl->set('readonly', $readonly);
         $tpl->set('project', $project);
+        $tpl->set('all_naires', $all_naires);
         $project_types = db_settings::inst()->load('project_types');
         $project_types = $project_types['value'];
         $project_types = explode(',', $project_types);
@@ -65,6 +69,7 @@ class project_controller {
         $limit_time = get_request('limit_time');
         $paperfile = get_request('paperfile');
         $type = get_request('type');
+        $paperid = get_request('naire_id');
 
         $covername = null;
         $paperfilename = null;
@@ -91,7 +96,7 @@ class project_controller {
             }
             $paperfilename = $ret2[1];
         }
-        $result = projects::add($project_id, $title, $type, $description, $maintext, $covername, $limit_time, $paperfilename);
+        $result = projects::add($project_id, $title, $type, $description, $maintext, $covername, $limit_time, $paperfilename, $paperid);
         return $result ? array('ret' => "success",'info' => $result ) : array("ret"=>"fail", "info" => 'failed!') ;
     }
     
@@ -105,6 +110,7 @@ class project_controller {
         $limit_time = get_request('limit_time');
         $paperfile = get_request('paperfile');
         $type = get_request('type');
+        $paperid = get_request('naire_id');
 
         $covername = null;
         $paperfilename = null;
@@ -137,7 +143,7 @@ class project_controller {
             }
         }
       
-        $result = projects::modify($muffinid, $project_id, $title, $type, $description, $maintext, $covername, $limit_time, $paperfilename);
+        $result = projects::modify($muffinid, $project_id, $title, $type, $description, $maintext, $covername, $limit_time, $paperfilename, $paperid);
         return $result ? 'success' : 'fail';
     }
     

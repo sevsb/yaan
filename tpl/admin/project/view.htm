@@ -56,6 +56,16 @@
             <input type="text" class="form-control" id="datepicker" value='{:$project->limit_time()}'placeholder="完结时间" readonly>
           </div>
           
+                    
+          <div class="form-group">
+            <label for="dropdownMenu2">关联的问卷</label>
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?php echo $project->naire_is_valid() ? $project->naire()->title() : "未关联问卷"; ?></button>
+            </div>
+          </div>
+          
+          
+          
           <div class="form-group">
             <label for="limit_time">试卷</label><br>
             <a download='{:$project->title()}' href='{:$project->paperfile_url()}'><div class='btn btn-success'>点击下载试卷</div></a>

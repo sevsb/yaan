@@ -1,5 +1,6 @@
 $(document).ready(function (){
   var type = null;
+  var naire_id = 0;
   var uploadfilefileURL = $('#paperfile_url').val();
   $( "#datepicker" ).datepicker();
   $( "#datepicker" ).datepicker( "option", "dateFormat", 'yy-mm-dd' );
@@ -17,9 +18,15 @@ $(document).ready(function (){
     return false;
   });
   
-  $('.dropdownLi').click(function (){
+  $('.choose_type').click(function (){
     type = $(this).find("a").html();
     $('#dropdownMenu1').html(type);
+  });
+  
+  $('.choose_naire').click(function (){
+    naire_id = $(this).attr('nid');
+    naire_title = $(this).html();
+    $('#dropdownMenu2').html(naire_title);
   });
 
   
@@ -114,6 +121,7 @@ $(document).ready(function (){
     console.log("title:" + title);
     console.log("description:" + description);
     console.log("text:" + maintext);
+    console.log("naire_id:" + naire_id);
     //console.log("cover:" + cover);
     //console.log("uploadpaperfile:" + uploadfilefileURL);
     console.log(uploadfilefileURL);
@@ -152,7 +160,8 @@ $(document).ready(function (){
       cover: cover, 
       limit_time: limit_time, 
       paperfile: uploadfilefileURL, 
-      type: type
+      type: type,
+      naire_id: naire_id,
     },function (data){
         console.log(data);
         if(data.ret == 'success'){
@@ -219,12 +228,13 @@ $(document).ready(function (){
       cover: cover, 
       limit_time: limit_time, 
       paperfile: uploadfilefileURL, 
-      type: type
+      type: type,
+      naire_id: naire_id
     },function (data){
         console.log(data);
         ret = data.ret;
         if (ret == 'success'){
-            document.location.href = '?admin/project/index&flag=1';
+            document.location.href = '?admin/project/view&projectmuffinid=' + muffinid;
         }
         
     });

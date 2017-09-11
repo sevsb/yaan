@@ -2,7 +2,9 @@
     <div class="clear">
       <?php
         //var_dump($project);
-        //var_dump($muffinid);
+        //var_dump($project);
+        //var_dump($project->naire());
+        
         if ($project->is_valid()) {
             $limit_time = json_encode($project->limit_time());
             ?><script type="text/javascript"> var limit_time = {:$limit_time};</script><?php
@@ -37,7 +39,7 @@
               <?php
                 foreach ($project_types as $type) {
               ?>
-                <li class='dropdownLi'><a>{:$type}</a></li>
+                <li class='dropdownLi choose_type'><a>{:$type}</a></li>
               <?php
                 }
               ?>
@@ -73,6 +75,26 @@
             <label for="limit_time">请选取完结时间<span style='color: red;'>&nbsp*</span></label>
             <input type="text" class="form-control" id="datepicker" placeholder="完结时间">
           </div>
+          
+          <div class="form-group">
+            <label for="dropdownMenu2">请选择关联的问卷<span style='color: red;'>&nbsp*</span></label>
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><?php echo $project->naire_is_valid() ? $project->naire()->title() : "选择问卷<span class='caret'></span>"; ?></button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <?php
+                foreach ($all_naires as $naire) {
+              ?>
+                <li nid='{:$naire->id()}' class='dropdownLi choose_naire'><a>{:$naire->title()}</a></li>
+              <?php
+                }
+              ?>
+                <li nid='0' class='dropdownLi choose_naire'><a>撤消关联</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          
+          
           <div class="form-group">
             <label for="uploadpaperfile">请上传问卷文件</label>
             <input type="file" id="uploadpaperfile">

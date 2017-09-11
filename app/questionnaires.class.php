@@ -126,6 +126,15 @@ class questionnaires {
         return $all_questionnaires;
     }
     
+    public static function load_all_naires() {
+        $result_array = [];
+        $all_questionnaires = db_questionnaires::inst()->get_all_questionnaires();
+        foreach ($all_questionnaires as $id => $questionnaire) {
+            $result_array[$id] = new questionnaires($questionnaire);
+        }
+        return $result_array;
+    }
+    
     public static function load_by_id($id) {
         $questionnaires = db_questionnaires::inst()->get_questionnaires_by_id($id);
         return new questionnaires($questionnaires);
