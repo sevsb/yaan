@@ -28,7 +28,7 @@ class db_answer extends database {
     }
 
     public function get_all_answer() {
-        return $this->get_all_table(TABLE_ANSWER);
+        return $this->get_all_table(TABLE_ANSWER, "is_remove != 1");
     }
 
     public function get_one_bynid($nid) {

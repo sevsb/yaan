@@ -27,7 +27,7 @@
         <td>{:$notes}</td>
         <td>
             <a href='?admin/questionnaire/answerView&id={:$aid}'><div class='btn btn-default'>查看</div></a>
-            <div class='btn btn-danger del_btn' data-toggle="modal" data-target="#myModal" >删除</div>
+            <div class='btn btn-danger del_btn' aid='{:$aid}' data-toggle="modal" data-target="#myModal" >删除</div>
         </td>
       </tr>
     <?php
@@ -48,8 +48,7 @@
         <h4 class="modal-title" id="myModalLabel">提示！</h4>
       </div>
       <div class="modal-body">
-        确认是要删除此项目吗？
-        （项目中的任务也一并会删除！）
+        确认是要删除此答卷吗？
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

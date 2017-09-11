@@ -282,6 +282,12 @@ class questionnaire_controller {
         return $result ? 'success' : 'fail';
     }    
     
+    public function remove_answer_ajax() {
+        $id = get_request('id');
+        $result = answers::remove_answer($id);
+        return $result ? 'success' : 'fail';
+    }
+    
     public function remove_naire_ajax() {
         $id = get_request('id');
         $result = questionnaires::remove_naire($id);

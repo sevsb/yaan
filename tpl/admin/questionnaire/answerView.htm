@@ -83,7 +83,7 @@
                         <label class="radio-inline"><?php echo $question['value']; ?>
                             <div id="star<?php echo $question['id']; ?>" width="200"></div>
                         </label>
-                        <label class="radio-inline">分</label>
+                        <label class="radio-inline"><?php echo $answers[$question['id']]->value; ?>分</label>
                         <script type="text/javascript">
                         $(function() {
                             $("#star<?php echo $question['id']; ?>").raty({

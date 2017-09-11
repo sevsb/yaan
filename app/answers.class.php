@@ -108,6 +108,10 @@ class answers {
         }
         return $questionnaires;
     }
+    
+    public static function remove_answer($id){
+        return db_answer::inst()->remove($id);
+    }
 
     public static function load_all() {
         $answers = db_answer::inst()->get_all_answer();
