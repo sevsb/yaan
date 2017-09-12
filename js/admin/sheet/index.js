@@ -1,22 +1,5 @@
 $(document).ready(function() {
-    $('#mytable').dataTable({
-      "oLanguage": {
-        "sLengthMenu": "每页显示 _MENU_ 条记录",
-        "sZeroRecords": "对不起，查询不到任何相关数据",
-        "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_条记录",
-        "sInfoEmtpy": "找不到相关数据",
-        "sInfoFiltered": "数据表中共为 _MAX_ 条记录)",
-        "sProcessing": "正在加载中...",
-        "sSearch": "搜索",
-        "oPaginate": {
-          "sFirst": "第一页",
-          "sPrevious":" 上一页 ",
-          "sNext": " 下一页 ",
-          "sLast": " 最后一页 "
-          },
-        }
-    });
-    
+
     var refresh_sheet_data = function(data) {
         //console.debug(data.data);
         var mapurl = "http://api.map.baidu.com/staticimage/v2?ak=" + baiduak + "&mcode=666666&center=LONGITUDE,LATITUDE&width=300&height=200&zoom=13&markers=LONGITUDE,LATITUDE";
@@ -100,9 +83,11 @@ $(document).ready(function() {
                 __request("admin.sheet.review", { sheet: sid, review: "REJECT" }, refresh_sheet_data);
             }
         },
-        updated: function() {            
-            console.log("更新完成");            
-            /*$('#mytable').dataTable({
+        updated: function() {           
+            console.log("updated...");
+            $('#mytable').DataTable().destroy();
+             
+            $('#mytable').dataTable({
               "oLanguage": {
                 "sLengthMenu": "每页显示 _MENU_ 条记录",
                 "sZeroRecords": "对不起，查询不到任何相关数据",
@@ -118,8 +103,8 @@ $(document).ready(function() {
                   "sLast": " 最后一页 "
                   },
                 }
-            });*/
-            },   
+            });
+        },   
     });
 
     __request("admin.sheet.sheetlist", { }, refresh_sheet_data);
