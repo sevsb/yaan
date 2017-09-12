@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     var refresh_sheet_data = function(data) {
         console.debug(data);
         userlist.userlist = data.data;
@@ -16,6 +17,7 @@ $(document).ready(function() {
         },
         methods: {
             viewUser: function(event) {
+                console.log)('viewUSer');
                 var target = event.currentTarget;
                 var userkey = $(target).attr("userkey");
                 userlist.viewuserkey = userkey;
@@ -26,10 +28,9 @@ $(document).ready(function() {
             }
         },
         updated: function() {            
-            console.log("更新完成");            
-                $('#mytable1').dataTable().fnDestroy();
-                $('#mytable1').dataTable(
-                  {
+            console.log("更新完成");
+                $('#mytable1').dataTable().destroy();
+                $('#mytable1').dataTable({
                   "oLanguage": {
                     "sLengthMenu": "每页显示 _MENU_ 条记录",
                     "sZeroRecords": "对不起，查询不到任何相关数据",
@@ -45,7 +46,7 @@ $(document).ready(function() {
                       "sLast": " 最后一页 "
                       },
                     }
-                  });
+                });
             }   
     });
 

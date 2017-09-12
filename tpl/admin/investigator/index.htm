@@ -1,9 +1,6 @@
 <div>
-    <div>
-        
-    </div>
+
     <div id="user-infos">
-    
         <div v-if="flag == 1">
             <div id="page-wrapper">
             <table class='table' id='mytable1'>
@@ -16,14 +13,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-for="(user, key) in userlist" v-bind:userkey="key" v-on:click="viewUser">
-                        <tr>
-                            <td><img :src="user.face" class="userinfo-avatar" /></td>
-                            <td>{{user.nick}}</td>
-                            <td>{{user.score}}</td>
-                            <td>{{user.location}}</td>
-                        </tr>
-                    </template>
+                    <tr v-for="(user, key) in userlist" v-bind:userkey="key" v-on:click="viewUser">
+                        <td><img :src="user.face" class="userinfo-avatar" /></td>
+                        <td>{{user.nick}}</td>
+                        <td>{{user.score}}</td>
+                        <td>{{user.location}}</td>
+                    </tr>
                 </tbody>
             </table>
             </div>
@@ -40,11 +35,7 @@
             </div>
         </div>
 
-        
-        
-        
-        
-        
+
         
         <div id="user-info-view-background" v-if="showuserinfoview" v-on:click="closeUserView"></div>
         <div id="user-info-view" v-if="showuserinfoview">
