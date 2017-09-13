@@ -151,7 +151,7 @@ class api_controller {
             if ($answer->id == $question_id) {
                 logging::d('UPDATE_ANS', "$answer->id : " . $answer->id);
                     if ( $qtype == 'check') {
-                        $value = explode(",", $value);
+                        $value = explode($value, ",");
                     }
                 //if ($qtype == 'star' || $qtype == 'range' || $qtype == 'text' || $qtype == 'radio') {
                     $answer_list[$aid]->value = $value;
