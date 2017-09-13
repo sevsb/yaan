@@ -49,6 +49,9 @@ class tasks {
     public function paperid() {
         return $this->summary("paperid");
     }
+    public function answerid() {
+        return $this->summary("answerid");
+    }
     public function wechat_userid() {
         return $this->summary("wechat_userid");
     }
@@ -173,6 +176,11 @@ class tasks {
 
     public static function modify_task_status($taskid, $status){
         $ret = db_muffininfos::inst()->modify_task_status($taskid, $status);
+        return (!$ret) ? false : $ret;
+    }
+    
+    public static function modify_task_answerid($taskid, $answerid){
+        $ret = db_muffininfos::inst()->modify_task_answerid($taskid, $answerid);
         return (!$ret) ? false : $ret;
     }
     public static function update_broadcast_area($taskid, $broadcast_loctions){

@@ -69,6 +69,10 @@ class db_muffininfos extends database {
         return $this->update(TABLE_MUFFININFOS, array("status" => $status), "id = $taskid");
     }
 
+    public function modify_task_answerid($taskid, $answerid) {
+        return $this->update(TABLE_MUFFININFOS, array("answerid" => $answerid), "id = $taskid");
+    }
+
     public function update_broadcast_area($taskid, $broadcast_loctions) {
         return $this->update(TABLE_MUFFININFOS, array("broadcast_area" => $broadcast_loctions), "id = $taskid");
     }

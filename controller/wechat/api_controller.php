@@ -125,7 +125,120 @@ class api_controller {
         }
         echo json_encode(array("op" => "taskaround", "data" => $data));
     }
+    public function update_answer_action() {
+        $taskid = get_request("taskid");
+        $question_id = get_request("question_id");
+        $qtype = get_request("qtype");
+        $value = get_request("value");
+        //$taskid = get_request("taskid");
+        
+        $task = tasks::create_by_id($taskid);
+        $answerid = $task->answerid();
+        
+        
+        logging::d("taskid", $taskid);
+        logging::d("question_id", $question_id);
+        logging::d("qtype", $qtype);
+        logging::d("value", $value);
+
+        
+        
+        
+        $answer_list = answers::load_by_id($answerid)['content'];
+        $answer_list = json_decode($answer_list);
+        //logging::d('UPDATE_ANS', "answer_list : " . json_encode($answer_list));
+        foreach ($answer_list as $aid => $answer) {
+            if ($answer->id == $question_id) {
+                logging::d('UPDATE_ANS', "$answer->id : " . $answer->id);
+                    if ( $qtype == 'check') {
+                        $value = array($value);
+                    }
+                //if ($qtype == 'star' || $qtype == 'range' || $qtype == 'text' || $qtype == 'radio') {
+                    $answer_list[$aid]->value = $value;
+                    logging::d('UPDATE_ANS', "value: " . $value);
+                    logging::d('UPDATE_ANS', "answer_list value: " . $answer_list[$aid]->value);
+                //}
+            }
+        }
+        $content = json_encode($answer_list);
+        $ret = answers::update_answer($answerid, $content);
+        return $this->get_answer_by_taskid_action();
+    }
+   
+    
+    public function get_answer_by_taskid_action() {
+
+        $taskid = get_request("taskid");
+        $task = tasks::create_by_id($taskid);
+        $answerid = $task->answerid();
+        $paperid = $task->project()->paperid();
+        $questionnaire = questionnaires::load_by_id($paperid);
+        
+        if(empty($answerid)){
+            $answer_list = null;
+            $answerid = db_answer::inst()->add_answer($paperid, $questionnaire->title(),  $questionnaire->notes(), $answer_list);
+            $ret = tasks::modify_task_answerid($taskid, $answerid);
+        }
+        
+        $question_list = questions::load_by_nid($paperid);
+        $answer_list = answers::load_by_id($answerid)['content'];
+        $answer_list = json_decode($answer_list);
+        $assoc_question_list = [];
+        $option_checked_array = [];
+        
+        foreach ($question_list as $qid => $question) {
+            $_questionid = $question['id'];
+            $_question_pid = $question['is_parent'];
+            $_question_value = json_decode($question['value']);
+            $question_list[$qid]['answer_value'] = null;
+            $question_list[$qid]['value'] = $_question_value;
+            $question_list[$qid]['status'] = 'hide';
+            if ($question['type'] == 'radio' || $question['type'] == 'check' ){
+                $question_list[$qid]['options'] = questionoptions::load_by_qid($_questionid); //提取问题的options
+            }
+            if (!empty($_question_pid)) {
+                $assoc_arr = ["parent" => $_question_pid, "child" => $_questionid];
+                array_push($assoc_question_list, $assoc_arr);   //提取关联问题集
+            }
+            foreach ($answer_list as $answer) {
+                $_answerid = $answer->id;
+                if ($_questionid == $_answerid) {
+                    $question_list[$qid]['answer_value'] = $answer->value; //提取问题答案
+                    if ($question['type'] == 'radio') {                 //选择题的option给出status,前端用于判断是否展示
+                        foreach ($question_list[$qid]['options'] as $opt_id => $option) {
+                            if ($option['value'] == $answer->value){
+                                $question_list[$qid]['options'][$opt_id]['status'] = "checked";
+                                array_push($option_checked_array, $opt_id);
+                            }else {
+                                $question_list[$qid]['options'][$opt_id]['status'] = "nochecked";
+                            }
+                        }
+                    }else if ($question['type'] == 'check') {
+                       
+                        foreach ($question_list[$qid]['options'] as $opt_id => $option) {
+                            if (in_array($option['value'], (array)$answer->value)){
+                                $question_list[$qid]['options'][$opt_id]['status'] = "checked";
+                                array_push($option_checked_array, $opt_id);
+                            }else {
+                                $question_list[$qid]['options'][$opt_id]['status'] = "nochecked";
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            foreach ($question_list as $qid => $question ) {
+                $_question_pid = $question['is_parent'];
+                if (in_array($_question_pid, $option_checked_array) || empty($_question_pid)) {
+                    $question_list[$qid]['status'] = 'show';
+                }
+            }
+        }
+        
+        $all_data['questionnaire'] = $questionnaire->pack_info();
+        $all_data['question_list'] = $question_list;
+        $all_data['answer_list'] = $answer_list;
+        $all_data['assoc_question_list'] = $assoc_question_list;
+        echo json_encode(array("op" => "get_answer_by_taskid", "data" => $all_data));
+    }
 }
-
-
-

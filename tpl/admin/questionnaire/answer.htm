@@ -1,248 +1,182 @@
 <div class="container">
-<?php
-//var_dump($questionnaire);
-//var_dump($questions);
-//var_dump($answer);
-$q_no = 1;
-?>
-    <h1><?php if(empty($questionnaire['title'])) echo "新建答卷";else echo $questionnaire['title']; ?></h1>
-    <div class="row">
-        <div id="preview">
-            <h1 id='nairetitlelab'><?php if(empty($questionnaire['title'])) echo "添加标题";else echo $questionnaire['title']; ?></h1>
-            <h2 id='nairenoteslab'><?php if(empty($questionnaire['notes'])) echo "添加备注";else echo $questionnaire['notes']; ?></h2>
-            <form class="form-horizontal" role="form" id="answer">		
-            <?php
-            //var_dump($all_projects);
-            if (!empty($questions)) {
-                foreach ($questions as $question) {
-                    if($question['type']=='check'){
-                    ?>
-                    <div class='row'>
-                        <div class="question col-xs-12 col-sm-12 col-md-12 col-lg-12" 
-                            qid="<?php echo $question['id'];?>" 
-                            qtype='<?php echo $question['type'];?>' 
-                            qtitle='<?php echo $question['title'];?>' 
-                            qnotes='<?php echo $question['notes'];?>' 
-                        <?php 
-                        if(!empty($question['is_parent'])){
-                            echo 'id="' . $question['is_parent'] . '_' . $question['id'] . '"';
-                            echo ' style="display: none;"';
-                        } ?>>
-                            <label id='title' for="name"><?php echo $q_no++ . ". " . $question['title']; ?></label>
-                            <label id='notes' for="name"><?php echo $question['notes']; ?></label>
-                            <label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
-                            <div>
-                        <?php
-                        if (!empty($question['options'])) {
-                            foreach ($question['options'] as $option ) {
-                        ?>
-                            <label class="checkbox-inline">
-                            <input type="checkbox" name="<?php echo $question['id']; ?>" 
-                                id="inlineCheckbox<?php echo $option['id']; ?>" 
-                                value="<?php echo $option['value']; ?>"> 
-                                <?php echo $option['title']; ?> 
-                            </label> 
-                        <?php
-                            }
-                        }
-                        ?>
-                            </div>
-                        </div>
-                    </div>
-                        <?php
-                        if (!empty($question['options'])) {
-                            echo '<script type="text/javascript">';
-                            echo '$(function() {';
-                            foreach ($question['options'] as $option ) {
-                            ?>
-                            $("#inlineCheckbox<?php echo $option['id']; ?>").change(function() { 
-                                if($("#inlineCheckbox<?php echo $option['id']; ?>").is(':checked')){
-                                    $("div[id^='<?php echo $option['id']; ?>_']").show();
-                                }else{
-                                    $("div[id^='<?php echo $option['id']; ?>_']").hide();
-                                }
-                            }); 
-                            <?php 
-                            }
-                            echo '});';
-                            echo '</script>';
-                        } 
-                        ?>
-                    
-                    <?php 
-                    } else if($question['type']=='radio'){
-                    ?>
-                    <div class='row'>
-                        <div class="question col-xs-12 col-sm-12 col-md-12 col-lg-12" 
-                            qid='<?php echo $question['id'];?>'
-                            qtype='<?php echo $question['type'];?>'
-                            qtitle='<?php echo $question['title'];?>'
-                            qnotes='<?php echo $question['notes'];?>'
-                        <?php 
-                        if(!empty($question['is_parent'])){
-                            echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
-                            echo ' style="display: none;"';
-                        } ?>>
-                            <label id='title' for="name"><?php echo $q_no++ . ". " . $question['title']; ?></label>
-                            <label id='notes' for="name"><?php echo $question['notes']; ?></label>
-                            <label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
-                            <div>
-                            <?php
-                            if (!empty($question['options'])) {
-                                foreach ($question['options'] as $option ) {
-                                ?>
-                                <label class="radio-inline"> <input type="radio"
-                                    name="<?php echo $question['id']; ?>" id="optionsRadios<?php echo $option['id']; ?>" 
-                                    value="<?php echo $option['value']; ?>"> 
-                                    <?php echo $option['title']; ?>
-                                </label>
-                                <?php 
-                                }
-                            } 
-                            ?>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                    if (!empty($question['options'])) {
-                        echo '<script type="text/javascript">';
-                        echo '$(function() {';
-                        foreach ($question['options'] as $option ) {
-                        ?>
-                            $("#optionsRadios<?php echo $option['id']; ?>").change(function() { 
-                                if($("#optionsRadios<?php echo $option['id']; ?>").is(':checked')){
-                                <?php
-                                    foreach ($question['options'] as $options ) {
-                                        if($options['id']!=$option['id']){
-                                        ?>
-                                        $("div[id^='<?php echo $options['id']; ?>_']").hide();
-                                        <?php		
-                                        }else{ ?>
-                                        $("div[id^='<?php echo $option['id']; ?>_']").show();
-                                        <?php				
-                                        }
-                                    }
-                                ?>
-                                }
-                            }); 
-                        <?php 
-                        }
-                        echo '});';
-                        echo '</script>';
-                        } 
-                    ?>
-                    
-                    <?php
-                    }else if($question['type']=='star'){
-                    ?>
-                    <div class='row'>
-                        <div class="question col-xs-12 col-sm-12 col-md-12 col-lg-12" 
-                            qid='<?php echo $question['id'];?>'
-                            qtype='<?php echo $question['type'];?>'
-                            qtitle='<?php echo $question['title'];?>'
-                            qnotes='<?php echo $question['notes'];?>'
-                        <?php 
-                        if(!empty($question['is_parent'])){
-                            echo 'id="' . $question['is_parent'] . '_' . $question['id'] . '"';
-                            echo ' style="display: none;"';
-                        } ?>>
-                        <label id='title' for="name"><?php echo $q_no++ . ". " . $question['title']; ?></label>
-                        <label id='notes' for="name"><?php echo $question['notes']; ?></label>
-                        <label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
-                        <div>
-                            <label class="radio-inline"><?php echo $question['value']; ?>
-                                <div id="star<?php echo $question['id']; ?>" width="200"></div>
-                            </label>
-                            <label class="radio-inline">分</label>
-                        </div>
-                        <input type="hidden" name="<?php echo $question['id']; ?>" 
-                        id="<?php echo $question['id']; ?>" value="">
-                        </div>
-                    </div>
-                    <script type="text/javascript">
-                    $(function() {
-                        $("#star<?php echo $question['id']; ?>").raty({
-                            hints: ["1", "2", "3", "4", "5"],
-                            path:"/bigsword/yaan/images",
-                            click: function (score, evt) {
-                                $("#<?php echo $question['id']; ?>").val(score);
-                                console.log(score);
-                                $("#<?php echo $question['id']; ?>").prev().find('label:last').html(score + '分');
-                            }
-                        });
-                    });
-                    </script>
-                    
-                    <?php
-                    }else if($question['type']=='range'){
-                    ?>
-                    <div class='row'>
-                        <div class="question col-xs-12 col-sm-12 col-md-12 col-lg-12" 
-                            qid='<?php echo $question['id'];?>'
-                            qtype='<?php echo $question['type'];?>'
-                            qtitle='<?php echo $question['title'];?>'
-                            qnotes='<?php echo $question['notes'];?>'
-                        <?php 
-                        if(!empty($question['is_parent'])){
-                            echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
-                            echo ' style="display: none;"';
-                        } ?>>
-                            <label id='title' for="name"><?php echo $q_no++ . ". " . $question['title']; ?></label>
-                            <label id='notes' for="name"><?php echo $question['notes']; ?></label>
-                            <label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
-                            <div>
-                            <?php $selectstar = json_decode($question['value'],1); ?>
-                            <label class="radio-inline"><?php echo $selectstar['selectstar']; ?>
-                                <input type="range" name="<?php echo $question['id']; ?>" min="1" max="<?php echo $selectstar['setnumber']; ?>" />
-                            </label class="radio-inline">
-                            <label><?php echo $selectstar['setnumber']; ?>分</label>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                    $('input[name="<?php echo $question['id']; ?>"]').click(function (){
-                        console.log(<?php echo $question['id']; ?>);
-                        var v = $(this).val();
-                        $(this).parent().next().html(v + '分');
-                    });
-                    </script>
-                    
-                    <?php
-                    }else if($question['type']=='text'){
-                    ?>
-                    <div class='row'>
-                        <div class="question col-xs-12 col-sm-12 col-md-12 col-lg-12" 
-                            qid='<?php echo $question['id'];?>'
-                            qtype='<?php echo $question['type'];?>'
-                            qtitle='<?php echo $question['title'];?>'
-                            qnotes='<?php echo $question['notes'];?>'
-                        <?php 
-                        if(!empty($question['is_parent'])){
-                            echo 'id="'.$question['is_parent'].'_'.$question['id'].'"';
-                            echo ' style="display: none;"';
-                        } ?>>
-                            <label id='title' for="name"><?php echo $q_no++ . ". " . $question['title']; ?></label>
-                            <label id='notes' for="name"><?php echo $question['notes']; ?></label>
-                            <label id='qid' for="name" style="display: none;"><?php echo $question['id']; ?></label>
-                            <div>
-                                <input type="text" name="<?php echo $question['id']; ?>" value="" />
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                    }
-                }
-            }
-            ?>
 
-                <input type="hidden" name="id" value="<?php echo $questionnaire['id']; ?>"> 
-                <div class="form-group input-group-lg input-group-sm">
-                    <button type="button" id='add_answer' class="btn btn-default">添加</button>
-                    <button type="reset" id='reset' class="btn btn-default">重置</button>
-                </div>
-            </form>	
+
+    <div id="answer_show">
+    <div v-if="flag == 0">
+        <div class='naire_body'>
+            <h4><div>{{naire.title}}</div>
+            <div><small>{{naire.notes}}</small></div></h4>
         </div>
-        <hr>
+        <div class="question_elf" v-for="(question, key) in question_list" 
+            v-bind:userkey="key" v-bind:id="question.id" v-bind:question_id="question.id" v-bind:class="{hidden: question.status == 'hide'}">
+            
+            <div class='qtitle'>{{question.title}}</div>
+            <div class='qnotes'>{{question.notes}}</div>
+            
+            <div v-if="question.type === 'radio'">
+                <div v-for="(question_opt, key) in question.options" v-bind:userkey="key">
+                    <label class="radio-inline">
+                    <input type="radio" class='r_and_c radio_input ' v-on:click='radio_click(question_opt.id)' 
+                    v-bind:name='question.id' v-bind:option_id='question_opt.id' v-bind:value='question_opt.value' 
+                    v-bind:checked="question_opt.status == 'checked'"> 
+                        {{question_opt.value}}
+                    </label> 
+                </div>
+            </div>
+            <div v-else-if="question.type === 'check'">
+                <div v-for="(question_opt, key) in question.options" v-bind:userkey="key">
+                    <label class="checkbox-inline">
+                    <input type="checkbox" class='r_and_c check_input' v-bind:option_id='question_opt.id'  
+                    v-on:click='check_click(question_opt)'  v-bind:name='question.id' v-bind:value='question_opt.value'
+                    v-bind:checked="question_opt.status == 'checked'"> 
+                        {{question_opt.value}}
+                    </label> 
+                </div>
+            </div>
+            <div v-else-if="question.type === 'star'">
+                <label class="radio-inline">
+                    <div class="star_input" v-bind:star_count="question.answer_value" width="200"></div>
+                </label>
+                <label class="radio-inline">{{question.answer_value}}分</label>
+            </div>
+            <div v-else-if="question.type === 'range'">
+                <label class="radio-inline">
+                    <input type="range" class='range_input' name="" min="1" 
+                    v-bind:max="question.value.setnumber" v-bind:value="question.answer_value"/>
+                </label class="radio-inline">
+                <label>{{question.answer_value}}分</label>
+            </div>
+            <div v-else-if="question.type === 'text'">
+                <input class='text_input' type="text" name="" v-bind:value="question.answer_value"/>
+            </div>
+            <div v-if="question.is_upload == 1">
+                <!--<div class='btn btn-success' v-on:click="show_pic_dialog">添加图片</div>-->
+            </div>
+        </div>
     </div>
+
+        <!-- FIXME: 这里先这样写，获取全部接口。以后考再虑是否要每次都获取全部的接口功能，把这段代码移动到header.htm中 -->
+
+        
+        <div v-if="flag == 2">
+        <!-- 图片主体页面 -->
+            <div class="wx_view" id="wx_view">
+                <div class="card_book_loading">
+                    <p>资料加载中...</p>
+                </div>
+                <div class="wx_col_item card_book" style="display: none;">
+                    <div class="alert alert-info card_book_alert uploading_alert" role="alert" 
+                    style="display: none;">
+                        <i class="fa fa-upload" aria-hidden="true"></i>图片上传中，请稍后...
+                    </div>
+                    <div class="alert alert-success card_book_alert upload_success_alert" role="alert" 
+                    style="display: none;">
+                        <i class="fa fa-check" aria-hidden="true"></i>讯息：图片上传成功！
+                    </div>
+                    <div class="alert alert-danger card_book_alert upload_fail_alert" role="alert" 
+                    style="display: none;">
+                        <i class="fa fa-exclamation" aria-hidden="true"></i>错误：图片上传失败！
+                    </div>
+                    <div class="wx_row_item card_book_page">
+                        <!--<div class="card" v-for="photo in photosList">
+                            <div class="card_body" v-bind:style="{'background-image':'url('+__imgRoot+photo.imgUrl+')'}">
+                            </div>
+                            <div class="card_footer dropup" >
+                                <div class="card_title">{{ photo['imgContent'] }}</div>
+                                <button class="card_dropdown_btn" id="dLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right card_menu" aria-labelledby="dLabel">
+                                    <li v-on:click="modifyPhoto(photo.imgUrl)"><i class="fa fa-pencil" aria-hidden="true"></i>修改</li>
+                                    <li v-on:click="deletePhoto(photo.imgUrl)"><i class="fa fa-trash" aria-hidden="true"></i>删除</li>
+                                </ul>
+                            </div>
+                        </div>-->
+                        <div class="card add_card_btn" id="add_card_btn" v-on:click="addPhoto()">
+                            <i class="fa fa-plus" style="padding-right: 0px; font-size: 4em;"></i>
+                            <div>点击添加图片</div>
+                        </div>
+                    </div>
+                    <div class="wx_row_item bottom_area">
+                        <button type="button" class="btn btn-default" v-on:click="goBack()">返回</button>
+                        <!--<button type="button" class="btn btn-primary" v-on:click="showSumbitSheetModal()">提交</button>-->
+                    </div>
+                    <!-- 提交任务提示框 -->
+                    <!-- <div class="modal" id="submit_sheet_modal" tabindex="-1" role="dialog" data-backdrop="static">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body" style="padding-top: 1.5em;">
+                                    <strong style="font-size: 1.5em;">确认提交任务？</strong>
+                                    <p style="margin-top: 1em;">提交任务之后将无法继续修改，请等待审核</p>
+                                </div>
+                                <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
+                                    <div class="modal-footer-btn modal-footer-left_btn" id="submit_sheet_cancel" data-dismiss="modal">取消</div>
+                                    <div class="modal-footer-btn modal-footer-right_btn text-primary" id="submit_sheet_submit" v-on:click="sumbitSheet()">提交</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <!-- 添加卡片提示框 -->
+            <!--<div class="modal" id="add_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <strong style="font-size: 1.5em;">提交图片</strong>
+                        </div>
+                        <div class="modal-body">
+                            <img id="add_photo_modal_img" v-bind:src="imgUrl">
+                            <input type="text" class="form-control" id="add_photo_modal_img_content" placeholder="请添加备注" v-bind:value="imgContent">
+                        </div>
+                        <div class="modal-footer">
+                            <div class="modal-footer-btn modal-footer-left_btn" id="add_photo_cancel" data-dismiss="modal">取消</div>
+                            <div class="modal-footer-btn modal-footer-right_btn" id="add_photo_submit" v-on:click="updatePhoto()">提交</div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+            <!-- 修改卡片提示框 -->
+            <!--<div class="modal" id="modify_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <strong style="font-size: 1.5em;">修改备注信息</strong>
+                        </div>
+                        <div class="modal-body">
+                            <img id="modify_photo_modal_img" v-bind:src="__imgRoot+photo.imgUrl">
+                            <input type="text" class="form-control" id="modify_photo_modal_img_content" placeholder="请添加备注" v-bind:value="photo.imgContent">
+                        </div>
+                        <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
+                            <div class="modal-footer-btn modal-footer-left_btn" id="modify_photo_cancel" data-dismiss="modal">取消</div>
+                            <div class="modal-footer-btn modal-footer-right_btn" id="modify_photo_submit" v-on:click="modifyPhotoContent()">修改</div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+            <!-- 删除卡片提示框 -->
+            <!--<div class="modal" id="delete_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body" style="padding-top: 1.5em;">
+                            <strong style="font-size: 1.5em; margin-bottom: 1em;">确认删除照片？</strong>
+                        </div>
+                        <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
+                            <div class="modal-footer-btn modal-footer-left_btn" id="delete_photo_cancel" data-dismiss="modal">取消</div>
+                            <div class="modal-footer-btn modal-footer-right_btn text-danger" id="delete_photo_submit" v-on:click="deletePhoto()">删除</div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+
+        </div>
+    </div>
+
 </div>
+
+
 

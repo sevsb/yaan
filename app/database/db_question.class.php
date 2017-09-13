@@ -65,5 +65,3 @@ class db_question extends database {
         return $this->delete(TABLE_QUESTION, "id = '$id'");
     }
 };
-
-

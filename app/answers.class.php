@@ -109,6 +109,10 @@ class answers {
         return $questionnaires;
     }
     
+    public static function update_answer($answerid, $content){
+        return db_answer::inst()->modify_answer($answerid, "", "", $content);
+    }
+    
     public static function remove_answer($id){
         return db_answer::inst()->remove($id);
     }

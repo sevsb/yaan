@@ -149,15 +149,8 @@ class questionnaires {
     public function pack_info() {
         return array(
             "id" => $this->id(),
-            "projectid" => $this->project_id(),
-            "type" => $this->type(),
             "title" => $this->title(),
-            "text" => $this->text(),
-            "description" => $this->description(),
-            "word" => $this->paperfile_url(),
-            "status" => $this->status(),
-            "deadline" => $this->deadline(),
-            "cover" => $this->cover_url(),
+            "notes" => $this->notes()
         );
     }
 }

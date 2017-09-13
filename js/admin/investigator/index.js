@@ -17,7 +17,7 @@ $(document).ready(function() {
         },
         methods: {
             viewUser: function(event) {
-                console.log)('viewUSer');
+                console.log('viewUSer');
                 var target = event.currentTarget;
                 var userkey = $(target).attr("userkey");
                 userlist.viewuserkey = userkey;
