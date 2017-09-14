@@ -25,6 +25,11 @@ thead td {
     color: white;
 }
 
+.parent_flag {
+    background-color: #426ab3;
+    color: white;
+}
+
 .list_button_add button {
     min-width: 140px;
 }

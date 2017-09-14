@@ -21,7 +21,7 @@ class questionnaire_controller {
         $tpl = new tpl("admin/header", "admin/footer");
         $userid = get_session('user.id');
         $cache_questionnaire = questionnaires::get_cache_naire($userid);
-        //var_dump($cache_questionnaire);
+        $questionoptions = db_questionoptions::inst()->get_all_options();
         if (!empty($cache_questionnaire)) {
             $questionnaire = $cache_questionnaire;
         }else {
@@ -31,6 +31,7 @@ class questionnaire_controller {
         foreach ($questions as $i => $question) {
             $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
         }
+        $tpl->set('questionoptions', $questionoptions);
         $tpl->set('questionnaire', $questionnaire);
         $tpl->set('questions', $questions);
         
@@ -42,12 +43,13 @@ class questionnaire_controller {
         $tpl = new tpl("admin/header", "admin/footer");
         $id = get_request("id", 0);
         
-//         $task = tasks::create($taskid);
         $questionnaire = questionnaires::load_by_id($id);
         $questions = questions::load_by_nid($questionnaire->id());
+        $questionoptions = db_questionoptions::inst()->get_all_options();
         foreach ($questions as $i => $question) {
             $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
         }
+        $tpl->set('questionoptions', $questionoptions);
         $tpl->set('questionnaire', $questionnaire);
         $tpl->set('questions', $questions);
         
