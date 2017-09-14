@@ -4,3 +4,4 @@ ajax.php
 index.php
 *.swp
 logs
+*.bak

@@ -42,7 +42,7 @@
             <div v-else-if="question.type === 'range'">
                 <label class="radio-inline">
                     <input type="range" class='range_input' name="" min="1" 
-                    v-bind:max="question.value.setnumber" v-on:change="range_click(question)"  v-bind:value="question.answer_value"/>
+                    v-bind:max="question.value.setnumber" v-on:change="range_change(question)"  v-bind:value="question.answer_value"/>
                 </label class="radio-inline">
                 <label>{{question.answer_value}}分</label>
             </div>
