@@ -1,6 +1,22 @@
 
 .question_elf {
-    border: 1px solid #eee;
-    padding: 15px;
+    border-top: 1px solid #eee;
     width: 100%;
+    font-size: 15px;
+    
+}
+
+.naire_body, .question_elf, .backbtn {
+    padding :15px;
+}
+
+
+#answer_show{
+    padding: 15px;
+  
+}
+
+.backbtn {
+    width: 100%;
+    margin: 15px 0 15px 0;
 }

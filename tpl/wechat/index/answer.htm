@@ -1,13 +1,13 @@
-<div class="container">
+<div class="">
 
 
     <div id="answer_show">
-    <div v-if="flag == 0">
-        <div class='naire_body'>
+    <div class="" v-if="flag == 0">
+        <div class='naire_body font-weight text-center '>
             <h4><div>{{naire.title}}</div>
             <div><small>{{naire.notes}}</small></div></h4>
         </div>
-        <div class="question_elf row" v-for="(question, key) in question_list" 
+        <div class="question_elf box" v-for="(question, key) in question_list" 
             v-bind:userkey="key" v-bind:id="'question_'+question.id" v-bind:question_id="question.id" v-bind:class="{hidden: question.status == 'hide'}">
             
             <div class='qtitle'>{{question.title}}</div>
@@ -53,7 +53,7 @@
                 <!--<div class='btn btn-success' v-on:click="show_pic_dialog">添加图片</div>-->
             </div>
         </div>
-        <a href='?wechat/index/home'><div class='btn btn-default'>返回列表</div></a>
+        <a href='?wechat/index/home'><div class='btn btn-default backbtn'>返回列表</div></a>
     </div>
 
         <!-- FIXME: 这里先这样写，获取全部接口。以后考再虑是否要每次都获取全部的接口功能，把这段代码移动到header.htm中 -->
