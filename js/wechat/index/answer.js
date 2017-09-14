@@ -145,16 +145,16 @@ $(function() {
             },
             deletePhoto: function(imgUrl) {
                 vue_delete_photo_modal.showDeletePhotoModal(imgUrl);
-            },
+            },*/
             showSumbitSheetModal: function() {
                 $('#submit_sheet_modal').modal('show');
             },
             sumbitSheet: function() {
                 __ajax('wechat.index.sumbitSheet', {
-                    taskId: __taskId,
+                    taskId: taskid,
                 }, function (data) {
                     if(data.ret == 'success'){
-                        vue_wx_view.goBack();
+                        answer_show.goBack();
                     } else {
                         alert(data.info);
                     }
@@ -162,7 +162,7 @@ $(function() {
             },
             goBack: function() {
                 window.location.href = location.origin+'/?wechat/index/home';
-            }, */
+            }, 
         },
         updated: function() {
             $(".star_input").each(function (){

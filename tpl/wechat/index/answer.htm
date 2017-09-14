@@ -53,7 +53,8 @@
                 <!--<div class='btn btn-success' v-on:click="show_pic_dialog">添加图片</div>-->
             </div>
         </div>
-        <a href='?wechat/index/home'><div class='btn btn-default backbtn'>返回列表</div></a>
+        <div class='btn btn-success submit_btn' v-on:click="showSumbitSheetModal()">提交答卷</div>
+        <div class='btn btn-default backbtn' v-on:click="goBack()">返回列表</div>
     </div>
 
         <!-- FIXME: 这里先这样写，获取全部接口。以后考再虑是否要每次都获取全部的接口功能，把这段代码移动到header.htm中 -->
@@ -103,20 +104,7 @@
                         <!--<button type="button" class="btn btn-primary" v-on:click="showSumbitSheetModal()">提交</button>-->
                     </div>
                     <!-- 提交任务提示框 -->
-                    <!-- <div class="modal" id="submit_sheet_modal" tabindex="-1" role="dialog" data-backdrop="static">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-body" style="padding-top: 1.5em;">
-                                    <strong style="font-size: 1.5em;">确认提交任务？</strong>
-                                    <p style="margin-top: 1em;">提交任务之后将无法继续修改，请等待审核</p>
-                                </div>
-                                <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
-                                    <div class="modal-footer-btn modal-footer-left_btn" id="submit_sheet_cancel" data-dismiss="modal">取消</div>
-                                    <div class="modal-footer-btn modal-footer-right_btn text-primary" id="submit_sheet_submit" v-on:click="sumbitSheet()">提交</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+
                 </div>
             </div>
 
@@ -175,6 +163,31 @@
 
 
         </div>
+        
+        
+        
+        
+
+    <div class="modal" id="submit_sheet_modal" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" style="padding-top: 1.5em;">
+                    <strong style="font-size: 1.5em;">确认提交任务？</strong>
+                    <p style="margin-top: 1em;">提交任务之后将无法继续修改，请等待审核</p>
+                </div>
+                <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
+                    <div class="modal-footer-btn modal-footer-left_btn" id="submit_sheet_cancel" data-dismiss="modal">取消</div>
+                    <div class="modal-footer-btn modal-footer-right_btn text-primary" id="submit_sheet_submit" v-on:click="sumbitSheet()">提交</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+        
+        
+        
+        
+        
     </div>
 
 </div>
