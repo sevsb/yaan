@@ -185,15 +185,6 @@ $(function() {
                     }
                 });
             });
-            
-
-            $('.radio_input').click(function (){
-
-            });
-            
-            $('.check_input').click(function (){
-
-            });
         }
     });
     

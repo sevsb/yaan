@@ -153,12 +153,8 @@ class api_controller {
             $obj->id = $question_id;
             $obj->value = $value;
             $answer_list->$question_id = $obj;
-            //array_push($answer_list, $obj);
         }else{
-            //foreach ($answer_list as $aid => $answer) {
-                //if ($answer->id == $question_id) {
-                    //logging::d('UPDATE_ANS', "$answer->id : " . $answer->id);
-            if ( $qtype == 'check') {
+            if ($qtype == 'check') {
                 $value = explode(",", $value);
             }
             if (empty($answer_list->$question_id)) {
@@ -168,10 +164,7 @@ class api_controller {
             $answer_list->$question_id->value = $value;
             logging::d('UPDATE_ANS', "value: " . $value);
             logging::d('UPDATE_ANS', "answer_list value: " . $answer_list->$question_id->value);
-                //}
-            //}
         }
-        
         
         $content = json_encode($answer_list);
         $ret = answers::update_answer($answerid, $content);

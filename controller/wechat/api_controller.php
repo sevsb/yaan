@@ -140,7 +140,6 @@ class api_controller {
         logging::d("qtype", $qtype);
         logging::d("value", $value);
 
-
         $answer_list = answers::load_by_id($answerid)['content'];
         $answer_list = json_decode($answer_list);
         //logging::d('UPDATE_ANS', "answer_list : " . json_encode($answer_list));
@@ -153,10 +152,8 @@ class api_controller {
             $obj->id = $question_id;
             $obj->value = $value;
             $answer_list->$question_id = $obj;
-
         }else{
-
-            if ( $qtype == 'check') {
+            if ($qtype == 'check') {
                 $value = explode(",", $value);
             }
             if (empty($answer_list->$question_id)) {
@@ -166,9 +163,7 @@ class api_controller {
             $answer_list->$question_id->value = $value;
             logging::d('UPDATE_ANS', "value: " . $value);
             logging::d('UPDATE_ANS', "answer_list value: " . $answer_list->$question_id->value);
-
         }
-        
         
         $content = json_encode($answer_list);
         $ret = answers::update_answer($answerid, $content);
