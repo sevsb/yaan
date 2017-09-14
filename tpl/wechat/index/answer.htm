@@ -7,7 +7,7 @@
             <h4><div>{{naire.title}}</div>
             <div><small>{{naire.notes}}</small></div></h4>
         </div>
-        <div class="question_elf" v-for="(question, key) in question_list" 
+        <div class="question_elf row" v-for="(question, key) in question_list" 
             v-bind:userkey="key" v-bind:id="'question_'+question.id" v-bind:question_id="question.id" v-bind:class="{hidden: question.status == 'hide'}">
             
             <div class='qtitle'>{{question.title}}</div>
@@ -42,7 +42,7 @@
             <div v-else-if="question.type === 'range'">
                 <label class="radio-inline">
                     <input type="range" class='range_input' name="" min="1" 
-                    v-bind:max="question.value.setnumber" v-on:click="range_click(question)"  v-bind:value="question.answer_value"/>
+                    v-bind:max="question.value.setnumber" v-on:change="range_click(question)"  v-bind:value="question.answer_value"/>
                 </label class="radio-inline">
                 <label>{{question.answer_value}}分</label>
             </div>

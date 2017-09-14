@@ -93,8 +93,8 @@ $(function() {
             star_click: function (){
                 console.log('star_click clicked!');
             },
-            range_click: function (question){
-                console.log('range_click');
+            range_change: function (question){
+                console.log('range_change');
                 var question_id = question.id;
                 var __self = $('#question_' + question_id).find('input');
                 var score = __self.val();

@@ -93,7 +93,7 @@ $(function() {
             star_click: function (){
                 console.log('star_click clicked!');
             },
-            range_click: function (question){
+            range_change: function (question){
                 console.log('range_click');
                 var question_id = question.id;
                 var __self = $('#question_' + question_id).find('input');
@@ -184,15 +184,6 @@ $(function() {
                         return;
                     }
                 });
-            });
-            
-
-            $('.radio_input').click(function (){
-
-            });
-            
-            $('.check_input').click(function (){
-
             });
         }
     });
