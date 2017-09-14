@@ -72,26 +72,82 @@ class questionnaire_controller {
         $tpl->display("admin/questionnaire/edit");
     }
     
-    public function answer_action() {
+    public function preview_action() {
         $tpl = new tpl();
         $tpl = new tpl("admin/noheader", "admin/footer");
-        /*$nid = get_request("id", 0);
+        $nid = get_request("id", 0);
         
-        $questionnaire = db_questionnaires::inst()->get_questionnaires_by_id($nid);
-        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."{$questionnaire['notes']}id:{$questionnaire['title']}\r\n", FILE_APPEND);
-        $answer = answers::create($nid,$questionnaire['title'],$questionnaire['notes']);
-        $questions = questions::load_by_nid($questionnaire['id']);
+        $tpl->set('nid', $nid);
+        $tpl->display("admin/questionnaire/preview");
+    }
+    
+    public function get_preview_by_naireid_action() {
 
-        foreach ($questions as $i => $question) {
-            $questions[$i]['options'] = questionoptions::load_by_qid($questions[$i]['id']);
-        }
-        $tpl->set('questionnaire', $questionnaire);
-        $tpl->set('questions', $questions);
-        $tpl->set('answer', $answer);*/
+        $naireid = get_request("naireid");
+        $questionnaire = questionnaires::load_by_id($naireid);
+        logging::d('get_preview_by_naireid_action',$naireid);
+
+        $question_list = questions::load_by_nid($naireid);
+
+        $assoc_question_list = [];
+        $option_checked_array = [];
         
-        $tpl->set('taskid', $answer);
-        $tpl->set('taskid', $answer);
-        $tpl->display("admin/questionnaire/answer");
+        foreach ($question_list as $qid => $question) {
+            $_questionid = $question['id'];
+            $_question_pid = $question['is_parent'];
+            $_question_value = json_decode($question['value']);
+            $question_list[$qid]['value'] = $_question_value;
+            $question_list[$qid]['status'] = empty($_question_pid) ? 'show' : "hide";
+            if ($question['type'] == 'radio' || $question['type'] == 'check' ){
+                $question_list[$qid]['options'] = questionoptions::load_by_qid($_questionid); //提取问题的options
+            }
+            if (!empty($_question_pid)) {
+                if (empty($assoc_question_list[$_question_pid])) {
+                    $assoc_question_list[$_question_pid] = [];
+                }
+                array_push($assoc_question_list[$_question_pid], $_questionid);   //提取关联问题集
+            }
+            /*
+            foreach ((array)$answer_list as $answer) {
+                $_answerid = $answer->id;
+                if ($_questionid == $_answerid) {
+                    $question_list[$qid]['answer_value'] = $answer->value; //提取问题答案
+                    if ($question['type'] == 'radio') {                 //选择题的option给出status,前端用于判断是否展示
+                        foreach ($question_list[$qid]['options'] as $opt_id => $option) {
+                            if ($option['value'] == $answer->value){
+                                $question_list[$qid]['options'][$opt_id]['status'] = "checked";
+                                array_push($option_checked_array, $opt_id);
+                            }else {
+                                $question_list[$qid]['options'][$opt_id]['status'] = "nochecked";
+                            }
+                        }
+                    }else if ($question['type'] == 'check') {
+                       
+                        foreach ($question_list[$qid]['options'] as $opt_id => $option) {
+                            if (in_array($option['value'], (array)$answer->value)){
+                                $question_list[$qid]['options'][$opt_id]['status'] = "checked";
+                                array_push($option_checked_array, $opt_id);
+                            }else {
+                                $question_list[$qid]['options'][$opt_id]['status'] = "nochecked";
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            */
+        }
+        
+        $all_data['questionnaire'] = $questionnaire->pack_info();
+        $all_data['question_list'] = $question_list;
+        $all_data['assoc_question_list'] = $assoc_question_list;
+        echo json_encode(array("op" => "get_answer_by_taskid", "data" => $all_data));
+    
+    
+    
+    
+    
+    
     }
     
     public function assoc_action() {
