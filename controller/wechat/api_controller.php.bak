@@ -135,31 +135,44 @@ class api_controller {
         $task = tasks::create_by_id($taskid);
         $answerid = $task->answerid();
         
-        
         logging::d("taskid", $taskid);
         logging::d("question_id", $question_id);
         logging::d("qtype", $qtype);
         logging::d("value", $value);
 
-        
-        
-        
+
         $answer_list = answers::load_by_id($answerid)['content'];
         $answer_list = json_decode($answer_list);
         //logging::d('UPDATE_ANS', "answer_list : " . json_encode($answer_list));
-        foreach ($answer_list as $aid => $answer) {
-            if ($answer->id == $question_id) {
-                logging::d('UPDATE_ANS', "$answer->id : " . $answer->id);
-                    if ( $qtype == 'check') {
-                        $value = explode($value, ",");
-                    }
-                //if ($qtype == 'star' || $qtype == 'range' || $qtype == 'text' || $qtype == 'radio') {
-                    $answer_list[$aid]->value = $value;
-                    logging::d('UPDATE_ANS', "value: " . $value);
-                    logging::d('UPDATE_ANS', "answer_list value: " . $answer_list[$aid]->value);
-                //}
+        if (empty($answer_list)) {
+            $answer_list = new stdClass();
+            if ( $qtype == 'check') {
+                $value = explode(",", $value);
             }
+            $obj = new stdClass();
+            $obj->id = $question_id;
+            $obj->value = $value;
+            $answer_list->$question_id = $obj;
+            //array_push($answer_list, $obj);
+        }else{
+            //foreach ($answer_list as $aid => $answer) {
+                //if ($answer->id == $question_id) {
+                    //logging::d('UPDATE_ANS', "$answer->id : " . $answer->id);
+            if ( $qtype == 'check') {
+                $value = explode(",", $value);
+            }
+            if (empty($answer_list->$question_id)) {
+                $answer_list->$question_id = new stdClass;
+            }
+            $answer_list->$question_id->id = $question_id;
+            $answer_list->$question_id->value = $value;
+            logging::d('UPDATE_ANS', "value: " . $value);
+            logging::d('UPDATE_ANS', "answer_list value: " . $answer_list->$question_id->value);
+                //}
+            //}
         }
+        
+        
         $content = json_encode($answer_list);
         $ret = answers::update_answer($answerid, $content);
         return $this->get_answer_by_taskid_action();
@@ -200,7 +213,7 @@ class api_controller {
                 $assoc_arr = ["parent" => $_question_pid, "child" => $_questionid];
                 array_push($assoc_question_list, $assoc_arr);   //提取关联问题集
             }
-            foreach ($answer_list as $answer) {
+            foreach ((array)$answer_list as $answer) {
                 $_answerid = $answer->id;
                 if ($_questionid == $_answerid) {
                     $question_list[$qid]['answer_value'] = $answer->value; //提取问题答案

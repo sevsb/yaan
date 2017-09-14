@@ -51,11 +51,11 @@ class index_controller {
         $answerid = $task->answerid();
         $userId = $task->wechat_userid();
 
-        if (!empty($task->project()->paperid())) {
-            $questionnaire = questionnaires::load_by_id($paperid);
+        if (!empty($task->project()->paperid()) && empty($answerid)) {
+            $questionnaire = questionnaires::load_by_id($task->project()->paperid());
             $answer_list = null;
-            $answerid = db_answer::inst()->add_answer($paperid, $questionnaire->title(),  $questionnaire->notes(), $answer_list);
-            $ret = tasks::modify_task_answerid($taskid, $answerid);
+            $answerid = db_answer::inst()->add_answer($task->project()->paperid(), $questionnaire->title(),  $questionnaire->notes(), $answer_list);
+            $ret = tasks::modify_task_answerid($taskId, $answerid);
         }
         
         if (!empty($answerid)) {
