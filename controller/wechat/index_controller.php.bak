@@ -60,8 +60,7 @@ class index_controller {
             $tpl->display("wechat/index/answer"); 
             return;
         }
-        
-        $tpl->set("taskId", $taskId);
+                $tpl->set("taskId", $taskId);
         $tpl->set("paperId", $paperId);
         $tpl->set("userId", $userId);
         $imgRoot = rtrim(UPLOAD_URL, "/") . "/";

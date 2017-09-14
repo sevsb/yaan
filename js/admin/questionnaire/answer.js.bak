@@ -156,7 +156,7 @@ $(function() {
                         console.log(score);
                         console.log(question_id);
 
-                        __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'star', value: score}, refresh_data);
+                        __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'star', value: score}, f);
                     }
                 });
             });

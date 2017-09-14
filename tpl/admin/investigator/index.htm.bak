@@ -56,7 +56,7 @@
                     <p>正在进行任务：</p>
                     <ul>
                         <li v-for="task in userlist[viewuserkey].tasks">
-                            <router-link :to='wecha'>
+                            <router-link :to='wechat/index/sheet'>
                             <!--<a href='?wechat/index/sheet&task={{task.id}}'>-->
                                 {{task.project.title}}-{{task.title}}-{{task.project.deadline}}
                             <!--</a>-->

@@ -12,6 +12,7 @@ $(function() {
 
         answer_show.answer_list = data.answer_list;
         answer_show.assoc_question_list = data.assoc_question_list;
+        return;
     };
     
     /*var show_assoc_quesion = function (option_id){
@@ -51,6 +52,7 @@ $(function() {
                 //this.setPageStatus(1);
                 $('.card_book_loading').css('display','none');
                 $('.card_book').css('display','flex');
+                return;
             },
             setPageStatus: function(PageStatus) {
                 // v-if 的选择渲染会出现闪现现象
@@ -67,25 +69,48 @@ $(function() {
                         return;
                 }
             },
-            radio_click: function (option_id){
-                /*console.log('radio_click clicked!');
-                console.log(option_id);
-                for (var i in answer_show.assoc_question_list) {
-                    var pid = answer_show.assoc_question_list[i].parent;
-                    var cid = answer_show.assoc_question_list[i].child;
-                    if (option_id == pid) {
-                        console.log(option_id + " is parent! " + cid + " will be showed!");
-                        $('#' + cid ).removeClass("hidden")
-                    } else {
-                        $('#' + cid ).addClass("hidden")
-                    }
-                }*/
+            radio_click: function (question, question_opt){
+                console.log('radio_click');
+                var question_id = question.id;
+                var value = question_opt.value;
+                
+                __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'radio', value: value}, refresh_data);
+                return;
             },
-            check_click: function (option_obj){
-                console.log('check_click clicked!');
-                option_id = option_obj.id;
-                console.log(option_obj);
-                console.log(option_id);
+            check_click: function (question){
+                console.log('check_click');
+                var question_id = question.id;
+                var value = [];
+                $('#question_' + question_id).find('.check_input:checked').each(function (){
+                    var v = $(this).val();
+                    value.push(v);
+                });
+                value = value.join(",");
+
+                __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'check', value: value}, refresh_data);
+                return;
+            },
+            star_click: function (){
+                console.log('star_click clicked!');
+            },
+            range_click: function (question){
+                console.log('range_click');
+                var question_id = question.id;
+                var __self = $('#question_' + question_id).find('input');
+                var score = __self.val();
+                __self.parent().next('label').html(score + '分');
+                
+                __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'range', value: score}, refresh_data);
+                return;
+            },
+            text_blur: function (question){
+                console.log('text_blur');
+                var question_id = question.id;
+                var __self = $('#question_' + question_id).find('input');
+                var value = __self.val();
+                
+                __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'text', value: value}, refresh_data);
+                return;
             },
             /*refreshPhotosList: function() {
                 vue_wx_view.photosList = __photosList;
@@ -141,7 +166,7 @@ $(function() {
         },
         updated: function() {
             $(".star_input").each(function (){
-                console.log('raty');
+
                 var star_count = $(this).attr('star_count');
                 $(this).raty({
                     hints: ["1", "2", "3", "4", "5"],
@@ -151,48 +176,25 @@ $(function() {
                         $(this).attr('star_count', score);
                         $(this).val(score);
                         $(this).parent().next('label').html(score + '分');
-                        
+
                         var question_id = $(this).parents('.question_elf').attr('question_id');
+                        console.log('raty clicked, score :' + score + ', question_id : ' + question_id);
                         console.log(score);
                         console.log(question_id);
 
                         __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'star', value: score}, refresh_data);
+                        return;
                     }
                 });
             });
-            $('.range_input').click(function (){
-                var score = $(this).val();
-                $(this).parent().next('label').html(score + '分');
-                
-                var question_id = $(this).parents('.question_elf').attr('question_id');
-                __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'range', value: score}, refresh_data);
-            });
             
-            $('.text_input').blur(function (){
-                var value = $(this).val();
-                var question_id = $(this).parents('.question_elf').attr('question_id');
-                
-                __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'text', value: value}, refresh_data);
-            });
-            
+
             $('.radio_input').click(function (){
-                var value = $(this).val();
-                var question_id = $(this).parents('.question_elf').attr('question_id');
-                
-                __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'radio', value: value}, refresh_data);
+
             });
             
             $('.check_input').click(function (){
-                var value = [];
-                
-                var question_id = $(this).parents('.question_elf').attr('question_id');
-                $(this).parents('.question_elf').find('.check_input:checked').each(function (){
-                    var v = $(this).val();
-                    value.push(v);
-                });
-                value = value.join(",");
 
-                __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'check', value: value}, refresh_data);
             });
         }
     });

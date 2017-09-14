@@ -8,7 +8,7 @@
             <div><small>{{naire.notes}}</small></div></h4>
         </div>
         <div class="question_elf" v-for="(question, key) in question_list" 
-            v-bind:userkey="key" v-bind:id="question.id" v-bind:question_id="question.id" v-bind:class="{hidden: question.status == 'hide'}">
+            v-bind:userkey="key" v-bind:id="'question_'+question.id" v-bind:question_id="question.id" v-bind:class="{hidden: question.status == 'hide'}">
             
             <div class='qtitle'>{{question.title}}</div>
             <div class='qnotes'>{{question.notes}}</div>
@@ -16,7 +16,7 @@
             <div v-if="question.type === 'radio'">
                 <div v-for="(question_opt, key) in question.options" v-bind:userkey="key">
                     <label class="radio-inline">
-                    <input type="radio" class='r_and_c radio_input ' v-on:click='radio_click(question_opt.id)' 
+                    <input type="radio" class='r_and_c radio_input ' v-on:click='radio_click(question, question_opt)' 
                     v-bind:name='question.id' v-bind:option_id='question_opt.id' v-bind:value='question_opt.value' 
                     v-bind:checked="question_opt.status == 'checked'"> 
                         {{question_opt.value}}
@@ -27,7 +27,7 @@
                 <div v-for="(question_opt, key) in question.options" v-bind:userkey="key">
                     <label class="checkbox-inline">
                     <input type="checkbox" class='r_and_c check_input' v-bind:option_id='question_opt.id'  
-                    v-on:click='check_click(question_opt)'  v-bind:name='question.id' v-bind:value='question_opt.value'
+                    v-on:click='check_click(question)'  v-bind:name='question.id' v-bind:value='question_opt.value'
                     v-bind:checked="question_opt.status == 'checked'"> 
                         {{question_opt.value}}
                     </label> 
@@ -35,19 +35,19 @@
             </div>
             <div v-else-if="question.type === 'star'">
                 <label class="radio-inline">
-                    <div class="star_input" v-bind:star_count="question.answer_value" width="200"></div>
+                    <div class="star_input" v-on:click="star_click" v-bind:star_count="question.answer_value" width="200"></div>
                 </label>
                 <label class="radio-inline">{{question.answer_value}}分</label>
             </div>
             <div v-else-if="question.type === 'range'">
                 <label class="radio-inline">
                     <input type="range" class='range_input' name="" min="1" 
-                    v-bind:max="question.value.setnumber" v-bind:value="question.answer_value"/>
+                    v-bind:max="question.value.setnumber" v-on:click="range_click(question)"  v-bind:value="question.answer_value"/>
                 </label class="radio-inline">
                 <label>{{question.answer_value}}分</label>
             </div>
             <div v-else-if="question.type === 'text'">
-                <input class='text_input' type="text" name="" v-bind:value="question.answer_value"/>
+                <input class='text_input' type="text" name="" v-on:blur="text_blur(question)"  v-bind:value="question.answer_value"/>
             </div>
             <div v-if="question.is_upload == 1">
                 <!--<div class='btn btn-success' v-on:click="show_pic_dialog">添加图片</div>-->

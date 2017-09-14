@@ -88,8 +88,7 @@ class questionnaire_controller {
         $tpl->set('questionnaire', $questionnaire);
         $tpl->set('questions', $questions);
         $tpl->set('answer', $answer);*/
-        
-        $tpl->set('taskid', $answer);
+        $nid = get_request("id", 0)
         $tpl->set('taskid', $answer);
         $tpl->display("admin/questionnaire/answer");
     }
