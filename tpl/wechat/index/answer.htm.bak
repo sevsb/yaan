@@ -8,7 +8,7 @@
             <div><small>{{naire.notes}}</small></div></h4>
         </div>
         <div class="question_elf" v-for="(question, key) in question_list" 
-            v-bind:userkey="key" v-bind:id="question.id" v-bind:question_id="question.id" v-bind:class="{hidden: question.status == 'hide'}">
+            v-bind:userkey="key" v-bind:id="'question_'+question.id" v-bind:question_id="question.id" v-bind:class="{hidden: question.status == 'hide'}">
             
             <div class='qtitle'>{{question.title}}</div>
             <div class='qnotes'>{{question.notes}}</div>
@@ -53,6 +53,7 @@
                 <!--<div class='btn btn-success' v-on:click="show_pic_dialog">添加图片</div>-->
             </div>
         </div>
+        <div></div>
     </div>
 
         <!-- FIXME: 这里先这样写，获取全部接口。以后考再虑是否要每次都获取全部的接口功能，把这段代码移动到header.htm中 -->

@@ -51,6 +51,12 @@ class index_controller {
         $answerid = $task->answerid();
         $userId = $task->wechat_userid();
 
+        if (!empty($task->project()->paperid())) {
+            $questionnaire = questionnaires::load_by_id($paperid);
+            $answer_list = null;
+            $answerid = db_answer::inst()->add_answer($paperid, $questionnaire->title(),  $questionnaire->notes(), $answer_list);
+            $ret = tasks::modify_task_answerid($taskid, $answerid);
+        }
         
         if (!empty($answerid)) {
             $tpl = new tpl("admin/noheader", "admin/footer");
