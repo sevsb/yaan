@@ -109,47 +109,13 @@ class questionnaire_controller {
                 }
                 array_push($assoc_question_list[$_question_pid], $_questionid);   //提取关联问题集
             }
-            /*
-            foreach ((array)$answer_list as $answer) {
-                $_answerid = $answer->id;
-                if ($_questionid == $_answerid) {
-                    $question_list[$qid]['answer_value'] = $answer->value; //提取问题答案
-                    if ($question['type'] == 'radio') {                 //选择题的option给出status,前端用于判断是否展示
-                        foreach ($question_list[$qid]['options'] as $opt_id => $option) {
-                            if ($option['value'] == $answer->value){
-                                $question_list[$qid]['options'][$opt_id]['status'] = "checked";
-                                array_push($option_checked_array, $opt_id);
-                            }else {
-                                $question_list[$qid]['options'][$opt_id]['status'] = "nochecked";
-                            }
-                        }
-                    }else if ($question['type'] == 'check') {
-                       
-                        foreach ($question_list[$qid]['options'] as $opt_id => $option) {
-                            if (in_array($option['value'], (array)$answer->value)){
-                                $question_list[$qid]['options'][$opt_id]['status'] = "checked";
-                                array_push($option_checked_array, $opt_id);
-                            }else {
-                                $question_list[$qid]['options'][$opt_id]['status'] = "nochecked";
-                                
-                            }
-                        }
-                    }
-                }
-            }
-            */
         }
         
         $all_data['questionnaire'] = $questionnaire->pack_info();
         $all_data['question_list'] = $question_list;
         $all_data['assoc_question_list'] = $assoc_question_list;
         echo json_encode(array("op" => "get_answer_by_taskid", "data" => $all_data));
-    
-    
-    
-    
-    
-    
+        
     }
     
     public function assoc_action() {

@@ -215,7 +215,7 @@ $(function() {
                 });
             },
             goBack: function() {
-                window.location.href = location.origin+'/?wechat/index/home';
+                //window.location.href = location.origin+'/?wechat/index/home';
             }, 
         },
         updated: function() {
