@@ -2,7 +2,8 @@ $(document).ready(function() {
 
 //console.log("ahaha");
     var refresh_sheet_data = function(data) {
-        console.debug(data.data);
+        console.debug(data);
+        //return;
         sheet_lsit = data.data.sheets;
         //answer_sheet_list = data.data.answer_sheets;
         //return ;
@@ -113,6 +114,7 @@ $(document).ready(function() {
     });
 
     __request("admin.sheet.sheetlist", { }, refresh_sheet_data);
+    //__request("admin.sheet.answer_list", { }, refresh_sheet_data);
 
 });
 

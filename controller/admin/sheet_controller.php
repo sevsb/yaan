@@ -13,6 +13,22 @@ class sheet_controller {
         $tpl->set("baiduak", $baiduak);
         $tpl->display("admin/sheet/index");
     }
+    
+    public function answer_list_action() {
+        $task_list = tasks::load_all();
+        $data = [];
+        foreach ($task_list as $tid => $task) {
+            if($task->status() == tasks::STATUS_NOTREVIEW) {
+                $data [$tid]= $task->pack_info();
+            }
+            
+
+            //$data [$tid]->project= $task->project()->pack_info();
+            //$data [$tid]->user = wechatuser::create($task->wechat_userid());
+        }
+        var_dump($data);
+        echo json_encode($data);
+    }
 
 
     public function sheetlist_action() {

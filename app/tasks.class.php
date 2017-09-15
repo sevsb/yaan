@@ -132,6 +132,10 @@ class tasks {
             "status" => $this->status(),
             "location" => $this->location_obj()->pack_info(),
             "project" => $this->project()->pack_info(),
+            //"answerid" => $this->answerid(),
+            //"answer_list" => answer::load($this->answerid())->content(),
+            //"img_list" => answer::load($this->answerid())->reply(),
+            //"user" =>$this->wechatuser()->pack_info,
         );
     }
 
