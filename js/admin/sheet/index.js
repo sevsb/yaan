@@ -1,28 +1,33 @@
 $(document).ready(function() {
 
+//console.log("ahaha");
     var refresh_sheet_data = function(data) {
-        //console.debug(data.data);
+        console.debug(data.data);
+        sheet_lsit = data.data.sheets;
+        //answer_sheet_list = data.data.answer_sheets;
+        //return ;
         var mapurl = "http://api.map.baidu.com/staticimage/v2?ak=" + baiduak + "&mcode=666666&center=LONGITUDE,LATITUDE&width=300&height=200&zoom=13&markers=LONGITUDE,LATITUDE";
-        for (var k in data.data) {
-            for (var k1 in data.data[k].answers[0].reply.data) {
+        
+        for (var k in sheet_lsit) {
+            for (var k1 in sheet_lsit[k].answers[0].reply.data) {
                 //console.log(k1);
-                //console.log(data.data[k].answers[0].reply.data[k1].uploadloc);
-                if ((data.data[k].answers[0].reply.data[k1].uploadloc) !== null) {
-                    var latitude1 = data.data[k].answers[0].reply.data[k1].uploadloc.latitude;
-                    var longitude1 = data.data[k].answers[0].reply.data[k1].uploadloc.longitude;
-                    data.data[k].answers[0].reply.data[k1].uploadloc.mapurl = mapurl.replace(new RegExp(/LONGITUDE/g), longitude1).replace(new RegExp(/LATITUDE/g), latitude1);
+                //console.log(sheet_lsit[k].answers[0].reply.data[k1].uploadloc);
+                if ((sheet_lsit[k].answers[0].reply.data[k1].uploadloc) !== null) {
+                    var latitude1 = sheet_lsit[k].answers[0].reply.data[k1].uploadloc.latitude;
+                    var longitude1 = sheet_lsit[k].answers[0].reply.data[k1].uploadloc.longitude;
+                    sheet_lsit[k].answers[0].reply.data[k1].uploadloc.mapurl = mapurl.replace(new RegExp(/LONGITUDE/g), longitude1).replace(new RegExp(/LATITUDE/g), latitude1);
                 }
-                if (typeof(data.data[k].answers[0].reply.data[k1].exifloc.latitude) != "undefined") {
-                    var latitude2 = data.data[k].answers[0].reply.data[k1].exifloc.latitude;
-                    var longitude2 = data.data[k].answers[0].reply.data[k1].exifloc.longitude;
-                    data.data[k].answers[0].reply.data[k1].exifloc.mapurl = mapurl.replace(new RegExp(/LONGITUDE/g), longitude1).replace(new RegExp(/LATITUDE/g), latitude1);
+                if (typeof(sheet_lsit[k].answers[0].reply.data[k1].exifloc.latitude) != "undefined") {
+                    var latitude2 = sheet_lsit[k].answers[0].reply.data[k1].exifloc.latitude;
+                    var longitude2 = sheet_lsit[k].answers[0].reply.data[k1].exifloc.longitude;
+                    sheet_lsit[k].answers[0].reply.data[k1].exifloc.mapurl = mapurl.replace(new RegExp(/LONGITUDE/g), longitude1).replace(new RegExp(/LATITUDE/g), latitude1);
                 } else {
-                    data.data[k].answers[0].reply.data[k1].exifloc.mapurl = "";
+                    sheet_lsit[k].answers[0].reply.data[k1].exifloc.mapurl = "";
                 }
             }
         }
-        console.debug(data.data);
-        sheetlist.sheetlist = data.data;
+        //console.debug(sheet_lsit);
+        sheetlist.sheetlist = sheet_lsit;
     };
 
     var sheetlist = new Vue({

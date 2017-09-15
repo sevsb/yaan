@@ -30,9 +30,9 @@ class db_answers extends database {
         return $this->insert(TABLE_ANSWERS, array("type" => $type, "title" => $title, "choice" => $choice, "reply" => $reply));
     }
 
-    public function update_answer($id, $type, $title, $choice, $reply) {
+    public function update_answer($id, $type, $title, $choice, $reply, $content) {
         $id = (int)$id;
-        return $this->update(TABLE_ANSWERS, array("type" => $type, "title" => $title, "choice" => $choice, "reply" => $reply), "id = $id");
+        return $this->update(TABLE_ANSWERS, array("type" => $type, "title" => $title, "choice" => $choice, "reply" => $reply, "content" => $content), "id = $id");
     }
 
     public function get_one_answer($id) {

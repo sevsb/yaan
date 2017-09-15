@@ -121,6 +121,9 @@ class tasks {
     }
 
     public function pack_info() {
+        logging::d("id",$this->id());
+        logging::d("title",$this->title());
+        logging::d("PROJECT",$this->project());
         return array(
             "id" => $this->id(),
             "title" => $this->title(),

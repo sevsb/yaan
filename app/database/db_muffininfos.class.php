@@ -44,7 +44,7 @@ class db_muffininfos extends database {
         return $this->insert(TABLE_MUFFININFOS, array("project_id" => $project_id, "muffinid" => $muffin_id, "title" => $title, "type" => $type, "description" => $description, "text" => $maintext, "cover" => $cover, "limit_time" => $limit_time, "paperfile" => $paperfile, "paperid" => $paperid, "status" => "0"));
     }
 
-    public function modify_project($muffinid, $project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile, $paperid) {
+    public function modify_project($muffinid, $project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile, $paperid) {
         return $this->update(TABLE_MUFFININFOS, array("project_id" => $project_id, "title" => $title, "type" => $type, "description" => $description, "text" => $maintext, "cover" => $cover, "limit_time" => $limit_time,  "paperid" => $paperid, "paperfile" => $paperfile), "muffinid = $muffinid");
     }
     

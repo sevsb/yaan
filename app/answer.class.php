@@ -128,6 +128,9 @@ class answer {
     public function setReply($reply) {
         $this->mReply = $reply;
     }
+    public function setContent($content) {
+        $this->mContent = $content;
+    }
 
     public function id() {
         return $this->summary["id"];
@@ -141,6 +144,10 @@ class answer {
         return $this->summary["title"];
     }
 
+    public function content() {
+        return $this->summary["content"];
+    }
+
     public function &choice() {
         return $this->mChoice;
     }
@@ -152,6 +159,7 @@ class answer {
     public function save() {
         $choice = $this->mChoice != null ? $this->mChoice->toJson() : "";
         $reply = $this->mReply != null ? $this->mReply->toJson() : "";
+        $content = $this->mContent != null ? json_encode($this->mContent) : "";
         $id = $this->id();
         if ($id == 0) {
             $ret = db_answers::inst()->add_answer($this->type(), $this->title(), $choice, $reply);
@@ -159,7 +167,7 @@ class answer {
                 $this->summary["id"] = $ret;
             }
         } else {
-            $ret = db_answers::inst()->update_answer($id, $this->type(), $this->title(), $choice, $reply);
+            $ret = db_answers::inst()->update_answer($id, $this->type(), $this->title(), $choice, $reply, $content);
         }
         return $ret;
     }

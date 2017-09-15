@@ -125,12 +125,12 @@ class api_controller {
         }
         echo json_encode(array("op" => "taskaround", "data" => $data));
     }
+    
     public function update_answer_action() {
         $taskid = get_request("taskid");
         $question_id = get_request("question_id");
         $qtype = get_request("qtype");
         $value = get_request("value");
-        //$taskid = get_request("taskid");
         
         $task = tasks::create_by_id($taskid);
         $answerid = $task->answerid();
@@ -140,9 +140,12 @@ class api_controller {
         logging::d("qtype", $qtype);
         logging::d("value", $value);
 
-        $answer_list = answers::load_by_id($answerid)['content'];
+        $answer = answer::load($answerid);
+        $answer_list = $answer->content();
+        
+        //logging::d('answer_list: ', $answer_list);
         $answer_list = json_decode($answer_list);
-        //logging::d('UPDATE_ANS', "answer_list : " . json_encode($answer_list));
+
         if (empty($answer_list)) {
             $answer_list = new stdClass();
             if ( $qtype == 'check') {
@@ -165,8 +168,10 @@ class api_controller {
             logging::d('UPDATE_ANS', "answer_list value: " . $answer_list->$question_id->value);
         }
         
-        $content = json_encode($answer_list);
-        $ret = answers::update_answer($answerid, $content);
+        //$content = json_encode($answer_list);
+        $answer->setContent($answer_list);
+        $answer->save();
+        //$ret = answer::update_answer($answerid, $content);
         return $this->get_answer_by_taskid_action();
     }
    
@@ -179,14 +184,15 @@ class api_controller {
         $paperid = $task->project()->paperid();
         $questionnaire = questionnaires::load_by_id($paperid);
         
-        if(empty($answerid)){
+        /*if(empty($answerid)){
             $answer_list = null;
             $answerid = db_answer::inst()->add_answer($paperid, $questionnaire->title(),  $questionnaire->notes(), $answer_list);
             $ret = tasks::modify_task_answerid($taskid, $answerid);
-        }
+        }*/
         
         $question_list = questions::load_by_nid($paperid);
-        $answer_list = answers::load_by_id($answerid)['content'];
+        $answer = answer::load($answerid);
+        $answer_list = $answer->content();
         $answer_list = json_decode($answer_list);
         $assoc_question_list = [];
         $option_checked_array = [];

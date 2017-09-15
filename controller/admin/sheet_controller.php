@@ -17,11 +17,14 @@ class sheet_controller {
 
     public function sheetlist_action() {
         $sheets = sheet::load_all();
+        $final_array = [];
         $data = array();
         foreach ($sheets as $sheet) {
             $data []= $sheet->pack_info();
         }
-        $res = array("op" => "sheetlist", "data" => $data);
+        $final_array['sheets'] = $data;
+        
+        $res = array("op" => "sheetlist", "data" => $final_array);
         echo json_encode($res);
     }
 

@@ -154,7 +154,7 @@ class projects {
     
     public static function modify($muffinid, $project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile, $paperid){
         
-        $muffininfo_ret = db_muffininfos::inst()->modify_project($muffinid, $project_id, $muffin_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile, $paperid);
+        $muffininfo_ret = db_muffininfos::inst()->modify_project($muffinid, $project_id, $title, $type, $description, $maintext, $cover, $limit_time, $paperfile, $paperid);
         if (!$muffininfo_ret) {
             return false;
         }

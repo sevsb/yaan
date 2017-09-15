@@ -51,14 +51,16 @@ class index_controller {
         $answerid = $task->answerid();
         $userId = $task->wechat_userid();
 
-        if (!empty($task->project()->paperid()) && empty($answerid)) {
+        //if (!empty($task->project()->paperid()) && empty($answerid)) {
+        if (empty($answerid)) {
             $questionnaire = questionnaires::load_by_id($task->project()->paperid());
-            $answer_list = null;
-            $answerid = db_answer::inst()->add_answer($task->project()->paperid(), $questionnaire->title(),  $questionnaire->notes(), $answer_list);
+            $answer = $this->create_answer($userId, $paperId, $sheet = null);
+            $answerid = $answer->id();
+            logging::d('answerid',"$answer->id()");
             $ret = tasks::modify_task_answerid($taskId, $answerid);
         }
         
-        if (!empty($answerid)) {
+        if (!empty($answerid) && !empty($task->project()->paperid())) {
             $tpl = new tpl("admin/noheader", "admin/footer");
             $tpl->set("taskid", $taskId);
             $tpl->set("id", $paperId);
