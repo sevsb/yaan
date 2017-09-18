@@ -43,7 +43,16 @@
                 <div class="question_elf box" v-for="(question, key) in sheetlist[viewsheetkey]['questions']" 
                     v-bind:userkey="key" v-bind:id="'question_'+question.id" v-bind:question_id="question.id" v-bind:class="{hidden: question.status == 'hide'}">
                     
-                    <div class='qtitle'>{{question.title}}</div>
+                    <div class='qtitle'>{{question.title}}
+                    <span class='parent_flag' v-if="question.is_parent != 0">
+                        <span v-for="(opt, okey) in all_options" v-if="question.is_parent == opt.id"
+                        v-bind:userkey="key">
+                        关联到选项: {{opt.title}}
+                        </span>
+                    </span>
+                    
+                    
+                    </div>
                     <div class='qnotes'>{{question.notes}}</div>
                     
                     <div v-if="question.type === 'radio'">

@@ -5,6 +5,7 @@ $(document).ready(function() {
         console.debug(data);
         //return;
         sheet_lsit = data.data.sheets;
+        all_options = data.data.all_options;
         //answer_sheet_list = data.data.answer_sheets;
         //return ;
         var mapurl = "http://api.map.baidu.com/staticimage/v2?ak=" + baiduak + "&mcode=666666&center=LONGITUDE,LATITUDE&width=300&height=200&zoom=13&markers=LONGITUDE,LATITUDE";
@@ -31,6 +32,7 @@ $(document).ready(function() {
         }
         //console.debug(sheet_lsit);
         sheetlist.sheetlist = sheet_lsit;
+        sheetlist.all_options = all_options;
     };
 
     var sheetlist = new Vue({
@@ -39,6 +41,7 @@ $(document).ready(function() {
             sheetlist: null,
             viewsheetkey: 0,
             viewreplykey: 0,
+            all_options: [],
             viewimageurl: null,
             uploadmapurl: null,
             exifmapurl: null,

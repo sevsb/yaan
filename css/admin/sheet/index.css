@@ -142,3 +142,12 @@ img.userinfo-avatar {
     padding :15px;
 }
 
+.upload_flag {
+    background-color: #faa755;
+    color: white;
+}
+
+.parent_flag {
+    background-color: #426ab3;
+    color: white;
+}

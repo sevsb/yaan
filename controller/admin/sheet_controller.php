@@ -83,6 +83,7 @@ class sheet_controller {
             }
         }
         $final_array['sheets'] = $data;
+        $final_array['all_options'] = $questionoptions;
         $res = array("op" => "sheetlist", "data" => $final_array);
         echo json_encode($res);
     }
