@@ -128,3 +128,17 @@ img.userinfo-avatar {
 .sorting_asc, .sorting, .sorting_desc{
     background-image: none !important;
 }
+
+
+
+.question_elf {
+    border-top: 1px solid black;
+    width: 100%;
+    font-size: 15px;
+    
+}
+
+.naire_body, .question_elf, .backbtn ,.submit_btn{
+    padding :15px;
+}
+

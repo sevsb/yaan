@@ -194,6 +194,7 @@ class answer {
             "type" => $this->type(),
             "title" => $this->title(),
             "reply" => $this->reply()->pack_info(),
+            "content" => $this->content(),
         );
         return $data;
     }

@@ -119,7 +119,7 @@ class questions {
     }
     
     public static function load_assoc_by_nid($nid,$qid) {
-        file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."nid:$nid\r\n", FILE_APPEND);
+        //file_put_contents("./log_" . date("Y-m-d") . ".txt",  "\n".date("H:i:s", time()).':'.__METHOD__.':'."nid:$nid\r\n", FILE_APPEND);
         $questions = db_question::inst()->get_assoc_by_naireid($nid,$qid);
         return $questions;
     }

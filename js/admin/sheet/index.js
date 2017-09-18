@@ -10,7 +10,9 @@ $(document).ready(function() {
         var mapurl = "http://api.map.baidu.com/staticimage/v2?ak=" + baiduak + "&mcode=666666&center=LONGITUDE,LATITUDE&width=300&height=200&zoom=13&markers=LONGITUDE,LATITUDE";
         
         for (var k in sheet_lsit) {
+
             for (var k1 in sheet_lsit[k].answers[0].reply.data) {
+                
                 //console.log(k1);
                 //console.log(sheet_lsit[k].answers[0].reply.data[k1].uploadloc);
                 if ((sheet_lsit[k].answers[0].reply.data[k1].uploadloc) !== null) {
@@ -110,6 +112,18 @@ $(document).ready(function() {
                   },
                 }
             });
+            
+            $(".star_input").each(function (){
+                var star_count = $(this).attr('star_count');
+                $(this).raty({
+                    hints: ["1", "2", "3", "4", "5"],
+                    path:"/bigsword/yaan/images",
+                    score: star_count,
+                    readOnly: true,
+                    click: function (score, evt) {}
+                });
+            });
+            
         },   
     });
 

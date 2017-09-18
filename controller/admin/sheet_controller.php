@@ -33,13 +33,56 @@ class sheet_controller {
 
     public function sheetlist_action() {
         $sheets = sheet::load_all();
+        $questions = db_question::inst()->get_all_questionnaires();
+        $questionoptions = db_questionoptions::inst()->get_all_options();
         $final_array = [];
         $data = array();
         foreach ($sheets as $sheet) {
             $data []= $sheet->pack_info();
         }
+        foreach ($data as $id =>$sht) {
+            $paperid = $sht['task']['project']['paperid'];
+            if (!empty($paperid)) {
+                $paper_answers = $sht['answers'][0]['content'];
+                $paper_answer = json_decode($paper_answers);
+                
+                foreach ($questions as $qid => $question) {
+                    if ($question['nid'] == $paperid && $question['is_remove'] != 1) {
+                        $question['options'] = [];
+                        $question['answer_value'] = [];
+                        foreach ($paper_answer as $p_answer) {
+                            if ($p_answer->id == $qid) {
+                                array_push($question['answer_value'], $p_answer->value);
+                            }
+                        }
+                        $question['answer_value'] = $question['answer_value'][0];
+                        foreach ($questionoptions as $oid => $option) {
+                            if ($option['qid'] == $qid) {
+                                $option['status'] = 'nocheck';
+                                if ($question['type'] == 'radio') {
+                                    if ($option['value'] == $question['answer_value']){
+                                        $option['status'] = 'checked';
+                                    }
+                                } else if ($question['type'] == 'check')  {
+                                    if (in_array($option['value'], (array)$question['answer_value'])){
+                                        $option['status'] = 'checked';
+                                    }
+                                }
+                                array_push($question['options'], $option);
+                            }
+                        }
+                        $question['value'] = json_decode($question['value']);
+                        $question_list[$qid] = $question;
+                    }
+                }
+                
+                $data[$id]['questions'] = $question_list; 
+            } else {
+                //$data[$id]['answer_content'] = false;
+                $data[$id]['questions'] = false; 
+            }
+        }
         $final_array['sheets'] = $data;
-        
         $res = array("op" => "sheetlist", "data" => $final_array);
         echo json_encode($res);
     }

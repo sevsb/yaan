@@ -37,7 +37,67 @@
             <button class="pull-right btn btn-success" v-on:click="pass">通过</button>
         </div>
         <div class="answer-images clear">
-            <div class="answer-thumbnail pull-left" v-for="(answer, datakey) in sheetlist[viewsheetkey].answers[0].reply.data">
+            <div v-if="sheetlist[viewsheetkey]['questions'] != false">
+                <div>
+                
+                <div class="question_elf box" v-for="(question, key) in sheetlist[viewsheetkey]['questions']" 
+                    v-bind:userkey="key" v-bind:id="'question_'+question.id" v-bind:question_id="question.id" v-bind:class="{hidden: question.status == 'hide'}">
+                    
+                    <div class='qtitle'>{{question.title}}</div>
+                    <div class='qnotes'>{{question.notes}}</div>
+                    
+                    <div v-if="question.type === 'radio'">
+                        <div v-for="(question_opt, key) in question.options" v-bind:userkey="key">
+                            <label class="radio-inline">
+                            <input type="radio" class='r_and_c radio_input ' v-on:click=''  v-bind:id="'option_'+question_opt.id"
+                            v-bind:name='question.id' v-bind:option_id='question_opt.id' v-bind:value='question_opt.value' 
+                            v-bind:checked="question_opt.status == 'checked'" disabled> 
+                                {{question_opt.value}}
+                            </label> 
+                        </div>
+                    </div>
+                    <div v-else-if="question.type === 'check'">
+                        <div v-for="(question_opt, key) in question.options" v-bind:userkey="key">
+                            <label class="checkbox-inline">
+                            <input type="checkbox" class='r_and_c check_input' v-bind:option_id='question_opt.id'  
+                            v-on:click=''  v-bind:name='question.id' v-bind:value='question_opt.value' v-bind:id="'option_'+question_opt.id" 
+                            v-bind:checked="question_opt.status == 'checked'" disabled> 
+                                {{question_opt.value}}
+                            </label> 
+                        </div>
+                    </div>
+                    <div v-else-if="question.type === 'star'">
+                        <label class="radio-inline">
+                            <div class="star_input" v-on:click="" v-bind:star_count="question.answer_value" width="200"></div>
+                        </label>
+                        <label class="radio-inline">{{question.answer_value}}分</label>
+                    </div>
+                    <div v-else-if="question.type === 'range'">
+                        <label class="radio-inline">
+                            <input type="range" class='range_input' name="" min="1" 
+                            v-bind:max="question.value.setnumber" v-on:change="range_change(question)"  v-bind:value="question.answer_value" disabled />
+                        </label class="radio-inline">
+                        <label>{{question.answer_value}}分</label>
+                    </div>
+                    <div v-else-if="question.type === 'text'">
+                        <input class='text_input' type="text" name="" v-on:blur="text_blur(question)"  v-bind:value="question.answer_value" disabled />
+                    </div>
+                    <div v-if="question.is_upload == 1">
+                        <!--<div class='btn btn-success' v-on:click="show_pic_dialog">添加图片</div>-->
+                    </div>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                </div>
+                
+            </div>
+            
+            <div v-else='' class="answer-thumbnail pull-left" v-for="(answer, datakey) in sheetlist[viewsheetkey].answers[0].reply.data">
                 <div class=""><img class="sheet" v-bind:src="answer.thumbnail" v-bind:origsrc="answer.image" v-on:click="viewImage" v-bind:sheetkey="viewsheetkey" v-bind:datakey="datakey" /></div>
                 <div class="comment">{{answer.comment}}</div>
             </div>

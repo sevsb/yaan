@@ -199,6 +199,7 @@ class projects {
             "status" => $this->status(),
             "deadline" => $this->deadline(),
             "cover" => $this->cover_url(),
+            "paperid" => $this->paperid(),
         );
     }
 }
