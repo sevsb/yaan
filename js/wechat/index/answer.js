@@ -140,14 +140,16 @@ $(function() {
                 // v-if 的选择渲染会出现闪现现象
                 switch(PageStatus) {
                     case 0:
-                        console.log(2222);
-                        $('.card_book_loading').css('display','flex');
-                        $('.card_book').css('display','none');
+                        setTimeout(function() {
+                            $('.card_book_loading').css('display','flex');
+                            $('.card_book').css('display','none');
+                        }, 0);
                         return;
                     case 1:
-                        console.log(3333);
-                        $('.card_book_loading').css('display','none');
-                        $('.card_book').css('display','flex');
+                        setTimeout(function() {
+                            $('.card_book_loading').css('display','none');
+                            $('.card_book').css('display','flex');
+                        }, 0);
                         return;
                     default :
                         return;
