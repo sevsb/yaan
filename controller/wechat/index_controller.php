@@ -62,6 +62,10 @@ class index_controller {
         
         if (!empty($answerid) && !empty($task->project()->paperid())) {
             $tpl = new tpl("admin/noheader", "admin/footer");
+            $imgRoot = rtrim(UPLOAD_URL, "/") . "/";
+            $tpl->set("imgRoot", $imgRoot);
+            $signPackage = WXApi::inst()->get_SignPackage();
+            $tpl->set("signPackage", $signPackage);
             $tpl->set("taskid", $taskId);
             $tpl->set("id", $paperId);
             $tpl->set("userId", $userId);
@@ -113,6 +117,7 @@ class index_controller {
         return $answer;
     }
 
+    //未关联问卷的init_data.
     public function initData_ajax() {
         $paperId = get_request("paperId");
         $userId = get_request("userId");
@@ -167,7 +172,7 @@ class index_controller {
         $ret = array("ret" => "success", "info" => $ret);
         return $ret;
     }
-
+    
     public function updateImg_ajax() {
         $imgData = get_request("imgData");
 

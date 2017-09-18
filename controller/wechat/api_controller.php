@@ -192,6 +192,7 @@ class api_controller {
         
         $question_list = questions::load_by_nid($paperid);
         $answer = answer::load($answerid);
+        $photo_list = $answer->reply();
         $answer_list = $answer->content();
         $answer_list = json_decode($answer_list);
         $assoc_question_list = [];
@@ -246,10 +247,12 @@ class api_controller {
             }
         }
         
+        $all_data['photo_list'] = $photo_list;
         $all_data['questionnaire'] = $questionnaire->pack_info();
         $all_data['question_list'] = $question_list;
         $all_data['answer_list'] = $answer_list;
         $all_data['assoc_question_list'] = $assoc_question_list;
+        $all_data['answerid'] = $answerid;
         echo json_encode(array("op" => "get_answer_by_taskid", "data" => $all_data));
     }
 }

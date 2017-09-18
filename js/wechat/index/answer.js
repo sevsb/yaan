@@ -12,26 +12,12 @@ $(function() {
 
         answer_show.answer_list = data.answer_list;
         answer_show.assoc_question_list = data.assoc_question_list;
+        vue_wx_view.photosList = data.photosList;
+        vue_wx_view.answerid = data.answerid;
         return;
     };
     
-    /*var show_assoc_quesion = function (option_id){
-        console.log('r_and_c clicked!');
-        //var option_id =  $(this).attr('option_id');
-        console.log(this.attr(('checked')));
-        console.log(option_id);
-        for (var i in answer_show.assoc_question_list) {
-            var pid = answer_show.assoc_question_list[i].parent;
-            var cid = answer_show.assoc_question_list[i].child;
-            if (option_id == pid) {
-                console.log(option_id + " is parent! " + cid + " will be showed!");
-                $('#' + cid ).removeClass("hidden")
-            } else {
-                $('#' + cid ).addClass("hidden")
-            }
-        }
-    };*/
-    
+
     //答卷的主题
     var answer_show = new Vue({
         el: '#answer_show',
@@ -47,27 +33,12 @@ $(function() {
             photosList: [],
         },
         methods: {
-            show_pic_dialog: function (){
-                this.flag = 2;
-                //this.setPageStatus(1);
-                $('.card_book_loading').css('display','none');
-                $('.card_book').css('display','flex');
-                return;
-            },
-            setPageStatus: function(PageStatus) {
-                // v-if 的选择渲染会出现闪现现象
-                switch(PageStatus) {
-                    case 0:
-                        $('.card_book_loading').css('display','flex');
-                        $('.card_book').css('display','none');
-                        return;
-                    case 1:
-                        $('.card_book_loading').css('display','none');
-                        $('.card_book').css('display','flex');
-                        return;
-                    default :
-                        return;
-                }
+            show_pic_dialog: function (question){
+                answer_show.flag = 1;
+                vue_wx_view.question = question;
+                vue_wx_view.flag = 1;
+                vue_wx_view.setPageStatus(1);
+                //return;
             },
             radio_click: function (question, question_opt){
                 console.log('radio_click');
@@ -112,40 +83,6 @@ $(function() {
                 __request('wechat.api.update_answer', {taskid: taskid, question_id: question_id, qtype: 'text', value: value}, refresh_data);
                 return;
             },
-            /*refreshPhotosList: function() {
-                vue_wx_view.photosList = __photosList;
-            },
-            addPhoto: function() {
-                wx.chooseImage({
-                    count: 1, // 默认9
-                    sizeType: ['compressed'], // ['original', 'compressed'] 可以指定是原图还是压缩图，默认二者都有
-                    sourceType: ['camera'], // ['album', 'camera'] 可以指定来源是相册还是相机，默认二者都有
-                    success: function (res) {
-                        var photo = [];
-                        var imgData;
-                        var localId = res.localIds[0]; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                        wx.getLocalImgData({
-                            localId: localId,
-                            success: function (res) {
-                                imgData = res.localData;
-                                // 解决 iOS 下 MIME type 为 image/jgp 的问题
-                                imgData = imgData.replace('image/jgp', 'image/jpeg');
-                                // 解决 Android 下缺少 MIME type 的问题
-                                if(imgData.substr(0, 23).search('data:image/jpeg;base64,') < 0){
-                                    imgData = 'data:image/jpeg;base64,' + imgData;
-                                }
-                                vue_add_photo_modal.showAddPhotoModal(localId, imgData);
-                            }
-                        });
-                    }
-                });
-            },
-            modifyPhoto: function(imgUrl) {
-                vue_modify_photo_modal.showModifyPhotoModal(__photosList.getPhotoByImgUrl(imgUrl));
-            },
-            deletePhoto: function(imgUrl) {
-                vue_delete_photo_modal.showDeletePhotoModal(imgUrl);
-            },*/
             showSumbitSheetModal: function() {
                 $('#submit_sheet_modal').modal('show');
             },
@@ -188,41 +125,133 @@ $(function() {
         }
     });
     
+    
+        
+    var vue_wx_view = new Vue({
+        el: '#wx_view',
+        data: {
+            flag: 0,
+            pageStatus: 0,
+            imgRoot: __imgRoot,
+            photosList: [],
+        },
+        methods: {
+            setPageStatus: function(PageStatus) {
+                // v-if 的选择渲染会出现闪现现象
+                switch(PageStatus) {
+                    case 0:
+                        console.log(2222);
+                        $('.card_book_loading').css('display','flex');
+                        $('.card_book').css('display','none');
+                        return;
+                    case 1:
+                        console.log(3333);
+                        $('.card_book_loading').css('display','none');
+                        $('.card_book').css('display','flex');
+                        return;
+                    default :
+                        return;
+                }
+            },
+            goBack: function() {
+                answer_show.flag = 0;
+                vue_wx_view.flag = 0;
+            },
+            addPhoto: function() {
+                wx.chooseImage({
+                    count: 1, // 默认9
+                    sizeType: ['compressed'], // ['original', 'compressed'] 可以指定是原图还是压缩图，默认二者都有
+                    sourceType: ['camera'], // ['album', 'camera'] 可以指定来源是相册还是相机，默认二者都有
+                    success: function (res) {
+                        var photo = [];
+                        var imgData;
+                        var localId = res.localIds[0]; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        wx.getLocalImgData({
+                            localId: localId,
+                            success: function (res) {
+                                imgData = res.localData;
+                                // 解决 iOS 下 MIME type 为 image/jgp 的问题
+                                imgData = imgData.replace('image/jgp', 'image/jpeg');
+                                // 解决 Android 下缺少 MIME type 的问题
+                                if(imgData.substr(0, 23).search('data:image/jpeg;base64,') < 0){
+                                    imgData = 'data:image/jpeg;base64,' + imgData;
+                                }
+                                vue_add_photo_modal.showAddPhotoModal(localId, imgData);
+                            }
+                        });
+                    }
+                });
+            },
+        }
+    });
+    
+    var vue_add_photo_modal = new Vue({
+        el: '#add_photo_modal',
+        data: {
+            imgUrl: '',
+            imgData: '',
+            imgContent: '',
+        },
+        methods: {
+            showAddPhotoModal: function(imgUrl, imgData, imgContent = ''){
+                vue_add_photo_modal.imgUrl = imgUrl;
+                vue_add_photo_modal.imgData = imgData;
+                vue_add_photo_modal.imgContent = imgContent;
+                $('#add_photo_modal').modal('show');
+            },
+            updatePhoto: function(){
+                $('.uploading_alert').fadeIn(100);
+                $('#add_photo_modal').modal('hide');
+                var photo = {};
+                wx.getLocation({
+                    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                    success: function (res) {
+                        photo.imgLocation = {};
+                        photo.imgLocation.latitude = res.latitude;
+                        photo.imgLocation.longitude = res.longitude;
+                        photo.imgLocation.accuracy =  res.accuracy;
+                    }
+                });
+                photo.imgContent = $('#add_photo_modal_img_content').val();
+                __ajax('wechat.index.updateImg', {
+                    imgData: vue_add_photo_modal.imgData
+                }, function (data) {
+                    if(data.ret == 'success'){
+                        photo.imgUrl = data.imgUrl;
+                        __photosList.push(photo);
+                        __ajax('wechat.index.updatePhotosList', {
+                            answerId: __answerId,
+                            photosList: __photosList,
+                        }, function (data) {
+                            if(data.ret == 'success'){
+                                $('.uploading_alert').hide();
+                                $('.upload_success_alert').show();
+                                vue_wx_view.refreshPhotosList();
+                                setTimeout(function(){
+                                    $('.upload_success_alert').fadeOut(1000);;
+                                },2000)
+                            }else {
+                                alert(data.info);
+                                $('.uploading_alert').hide();
+                                $('.upload_fail_alert').show();
+                                setTimeout(function(){
+                                    $('.upload_fail_alert').fadeOut(1000);;
+                                },2000)
+                            }
+                        });
+                    }else {
+                        alert(data.info);
+                    }
+                });
+            }
+        }
+    });
+    
+    
     __request('wechat.api.get_answer_by_taskid',{taskid: taskid}, refresh_data);
     
 });   
-    
 
-
-    
- /*var __imgRoot = '{:$imgRoot}';
-    var __taskId = {:$taskId};
-    var __paperId = {:$paperId};
-    var __userId = {:$userId};
-    var __answerId = 0;
-    // FIXME: 应该将photo与photosList写成一个类
-    var __photosList = [];
-    wx.config({
-        debug: false,
-        appId: '{:$signPackage["appid"]}',
-        timestamp: {:$signPackage["timestamp"]},
-        nonceStr: '{:$signPackage["noncestr"]}',
-        signature: '{:$signPackage["signature"]}',
-        jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
-                'onMenuShareAppMessage', 'onMenuShareQQ',
-                'onMenuShareWeibo', 'hideMenuItems',
-                'showMenuItems', 'hideAllNonBaseMenuItem',
-                'showAllNonBaseMenuItem', 'translateVoice',
-                'startRecord', 'stopRecord', 'onRecordEnd',
-                'playVoice', 'pauseVoice', 'stopVoice',
-                'uploadVoice', 'downloadVoice', 'chooseImage',
-                'previewImage', 'uploadImage', 'downloadImage',
-                'getNetworkType', 'openLocation', 'getLocation',
-                'hideOptionMenu', 'showOptionMenu', 'closeWindow',
-                'scanQRCode', 'chooseWXPay',
-                'openProductSpecificView', 'addCard', 'chooseCard',
-                'openCard', 'getLocalImgData' ]
-    });*/
     
 
 
