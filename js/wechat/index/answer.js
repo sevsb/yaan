@@ -169,12 +169,12 @@ $(function() {
                 vue_wx_view.photo_list[id] = vue_wx_view.qst_photosList;
             },
             modifyPhoto: function(imgUrl) {
-                console.log(imgUrl);
                 qst_photosList = vue_wx_view.qst_photosList;
-                console.log(qst_photosList);
-                console.log(qst_photosList.getPhotoByImgUrl(imgUrl));
-                //return;
                 vue_modify_photo_modal.showModifyPhotoModal(qst_photosList.getPhotoByImgUrl(imgUrl));
+            },
+            deletePhoto: function(imgUrl) {
+                //qst_photosList = vue_wx_view.qst_photosList;
+                vue_delete_photo_modal.showDeletePhotoModal(imgUrl);
             },
             addPhoto: function() {
                 wx.chooseImage({
@@ -317,10 +317,11 @@ $(function() {
                     imgName: vue_delete_photo_modal.imgUrl
                 }, function (data) {
                     if(data.ret == 'success'){
-                        __photosList.deletePhotoByImgUrl(imgUrl);
-                        __ajax('wechat.index.updatePhotosList', {
-                            answerId: __answerId,
-                            photosList: __photosList,
+                        vue_wx_view.qst_photosList.deletePhotoByImgUrl(imgUrl);
+                        __ajax('wechat.index.new_updatePhotosList', {
+                            questionid: vue_wx_view.question.id,
+                            answerid: vue_wx_view.answerid,
+                            photosList: vue_wx_view.qst_photosList,
                         }, function (data) {
                             if(data.ret == 'success'){
                                 vue_wx_view.refreshPhotosList();
