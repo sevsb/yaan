@@ -168,6 +168,14 @@ $(function() {
             refreshPhotosList: function (id) {
                 vue_wx_view.photo_list[id] = vue_wx_view.qst_photosList;
             },
+            modifyPhoto: function(imgUrl) {
+                console.log(imgUrl);
+                qst_photosList = vue_wx_view.qst_photosList;
+                console.log(qst_photosList);
+                console.log(qst_photosList.getPhotoByImgUrl(imgUrl));
+                //return;
+                vue_modify_photo_modal.showModifyPhotoModal(qst_photosList.getPhotoByImgUrl(imgUrl));
+            },
             addPhoto: function() {
                 wx.chooseImage({
                     count: 1, // 默认9
@@ -196,6 +204,7 @@ $(function() {
         }
     });
     
+    //添加图片提示框
     var vue_add_photo_modal = new Vue({
         el: '#add_photo_modal',
         data: {
@@ -261,11 +270,113 @@ $(function() {
         }
     });
     
+    //修改图片提示框
+    var vue_modify_photo_modal = new Vue({
+        el: '#modify_photo_modal',
+        data: {
+            photo: {},
+        },
+        methods: {
+            showModifyPhotoModal: function(photo){
+                vue_modify_photo_modal.photo = photo;
+                $('#modify_photo_modal').modal('show');
+            },
+            modifyPhotoContent: function(){
+                vue_modify_photo_modal.photo.imgContent = $('#modify_photo_modal_img_content').val();
+                vue_wx_view.qst_photosList.updatePhotoByImgObject(vue_modify_photo_modal.photo);
+                console.log(vue_wx_view.qst_photosList);
+                __ajax('wechat.index.new_updatePhotosList', {
+                    questionid: vue_wx_view.question.id,
+                    answerid: vue_wx_view.answerid,
+                    photosList: vue_wx_view.qst_photosList,
+                }, function (data) {
+                    if(data.ret == 'success'){
+                        vue_wx_view.refreshPhotosList();
+                        $('#modify_photo_modal').modal('hide');
+                    }else {
+                        alert(data.info);
+                    }
+                });
+            }
+        }
+    });
+    
+    //删除图片提示框
+    var vue_delete_photo_modal = new Vue({
+        el: '#delete_photo_modal',
+        data: {
+            imgUrl: '',
+        },
+        methods: {
+            showDeletePhotoModal: function(imgUrl){
+                vue_delete_photo_modal.imgUrl = imgUrl;
+                $('#delete_photo_modal').modal('show');
+            },
+            deletePhoto: function() {
+                __ajax('wechat.index.deleteImg', {
+                    imgName: vue_delete_photo_modal.imgUrl
+                }, function (data) {
+                    if(data.ret == 'success'){
+                        __photosList.deletePhotoByImgUrl(imgUrl);
+                        __ajax('wechat.index.updatePhotosList', {
+                            answerId: __answerId,
+                            photosList: __photosList,
+                        }, function (data) {
+                            if(data.ret == 'success'){
+                                vue_wx_view.refreshPhotosList();
+                            }else {
+                                alert(data.info);
+                            }
+                        });
+                    }else {
+                        alert(data.info);
+                    }
+                });
+            },
+        }
+    });
     
     __request('wechat.api.get_answer_by_taskid',{taskid: taskid}, refresh_data);
     
 });   
 
-    
+
+Array.prototype.getPhotoByImgUrl = function(imgUrl) {
+    if(imgUrl === undefined) {
+        return -1;
+    }
+
+    for(var i = 0; i < this.length; i++) {
+        if(this[i].imgUrl == imgUrl) {
+            return this[i];
+        }
+    }
+    return -1;
+};
+Array.prototype.deletePhotoByImgUrl = function(imgUrl) {
+    if(imgUrl === undefined) {
+        return -1;
+    }
+
+    for(var i = 0; i < this.length; i++) {
+        if(this[i].imgUrl == imgUrl) {
+            return this.splice(i, 1);
+        }
+    }
+    return -1;
+};
+Array.prototype.updatePhotoByImgObject = function(photoObject) {
+    if(photoObject === undefined) {
+        return -1;
+    }
+
+    for(var i = 0; i < this.length; i++) {
+        if(this[i].imgUrl == photoObject.imgUrl) {
+            return this.splice(i, 1, photoObject);
+        }
+    }
+    return -1;
+};
+
 
 
