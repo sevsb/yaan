@@ -165,8 +165,8 @@ $(function() {
                 answer_show.flag = 0;
                 vue_wx_view.flag = 0;
             },
-            refreshPhotosList: function () {
-                vue_wx_view.photosList = vue_wx_view.qst_photosList;
+            refreshPhotosList: function (id) {
+                vue_wx_view.photo_list[id] = vue_wx_view.qst_photosList;
             },
             addPhoto: function() {
                 wx.chooseImage({
@@ -240,7 +240,7 @@ $(function() {
                             if(data.ret == 'success'){
                                 $('.uploading_alert').hide();
                                 $('.upload_success_alert').show();
-                                vue_wx_view.refreshPhotosList();
+                                vue_wx_view.refreshPhotosList(questionid);
                                 setTimeout(function(){
                                     $('.upload_success_alert').fadeOut(1000);;
                                 },2000)
