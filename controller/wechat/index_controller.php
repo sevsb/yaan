@@ -208,7 +208,7 @@ class index_controller {
 
     public function updatePhotosList_ajax() {
         $answerId = get_request("answerId");
-        $photosList = get_request("photosList");
+        $photosList = get_request("photosList", []);
         logging::d("updatePhotosList_ajax, photosList:", $photosList);
         $reply = array("type" => 0, "data"=>array("imgList" => $photosList));
         //$reply = new answer_reply_word($photosList);

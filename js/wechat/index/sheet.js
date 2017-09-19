@@ -204,6 +204,7 @@ $(document).ready(function() {
                         }, function (data) {
                             if(data.ret == 'success'){
                                 vue_wx_view.refreshPhotosList();
+                                $('#delete_photo_modal').modal('hide');
                             }else {
                                 alert(data.info);
                             }

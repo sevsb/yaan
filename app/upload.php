@@ -55,6 +55,7 @@ function deleteUploadImageByFilename($filename) {
     $filepath = UPLOAD_DIR . "/$filename";
 
     if (!file_exists($filepath)) {
+        return "success";
         return "fail|目标上传图片不存在.";
     }
 
