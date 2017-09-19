@@ -227,11 +227,11 @@ $(function() {
                     //return;
                     if(data.ret == 'success'){
                         photo.imgUrl = data.imgUrl;
-                        __photosList.push(photo);
+                        vue_wx_view.qst_photosList.push(photo);
                         __ajax('wechat.index.new_updatePhotosList', {
                             questionid: vue_wx_view.question.id,
                             answerid: vue_wx_view.answerid,
-                            photosList: __photosList,
+                            photosList: vue_wx_view.qst_photosList,
                         }, function (data) {
                             if(data.ret == 'success'){
                                 $('.uploading_alert').hide();
