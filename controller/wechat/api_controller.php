@@ -168,10 +168,7 @@ class api_controller {
             logging::d('UPDATE_ANS', "value: " . $value);
             logging::d('UPDATE_ANS', "answer_list value: " . $answer_list->$question_id->value);
         }
-        
-        $answer->setContent($answer_list);
-        $answer->setReply($reply);
-        $answer->save();
+        $ret = db_answers::inst()->update_answser_content($answerid, json_encode($answer_list));
         return $this->get_answer_by_taskid_action();
     }
    

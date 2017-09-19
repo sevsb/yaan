@@ -39,6 +39,11 @@ class db_answers extends database {
         $id = (int)$id;
         return $this->update(TABLE_ANSWERS, array("reply" => $reply), "id = $id");
     }
+    
+    public function update_answser_content($id, $content) {
+        $id = (int)$id;
+        return $this->update(TABLE_ANSWERS, array("content" => $content), "id = $id");
+    }
 
     public function get_one_answer($id) {
         $id = (int)$id;
