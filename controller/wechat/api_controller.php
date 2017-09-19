@@ -192,7 +192,7 @@ class api_controller {
         
         $question_list = questions::load_by_nid($paperid);
         $answer = answer::load($answerid);
-        $photo_list = $answer->reply();
+        $photo_list = json_decode($answer->get_reply());
         $answer_list = $answer->content();
         $answer_list = json_decode($answer_list);
         $assoc_question_list = [];
@@ -246,7 +246,7 @@ class api_controller {
                 }
             }
         }
-        
+        //var_dump($photo_list);
         $all_data['photo_list'] = $photo_list;
         $all_data['questionnaire'] = $questionnaire->pack_info();
         $all_data['question_list'] = $question_list;

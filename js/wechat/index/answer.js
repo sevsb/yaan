@@ -12,7 +12,7 @@ $(function() {
 
         answer_show.answer_list = data.answer_list;
         answer_show.assoc_question_list = data.assoc_question_list;
-        vue_wx_view.photosList = data.photosList;
+        vue_wx_view.photo_list = data.photo_list;
         vue_wx_view.answerid = data.answerid;
         return;
     };
@@ -30,13 +30,14 @@ $(function() {
             flag: _flag,
             pageStatus: 1,
             imgRoot: [],
-            photosList: [],
         },
         methods: {
             show_pic_dialog: function (question){
             answer_show.flag = 1;
             vue_wx_view.question = question;
             vue_wx_view.flag = 1;
+            vue_wx_view.qst_photosList = vue_wx_view.photo_list[question.id];
+            console.log(vue_wx_view.qst_photosList);
                 //vue_wx_view.setPageStatus(1);
                 //return;
             },

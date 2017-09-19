@@ -91,7 +91,7 @@
                 <i class="fa fa-exclamation" aria-hidden="true"></i>错误：图片上传失败！
             </div>
             <div class="wx_row_item card_book_page">
-                <!--<div class="card" v-if='photosList !== null' v-for="photo in photosList">
+                <div class="card" v-if='qst_photosList !== null' v-for="photo in qst_photosList">
                     <div class="card_body" v-bind:style="{'background-image':'url('+__imgRoot+photo.imgUrl+')'}">
                     </div>
                     <div class="card_footer dropup" >
@@ -104,7 +104,7 @@
                             <li v-on:click="deletePhoto(photo.imgUrl)"><i class="fa fa-trash" aria-hidden="true"></i>删除</li>
                         </ul>
                     </div>
-                </div>-->
+                </div>
                 <div class="card add_card_btn" id="add_card_btn" v-on:click="addPhoto()">
                     <i class="fa fa-plus" style="padding-right: 0px; font-size: 4em;"></i>
                     <div>点击添加图片</div>
@@ -155,7 +155,7 @@
     </div>-->
 
     <!-- 删除卡片提示框 -->
-    <!--<div class="modal" id="delete_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal" id="delete_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body" style="padding-top: 1.5em;">
@@ -167,7 +167,7 @@
                 </div>
             </div>
         </div>
-    </div>-->
+    </div>
 
     
 
