@@ -1,7 +1,7 @@
 $(function() {
     var _flag = 0;
     var taskid = $('#taskid').val();
-    
+
     //获取整体数据
     var refresh_data = function (data){
         var data = data.data;
@@ -38,8 +38,6 @@ $(function() {
                 vue_wx_view.question = question;
                 vue_wx_view.flag = 1;
                 vue_wx_view.qst_photosList = vue_wx_view.photo_list[question.id] ? vue_wx_view.photo_list[question.id] : [];
-                //vue_wx_view.qst_photosList = vue_wx_view.photo_list[question.id];
-                console.log(vue_wx_view.qst_photosList);
             },
             radio_click: function (question, question_opt){
                 console.log('radio_click');
@@ -220,7 +218,9 @@ $(function() {
                 $('#add_photo_modal').modal('show');
             },
             updatePhoto: function(){
-                $('.uploading_alert').fadeIn(100);
+                setTimeout(function(){
+                    $('.uploading_alert').fadeIn(100);;
+                },0)
                 $('#add_photo_modal').modal('hide');
                 var photo = {};
                 wx.getLocation({
