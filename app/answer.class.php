@@ -162,12 +162,8 @@ class answer {
 
     public function save() {
         $choice = $this->mChoice != null ? $this->mChoice->toJson() : "";
-        $reply = $this->mReply != null ? json_encode($this->mReply): $this->get_reply();
-        $content = $this->mContent != null ? json_encode($this->mContent) : $this->content();
-        logging::d("save:", $this->reply);
-        logging::d("save:", $this->content);
-        //logging::d("save:", $this->mReply);
-        //return;
+        $reply = $this->mReply != null ? $this->mReply->toJson() : "";
+        $content = $this->mContent != null ? json_encode($this->mContent) : $this->content;
         $id = $this->id();
         if ($id == 0) {
             $ret = db_answers::inst()->add_answer($this->type(), $this->title(), $choice, $reply);
