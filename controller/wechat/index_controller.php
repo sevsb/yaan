@@ -210,7 +210,7 @@ class index_controller {
         $answerId = get_request("answerId");
         $photosList = get_request("photosList");
 
-        //$reply = array("type" => 0, "data"=>array("imgList" => $photosList));
+        $reply = array("type" => 0, "data"=>array("imgList" => $photosList));
         $reply = new answer_reply_word($photosList);
         $answer = answer::load((int)$answerId);
         $answer->setReply($reply);
