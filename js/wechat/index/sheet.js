@@ -197,7 +197,7 @@ $(document).ready(function() {
                     imgName: vue_delete_photo_modal.imgUrl
                 }, function (data) {
                     if(data.ret == 'success'){
-                        __photosList.deletePhotoByImgUrl(imgUrl);
+                        __photosList.deletePhotoByImgUrl(vue_delete_photo_modal.imgUrl);
                         __ajax('wechat.index.updatePhotosList', {
                             answerId: __answerId,
                             photosList: __photosList,
