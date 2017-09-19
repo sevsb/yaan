@@ -213,10 +213,11 @@ class index_controller {
         $photosList = get_request("photosList");
         loggging::d("updatePhotosList_ajax", json_encode($photosList));
         $reply = array("type" => 0, "data"=>array("imgList" => $photosList));
-        $reply = new answer_reply_word($reply);
-        $answer = answer::load((int)$answerId);
-        $answer->setReply($reply);
-        $ret = $answer->save();
+        //$reply = new answer_reply_word($reply);
+        //$answer = answer::load((int)$answerId);
+        //$answer->setReply($reply);
+        //$ret = $answer->save();
+        $ret = db_answer::inst()->update_answser_imglist($id, json_encode($reply));
         return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
     }
     
