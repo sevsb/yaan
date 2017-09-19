@@ -213,7 +213,7 @@ class index_controller {
         $photosList = get_request("photosList");
 
         $reply = array("type" => 0, "data"=>array("imgList" => $photosList));
-        //$reply = new answer_reply_word($reply);
+        $reply = new answer_reply_word($reply);
         $answer = answer::load((int)$answerId);
         $answer->setReply($reply);
         $ret = $answer->save();
