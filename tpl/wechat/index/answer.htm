@@ -49,7 +49,7 @@
                 <input class='text_input' type="text" name="" v-on:blur="text_blur(question)"  v-bind:value="question.answer_value"/>
             </div>
             <div v-if="question.is_upload == 1">
-                <div class='btn btn-success' style='width: 80%; margin-top: 10px;' v-on:click="show_pic_dialog(question)">添加图片</div>
+                <div class='btn btn-success center-block' style='width: 80%; margin-top: 10px;' v-on:click="show_pic_dialog(question)">添加图片</div>
             </div>
         </div>
         <div class='btn btn-primary submit_btn' v-on:click="showSumbitSheetModal()">提交答卷</div>

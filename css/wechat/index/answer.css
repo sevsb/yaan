@@ -107,6 +107,7 @@
 }
 
 .card_book_page {
+  display: flex;
   min-width: 100vw;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -131,7 +132,6 @@
   border-radius: 2px;
   -webkit-box-shadow: 0 0 5px #ccc;
   box-shadow: 0 0 5px #ccc;
-  display: inline-block;
 }
 
 .add_card_btn {
