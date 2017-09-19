@@ -227,7 +227,7 @@ $(function() {
                     if(data.ret == 'success'){
                         photo.imgUrl = data.imgUrl;
                         __photosList.push(photo);
-                        __ajax('wechat.index.new_updatePhotosList_ajax', {
+                        __ajax('wechat.index.new_updatePhotosList', {
                             questionid: vue_wx_view.question.id,
                             answerid: vue_wx_view.answerid,
                             photosList: __photosList,
