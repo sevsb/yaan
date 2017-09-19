@@ -226,12 +226,38 @@ class index_controller {
         logging::d("questionid", "$questionid");
         logging::d("answerid", "$answerid");
         logging::d("photosList", json_encode($photosList));
-        return false;
-        $reply = array("type" => 0, "data"=>array("imgList" => $photosList));
-        $reply = new answer_reply_word($reply);
-        $answer = answer::load((int)$answerId);
+        //return false;
+        //$reply = array("type" => 0, "data"=>array("imgList" => $photosList));
+        //$reply = new answer_reply_word($reply);
+        $answer = answer::load((int)$answerid);
         $answer->setReply($reply);
         $ret = $answer->save();
+        return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
+    }
+    
+    public function new_updatePhotosList_action() {
+        $questionid = get_request("questionid");
+        $answerid = get_request("answerid");
+        $photosList = get_request("photosList");
+        //$photosList = json_encode($photosList);
+        
+        $p = new stdClass();
+        $p->imgContent = "wde";
+        $p->imgLocation = new stdClass();
+        $p->imgLocation->latitude = "39.96";
+        $p->imgLocation->longitude = "116.37328";
+        $p->imgLocation->accuracy = "30.0";
+        $p->imgUrl = "ea0094c680a59147bb5abc9d7d115ccd.jpeg";
+        
+        logging::d("questionid", "$questionid");
+        logging::d("answerid", "$answerid");
+        logging::d("photosList", json_encode($photosList));
+        
+
+        $answer = answer::load((int)$answerid);
+        $reply = json_decode($answer->get_reply());
+        $reply->$questionid = $photosList;
+        $ret = db_answers::inst()->update_answser_imglist($answerid, json_encode($reply));
         return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
     }
 

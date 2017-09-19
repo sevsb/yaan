@@ -155,11 +155,15 @@ class answer {
     public function &reply() {
         return $this->mReply;
     }
+    
+    public function get_reply() {
+        return $this->summary["reply"];
+    }
 
     public function save() {
         $choice = $this->mChoice != null ? $this->mChoice->toJson() : "";
         $reply = $this->mReply != null ? $this->mReply->toJson() : "";
-        $content = $this->mContent != null ? json_encode($this->mContent) : "";
+        $content = $this->mContent != null ? json_encode($this->mContent) : $this->content;
         $id = $this->id();
         if ($id == 0) {
             $ret = db_answers::inst()->add_answer($this->type(), $this->title(), $choice, $reply);
