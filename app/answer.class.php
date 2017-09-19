@@ -162,8 +162,10 @@ class answer {
 
     public function save() {
         $choice = $this->mChoice != null ? $this->mChoice->toJson() : "";
-        $reply = $this->mReply != null ? json_encode($this->mReply) : $this->get_reply();
-        $content = $this->mContent != null ? json_encode($this->mContent) : $this->content;
+        $reply = $this->mReply != null ? json_encode($this->mReply): $this->get_reply();
+        $content = $this->mContent != null ? json_encode($this->mContent) : $this->content();
+        logging::d("save:", $this->reply);
+        logging::d("save:", $this->content);
         //logging::d("save:", $this->mReply);
         //return;
         $id = $this->id();

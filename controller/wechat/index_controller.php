@@ -56,10 +56,10 @@ class index_controller {
             $questionnaire = questionnaires::load_by_id($task->project()->paperid());
             $answer = $this->create_answer($userId, $paperId, $sheet = null);
             $answerid = $answer->id();
-            logging::d('answerid',"$answer->id()");
+            logging::d('answerid',"$answerid");
             $ret = tasks::modify_task_answerid($taskId, $answerid);
         }
-        
+        //return;
         if (!empty($answerid) && !empty($task->project()->paperid())) {
             $tpl = new tpl("admin/noheader", "admin/footer");
             $imgRoot = rtrim(UPLOAD_URL, "/") . "/";
@@ -93,6 +93,8 @@ class index_controller {
                 "reply" => "{\"type\":0,\"data\":{\"type\":0,\"data\":{\"imgList\":[]}}}"
             )
         );
+        $r =  "{\"type\":0,\"data\":{\"type\":0,\"data\":{\"imgList\":[]}}}";
+        $answer->setReply(json_decode($r));
         $ret = $answer->save();
         if($ret === false)
             return false;
@@ -211,7 +213,7 @@ class index_controller {
         $photosList = get_request("photosList");
 
         $reply = array("type" => 0, "data"=>array("imgList" => $photosList));
-        $reply = new answer_reply_word($reply);
+        //$reply = new answer_reply_word($reply);
         $answer = answer::load((int)$answerId);
         $answer->setReply($reply);
         $ret = $answer->save();
