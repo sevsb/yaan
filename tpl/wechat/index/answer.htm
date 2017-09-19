@@ -74,20 +74,20 @@
     
     <!-- 图片主体页面 -->
     <div v-if="flag == 1" class="wx_view" id="wx_view">
-        <div class="card_book_loading">
+        <div v-if="card_book_loading == 1" class="card_book_loading">
             <p>资料加载中...</p>
         </div>
-        <div class="wx_col_item card_book" style="display: none;">
-            <div class="alert alert-info card_book_alert uploading_alert" role="alert" 
-            style="display: none;">
+        <div class="wx_col_item card_book" style="display','flex">
+            <div v-if="uploading_alert == 1"  class="alert alert-info card_book_alert uploading_alert" role="alert" 
+            style="">
                 <i class="fa fa-upload" aria-hidden="true"></i>图片上传中，请稍后...
             </div>
-            <div class="alert alert-success card_book_alert upload_success_alert" role="alert" 
-            style="display: none;">
+            <div v-if="upload_success_alert == 1"  class="alert alert-success card_book_alert upload_success_alert" role="alert" 
+            style="">
                 <i class="fa fa-check" aria-hidden="true"></i>讯息：图片上传成功！
             </div>
-            <div class="alert alert-danger card_book_alert upload_fail_alert" role="alert" 
-            style="display: none;">
+            <div v-if="upload_fail_alert == 1" class="alert alert-danger card_book_alert upload_fail_alert" role="alert" 
+            style="">
                 <i class="fa fa-exclamation" aria-hidden="true"></i>错误：图片上传失败！
             </div>
             <div class="wx_row_item card_book_page">

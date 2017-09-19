@@ -217,6 +217,23 @@ class index_controller {
         $ret = $answer->save();
         return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
     }
+    
+    public function new_updatePhotosList_ajax() {
+        $questionid = get_request("questionid");
+        $answerid = get_request("answerid");
+        $photosList = get_request("photosList");
+
+        logging::d("questionid", "$questionid");
+        logging::d("answerid", "$answerid");
+        logging::d("photosList", json_encode($photosList));
+        return false;
+        $reply = array("type" => 0, "data"=>array("imgList" => $photosList));
+        $reply = new answer_reply_word($reply);
+        $answer = answer::load((int)$answerId);
+        $answer->setReply($reply);
+        $ret = $answer->save();
+        return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
+    }
 
     public function sumbitSheet_ajax() {
         $taskId = get_request("taskId");

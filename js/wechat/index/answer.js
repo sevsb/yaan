@@ -18,7 +18,7 @@ $(function() {
     };
     
 
-    //答卷的主题
+    //答卷的主体
     var answer_show = new Vue({
         el: '#answer_show',
         data: {
@@ -34,10 +34,10 @@ $(function() {
         },
         methods: {
             show_pic_dialog: function (question){
-                answer_show.flag = 1;
-                vue_wx_view.question = question;
-                vue_wx_view.flag = 1;
-                vue_wx_view.setPageStatus(1);
+            answer_show.flag = 1;
+            vue_wx_view.question = question;
+            vue_wx_view.flag = 1;
+                //vue_wx_view.setPageStatus(1);
                 //return;
             },
             radio_click: function (question, question_opt){
@@ -126,12 +126,16 @@ $(function() {
     });
     
     
-        
+    //上传图片模块
     var vue_wx_view = new Vue({
         el: '#wx_view',
         data: {
             flag: 0,
             pageStatus: 0,
+            card_book_loading: 0,
+            uploading_alert: 0,
+            upload_success_alert: 0,
+            upload_fail_alert: 0,
             imgRoot: __imgRoot,
             photosList: [],
         },
@@ -216,11 +220,14 @@ $(function() {
                 __ajax('wechat.index.updateImg', {
                     imgData: vue_add_photo_modal.imgData
                 }, function (data) {
+                    console.log(data);
+                    //return;
                     if(data.ret == 'success'){
                         photo.imgUrl = data.imgUrl;
                         __photosList.push(photo);
-                        __ajax('wechat.index.updatePhotosList', {
-                            answerId: __answerId,
+                        __ajax('wechat.index.new_updatePhotosList_ajax', {
+                            questionid: vue_wx_view.question.id,
+                            answerid: vue_wx_view.answerid,
                             photosList: __photosList,
                         }, function (data) {
                             if(data.ret == 'success'){
