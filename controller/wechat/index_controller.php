@@ -215,7 +215,7 @@ class index_controller {
         //$answer = answer::load((int)$answerId);
         //$answer->setReply($reply);
         //$ret = $answer->save();
-        $ret = db_answers::inst()->update_answser_imglist($answerId, json_encode($photosList));
+        $ret = db_answers::inst()->update_answser_imglist($answerId, json_encode($reply));
         return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
     }
     
