@@ -226,12 +226,12 @@ class index_controller {
         logging::d("questionid", "$questionid");
         logging::d("answerid", "$answerid");
         logging::d("photosList", json_encode($photosList));
-        //return false;
-        //$reply = array("type" => 0, "data"=>array("imgList" => $photosList));
-        //$reply = new answer_reply_word($reply);
+        
+
         $answer = answer::load((int)$answerid);
-        $answer->setReply($reply);
-        $ret = $answer->save();
+        $reply = json_decode($answer->get_reply());
+        $reply->$questionid = $photosList;
+        $ret = db_answers::inst()->update_answser_imglist($answerid, json_encode($reply));
         return ($ret !== false) ? "success" : "fail|数据库操作失败，请稍后重试。";
     }
     
