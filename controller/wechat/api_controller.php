@@ -142,6 +142,7 @@ class api_controller {
 
         $answer = answer::load($answerid);
         $answer_list = $answer->content();
+        $reply = json_decode($answer->get_reply());
         
         //logging::d('answer_list: ', $answer_list);
         $answer_list = json_decode($answer_list);
@@ -170,6 +171,7 @@ class api_controller {
         
         //$content = json_encode($answer_list);
         $answer->setContent($answer_list);
+        $answer->setReply($reply);
         $answer->save();
         //$ret = answer::update_answer($answerid, $content);
         return $this->get_answer_by_taskid_action();
