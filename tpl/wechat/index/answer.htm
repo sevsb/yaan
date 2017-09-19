@@ -91,7 +91,7 @@
                 <i class="fa fa-exclamation" aria-hidden="true"></i>错误：图片上传失败！
             </div>
             <div class="wx_row_item card_book_page">
-                <div class="card" v-if='qst_photosList !== null' v-for="photo in qst_photosList">
+                <div class="card" v-if='qst_photosList !== null || qst_photosList != "undefined"' v-for="photo in qst_photosList">
                     <div class="card_body" v-bind:style="{'background-image':'url('+__imgRoot+photo.imgUrl+')'}">
                     </div>
                     <div class="card_footer dropup" >
