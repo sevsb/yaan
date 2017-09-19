@@ -49,10 +49,10 @@
                 <input class='text_input' type="text" name="" v-on:blur="text_blur(question)"  v-bind:value="question.answer_value"/>
             </div>
             <div v-if="question.is_upload == 1">
-                <div class='btn btn-success' v-on:click="show_pic_dialog(question)">添加图片</div>
+                <div class='btn btn-success' style='width: 80%; margin-top: 10px;' v-on:click="show_pic_dialog(question)">添加图片</div>
             </div>
         </div>
-        <div class='btn btn-success submit_btn' v-on:click="showSumbitSheetModal()">提交答卷</div>
+        <div class='btn btn-primary submit_btn' v-on:click="showSumbitSheetModal()">提交答卷</div>
         <div class='btn btn-default backbtn' v-on:click="goBack()">返回列表</div>
     </div>
 
@@ -110,8 +110,8 @@
                     <div>点击添加图片</div>
                 </div>
             </div>
-            <div class="wx_row_item bottom_area">
-                <button type="button" class="btn btn-default" v-on:click="goBack()">返回</button>
+            <div class="wx_row_item bottom_area" style='padding: 15px;'>
+                <button type="button" style='width: 100%;padding: 15px;' class="btn btn-default" v-on:click="goBack()">返回</button>
             </div>
         </div>
     </div>
