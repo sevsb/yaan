@@ -37,10 +37,9 @@ $(function() {
                 answer_show.flag = 1;
                 vue_wx_view.question = question;
                 vue_wx_view.flag = 1;
+                //vue_wx_view.qst_photosList = vue_wx_view.photo_list[question.id] ? vue_wx_view.photo_list[question.id] : [];
                 vue_wx_view.qst_photosList = vue_wx_view.photo_list[question.id];
                 console.log(vue_wx_view.qst_photosList);
-                //vue_wx_view.setPageStatus(1);
-                //return;
             },
             radio_click: function (question, question_opt){
                 console.log('radio_click');
