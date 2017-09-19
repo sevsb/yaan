@@ -240,7 +240,7 @@ $(function() {
                             if(data.ret == 'success'){
                                 $('.uploading_alert').hide();
                                 $('.upload_success_alert').show();
-                                vue_wx_view.refreshPhotosList(questionid);
+                                vue_wx_view.refreshPhotosList(vue_wx_view.question.id);
                                 setTimeout(function(){
                                     $('.upload_success_alert').fadeOut(1000);;
                                 },2000)
