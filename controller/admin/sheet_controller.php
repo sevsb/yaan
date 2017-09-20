@@ -35,31 +35,49 @@ class sheet_controller {
         $sheets = sheet::load_all();
         $questions = db_question::inst()->get_all_questionnaires();
         $questionoptions = db_questionoptions::inst()->get_all_options();
+        $answer_list = db_answers::inst()->load_all();
         $final_array = [];
         $data = array();
         foreach ($sheets as $sheet) {
-            //var_dump($sheet->task());
             if ($sheet->task()->status() == tasks::STATUS_PENDING || $sheet->task()->status() == tasks::STATUS_ASSIGNED ) {
                 continue;
             }
             $data []= $sheet->pack_info();
         }
         foreach ($data as $id =>$sht) {
-            //var_dump($sht['task']['status']);
-            
             $paperid = $sht['task']['project']['paperid'];
+            $answerid = $sht['answers'][0]['id'];
             if (!empty($paperid)) {
                 $paper_answers = $sht['answers'][0]['content'];
                 $paper_answer = json_decode($paper_answers);
+                
+                if (!empty($answer_list[$answerid]) && !empty($answer_list[$answerid]['reply'])) {
+                    $img_list = json_decode($answer_list[$answerid]['reply']);
+                    //dump_var($img_list);
+                }
+                
                 
                 foreach ($questions as $qid => $question) {
                     if ($question['nid'] == $paperid && $question['is_remove'] != 1) {
                         $question['options'] = [];
                         $question['answer_value'] = [];
+                        $question['img_list'] = [];
                         foreach ($paper_answer as $p_answer) {
                             if ($p_answer->id == $qid) {
                                 array_push($question['answer_value'], $p_answer->value);
                             }
+                        }
+                        if (!empty($img_list->$qid)) {
+                            $question['img_list'] = $img_list->$qid;
+                            //dump_var($question['img_list']);
+                            foreach ($question["img_list"] as $qiid => $image) {
+                                //dump_var($image);
+                                $question["img_list"][$qiid]->img = UPLOAD_URL . "/" . $image->imgUrl;
+                                $question["img_list"][$qiid]->thumbnail = mkUploadThumbnail($image->imgUrl, 100, 0);
+                            }
+                                //"image" => UPLOAD_URL . "/" . $image["imgUrl"],
+                                //"thumbnail" => mkUploadThumbnail($image["imgUrl"], 100, 0),
+                            
                         }
                         $question['answer_value'] = $question['answer_value'][0];
                         foreach ($questionoptions as $oid => $option) {

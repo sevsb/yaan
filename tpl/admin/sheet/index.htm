@@ -92,7 +92,14 @@
                         <input class='text_input' type="text" name="" v-on:blur="text_blur(question)"  v-bind:value="question.answer_value" disabled />
                     </div>
                     <div v-if="question.is_upload == 1">
-                        <!--<div class='btn btn-success' v-on:click="show_pic_dialog">添加图片</div>-->
+                        <div class='btn btn-success'>添加图片</div>
+                        <div v-if='question.img_list != []' v-for="(photo, key) in question.img_list">
+                            <div class="">
+                                <img class="sheet" v-bind:src='photo.img' />
+                                <div class="comment">{{photo.imgContent}}</div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 
