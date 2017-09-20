@@ -53,6 +53,10 @@
     height: 300px;
 }
 
+.photo_thumbnail {
+    display: inline-block;
+}
+
 .answer-thumbnail .comment {
     width: 200px;
     border: 0px;

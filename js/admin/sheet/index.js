@@ -13,7 +13,6 @@ $(document).ready(function() {
         for (var k in sheet_lsit) {
 
             for (var k1 in sheet_lsit[k].answers[0].reply.data) {
-                
                 //console.log(k1);
                 //console.log(sheet_lsit[k].answers[0].reply.data[k1].uploadloc);
                 if ((sheet_lsit[k].answers[0].reply.data[k1].uploadloc) !== null) {
@@ -47,6 +46,7 @@ $(document).ready(function() {
             exifmapurl: null,
             showviewsheet: false,
             showviewimage: false,
+            showviewimage_new: false,
         },
         methods: {
             viewSheet: function(event) {
@@ -61,6 +61,9 @@ $(document).ready(function() {
             },
             closeViewImage: function(event) {
                 sheetlist.showviewimage = false;
+            },
+            closeViewImage_new: function(event) {
+                sheetlist.showviewimage_new = false;
             },
             viewNextImage: function(event) {
                 if (sheetlist.viewreplykey < sheetlist.sheetlist[sheetlist.viewsheetkey].answers[0].reply.data.length - 1) {
@@ -84,6 +87,18 @@ $(document).ready(function() {
                 sheetlist.uploadmapurl = sheetlist.sheetlist[sheetkey].answers[0].reply.data[datakey].uploadloc.mapurl;
                 sheetlist.exifmapurl = sheetlist.sheetlist[sheetkey].answers[0].reply.data[datakey].exifloc.mapurl;
                 sheetlist.showviewimage = true;
+            },
+            viewImage_new: function(photo, datakey) {
+                sheetlist.viewreplykey = datakey;
+                var mapurl = "http://api.map.baidu.com/staticimage/v2?ak=" + baiduak + "&mcode=666666&center=LONGITUDE,LATITUDE&width=300&height=200&zoom=13&markers=LONGITUDE,LATITUDE";
+                var latitude1 = photo.imgLocation.latitude;
+                var longitude1 = photo.imgLocation.longitude;
+
+                sheetlist.viewimageurl = photo.image;
+                sheetlist.uploadmapurl = mapurl.replace(new RegExp(/LONGITUDE/g), longitude1).replace(new RegExp(/LATITUDE/g), latitude1);;
+                console.log(sheetlist.uploadmapurl);
+                //sheetlist.exifmapurl = photo.mapurl;
+                sheetlist.showviewimage_new = true;
             },
             pass: function(event) {
                 var sid = sheetlist.sheetlist[sheetlist.viewsheetkey].info.id;

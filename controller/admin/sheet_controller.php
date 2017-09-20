@@ -62,25 +62,20 @@ class sheet_controller {
                         $question['options'] = [];
                         $question['answer_value'] = [];
                         $question['img_list'] = [];
-                        foreach ($paper_answer as $p_answer) {
+                        foreach ($paper_answer as $p_answer) {  //获取问题选择的答案值
                             if ($p_answer->id == $qid) {
                                 array_push($question['answer_value'], $p_answer->value);
                             }
                         }
-                        if (!empty($img_list->$qid)) {
+                        if (!empty($img_list->$qid)) {  //获取问题图片列表
                             $question['img_list'] = $img_list->$qid;
-                            //dump_var($question['img_list']);
                             foreach ($question["img_list"] as $qiid => $image) {
-                                //dump_var($image);
                                 $question["img_list"][$qiid]->img = UPLOAD_URL . "/" . $image->imgUrl;
                                 $question["img_list"][$qiid]->thumbnail = mkUploadThumbnail($image->imgUrl, 100, 0);
                             }
-                                //"image" => UPLOAD_URL . "/" . $image["imgUrl"],
-                                //"thumbnail" => mkUploadThumbnail($image["imgUrl"], 100, 0),
-                            
                         }
                         $question['answer_value'] = $question['answer_value'][0];
-                        foreach ($questionoptions as $oid => $option) {
+                        foreach ($questionoptions as $oid => $option) {//获取问题的选项列表
                             if ($option['qid'] == $qid) {
                                 $option['status'] = 'nocheck';
                                 if ($question['type'] == 'radio') {
