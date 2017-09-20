@@ -38,9 +38,15 @@ class sheet_controller {
         $final_array = [];
         $data = array();
         foreach ($sheets as $sheet) {
+            //var_dump($sheet->task());
+            if ($sheet->task()->status() == tasks::STATUS_PENDING || $sheet->task()->status() == tasks::STATUS_ASSIGNED ) {
+                continue;
+            }
             $data []= $sheet->pack_info();
         }
         foreach ($data as $id =>$sht) {
+            //var_dump($sht['task']['status']);
+            
             $paperid = $sht['task']['project']['paperid'];
             if (!empty($paperid)) {
                 $paper_answers = $sht['answers'][0]['content'];
