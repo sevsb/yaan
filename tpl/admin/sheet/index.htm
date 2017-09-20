@@ -205,15 +205,15 @@
                     </tr>
                 </table>
                 <table class="table table-bordered">
-                    <tr><td><center>上传地址{{sheetlist.uploadmapurl}}</center></td></tr>
-                    <tr><td><div class=""><img class="map" v-bind:src="sheetlist.uploadmapurl" /></div></td></tr>
+                    <tr><td><center>上传地址</center></td></tr>
+                    <tr><td><div class=""><img class="map"  v-bind:src="uploadmapurl" /></div></td></tr>
                 </table>
                 <!--<table class="table table-bordered" v-if="sheetlist[viewsheetkey].answers[0].reply.data[viewreplykey].exifloc.mapurl != ''">
                     <tr><td><center>照片地址</center></td></tr>
                     <tr><td><div class=""><img class="map" v-bind:src="sheetlist.uploadmapurl" /></div></td></tr>
                 </table>-->
             </div>
-            <div class="pull-left large-image-wrapper"><a target="_blank" v-bind:href="sheetlist.viewimageurl"><img class="largeView" v-bind:src="sheetlist.viewimageurl" /></a></div>
+            <div class="pull-left large-image-wrapper"><a target="_blank" v-bind:href="viewimageurl"><img class="largeView" v-bind:src="viewimageurl" /></a></div>
         </div>
     </div>
     

@@ -48,6 +48,7 @@ $(document).ready(function() {
             showviewimage: false,
             showviewimage_new: false,
             now_photo_list: [],
+            now_question_id: 0,
         },
         methods: {
             viewSheet: function(event) {
@@ -101,6 +102,8 @@ $(document).ready(function() {
             },
             viewImage_new: function(photo_list, datakey) {
                 sheetlist.now_photo_list = photo_list;
+                //sheetlist.now_question_id = photo_list;
+                //console.log('datakey' + datakey);
                 console.log(photo_list);
                 photo = photo_list[datakey];
                 console.log(photo);
@@ -111,7 +114,7 @@ $(document).ready(function() {
                 var longitude1 = photo.imgLocation.longitude;
 
                 sheetlist.viewimageurl = photo.img;
-                sheetlist.uploadmapurl = mapurl.replace(new RegExp(/LONGITUDE/g), longitude1).replace(new RegExp(/LATITUDE/g), latitude1);;
+                sheetlist.uploadmapurl = mapurl.replace(new RegExp(/LONGITUDE/g), longitude1).replace(new RegExp(/LATITUDE/g), latitude1);
                 console.log(sheetlist.uploadmapurl);
                 console.log(sheetlist.viewimageurl);
                 //sheetlist.exifmapurl = photo.mapurl;
