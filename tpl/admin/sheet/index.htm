@@ -96,7 +96,7 @@
                         <div>
                             <div v-if='question.img_list != []' v-for="(photo, datakey) in question.img_list" style='display: inline-block;vertical-align: top; margin-right: 15px;'>
                                 <img class="photo_thumbnail" v-bind:src='photo.thumbnail'
-                                v-bind:origsrc="photo.image"  v-on:click="viewImage_new(question.img_list, datakey)"  v-bind:datakey="datakey" />
+                                v-bind:origsrc="photo.image"  v-on:click="viewImage_new(viewsheetkey, question.id, datakey)"  v-bind:datakey="datakey" />
                                 <div class="comment">{{photo.imgContent}}</div>
                             </div>
                         </div>
@@ -168,7 +168,7 @@
     <div id="answer-imageview" v-if="showviewimage_new" class="">
         <div class="clear">
             <button class="pull-right btn btn-danger" v-on:click="closeViewImage_new">X</button>
-            <button class="pull-right btn btn-default" v-on:click="viewNextImage_new" v-if="viewreplykey < now_photo_list.length - 1">下一页</button>
+            <button class="pull-right btn btn-default" v-on:click="viewNextImage_new" v-if="viewreplykey < sheetlist[viewsheetkey].questions[viewquestionkey].img_list.length - 1">下一页</button>
             <button class="pull-right btn btn-default" v-on:click="viewPrevImage_new" v-if="viewreplykey > 0">上一页</button>
         </div>
         <div>
@@ -206,14 +206,14 @@
                 </table>
                 <table class="table table-bordered">
                     <tr><td><center>上传地址</center></td></tr>
-                    <tr><td><div class=""><img class="map"  v-bind:src="uploadmapurl" /></div></td></tr>
+                    <tr><td><div class=""><img class="map"  v-bind:src="sheetlist[viewsheetkey].questions[viewquestionkey].img_list[viewreplykey].mapurl" /></div></td></tr>
                 </table>
                 <!--<table class="table table-bordered" v-if="sheetlist[viewsheetkey].answers[0].reply.data[viewreplykey].exifloc.mapurl != ''">
                     <tr><td><center>照片地址</center></td></tr>
                     <tr><td><div class=""><img class="map" v-bind:src="sheetlist.uploadmapurl" /></div></td></tr>
                 </table>-->
             </div>
-            <div class="pull-left large-image-wrapper"><a target="_blank" v-bind:href="viewimageurl"><img class="largeView" v-bind:src="viewimageurl" /></a></div>
+            <div class="pull-left large-image-wrapper"><a target="_blank" v-bind:href="sheetlist[viewsheetkey].questions[viewquestionkey].img_list[viewreplykey].img"><img class="largeView" v-bind:src="sheetlist[viewsheetkey].questions[viewquestionkey].img_list[viewreplykey].img" /></a></div>
         </div>
     </div>
     

@@ -28,6 +28,26 @@ $(document).ready(function() {
                     sheet_lsit[k].answers[0].reply.data[k1].exifloc.mapurl = "";
                 }
             }
+            
+            //有答卷的img_list的mapurl拆分
+            if (sheet_lsit[k].questions !== false) {
+                //console.log(sheet_lsit[k].questions);
+                for (var m in sheet_lsit[k].questions) {
+                    //console.log(sheet_lsit[k].questions[m].img_list);
+                    if(sheet_lsit[k].questions[m].img_list.length != 0){
+                        //console.log(sheet_lsit[k].questions[m].img_list);
+                        for (var n in sheet_lsit[k].questions[m].img_list) {
+                            console.log(sheet_lsit[k].questions[m].img_list[n]);
+                            //continue;
+                            var latitude1 = sheet_lsit[k].questions[m].img_list[n].imgLocation.latitude;
+                            var longitude1 = sheet_lsit[k].questions[m].img_list[n].imgLocation.longitude;
+                            sheet_lsit[k].questions[m].img_list[n].mapurl = mapurl.replace(new RegExp(/LONGITUDE/g), longitude1).replace(new RegExp(/LATITUDE/g), latitude1);
+                        }
+                    }
+                }
+            }
+        
+            
         }
         //console.debug(sheet_lsit);
         sheetlist.sheetlist = sheet_lsit;
@@ -40,6 +60,7 @@ $(document).ready(function() {
             sheetlist: null,
             viewsheetkey: 0,
             viewreplykey: 0,
+            viewquestionkey: 0,
             all_options: [],
             viewimageurl: null,
             uploadmapurl: null,
@@ -73,7 +94,7 @@ $(document).ready(function() {
                 }
             },
             viewNextImage_new: function(event) {
-                if (sheetlist.viewreplykey < sheetlist.now_photo_list.length - 1) {
+                if (sheetlist.viewreplykey < sheetlist.sheetlist[sheetlist.viewsheetkey].questions[sheetlist.viewquestionkey].img_list.length - 1) {
                     sheetlist.viewreplykey++;
                 }
             },
@@ -100,25 +121,12 @@ $(document).ready(function() {
                 sheetlist.exifmapurl = sheetlist.sheetlist[sheetkey].answers[0].reply.data[datakey].exifloc.mapurl;
                 sheetlist.showviewimage = true;
             },
-            viewImage_new: function(photo_list, datakey) {
-                sheetlist.now_photo_list = photo_list;
-                //sheetlist.now_question_id = photo_list;
-                //console.log('datakey' + datakey);
-                console.log(photo_list);
-                photo = photo_list[datakey];
-                console.log(photo);
-                //return;
+            viewImage_new: function(viewsheetkey, questionid, datakey) {
+                sheetlist.viewsheetkey = viewsheetkey;
+                sheetlist.viewquestionkey = questionid;
                 sheetlist.viewreplykey = datakey;
-                var mapurl = "http://api.map.baidu.com/staticimage/v2?ak=" + baiduak + "&mcode=666666&center=LONGITUDE,LATITUDE&width=300&height=200&zoom=13&markers=LONGITUDE,LATITUDE";
-                var latitude1 = photo.imgLocation.latitude;
-                var longitude1 = photo.imgLocation.longitude;
-
-                sheetlist.viewimageurl = photo.img;
-                sheetlist.uploadmapurl = mapurl.replace(new RegExp(/LONGITUDE/g), longitude1).replace(new RegExp(/LATITUDE/g), latitude1);
-                console.log(sheetlist.uploadmapurl);
-                console.log(sheetlist.viewimageurl);
-                //sheetlist.exifmapurl = photo.mapurl;
                 sheetlist.showviewimage_new = true;
+                return;
             },
             pass: function(event) {
                 var sid = sheetlist.sheetlist[sheetlist.viewsheetkey].info.id;
