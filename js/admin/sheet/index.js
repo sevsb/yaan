@@ -47,6 +47,7 @@ $(document).ready(function() {
             showviewsheet: false,
             showviewimage: false,
             showviewimage_new: false,
+            now_photo_list: [],
         },
         methods: {
             viewSheet: function(event) {
@@ -70,7 +71,17 @@ $(document).ready(function() {
                     sheetlist.viewreplykey++;
                 }
             },
+            viewNextImage_new: function(event) {
+                if (sheetlist.viewreplykey < sheetlist.now_photo_list.length - 1) {
+                    sheetlist.viewreplykey++;
+                }
+            },
             viewPrevImage: function(event) {
+                if (sheetlist.viewreplykey > 0) {
+                    sheetlist.viewreplykey--;
+                }
+            },
+            viewPrevImage_new: function(event) {
                 if (sheetlist.viewreplykey > 0) {
                     sheetlist.viewreplykey--;
                 }
@@ -88,15 +99,21 @@ $(document).ready(function() {
                 sheetlist.exifmapurl = sheetlist.sheetlist[sheetkey].answers[0].reply.data[datakey].exifloc.mapurl;
                 sheetlist.showviewimage = true;
             },
-            viewImage_new: function(photo, datakey) {
+            viewImage_new: function(photo_list, datakey) {
+                sheetlist.now_photo_list = photo_list;
+                console.log(photo_list);
+                photo = photo_list[datakey];
+                console.log(photo);
+                //return;
                 sheetlist.viewreplykey = datakey;
                 var mapurl = "http://api.map.baidu.com/staticimage/v2?ak=" + baiduak + "&mcode=666666&center=LONGITUDE,LATITUDE&width=300&height=200&zoom=13&markers=LONGITUDE,LATITUDE";
                 var latitude1 = photo.imgLocation.latitude;
                 var longitude1 = photo.imgLocation.longitude;
 
-                sheetlist.viewimageurl = photo.image;
+                sheetlist.viewimageurl = photo.img;
                 sheetlist.uploadmapurl = mapurl.replace(new RegExp(/LONGITUDE/g), longitude1).replace(new RegExp(/LATITUDE/g), latitude1);;
                 console.log(sheetlist.uploadmapurl);
+                console.log(sheetlist.viewimageurl);
                 //sheetlist.exifmapurl = photo.mapurl;
                 sheetlist.showviewimage_new = true;
             },

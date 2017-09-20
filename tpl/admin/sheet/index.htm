@@ -94,9 +94,9 @@
                     <div v-if="question.is_upload == 1">
                         <div class=''>图片列表</div>
                         <div>
-                            <div v-if='question.img_list != []' v-for="(photo, datakey) in question.img_list" style='display: inline-block;vertical-align: top;'>
+                            <div v-if='question.img_list != []' v-for="(photo, datakey) in question.img_list" style='display: inline-block;vertical-align: top; margin-right: 15px;'>
                                 <img class="photo_thumbnail" v-bind:src='photo.thumbnail'
-                                v-bind:origsrc="photo.image"  v-on:click="viewImage_new(photo, datakey)"  v-bind:datakey="datakey" />
+                                v-bind:origsrc="photo.image"  v-on:click="viewImage_new(question.img_list, datakey)"  v-bind:datakey="datakey" />
                                 <div class="comment">{{photo.imgContent}}</div>
                             </div>
                         </div>
@@ -168,8 +168,8 @@
     <div id="answer-imageview" v-if="showviewimage_new" class="">
         <div class="clear">
             <button class="pull-right btn btn-danger" v-on:click="closeViewImage_new">X</button>
-            <button class="pull-right btn btn-default" v-on:click="viewNextImage" v-if="viewreplykey < sheetlist[viewsheetkey].answers[0].reply.data.length - 1">下一页</button>
-            <button class="pull-right btn btn-default" v-on:click="viewPrevImage" v-if="viewreplykey > 0">上一页</button>
+            <button class="pull-right btn btn-default" v-on:click="viewNextImage_new" v-if="viewreplykey < now_photo_list.length - 1">下一页</button>
+            <button class="pull-right btn btn-default" v-on:click="viewPrevImage_new" v-if="viewreplykey > 0">上一页</button>
         </div>
         <div>
             <div class="pull-left project-info">
@@ -205,7 +205,7 @@
                     </tr>
                 </table>
                 <table class="table table-bordered">
-                    <tr><td><center>上传地址</center></td></tr>
+                    <tr><td><center>上传地址{{sheetlist.uploadmapurl}}</center></td></tr>
                     <tr><td><div class=""><img class="map" v-bind:src="sheetlist.uploadmapurl" /></div></td></tr>
                 </table>
                 <!--<table class="table table-bordered" v-if="sheetlist[viewsheetkey].answers[0].reply.data[viewreplykey].exifloc.mapurl != ''">
