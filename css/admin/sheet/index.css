@@ -48,7 +48,7 @@
     margin-right: 2px;
 }
 
-.answer-thumbnail img.sheet {
+.answer-thumbnail img.sheet ,.photo_thumbnail {
     width: 198px;
     height: 300px;
 }

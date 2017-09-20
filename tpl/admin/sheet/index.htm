@@ -95,7 +95,7 @@
                         <div class='btn btn-success'>添加图片</div>
                         <div v-if='question.img_list != []' v-for="(photo, key) in question.img_list">
                             <div class="">
-                                <img class="sheet" v-bind:src='photo.img' />
+                                <img class="photo_thumbnail" v-bind:src='photo.thumbnail' />
                                 <div class="comment">{{photo.imgContent}}</div>
                             </div>
                         </div>
