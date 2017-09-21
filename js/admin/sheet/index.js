@@ -69,14 +69,23 @@ $(document).ready(function() {
             showviewimage: false,
             showviewimage_new: false,
             now_photo_list: [],
+            apiquestions: [],
             now_question_id: 0,
         },
         methods: {
             viewSheet: function(event) {
                 var target = event.currentTarget;
                 var sheetkey = $(target).attr("sheet");
-                sheetlist.viewsheetkey = sheetkey;
-                sheetlist.showviewsheet = true;
+                var taskid = $(target).attr("task_id");
+                console.log(taskid);
+                __request('wechat.api.get_answer_by_taskid', {taskid: taskid}, function (data){
+                    sheetlist.apiquestions = data.data.question_list;
+                    sheetlist.viewsheetkey = sheetkey;
+                    sheetlist.showviewsheet = true;
+                    console.log(sheetlist.apiquestions);
+                });
+                
+                
             },
             closeViewSheet: function(event) {
                 sheetlist.showviewsheet = false;

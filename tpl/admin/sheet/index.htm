@@ -21,7 +21,8 @@
                     <td>{{sheet.task.address}}</td>
                     <td>{{sheet.info.user.nick}}</td>
                     <td>{{sheet.info.status}}</td>
-                    <td><button class="" v-on:click="viewSheet" v-bind:sheet="skey">查看</button></td>
+                    <td><button class="" v-on:click="viewSheet" v-bind:task_id="sheet.task.id" 
+                    v-bind:sheet="skey">查看</button></td>
                 </tr>
             </tbody>
         </table>
@@ -41,7 +42,7 @@
                 <div>
                 
                 <div class="question_elf box" v-for="(question, key) in sheetlist[viewsheetkey]['questions']" 
-                    v-bind:userkey="key" v-bind:id="'question_'+question.id" v-bind:question_id="question.id" v-bind:class="{hidden: question.status == 'hide'}">
+                    v-bind:userkey="key" v-bind:id="'question_'+question.id" v-bind:question_id="question.id" v-bind:class="{hidden: apiquestions[key].status == 'hide'}">
                     
                     <div class='qtitle'>{{question.title}}
                     <span class='parent_flag' v-if="question.is_parent != 0">
@@ -92,12 +93,15 @@
                         <input class='text_input' type="text" name="" v-on:blur="text_blur(question)"  v-bind:value="question.answer_value" disabled />
                     </div>
                     <div v-if="question.is_upload == 1">
-                        <div class=''>图片列表</div>
+                        <div class='' style="margin-top: 10px;margin-bottom: 10px; color: grey; border-top: 1px solid #eee; padding-top: 10px;"><small>图片列表</small></div>
                         <div>
-                            <div v-if='question.img_list != []' v-for="(photo, datakey) in question.img_list" style='display: inline-block;vertical-align: top; margin-right: 15px;'>
+                            <div v-if='question.img_list.length > 0' v-for="(photo, datakey) in question.img_list" style='display: inline-block;vertical-align: top; margin-right: 15px;'>
                                 <img class="photo_thumbnail" v-bind:src='photo.thumbnail'
                                 v-bind:origsrc="photo.image"  v-on:click="viewImage_new(viewsheetkey, question.id, datakey)"  v-bind:datakey="datakey" />
                                 <div class="comment">{{photo.imgContent}}</div>
+                            </div>
+                            <div v-if='question.img_list.length == 0'>
+                                <p style='color: grey'>无图片上传</p>
                             </div>
                         </div>
                     </div>
