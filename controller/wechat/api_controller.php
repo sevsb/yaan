@@ -180,13 +180,8 @@ class api_controller {
         $answerid = $task->answerid();
         $paperid = $task->project()->paperid();
         $questionnaire = questionnaires::load_by_id($paperid);
-        
-        /*if(empty($answerid)){
-            $answer_list = null;
-            $answerid = db_answer::inst()->add_answer($paperid, $questionnaire->title(),  $questionnaire->notes(), $answer_list);
-            $ret = tasks::modify_task_answerid($taskid, $answerid);
-        }*/
-        
+        $all_questionoptions = db_questionoptions::inst()->get_all_options();
+        //var_dump($all_questionoptions);
         $question_list = questions::load_by_nid($paperid);
         $answer = answer::load($answerid);
         $photo_list = json_decode($answer->get_reply());
@@ -202,12 +197,18 @@ class api_controller {
             $question_list[$qid]['answer_value'] = null;
             $question_list[$qid]['value'] = $_question_value;
             $question_list[$qid]['status'] = 'hide';
+            $question_list[$qid]['parent_question_option'] = null;
             if ($question['type'] == 'radio' || $question['type'] == 'check' ){
-                $question_list[$qid]['options'] = questionoptions::load_by_qid($_questionid); //提取问题的options
+                $question_list[$qid]['options'] = [];
+                foreach ($all_questionoptions as $questionoption) { //提取问题的options
+                    if ($questionoption['qid'] ==  $_questionid ) {
+                        array_push($question_list[$qid]['options'], $questionoption);
+                    }
+                }
             }
             if (!empty($_question_pid)) {
-                $assoc_arr = ["parent" => $_question_pid, "child" => $_questionid];
-                array_push($assoc_question_list, $assoc_arr);   //提取关联问题集
+                $option_question_id = $all_questionoptions[$_question_pid]['qid'];
+                $question_list[$qid]['parent_question_option'] = ["parent_question_id" => $option_question_id, "parent_option_id" => $_question_pid];
             }
             foreach ((array)$answer_list as $answer) {
                 $_answerid = $answer->id;
@@ -236,14 +237,33 @@ class api_controller {
                     }
                 }
             }
-            foreach ($question_list as $qid => $question ) {
-                $_question_pid = $question['is_parent'];
-                if (in_array($_question_pid, $option_checked_array) || empty($_question_pid)) {
-                    $question_list[$qid]['status'] = 'show';
+        }
+        
+        foreach ($question_list as $qid => $question) {
+            if (empty($question['is_parent'])) {
+                $question_list[$qid]['status'] = 'show';
+            } else {
+                $question_list[$qid]['status'] = 'show';
+                $__question = $question;
+                while($__question['is_parent']) {
+                    logging::d("WHILE_start", "WHILE_startWHILE_startWHILE_startWHILE_startWHILE_start");
+                    logging::d("WHILE_start", json_encode($__question));
+                    $parent_question_id = $__question['parent_question_option']['parent_question_id'];
+                    $parent_question_opt_id = $__question['parent_question_option']['parent_option_id'];
+                    
+                    foreach ($question_list[$parent_question_id]["options"] as $opt){
+                        if ($opt['id'] == $parent_question_opt_id && $opt['status'] == 'nochecked'){
+                            logging::d("WHILE", "opt['id']:" . $opt['id']);
+                            logging::d("WHILE", "opt['status']:" . $opt['status']);
+                            $question_list[$qid]['status'] = 'hide';
+                        }
+                    }
+                    $__question = $question_list[$parent_question_id];
+                    logging::d("WHILE", "now_questionis:".json_encode($__question));
                 }
             }
         }
-        //var_dump($photo_list);
+        //dump_var($question_list);
         $all_data['photo_list'] = $photo_list;
         $all_data['questionnaire'] = $questionnaire->pack_info();
         $all_data['question_list'] = $question_list;
