@@ -50,7 +50,7 @@
                 <input class='text_input' type="text" name="" v-on:blur="text_blur(question)"  v-bind:value="question.answer_value"/>
             </div>
             <div v-if="question.is_upload == 1">
-                <!--<div class='btn btn-success' v-on:click="show_pic_dialog">添加图片</div>-->
+                <div class='btn btn-success center-block' style='width: 80%; margin-top: 10px;' v-on:click="show_pic_dialog(question)">添加图片</div>
             </div>
         </div>
         <div class='btn btn-success submit_btn' v-on:click="showSumbitSheetModal()">提交答卷</div>
@@ -60,109 +60,68 @@
         <!-- FIXME: 这里先这样写，获取全部接口。以后考再虑是否要每次都获取全部的接口功能，把这段代码移动到header.htm中 -->
 
         
-        <div v-if="flag == 2">
-        <!-- 图片主体页面 -->
-            <div class="wx_view" id="wx_view">
-                <div class="card_book_loading">
-                    <p>资料加载中...</p>
-                </div>
-                <div class="wx_col_item card_book" style="display: none;">
-                    <div class="alert alert-info card_book_alert uploading_alert" role="alert" 
-                    style="display: none;">
-                        <i class="fa fa-upload" aria-hidden="true"></i>图片上传中，请稍后...
+    <!-- 图片主体页面 -->
+    <div v-if="flag == 1" class="wx_view" id="wx_view">
+        <div v-if="card_book_loading == 1" class="card_book_loading">
+            <p>资料加载中...</p>
+        </div>
+        <div class="wx_col_item card_book" style="display','flex">
+            <div class="alert alert-info card_book_alert uploading_alert center-block" role="alert" 
+             style="display: none;">
+                <i class="fa fa-upload" aria-hidden="true"></i>图片上传中，请稍后...
+            </div>
+            <div class="alert alert-success card_book_alert upload_success_alert center-block" role="alert" 
+             style="display: none;">
+                <i class="fa fa-check" aria-hidden="true"></i>讯息：图片上传成功！
+            </div>
+            <div class="alert alert-danger card_book_alert upload_fail_alert center-block" role="alert" 
+             style="display: none;">
+                <i class="fa fa-exclamation" aria-hidden="true"></i>错误：图片上传失败！
+            </div>
+            <div class="wx_row_item card_book_page">
+                <!--<div class="card" v-if='qst_photosList !== null || qst_photosList != "undefined"' v-for="photo in qst_photosList">
+                    <div class="card_body" v-bind:style="{'background-image':'url('+__imgRoot+photo.imgUrl+')'}">
                     </div>
-                    <div class="alert alert-success card_book_alert upload_success_alert" role="alert" 
-                    style="display: none;">
-                        <i class="fa fa-check" aria-hidden="true"></i>讯息：图片上传成功！
+                    <div class="card_footer dropup" >
+                        <div class="card_title">{{ photo['imgContent'] }}</div>
+                        <button class="card_dropdown_btn" id="dLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right card_menu" aria-labelledby="dLabel">
+                            <li v-on:click="modifyPhoto(photo.imgUrl)"><i class="fa fa-pencil" aria-hidden="true"></i>修改</li>
+                            <li v-on:click="deletePhoto(photo.imgUrl)"><i class="fa fa-trash" aria-hidden="true"></i>删除</li>
+                        </ul>
                     </div>
-                    <div class="alert alert-danger card_book_alert upload_fail_alert" role="alert" 
-                    style="display: none;">
-                        <i class="fa fa-exclamation" aria-hidden="true"></i>错误：图片上传失败！
-                    </div>
-                    <div class="wx_row_item card_book_page">
-                        <!--<div class="card" v-for="photo in photosList">
-                            <div class="card_body" v-bind:style="{'background-image':'url('+__imgRoot+photo.imgUrl+')'}">
-                            </div>
-                            <div class="card_footer dropup" >
-                                <div class="card_title">{{ photo['imgContent'] }}</div>
-                                <button class="card_dropdown_btn" id="dLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right card_menu" aria-labelledby="dLabel">
-                                    <li v-on:click="modifyPhoto(photo.imgUrl)"><i class="fa fa-pencil" aria-hidden="true"></i>修改</li>
-                                    <li v-on:click="deletePhoto(photo.imgUrl)"><i class="fa fa-trash" aria-hidden="true"></i>删除</li>
-                                </ul>
-                            </div>
-                        </div>-->
-                        <div class="card add_card_btn" id="add_card_btn" v-on:click="addPhoto()">
-                            <i class="fa fa-plus" style="padding-right: 0px; font-size: 4em;"></i>
-                            <div>点击添加图片</div>
-                        </div>
-                    </div>
-                    <div class="wx_row_item bottom_area">
-                        <button type="button" class="btn btn-default" v-on:click="goBack()">返回</button>
-                        <!--<button type="button" class="btn btn-primary" v-on:click="showSumbitSheetModal()">提交</button>-->
-                    </div>
-                    <!-- 提交任务提示框 -->
-
+                </div>-->
+                <div class="card add_card_btn" id="add_card_btn" v-on:click="addPhoto()">
+                    <i class="fa fa-plus" style="padding-right: 0px; font-size: 4em;"></i>
+                    <div>点击添加图片</div>
                 </div>
             </div>
-
-            <!-- 添加卡片提示框 -->
-            <!--<div class="modal" id="add_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <strong style="font-size: 1.5em;">提交图片</strong>
-                        </div>
-                        <div class="modal-body">
-                            <img id="add_photo_modal_img" v-bind:src="imgUrl">
-                            <input type="text" class="form-control" id="add_photo_modal_img_content" placeholder="请添加备注" v-bind:value="imgContent">
-                        </div>
-                        <div class="modal-footer">
-                            <div class="modal-footer-btn modal-footer-left_btn" id="add_photo_cancel" data-dismiss="modal">取消</div>
-                            <div class="modal-footer-btn modal-footer-right_btn" id="add_photo_submit" v-on:click="updatePhoto()">提交</div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-
-            <!-- 修改卡片提示框 -->
-            <!--<div class="modal" id="modify_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <strong style="font-size: 1.5em;">修改备注信息</strong>
-                        </div>
-                        <div class="modal-body">
-                            <img id="modify_photo_modal_img" v-bind:src="__imgRoot+photo.imgUrl">
-                            <input type="text" class="form-control" id="modify_photo_modal_img_content" placeholder="请添加备注" v-bind:value="photo.imgContent">
-                        </div>
-                        <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
-                            <div class="modal-footer-btn modal-footer-left_btn" id="modify_photo_cancel" data-dismiss="modal">取消</div>
-                            <div class="modal-footer-btn modal-footer-right_btn" id="modify_photo_submit" v-on:click="modifyPhotoContent()">修改</div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-
-            <!-- 删除卡片提示框 -->
-            <!--<div class="modal" id="delete_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body" style="padding-top: 1.5em;">
-                            <strong style="font-size: 1.5em; margin-bottom: 1em;">确认删除照片？</strong>
-                        </div>
-                        <div class="modal-footer flex-item flex-row" style="width: 100%; padding: 0px; text-align: center;">
-                            <div class="modal-footer-btn modal-footer-left_btn" id="delete_photo_cancel" data-dismiss="modal">取消</div>
-                            <div class="modal-footer-btn modal-footer-right_btn text-danger" id="delete_photo_submit" v-on:click="deletePhoto()">删除</div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-
-
+            <div class="wx_row_item bottom_area" style='padding: 15px;'>
+                <button type="button" style='width: 100%;padding: 15px;' class="btn btn-default" v-on:click="goBack()">返回</button>
+            </div>
         </div>
+    </div>
+
+    <!-- 添加卡片提示框 -->
+    <!--<div class="modal" id="add_photo_modal" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong style="font-size: 1.5em;">提交图片</strong>
+                </div>
+                <div class="modal-body">
+                    <img id="add_photo_modal_img" v-bind:src="imgUrl">
+                    <input type="text" class="form-control" id="add_photo_modal_img_content" placeholder="请添加备注" v-bind:value="imgContent">
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn modal-footer-left_btn" id="add_photo_cancel" data-dismiss="modal">取消</div>
+                    <div class="modal-footer-btn modal-footer-right_btn" id="add_photo_submit" v-on:click="updatePhoto()">提交</div>
+                </div>
+            </div>
+        </div>
+    </div>-->
         
         
         

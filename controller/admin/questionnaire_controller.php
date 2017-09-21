@@ -88,7 +88,7 @@ class questionnaire_controller {
         $naireid = get_request("naireid");
         $questionnaire = questionnaires::load_by_id($naireid);
         logging::d('get_preview_by_naireid_action',$naireid);
-
+        $all_questionoptions = db_questionoptions::inst()->get_all_options();
         $question_list = questions::load_by_nid($naireid);
 
         $assoc_question_list = [];
@@ -101,13 +101,23 @@ class questionnaire_controller {
             $question_list[$qid]['value'] = $_question_value;
             $question_list[$qid]['status'] = empty($_question_pid) ? 'show' : "hide";
             if ($question['type'] == 'radio' || $question['type'] == 'check' ){
-                $question_list[$qid]['options'] = questionoptions::load_by_qid($_questionid); //提取问题的options
+                $question_list[$qid]['options'] = [];
+                foreach ($all_questionoptions as $questionoption) { //提取问题的options
+                    if ($questionoption['qid'] ==  $_questionid ) {
+                        $questionoption['status'] = 'nochecked';
+                        array_push($question_list[$qid]['options'], $questionoption);
+                    }
+                }
             }
             if (!empty($_question_pid)) {
                 if (empty($assoc_question_list[$_question_pid])) {
                     $assoc_question_list[$_question_pid] = [];
                 }
                 array_push($assoc_question_list[$_question_pid], $_questionid);   //提取关联问题集
+            }
+            if (!empty($_question_pid)) {
+                $option_question_id = $all_questionoptions[$_question_pid]['qid'];
+                $question_list[$qid]['parent_question_option'] = ["parent_question_id" => $option_question_id, "parent_option_id" => $_question_pid];
             }
         }
         
