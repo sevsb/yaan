@@ -99,6 +99,7 @@ class questionnaire_controller {
             $_question_pid = $question['is_parent'];
             $_question_value = json_decode($question['value']);
             $question_list[$qid]['value'] = $_question_value;
+            $question_list[$qid]['answer_value'] = null;
             $question_list[$qid]['status'] = empty($_question_pid) ? 'show' : "hide";
             if ($question['type'] == 'radio' || $question['type'] == 'check' ){
                 $question_list[$qid]['options'] = [];

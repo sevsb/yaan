@@ -116,6 +116,8 @@ $(function() {
                 var __self = $('#question_' + question_id).find('input');
                 var score = __self.val();
                 __self.parent().next('label').html(score + '分');
+                answer_show.question_list[question.id].answer_value = score;
+                refresh_view();
                 return;
             },
             text_blur: function (question){
@@ -123,6 +125,8 @@ $(function() {
                 var question_id = question.id;
                 var __self = $('#question_' + question_id).find('input');
                 var value = __self.val();
+                answer_show.question_list[question.id].answer_value = value;
+                refresh_view();
                 return;
             },
             goBack: function (){
@@ -195,6 +199,8 @@ $(function() {
                         $(this).parent().next('label').html(score + '分');
                         var question_id = $(this).parents('.question_elf').attr('question_id');
                         console.log('raty clicked, score :' + score + ', question_id : ' + question_id);
+                        answer_show.question_list[question_id].answer_value = score;
+                        refresh_view();
                         return;
                     }
                 });
